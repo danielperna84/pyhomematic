@@ -8,16 +8,19 @@ Compatibility is only given for Python 3, but it should be easy to make it work 
 As of now, usage is as follows (with homegear running on the same machine):
 ```python
 import pyhomematic
-s = pyhomematic.create_server() #Create server
-s.devices['id_of_rollershutter_interface'].move_down() #Move rollershutter down
-s.stop() #Shutdown and quit
+s = pyhomematic.create_server() # Create server
+s.devices['address_of_rollershutter_device'].move_down() # Move rollershutter down
+s.devices_all['address_of_doorcontact:1'].getValue("STATE") # True or False, depending on state
+s.stop() #Shutdown to finish the server thread and quit
 ```
 
-This sample connects to the Homegear-server running on the same machine, closes the window blind using the rollershutter device, then stops the server because a sample doesn't need to do more. 
+This sample connects to the Homegear-server running on the same machine, closes the window blind using the rollershutter device, queries the state of a door contact, then stops the server because a sample doesn't need to do more. 
 
-Currently supported Homematic devices:
+Theoretically all Homematic devices will be automatically detected and directly provide the getValue and setValue methods needed to perform any action.
+Additionally the following devices provide convenince methods to easily perform certain tasks:
 * HM-Sec-SC-2 (Door contact - open/closed sensor)
 * HM-CC-RT-DN (Thermostat)
 * HM-CC-RT-DN-BoM (Thermostat)
 * ZEL STG RM FEP 230V (Rollershutter, by Roto Tronic)
 * HM-LC-Bl1-FM * (Rollershutter, looks exactly like ZEL STG RM FEP 230V, so maybe they're compatible. Add it to pyhomematic.DEVICETYPES to test it)
+More devices might be supported in the future.
