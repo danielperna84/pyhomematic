@@ -130,6 +130,14 @@ class HMDevice(object):
     def PARAMSETS(self):
         return self._paramsets
     
+    @property
+    def RSSI_DEVICE(self):
+        if self._PARENT:
+            RSSI = self._proxy.getValue(self._PARENT, 'RSSI_DEVICE')
+        else:
+            RSSI = self.getValue('RSSI_DEVICE')
+        return RSSI
+    
     def getParamsetDescription(self, paramset):
         """
         Descriptions for paramsets are available to determine what can be don with the device.
@@ -218,7 +226,10 @@ class HMDevice(object):
 
 # Subclass HMDevice to add specific device types
 class HMRollerShutter(HMDevice):
-    """Rollershutter device: "ZEL STG RM FEP 230V" by Roto tronic, which is probably the same as the one from Homematic. Need to check that."""
+    """
+    ZEL STG RM FEP 230V (by Roto tronic, which is probably the same as the one from Homematic. Need to check that.)
+    Rollershutter switch that raises and lowers roller shutters.
+    """
     def current_position(self):
         """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
         if self._PARENT:
@@ -234,21 +245,125 @@ class HMRollerShutter(HMDevice):
             logger.debug("HMRollerShutter.seek: Exception %s" % (err, ))
             return False
         if self._PARENT:
-            return self._proxy.setValue(self._PARENT+':1', 'LEVEL', position)
+            self._proxy.setValue(self._PARENT+':1', 'LEVEL', position)
         else:
-            return self.CHILDREN[1].setValue('LEVEL', position)
+            self.CHILDREN[1].setValue('LEVEL', position)
     
     def move_up(self):
-        """Move the blind up all the way."""
-        return self.seek(1.0)
+        """Move the shutter up all the way."""
+        self.seek(1.0)
     
     def move_down(self):
-        """Move the blind down all the way."""
-        return self.seek(0.0)
+        """Move the shutter down all the way."""
+        self.seek(0.0)
     
     def stop(self):
         """Stop moving."""
         if self._PARENT:
-            return self._proxy.setValue(self._PARENT+':1', 'STOP', True)
+            self._proxy.setValue(self._PARENT+':1', 'STOP', True)
         else:
-            return self.CHILDREN[1].setValue('STOP', True)
+            self.CHILDREN[1].setValue('STOP', True)
+
+class HMDoorContact(HMDevice):
+    """
+    HM-Sec-SC-2
+    Door / Window contact that emits its open/closed state.
+    """
+    @property
+    def sabotage(self):
+        """ Returns if the devicecase has been opened. """
+        if self._PARENT:
+            error = self._proxy.getValue(self._PARENT+':1', 'ERROR')
+        else:
+            error = self.CHILDREN[1].getValue('ERROR')
+        if error == 7:
+            return True
+        else:
+            return False
+    
+    @property
+    def low_batt(self):
+        """ Returns if the battery is low. """
+        return self.getValue('LOWBAT')
+    
+    @property
+    def is_open(self):
+        """ Returns if the contact is open. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':1', 'STATE')
+        else:
+            return self.CHILDREN[1].getValue('STATE')
+    
+    @property
+    def is_closed(self):
+        """ Returns if the contact is closed. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':1', 'STATE')
+        else:
+            return self.CHILDREN[1].getValue('STATE')
+    
+    @property
+    def state(self):
+        """ Returns if the contact is 'open' or 'closed'. """
+        if self.is_closed:
+            return 'closed'
+        else:
+            return 'open'
+
+class HMThermostat(HMDevice):
+    """
+    HM-CC-RT-DN
+    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature directly at the radiator.
+    """
+    @property
+    def temperature(self):
+        """ Returns the current temperature. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':4', 'ACTUAL_TEMPERATURE')
+        else:
+            return self.CHILDREN[4].getValue('ACTUAL_TEMPERATURE')
+    
+    @temperature.setter
+    def temperature(self, target_temperature):
+        """ Set the target temperature. """
+        try:
+            target_temperature = float(target_temperature)
+        except Exception as err:
+            logger.debug("HMThermostat.set_temperature: Exception %s" % (err, ))
+            return False
+        if self._PARENT:
+            self._proxy.setValue(self._PARENT+':4', 'SET_TEMPERATURE', target_temperature)
+        else:
+            self.CHILDREN[4].setValue('SET_TEMPERATURE', target_temperature)
+    
+    @property
+    def boost(self):
+        """ Return boost state """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':4', 'BOOST_STATE') == 1
+        else:
+            return self.CHILDREN[4].getValue("BOOST_STATE") == 1
+    
+    @boost.setter
+    def boost(self, setboost):
+        """ Enable or disable boost by passing True or False """
+        if setboost:
+            if self._PARENT:
+                self._proxy.setValue(self._PARENT+':4', 'BOOST_MODE', True)
+            else:
+                self.CHILDREN[4].setValue('BOOST_MODE', True)
+        else:
+            if self._PARENT:
+                self.temperature = self._proxy.getValue(self._PARENT+':4', 'SET_TEMPERATURE')
+            else:
+                self.temperature = self.CHILDREN[4].getValue('SET_TEMPERATURE')
+    
+    
+    def battery_state(self):
+        """ Returns the current battery state. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':4', 'BATTERY_STATE')
+        else:
+            return self.CHILDREN[4].getValue('BATTERY_STATE')
+    
+    
