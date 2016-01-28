@@ -11,7 +11,10 @@ import hmdevices
 
 # Easy access to device-type-objects
 DEVICETYPES = {
-    "ZEL STG RM FEP 230V" : hmdevices.HMRollerShutter
+    "ZEL STG RM FEP 230V" : hmdevices.HMRollerShutter,
+    "HM-Sec-SC-2" : hmdevices.HMDoorContact,
+    "HM-CC-RT-DN" : hmdevices.HMThermostat,
+    "HM-CC-RT-DN-BoM" : hmdevices.HMThermostat
 }
 
 # Basic configuration. We need to store devices to not always fetch all information when initting our XML-RPC server.
