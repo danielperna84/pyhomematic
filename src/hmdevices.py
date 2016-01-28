@@ -313,8 +313,13 @@ class HMDoorContact(HMDevice):
 class HMThermostat(HMDevice):
     """
     HM-CC-RT-DN
-    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature directly at the radiator.
+    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
     """
+    AUTO_MODE = 0
+    MANU_MODE = 1
+    PARTY_MODE = 2
+    BOOST_MODE = 3
+        
     @property
     def temperature(self):
         """ Returns the current temperature. """
@@ -337,33 +342,84 @@ class HMThermostat(HMDevice):
             self.CHILDREN[4].setValue('SET_TEMPERATURE', target_temperature)
     
     @property
-    def boost(self):
-        """ Return boost state """
+    def turnoff(self):
+        """ Turn off Thermostat. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':4', 'BOOST_STATE') == 1
+            self._proxy.setValue(self._PARENT+':4', 'SET_TEMPERATURE', 4.5)
         else:
-            return self.CHILDREN[4].getValue("BOOST_STATE") == 1
+            self.CHILDREN[4].setValue('SET_TEMPERATURE', 4.5)
     
-    @boost.setter
-    def boost(self, setboost):
-        """ Enable or disable boost by passing True or False """
-        if setboost:
-            if self._PARENT:
-                self._proxy.setValue(self._PARENT+':4', 'BOOST_MODE', True)
-            else:
-                self.CHILDREN[4].setValue('BOOST_MODE', True)
+    @property
+    def mode(self):
+        """ Return mode. """
+        if self._PARENT:
+            # 1 Manu, 0 Auto, 3 Boost
+            return self._proxy.getValue(self._PARENT+':4', 'CONTROL_MODE')
         else:
-            if self._PARENT:
-                self.temperature = self._proxy.getValue(self._PARENT+':4', 'SET_TEMPERATURE')
-            else:
-                self.temperature = self.CHILDREN[4].getValue('SET_TEMPERATURE')
+            return self.CHILDREN[4].getValue("CONTROL_MODE")
     
+    @mode.setter
+    def mode(self, setmode):
+        """ Set mode. """
+        if setmode == self.AUTO_MODE:
+            mode = 'AUTO_MODE'
+        elif setmode == self.MANU_MODE:
+            mode = 'MANU_MODE'
+        elif setmode == self.PARTY_MODE:
+            mode = 'PARTY_MODE'
+        elif setmode == self.BOOST_MODE:
+            mode = 'BOOST_MODE'
+        else:
+            return False
+        if self._PARENT:
+            return self._proxy.setValue(self._PARENT+':4', mode, True)
+        else:
+            return self.CHILDREN[4].setValue(mode, True)
     
+    @property
+    def automode(self):
+        """ Return auto mode state. """
+        return self.mode == self.AUTO_MODE
+    
+    @automode.setter
+    def automode(self, setauto):
+        """ Turn on auto mode. """
+        self.mode = self.AUTO_MODE
+    
+    @property
+    def manumode(self):
+        """ Return manual mode state. """
+        return self.mode == self.MANU_MODE
+    
+    @manumode.setter
+    def manumode(self, setmanu):
+        """ Turn on manual mode. """
+        self.mode = self.MANU_MODE
+
+    @property
+    def partymode(self):
+        """ Return party mode state. """
+        return self.mode == self.PARTY_MODE
+    
+    @partymode.setter
+    def partymode(self, partymode):
+        """ Turn on paty mode. """
+        self.mode = self.PARTY_MODE
+    
+    @property
+    def boostmode(self):
+        """ Return boost state. """
+        return self.mode == self.BOOST_MODE
+    
+    @boostmode.setter
+    def boostmode(self, setboost):
+        """ Turn on boost mode. """
+        self.mode = self.BOOST_MODE
+    
+    @property
     def battery_state(self):
         """ Returns the current battery state. """
         if self._PARENT:
             return self._proxy.getValue(self._PARENT+':4', 'BATTERY_STATE')
         else:
             return self.CHILDREN[4].getValue('BATTERY_STATE')
-    
-    
