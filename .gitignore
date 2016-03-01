@@ -1,4 +1,6 @@
-# Compiled python modules.
+MANIFEST
+
+ Compiled python modules.
 *.pyc
 
 # Setuptools distribution folder.
