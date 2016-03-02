@@ -18,5 +18,6 @@ setup(
   keywords = ['homematic', 'automation', 'smarthome'],
   classifiers = ["Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
-    "Intended Audience :: Developers"]
+    "Intended Audience :: Developers"],
+    platforms = "Any"
 )
