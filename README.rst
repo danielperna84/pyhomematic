@@ -23,6 +23,6 @@ Additionally the following devices provide convenince methods to easily perform 
 - HM-CC-RT-DN (Thermostat)
 - HM-CC-RT-DN-BoM (Thermostat)
 - ZEL STG RM FEP 230V (Rollershutter, by Roto Tronic)
-- HM-LC-Bl1-FM * (Rollershutter, looks exactly like ZEL STG RM FEP 230V, so maybe they're compatible. Add it to pyhomematic.DEVICETYPES to test it)
+- HM-LC-Bl1-FM * (Rollershutter, looks exactly like ZEL STG RM FEP 230V, so maybe they're compatible. Add it to _devices.DEVICETYPES to test it)
 
 More devices might be supported in the future.
