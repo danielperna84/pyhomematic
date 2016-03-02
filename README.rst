@@ -8,8 +8,8 @@ It includes a XML-RPC server to receive events emitted by devices. If a callback
 Compatibility is only given for Python 3, but it should be easy to make it work with Python 2.7 as well.
 
 As of now, usage is as follows (with homegear running on the same machine):
-    >>> import pyhomematic
-    >>> s = pyhomematic.create_server() # Create server
+    >>> import homematic
+    >>> s = homematic.create_server() # Create server
     >>> s.devices['address_of_rollershutter_device'].move_down() # Move rollershutter down
     >>> s.devices_all['address_of_doorcontact:1'].getValue("STATE") # True or False, depending on state
     >>> s.stop() #Shutdown to finish the server thread and quit
