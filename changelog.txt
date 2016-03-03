@@ -1,0 +1,8 @@
+Version 0.0.4 (2016-03-03)
+- Fixed incorrect reporting of open / closed state for HM-Sec-SC-2
+- Added _devices.HMDevice.setEventCallback method for devices
+- _server.RPCFunctions.event now uses full signature for callbacks
+- Extended example.py and updated README.rst
+
+Version < 0.0.4
+- Everything else until 0.0.4
