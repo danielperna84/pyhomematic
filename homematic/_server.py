@@ -52,14 +52,14 @@ class RPCFunctions:
         self.createDeviceObjects()
     
     def createDeviceObjects(self):
-        """Transform the raw device descriptions into instances of hmdevices.HMDevice or availabe subclass"""
+        """Transform the raw device descriptions into instances of _devices.HMDevice or availabe subclass"""
         for dev in self._devices_raw:
             if not dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
                     if dev['TYPE'] in _devices.DEVICETYPES:
                         deviceObject = _devices.DEVICETYPES[dev['TYPE']](dev, self._proxy)
                     else:
-                        deviceObject = hmdevices.HMDevice(dev, self._proxy)
+                        deviceObject = _devices.HMDevice(dev, self._proxy)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['ADDRESS']] = deviceObject
         for dev in self._devices_raw:
@@ -68,7 +68,7 @@ class RPCFunctions:
                     if self.devices_all[dev['PARENT']]._TYPE in _devices.DEVICETYPES:
                         deviceObject = _devices.DEVICETYPES[self.devices_all[dev['PARENT']]._TYPE](dev, self._proxy)
                     else:
-                        deviceObject = hmdevices.HMDevice(dev, self._proxy)
+                        deviceObject = _devices.HMDevice(dev, self._proxy)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['PARENT']].CHILDREN[dev['INDEX']] = deviceObject
         return True
@@ -96,7 +96,7 @@ class RPCFunctions:
     def event(self, interface_id, address, value_key, value):
         """If a device emits some sort event, we will handle it here."""
         LOG.debug("RPCFunctions.event: interface_id = %s, address = %s, value_key = %s, value = %s" % ( interface_id, address, value_key, str(value) ) )
-        self.devices_all[address].event(value_key, value)
+        self.devices_all[address].event(interface_id, value_key, value)
         if self.eventcallback:
             self.eventcallback(interface_id = interface_id, address = address, value_key = value_key, value = value)
         return True
