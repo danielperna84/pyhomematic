@@ -23,6 +23,7 @@ class HMDevice(object):
         self.CHILDREN = {}
         self._proxy = proxy
         self._paramsets = {}
+        self._eventcallbacks = []
         
         if not self._PARENT:
             # These properties only exist for interfaces themselves
@@ -201,11 +202,26 @@ class HMDevice(object):
             LOG.debug("HMDevice.setValue: Exception: " + str(err))
             return False
     
-    def event(self, key, value):
+    def event(self, interface_id, key, value):
         """
         Handle the event received by server.
         """
-        LOG.info("HMDevice.event: key=%s, value=%s" % (key, value))
+        LOG.info("HMDevice.event: address=%s, interface_id=%s, key=%s, value=%s" % (self._ADDRESS, interface_id, key, value))
+        for callback in self._eventcallbacks:
+            LOG.debug("HMDevice.event: Using callback %s " % str(callback))
+            callback(self._ADDRESS, interface_id, key, value)
+    
+    def setEventCallback(self, callback, bequeath = True):
+        """
+        Set additional event callbacks for the device.
+        Set the callback for specific channels or use the device itself and let it bequeath the callback to all of its children.
+        Signature for callback-functions: foo(address, interface_id, key, value).
+        """
+        if hasattr(callback, '__call__'):
+            self._eventcallbacks.append(callback)
+            if bequeath and not self._PARENT:
+                for channel, device in self.CHILDREN.items():
+                    device._eventcallbacks.append(callback)
 
 # Subclass HMDevice to add specific device types
 class HMRollerShutter(HMDevice):
@@ -213,14 +229,17 @@ class HMRollerShutter(HMDevice):
     ZEL STG RM FEP 230V (by Roto tronic, which is probably the same as the one from Homematic. Need to check that.)
     Rollershutter switch that raises and lowers roller shutters.
     """
-    def current_position(self):
+    
+    @property
+    def level(self):
         """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
         if self._PARENT:
             return self._proxy.getValue(self._PARENT+':1', 'LEVEL')
         else:
             return self.CHILDREN[1].getValue('LEVEL')
     
-    def seek(self, position):
+    @level.setter
+    def level(self, position):
         """Seek a specific position by specifying a float() from 0.0 to 1.0."""
         try:
             position = float(position)
@@ -234,11 +253,11 @@ class HMRollerShutter(HMDevice):
     
     def move_up(self):
         """Move the shutter up all the way."""
-        self.seek(1.0)
+        self.level = 1.0
     
     def move_down(self):
         """Move the shutter down all the way."""
-        self.seek(0.0)
+        self.level = 0.0
     
     def stop(self):
         """Stop moving."""
@@ -281,9 +300,9 @@ class HMDoorContact(HMDevice):
     def is_closed(self):
         """ Returns if the contact is closed. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'STATE')
+            return not self._proxy.getValue(self._PARENT+':1', 'STATE')
         else:
-            return self.CHILDREN[1].getValue('STATE')
+            return not self.CHILDREN[1].getValue('STATE')
     
     @property
     def state(self):
