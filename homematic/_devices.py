@@ -138,12 +138,13 @@ class HMDevice(object):
         """
         try:
             if paramset:
-                returnset = self._proxy.getParamset(self._ADDRESS, paramset)
-                if returnset:
-                    self._paramsets[paramset] = returnset
-                    return True
-                else:
-                    LOG.warning("HMDevice.updateParamset: Paramset empty.")
+                if self._proxy:
+                    returnset = self._proxy.getParamset(self._ADDRESS, paramset)
+                    if returnset:
+                        self._paramsets[paramset] = returnset
+                        return True
+                    else:
+                        LOG.warning("HMDevice.updateParamset: Paramset empty.")
             return False
         except Exception as err:
             LOG.debug("HMDevice.updateParamset: Exception: " + str(err))
