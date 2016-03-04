@@ -15,24 +15,32 @@ REMOTEPORT = 2001
 DEVICEFILE = False # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
 
+# Device-storage
+devices = {}
+devices_all = {}
+devices_raw = []
+devices_raw_dict = {}
+
 # Object holding the methods the XML-RPC server should provide.
 class RPCFunctions:
-    def __init__(self, devicefile = DEVICEFILE, proxy = False, eventcallback = False):
+    def __init__(self, devicefile = DEVICEFILE, proxy = False, eventcallback = False, systemcallback = False):
+        global devices, devices_all, devices_raw, devices_raw
         LOG.debug("RPCFunctions.__init__")
         self.devicefile = devicefile
         self.eventcallback = eventcallback
+        self.systemcallback = systemcallback
         
         # The methods need to know about the proxy to be able to pass it on to the device-objects
         self._proxy = proxy
         
         # Devices w/o channels will be accessible using the device-address as the key
-        self.devices = {}
-        # Devices including channels will be accessible using the device-address as the key
-        self.devices_all = {}
+        self.devices = devices
+        # Devices including channels will be accessible using the device-address + channel as the key
+        self.devices_all = devices_all
         
         # The plain JSON (actually dicts) are stored as well
-        self._devices_raw_dict = {}
-        self._devices_raw = []
+        self._devices_raw_dict = devices_raw_dict
+        self._devices_raw = devices_raw
         
         
         # If there are stored devices, we load them instead of getting them from the server.
@@ -76,6 +84,8 @@ class RPCFunctions:
     def error(self, interface_id, errorcode, msg):
         """When some error occurs the CCU / Homegear will send it's error message here"""
         LOG.debug("RPCFunctions.error: interface_id = %s, errorcode = %i, message = %s" % ( interface_id, int(errorcode), str(msg) ) )
+        if self.systemcallback:
+            self.systemcallback('error', interface_id, errorcode, msg)
         return True
     
     def saveDevices(self):
@@ -114,6 +124,8 @@ class RPCFunctions:
             self._devices_raw_dict[d['ADDRESS']] = d
         self.saveDevices()
         self.createDeviceObjects()
+        if self.systemcallback:
+            self.systemcallback('newDevices', interface_id, dev_descriptions)
         return True
     
     def deleteDevices(self, interface_id, addresses):
@@ -122,21 +134,29 @@ class RPCFunctions:
         #TODO: remove known deivce objects as well
         self._devices_raw = [ device for device in self._devices_raw if not device['ADDRESS'] in addresses ]
         self.saveDevices()
+        if self.systemcallback:
+            self.systemcallback('deleteDevice', interface_id, addresses)
         return True
     
     def updateDevice(self, interface_id, address, hint):
         LOG.debug("RPCFunctions.updateDevice: interface_id = %s, address = %s, hint = %s" % ( interface_id, address, str(hint) ) )
         #TODO: Implement updateDevice
+        if self.systemcallback:
+            self.systemcallback('updateDevice', interface_id, address, hint)
         return True
     
     def replaceDevice(self, interface_id, oldDeviceAddress, newDeviceAddress):
         LOG.debug("RPCFunctions.replaceDevice: interface_id = %s, oldDeviceAddress = %s, newDeviceAddress = %s" % ( interface_id, oldDeviceAddress, newDeviceAddress ) )
         #TODO: Implement replaceDevice
+        if self.systemcallback:
+            self.systemcallback('replaceDevice', interface_id, oldDeviceAddress, newDeviceAddress)
         return True
     
     def readdedDevice(self, interface_id, addresses):
         LOG.debug("RPCFunctions.readdedDevices: interface_id = %s, addresses = %s" % ( interface_id, str(addresses) ) )
         #TODO: Implement readdedDevice
+        if self.systemcallback:
+            self.systemcallback('readdedDevice', interface_id, addresses)
         return True
 
 # Restrict to particular paths.
@@ -152,47 +172,50 @@ class ServerThread(threading.Thread):
                     remoteport = REMOTEPORT,
                     devicefile = DEVICEFILE,
                     interface_id = INTERFACE_ID,
-                    eventcallback = False):
+                    eventcallback = False,
+                    systemcallback = False):
+        global LOCAL, LOCALPORT, REMOTE, REMOTEPORT, DEVICEFILE, INTERFACE_ID
         LOG.debug("ServerThread.__init__")
         threading.Thread.__init__(self)
-        self.interface_id = interface_id
-        self.local = local
-        self.localport = localport
-        self.devicefile = devicefile
+        INTERFACE_ID = interface_id
+        LOCAL = local
+        LOCALPORT = localport
+        REMOTE = remote
+        REMOTEPORT = remoteport
+        DEVICEFILE = devicefile
         self.eventcallback = eventcallback
-        
-        # Create proxy to interact with CCU / Homegear
-        LOG.info("Creating proxy. Connecting to http://%s:%i" % (remote, int(remoteport)))
-        try:
-            self.proxy = xmlrpc.client.ServerProxy("http://%s:%i" % (remote, int(remoteport)))
-        except:
-            LOG.warning("Failed connecting to proxy at http://%s:%i" % (remote, int(remoteport)))
+        self.systemcallback = systemcallback
+        self.proxy = False
         
         # Setup server to handle requests from CCU / Homegear
         LOG.debug("ServerThread.__init__: Setting up server")
-        self.server = SimpleXMLRPCServer( (local, int(localport)),
+        self.server = SimpleXMLRPCServer( (LOCAL, int(LOCALPORT)),
                             requestHandler=RequestHandler )
         self.server.register_introspection_functions()
         self.server.register_multicall_functions()
         LOG.debug("ServerThread.__init__: Registering RPC functions")
-        # We pre-initialize the RPC-Functions so we can access some of its attributes from the server-object
-        self.functionObject = RPCFunctions(devicefile = devicefile, proxy = self.proxy, eventcallback = self.eventcallback)
-        self.devices_raw = self.functionObject._devices_raw
-        self.devices = self.functionObject.devices
-        self.devices_all = self.functionObject.devices_all
         
-        self.server.register_instance(self.functionObject)
+        self.server.register_instance(RPCFunctions(devicefile = DEVICEFILE, proxy = self.proxy, eventcallback = self.eventcallback, systemcallback = self.systemcallback))
 
     def run(self):
-        LOG.info("Starting server at http://%s:%i" % (self.local, int(self.localport)))
+        LOG.info("Starting server at http://%s:%i" % (LOCAL, int(LOCALPORT)))
         self.server.serve_forever()
+    
+    def connect(self):
+        # Create proxy to interact with CCU / Homegear
+        LOG.info("Creating proxy. Connecting to http://%s:%i" % (REMOTE, int(REMOTEPORT)))
+        try:
+            self.proxy = xmlrpc.client.ServerProxy("http://%s:%i" % (REMOTE, int(REMOTEPORT)))
+        except:
+            LOG.warning("Failed connecting to proxy at http://%s:%i" % (REMOTE, int(REMOTEPORT)))
+            raise Exception
     
     def proxyInit(self):
         """To receive events the proxy has to tell the CCU / Homegear where to send the events. For that we call the init-method."""
         # Call init() with local XML RPC config and interface_id (the name of the receiver) to receive events. XML RPC server has to be running.
-        LOG.debug("ServerThread.proxyInit: init(http://%s:%i, '%s')" % (self.local, int(self.localport), self.interface_id) )
+        LOG.debug("ServerThread.proxyInit: init(http://%s:%i, '%s')" % (LOCAL, int(LOCALPORT), INTERFACE_ID) )
         try:
-            self.proxy.init("http://%s:%i" % (self.local, int(self.localport)), self.interface_id)
+            self.proxy.init("http://%s:%i" % (LOCAL, int(LOCALPORT)), INTERFACE_ID)
             LOG.info("Proxy initialized")
         except:
             LOG.warning("Failed to initialize proxy")
@@ -203,7 +226,7 @@ class ServerThread(threading.Thread):
         if self.proxy:
             LOG.debug("ServerThread.stop: Deregistering proxy")
             try:
-                self.proxy.init("http://%s:%i" % (self.local, int(self.localport)))
+                self.proxy.init("http://%s:%i" % (LOCAL, int(LOCALPORT)))
             except:
                 LOG.warning("Failed to deregister proxy")
         LOG.info("Shutting down server")
