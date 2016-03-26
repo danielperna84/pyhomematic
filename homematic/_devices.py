@@ -11,15 +11,15 @@ class HMDevice(object):
     def __init__(self, device_description, proxy, getparamsetdesriptions = False):
         LOG.debug("HMDevice.__init__: device_description: " + str(device_description))
         # These properties are available for every device and its channels
-        self._ADDRESS = device_description['ADDRESS']
-        self._FAMILY = device_description['FAMILY']
-        self._FLAGS = device_description['FLAGS']
-        self._ID = device_description['ID']
-        self._PARAMSETS = device_description['PARAMSETS']
+        self._ADDRESS = device_description.get('ADDRESS')
+        self._FAMILY = device_description.get('FAMILY')
+        self._FLAGS = device_description.get('FLAGS')
+        self._ID = device_description.get('ID')
+        self._PARAMSETS = device_description.get('PARAMSETS')
         self._PARAMSET_DESCRIPTIONS = {}
-        self._PARENT = device_description['PARENT']
-        self._TYPE = device_description['TYPE']
-        self._VERSION = device_description['VERSION']
+        self._PARENT = device_description.get('PARENT')
+        self._TYPE = device_description.get('TYPE')
+        self._VERSION = device_description.get('VERSION')
         self.CHILDREN = {}
         self._proxy = proxy
         self._paramsets = {}
@@ -27,74 +27,38 @@ class HMDevice(object):
         
         if not self._PARENT:
             # These properties only exist for interfaces themselves
-            self._CHILDREN = device_description['CHILDREN']
-            self._RF_ADDRESS = device_description['RF_ADDRESS']
+            self._CHILDREN = device_description.get('CHILDREN')
+            self._RF_ADDRESS = device_description.get('RF_ADDRESS')
             
             # Optional properties might not always be present
             if 'CHANNELS' in device_description:
                 self._CHANNELS = device_description['CHANNELS']
             else:
                 self._CHANNELS = []
-            if 'PHYSICAL_ADDRESS' in device_description:
-                self._PHYSICAL_ADDRESS = device_description['PHYSICAL_ADDRESS']
-            else:
-                self._PHYSICAL_ADDRESS = None
-            if 'INTERFACE' in device_description:
-                self._INTERFACE = device_description['INTERFACE']
-            else:
-                self._INTERFACE = None
-            if 'ROAMING' in device_description:
-                self._ROAMING = device_description['ROAMING']
-            else:
-                self._ROAMING = None
-            if 'RX_MODE' in device_description:
-                self._RX_MODE = device_description['RX_MODE']
-            else:
-                self._RX_MODE = None
-            if 'FIRMWARE' in device_description:
-                self._FIRMWARE = device_description['FIRMWARE']
-            else:
-                self._FIRMWARE = None
-            if 'AVAILABLE_FIRMWARE' in device_description:
-                self._AVAILABLE_FIRMWARE = device_description['AVAILABLE_FIRMWARE']
-            else:
-                self._AVAILABLE_FIRMWARE = None
-            if 'UPDATABLE' in device_description:
-                self._UPDATABLE = device_description['UPDATABLE']
-            else:
-                self._UPDATABLE = False
+            self._PHYSICAL_ADDRESS = device_description.get('PHYSICAL_ADDRESS')
+            self._INTERFACE = device_description.get('INTERFACE')
+            self._ROAMING = device_description.get('ROAMING')
+            self._RX_MODE = device_description.get('RX_MODE')
+            self._FIRMWARE = device_description.get('FIRMWARE')
+            self._AVAILABLE_FIRMWARE = device_description.get('AVAILABLE_FIRMWARE')
+            self._UPDATABLE = device_description.get('UPDATABLE')
         else:
             # These properties only exist for device-channels
-            self._AES_ACTIVE = device_description['AES_ACTIVE']
-            self._DIRECTION = device_description['DIRECTION']
-            self._INDEX = device_description['INDEX']
-            self._LINK_SOURCE_ROLES = device_description['LINK_SOURCE_ROLES']
-            self._LINK_TARGET_ROLES = device_description['LINK_TARGET_ROLES']
-            self._PARENT_TYPE = device_description['PARENT_TYPE']
+            self._AES_ACTIVE = device_description.get('AES_ACTIVE')
+            self._DIRECTION = device_description.get('DIRECTION')
+            self._INDEX = device_description.get('INDEX')
+            self._LINK_SOURCE_ROLES = device_description.get('LINK_SOURCE_ROLES')
+            self._LINK_TARGET_ROLES = device_description.get('LINK_TARGET_ROLES')
+            self._PARENT_TYPE = device_description.get('PARENT_TYPE')
             
             # Optional properties of device-channels
-            if 'GROUP' in device_description:
-                self._GROUP = device_description['GROUP']
-            else:
-                self._GROUP = None
-            if 'TEAM' in device_description:
-                self._TEAM = device_description['TEAM']
-            else:
-                self._TEAM = None
-            if 'TEAM_TAG' in device_description:
-                self._TEAM_TAG = device_description['TEAM_TAG']
-            else:
-                self._TEAM_TAG = None
-            if 'TEAM_CHANNELS' in device_description:
-                self._TEAM_CHANNELS = device_description['TEAM_CHANNELS']
-            else:
-                self._TEAM_CHANNELS = None
+            self._GROUP = device_description.get('GROUP')
+            self._TEAM = device_description.get('TEAM')
+            self._TEAM_TAG = device_description.get('TEAM_TAG')
+            self._TEAM_CHANNELS = device_description.get('TEAM_CHANNELS')
 
             # Not in specification, but often present
-            if 'CHANNEL' in device_description:
-                self._CHANNEL = device_description['CHANNEL']
-            else:
-                self._CHANNEL = None
+            self._CHANNEL = device_description.get('CHANNEL')
         
             self.updateParamsets()
     
@@ -426,10 +390,111 @@ class HMThermostat(HMDevice):
             return self._proxy.getValue(self._PARENT+':4', 'BATTERY_STATE')
         else:
             return self.CHILDREN[4].getValue('BATTERY_STATE')
+            
+class HMDimmer(HMDevice):
+    """
+    HM-LC-Dim1L-Pl-3 (and likely other ELV Dimmer as well)
+    Dimmer switch that controls level of light brightness.
+    """
+    
+    @property
+    def level(self):
+        """Return current brightness level. Return value is float() from 0.0 (0% off) to 1.0 (100% maximum brightness)."""
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':1', 'LEVEL')
+        else:
+            return self.CHILDREN[1].getValue('LEVEL')
+    
+    @level.setter
+    def level(self, brightness):
+        """Set the brightness by specifying a float() from 0.0 to 1.0."""
+        try:
+            brightness = float(brightness)
+        except Exception as err:
+            LOG.debug("HMRollerShutter.seek: Exception %s" % (err, ))
+            return False
+        if self._PARENT:
+            self._proxy.setValue(self._PARENT+':1', 'LEVEL', brightness)
+        else:
+            self.CHILDREN[1].setValue('LEVEL', brightness)
+    
+    def on(self):
+        """Turn light to maximum brightness."""
+        self.level = 1.0
+    
+    def off(self):
+        """Turn light off."""
+        self.level = 0.0
+    
+            
+class HMSwitch(HMDevice):
+    """
+    HM-LC-Sw1-Pl-2 (and likely other ELV switches as well)
+    Switch turning plugged in device on or off.
+    """
+    
+    @property
+    def is_on(self):
+        """ Returns if switch is on. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':1', 'STATE')
+        else:
+            return self.CHILDREN[1].getValue('STATE')
+    
+    @property
+    def is_off(self):
+        """ Returns if switch is off. """
+        if self._PARENT:
+            return not self._proxy.getValue(self._PARENT+':1', 'STATE')
+        else:
+            return not self.CHILDREN[1].getValue('STATE')
+    
+    @property
+    def state(self):
+        """ Returns if the contact is 'open' or 'closed'. """
+        if self.is_off:
+            return 'off'
+        else:
+            return 'on'
+    
+    @state.setter
+    def state(self, onoff):
+        """Turn switch on/off"""
+        """try:
+            brightness = float(brightness)
+        except Exception as err:
+            LOG.debug("HMSwitch.seek: Exception %s" % (err, ))
+            return False"""
+        if self._PARENT:
+            self._proxy.setValue(self._PARENT+':1', 'STATE', onoff)
+        else:
+            self.CHILDREN[1].setValue('STATE', onoff)
+    
+    def on(self):
+        """Turn switch on."""
+        self.state = 'on'
+    
+    def off(self):
+        """Turn switch off."""
+        self.state = 'off'
+
+        
+class HMRemote(HMDevice):
+    pass
+
+
+class HMCcu(HMDevice):
+    pass
+
 
 DEVICETYPES = {
     "ZEL STG RM FEP 230V" : HMRollerShutter,
+    "HM-LC-Bl1PBU-FM" : HMRollerShutter,
+    "HM-LC-Dim1L-Pl-3" : HMDimmer,
+    "HM-LC-Sw1-Pl-2" : HMSwitch,
+    "HM-RC-8" : HMRemote,
     "HM-Sec-SC-2" : HMDoorContact,
     "HM-CC-RT-DN" : HMThermostat,
-    "HM-CC-RT-DN-BoM" : HMThermostat
+    "HM-CC-RT-DN-BoM" : HMThermostat,
+    "HM-RCV-50" : HMCcu
 }
