@@ -84,8 +84,8 @@ class HMDevice(object):
             RSSI = self._proxy.getValue(self._PARENT, 'RSSI_DEVICE')
         else:
             RSSI = self.getValue('RSSI_DEVICE')
-        return RSSI
-    
+        return RSSI    
+
     def getParamsetDescription(self, paramset):
         """
         Descriptions for paramsets are available to determine what can be don with the device.
@@ -411,7 +411,7 @@ class HMDimmer(HMDevice):
         try:
             brightness = float(brightness)
         except Exception as err:
-            LOG.debug("HMRollerShutter.seek: Exception %s" % (err, ))
+            LOG.debug("HMDimmer.seek: Exception %s" % (err, ))
             return False
         if self._PARENT:
             self._proxy.setValue(self._PARENT+':1', 'LEVEL', brightness)
@@ -460,31 +460,25 @@ class HMSwitch(HMDevice):
     @state.setter
     def state(self, onoff):
         """Turn switch on/off"""
-        """try:
-            brightness = float(brightness)
+        try:
+            onoff = int(onoff)
+            if not onoff in [0, 1]:
+                return False
         except Exception as err:
             LOG.debug("HMSwitch.seek: Exception %s" % (err, ))
-            return False"""
+            return False
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'STATE', onoff)
+            self._proxy.setValue(self._PARENT+':1', 'STATE', str(onoff))
         else:
-            self.CHILDREN[1].setValue('STATE', onoff)
+            self.CHILDREN[1].setValue('STATE', str(onoff))
     
     def on(self):
         """Turn switch on."""
-        self.state = 'on'
+        self.state = '1'
     
     def off(self):
         """Turn switch off."""
-        self.state = 'off'
-
-        
-class HMRemote(HMDevice):
-    pass
-
-
-class HMCcu(HMDevice):
-    pass
+        self.state = '0'
 
 
 DEVICETYPES = {
@@ -492,9 +486,7 @@ DEVICETYPES = {
     "HM-LC-Bl1PBU-FM" : HMRollerShutter,
     "HM-LC-Dim1L-Pl-3" : HMDimmer,
     "HM-LC-Sw1-Pl-2" : HMSwitch,
-    "HM-RC-8" : HMRemote,
     "HM-Sec-SC-2" : HMDoorContact,
     "HM-CC-RT-DN" : HMThermostat,
     "HM-CC-RT-DN-BoM" : HMThermostat,
-    "HM-RCV-50" : HMCcu
 }
