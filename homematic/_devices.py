@@ -84,7 +84,7 @@ class HMDevice(object):
             RSSI = self._proxy.getValue(self._PARENT, 'RSSI_DEVICE')
         else:
             RSSI = self.getValue('RSSI_DEVICE')
-        return RSSI    
+        return RSSI
 
     def getParamsetDescription(self, paramset):
         """
@@ -209,7 +209,7 @@ class HMRollerShutter(HMDevice):
         try:
             position = float(position)
         except Exception as err:
-            LOG.debug("HMRollerShutter.seek: Exception %s" % (err, ))
+            LOG.debug("HMRollerShutter.level: Exception %s" % (err, ))
             return False
         if self._PARENT:
             self._proxy.setValue(self._PARENT+':1', 'LEVEL', position)
@@ -411,7 +411,7 @@ class HMDimmer(HMDevice):
         try:
             brightness = float(brightness)
         except Exception as err:
-            LOG.debug("HMDimmer.seek: Exception %s" % (err, ))
+            LOG.debug("HMDimmer.level: Exception %s" % (err, ))
             return False
         if self._PARENT:
             self._proxy.setValue(self._PARENT+':1', 'LEVEL', brightness)
@@ -451,21 +451,19 @@ class HMSwitch(HMDevice):
     
     @property
     def state(self):
-        """ Returns if the contact is 'open' or 'closed'. """
+        """ Returns if switch is 'on' or 'off'. """
         if self.is_off:
-            return 'off'
+            return 0
         else:
-            return 'on'
+            return 1
     
     @state.setter
     def state(self, onoff):
         """Turn switch on/off"""
         try:
-            onoff = int(onoff)
-            if not onoff in [0, 1]:
-                return False
+            onoff = int(bool(onoff))
         except Exception as err:
-            LOG.debug("HMSwitch.seek: Exception %s" % (err, ))
+            LOG.debug("HMSwitch.state: Exception %s" % (err, ))
             return False
         if self._PARENT:
             self._proxy.setValue(self._PARENT+':1', 'STATE', str(onoff))
@@ -474,11 +472,11 @@ class HMSwitch(HMDevice):
     
     def on(self):
         """Turn switch on."""
-        self.state = '1'
+        self.state = 1
     
     def off(self):
         """Turn switch off."""
-        self.state = '0'
+        self.state = 0
 
 
 DEVICETYPES = {
