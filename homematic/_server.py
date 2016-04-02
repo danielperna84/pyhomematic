@@ -14,7 +14,6 @@ REMOTE = '127.0.0.1'
 REMOTEPORT = 2001
 DEVICEFILE = False # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
-INITIALIZING = False
 
 # Device-storage
 devices = {}
@@ -25,9 +24,8 @@ devices_raw_dict = {}
 # Object holding the methods the XML-RPC server should provide.
 class RPCFunctions:
     def __init__(self, devicefile=DEVICEFILE, proxy=False, eventcallback=False, systemcallback=False):
-        global devices, devices_all, devices_raw, devices_raw_dict, INITIALIZING
+        global devices, devices_all, devices_raw, devices_raw_dict
         LOG.debug("RPCFunctions.__init__")
-        INITIALIZING = True
         self.devicefile = devicefile
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
@@ -125,7 +123,6 @@ class RPCFunctions:
     
     def newDevices(self, interface_id, dev_descriptions):
         """The CCU / Homegear informs us about newly added devices. We react on that and add those devices as well."""
-        global INITIALIZING
         LOG.debug("RPCFunctions.newDevices: interface_id = %s, dev_descriptions = %s" % (interface_id, str(dev_descriptions)))
         for d in dev_descriptions:
             self._devices_raw.append(d)
@@ -134,7 +131,6 @@ class RPCFunctions:
         self.createDeviceObjects()
         if self.systemcallback:
             self.systemcallback('newDevices', interface_id, dev_descriptions)
-        INITIALIZING = False
         return True
     
     def deleteDevices(self, interface_id, addresses):
