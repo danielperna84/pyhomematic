@@ -24,7 +24,7 @@ devices_raw_dict = {}
 # Object holding the methods the XML-RPC server should provide.
 class RPCFunctions:
     def __init__(self, devicefile = DEVICEFILE, proxy = False, eventcallback = False, systemcallback = False):
-        global devices, devices_all, devices_raw, devices_raw
+        global devices, devices_all, devices_raw, devices_raw_dict
         LOG.debug("RPCFunctions.__init__")
         self.devicefile = devicefile
         self.eventcallback = eventcallback
@@ -41,7 +41,6 @@ class RPCFunctions:
         # The plain JSON (actually dicts) are stored as well
         self._devices_raw_dict = devices_raw_dict
         self._devices_raw = devices_raw
-        
         
         # If there are stored devices, we load them instead of getting them from the server.
         if self.devicefile:
