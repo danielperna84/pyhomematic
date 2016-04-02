@@ -30,7 +30,7 @@ def start():
     if Server:
         try:
             Server.start()
-            Server.connect()
+            # Server.connect()
             Server.proxyInit()
             return True
         except Exception as err:
