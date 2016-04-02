@@ -58,6 +58,11 @@ class RPCFunctions:
         # Create the "interactive" device-objects and store them in self._devices and self._devices_all
         self.createDeviceObjects()
     
+    
+    def setProxy(self, proxy):
+        self._proxy = proxy
+    
+    
     def createDeviceObjects(self):
         """Transform the raw device descriptions into instances of _devices.HMDevice or availabe subclass"""
         for dev in self._devices_raw:
@@ -194,7 +199,10 @@ class ServerThread(threading.Thread):
         self.server.register_multicall_functions()
         LOG.debug("ServerThread.__init__: Registering RPC functions")
         
-        self.server.register_instance(RPCFunctions(devicefile = DEVICEFILE, proxy = self.proxy, eventcallback = self.eventcallback, systemcallback = self.systemcallback))
+        rpc_functions = RPCFunctions(devicefile = DEVICEFILE, proxy = self.proxy, eventcallback = self.eventcallback, systemcallback = self.systemcallback)
+        self.server.register_instance(rpc_functions)
+        proxy = self.connect()
+        rpc_functions.setProxy(self.proxy)
 
     def run(self):
         LOG.info("Starting server at http://%s:%i" % (LOCAL, int(LOCALPORT)))
