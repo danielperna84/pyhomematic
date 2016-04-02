@@ -1,3 +1,6 @@
+Version 0.0.6 ()
+- Fixed missing _proxy in device-objects (Issue #4)
+
 Version 0.0.5 (2016-03-04)
 - Extended example.py and updated README.rst to reflect changes in module
 - Added systemcallback support in _server.py
