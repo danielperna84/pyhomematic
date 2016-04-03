@@ -2,6 +2,8 @@ from . import _devices
 import os
 import threading
 import json
+import urllib
+import xml.etree.ElementTree as ET
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import xmlrpc.client
@@ -14,21 +16,26 @@ REMOTE = '127.0.0.1'
 REMOTEPORT = 2001
 DEVICEFILE = False # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
+XML_API_URL = '/config/xmlapi/devicelist.cgi'
 
 # Device-storage
 devices = {}
 devices_all = {}
 devices_raw = []
 devices_raw_dict = {}
+working = False
 
 # Object holding the methods the XML-RPC server should provide.
 class RPCFunctions:
-    def __init__(self, devicefile=DEVICEFILE, proxy=False, eventcallback=False, systemcallback=False):
+    def __init__(self, devicefile=DEVICEFILE, proxy=False, remote_ip=False, eventcallback=False, systemcallback=False):
         global devices, devices_all, devices_raw, devices_raw_dict
         LOG.debug("RPCFunctions.__init__")
         self.devicefile = devicefile
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
+        
+        # Only required to access device names from Homematic CCU
+        self._remote_ip = remote_ip
         
         # The methods need to know about the proxy to be able to pass it on to the device-objects
         self._proxy = proxy
@@ -66,6 +73,9 @@ class RPCFunctions:
 
     def createDeviceObjects(self):
         """Transform the raw device descriptions into instances of _devices.HMDevice or availabe subclass"""
+        global working
+        
+        working = True
         for dev in self._devices_raw:
             if not dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
@@ -84,6 +94,9 @@ class RPCFunctions:
                         deviceObject = _devices.HMDevice(dev, self._proxy)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['PARENT']].CHILDREN[dev['INDEX']] = deviceObject
+        if self.devices_all:
+            self.addDeviceNames()
+        working = False
         return True
     
     def error(self, interface_id, errorcode, msg):
@@ -163,6 +176,26 @@ class RPCFunctions:
         if self.systemcallback:
             self.systemcallback('readdedDevice', interface_id, addresses)
         return True
+    
+    def addDeviceNames(self):
+        """ If XML-API (http://www.homematic-inside.de/software/addons/item/xmlapi) is installed on CCU this function will add names to CCU devices """
+        try:
+            response = urllib.request.urlopen("http://%s%s" % (self._remote_ip, XML_API_URL))
+            device_list = response.read().decode("ISO-8859-1")
+        except Exception as err:
+            LOG.warning("RPCFunctions.addDeviceNames: Could not access XML-API: %s" % (str(err), ))
+            return False
+        device_list_tree = ET.ElementTree(ET.fromstring(device_list))
+        for device in device_list_tree.getroot():
+            address = device.attrib['address']
+            name = device.attrib['name']
+            if address in self.devices:
+                self.devices[address].NAME = name
+                for address, device in self.devices[address].CHILDREN.items():
+                    device.NAME = name
+                    self.devices_all[device.ADDRESS].NAME = name
+        return True
+
 
 # Restrict to particular paths.
 class RequestHandler(SimpleXMLRPCRequestHandler):
@@ -201,6 +234,7 @@ class ServerThread(threading.Thread):
 
         self._rpcfunctions = RPCFunctions(devicefile=DEVICEFILE,
                                           proxy=self.proxy,
+                                          remote_ip = REMOTE, 
                                           eventcallback=self.eventcallback,
                                           systemcallback=self.systemcallback)
         
