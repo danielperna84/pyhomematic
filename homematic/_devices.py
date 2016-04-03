@@ -7,11 +7,14 @@ PARAM_OPERATION_READ = 1
 PARAM_OPERATION_WRITE = 2
 PARAM_OPERATION_EVENT = 4
 
+PARAM_UNREACH = 'UNREACH'
+PARAMSET_VALUES = 'VALUES'
+
 class HMDevice(object):
     def __init__(self, device_description, proxy, getparamsetdesriptions = False):
-        LOG.debug("HMDevice.__init__: device_description: " + str(device_description))
         # These properties are available for every device and its channels
         self._ADDRESS = device_description.get('ADDRESS')
+        LOG.debug("HMDevice.__init__: device_description: " + str(self._ADDRESS) + " : " + str(device_description))
         self._FAMILY = device_description.get('FAMILY')
         self._FLAGS = device_description.get('FLAGS')
         self._ID = device_description.get('ID')
@@ -24,6 +27,8 @@ class HMDevice(object):
         self._proxy = proxy
         self._paramsets = {}
         self._eventcallbacks = []
+        self._unreach = None
+        self._name = None
         
         if not self._PARENT:
             # These properties only exist for interfaces themselves
@@ -59,9 +64,10 @@ class HMDevice(object):
 
             # Not in specification, but often present
             self._CHANNEL = device_description.get('CHANNEL')
-        
+
             self.updateParamsets()
-    
+            
+            
     @property
     def ADDRESS(self):
         return self._ADDRESS
@@ -85,6 +91,14 @@ class HMDevice(object):
         else:
             RSSI = self.getValue('RSSI_DEVICE')
         return RSSI
+    
+    @property
+    def NAME(self):
+        return self._name
+    
+    @NAME.setter
+    def NAME(self, name):
+        self._name = name
 
     def getParamsetDescription(self, paramset):
         """
@@ -106,12 +120,13 @@ class HMDevice(object):
                     returnset = self._proxy.getParamset(self._ADDRESS, paramset)
                     if returnset:
                         self._paramsets[paramset] = returnset
+                        if self.PARAMSETS:
+                            if self.PARAMSETS.get(PARAMSET_VALUES):
+                                self._unreach = self.PARAMSETS.get(PARAMSET_VALUES).get(PARAM_UNREACH) 
                         return True
-                    else:
-                        LOG.warning("HMDevice.updateParamset: Paramset empty.")
             return False
         except Exception as err:
-            LOG.debug("HMDevice.updateParamset: Exception: " + str(err))
+            LOG.debug("HMDevice.updateParamset: Exception: " + str(err) + ", " + str(self._ADDRESS) + ", " + str(paramset))
             return False
     
     def updateParamsets(self):
@@ -172,6 +187,8 @@ class HMDevice(object):
         Handle the event received by server.
         """
         LOG.info("HMDevice.event: address=%s, interface_id=%s, key=%s, value=%s" % (self._ADDRESS, interface_id, key, value))
+        if key == PARAM_UNREACH:
+            self._unreach = value
         for callback in self._eventcallbacks:
             LOG.debug("HMDevice.event: Using callback %s " % str(callback))
             callback(self._ADDRESS, interface_id, key, value)
@@ -187,6 +204,18 @@ class HMDevice(object):
             if bequeath and not self._PARENT:
                 for channel, device in self.CHILDREN.items():
                     device._eventcallbacks.append(callback)
+
+    @property
+    def UNREACH(self):
+        """ Returns true if the device or any children is not reachable """
+        if self._unreach:
+            return True
+        else:
+            for channel, device in self.CHILDREN.items():
+                if device.UNREACH:
+                    return True
+        return False 
+
 
 # Subclass HMDevice to add specific device types
 class HMRollerShutter(HMDevice):
@@ -230,6 +259,7 @@ class HMRollerShutter(HMDevice):
             self._proxy.setValue(self._PARENT+':1', 'STOP', True)
         else:
             self.CHILDREN[1].setValue('STOP', True)
+
 
 class HMDoorContact(HMDevice):
     """
@@ -276,6 +306,7 @@ class HMDoorContact(HMDevice):
             return 'closed'
         else:
             return 'open'
+
 
 class HMThermostat(HMDevice):
     """
@@ -390,6 +421,7 @@ class HMThermostat(HMDevice):
             return self._proxy.getValue(self._PARENT+':4', 'BATTERY_STATE')
         else:
             return self.CHILDREN[4].getValue('BATTERY_STATE')
+         
             
 class HMDimmer(HMDevice):
     """
