@@ -1,3 +1,6 @@
+Version 0.0.7 (2016-04-09)
+- Intermediate version for PyPi
+
 Version 0.0.6 (2016-04-09)
 - Fixed missing _proxy in device-objects (Issue #4)
 - Renamed package to pyhomematic to avoid conflicts (Issue #5)
