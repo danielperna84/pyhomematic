@@ -6,15 +6,15 @@ def readme():
 
 setup(
   name = 'pyhomematic',
-  packages = ['homematic'],
-  version = '0.0.5',
+  packages = ['pyhomematic'],
+  version = '0.0.6',
   description = 'Homematic interface',
   long_description=readme(),
   author = 'Daniel Perna',
   author_email = 'danielperna84@gmail.com',
   license='MIT',
   url = 'https://github.com/danielperna84/pyhomematic',
-  download_url = 'https://github.com/danielperna84/pyhomematic/tarball/0.0.5',
+  download_url = 'https://github.com/danielperna84/pyhomematic/tarball/0.0.6',
   keywords = ['homematic', 'automation', 'smarthome'],
   classifiers = ["Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
