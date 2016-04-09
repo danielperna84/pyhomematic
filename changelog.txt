@@ -1,5 +1,8 @@
-Version 0.0.6 ()
+Version 0.0.6 (2016-04-09)
 - Fixed missing _proxy in device-objects (Issue #4)
+- Renamed package to pyhomematic to avoid conflicts (Issue #5)
+- Added 'UNREACH' state for devices (Issue #8)
+- Added devices HM-LC-Bl1PBU-FM, HM-LC-Dim1L-Pl-3, HM-LC-Sw1-Pl-2
 
 Version 0.0.5 (2016-03-04)
 - Extended example.py and updated README.rst to reflect changes in module
