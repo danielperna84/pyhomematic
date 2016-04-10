@@ -1,4 +1,4 @@
-Version 0.0.8 (2016...)
+Version 0.0.8 (2016-04-10)
 - Added working-flag (pyhomematic._server.working)
 - Added option to resolve devicenames if XML-API is installed on CCU (initially device-address)
 
