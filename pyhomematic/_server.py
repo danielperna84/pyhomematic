@@ -2,6 +2,8 @@ from . import _devices
 import os
 import threading
 import json
+import urllib.request
+import xml.etree.ElementTree as ET
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import xmlrpc.client
@@ -14,34 +16,47 @@ REMOTE = '127.0.0.1'
 REMOTEPORT = 2001
 DEVICEFILE = False # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
+XML_API_URL = '/config/xmlapi/devicelist.cgi'
 
 # Device-storage
 devices = {}
 devices_all = {}
 devices_raw = []
 devices_raw_dict = {}
+working = False
+
 
 # Object holding the methods the XML-RPC server should provide.
 class RPCFunctions:
-    def __init__(self, devicefile=DEVICEFILE, proxy=False, eventcallback=False, systemcallback=False):
+    def __init__(self,
+                 devicefile=DEVICEFILE,
+                 proxy=False,
+                 remote_ip=False,
+                 eventcallback=False,
+                 systemcallback=False,
+                 resolvenames=False):
         global devices, devices_all, devices_raw, devices_raw_dict
         LOG.debug("RPCFunctions.__init__")
         self.devicefile = devicefile
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
-        
+        self.resolvenames = resolvenames
+
+        # Only required to access device names from Homematic CCU
+        self._remote_ip = remote_ip
+
         # The methods need to know about the proxy to be able to pass it on to the device-objects
         self._proxy = proxy
-        
+
         # Devices w/o channels will be accessible using the device-address as the key
         self.devices = devices
         # Devices including channels will be accessible using the device-address + channel as the key
         self.devices_all = devices_all
-        
+
         # The plain JSON (actually dicts) are stored as well
         self._devices_raw_dict = devices_raw_dict
         self._devices_raw = devices_raw
-        
+
         # If there are stored devices, we load them instead of getting them from the server.
         if self.devicefile:
             LOG.debug("RPCFunctions.__init__: devicefile = %s" % (self.devicefile, ))
@@ -50,22 +65,19 @@ class RPCFunctions:
                     fc = f.read()
                     if fc:
                         self._devices_raw = json.loads(fc)
-        
+
         for device in self._devices_raw:
             self._devices_raw_dict[device['ADDRESS']] = device
         LOG.debug("RPCFunctions.__init__: devices_raw = %s" % (str(self._devices_raw), ))
-        
+
         # Create the "interactive" device-objects and store them in self._devices and self._devices_all
         self.createDeviceObjects()
 
-    class system:
-        @staticmethod
-        def listMethods(self, *args):
-            LOG.debug("RPCFunctions.system.listMethods: args = %s" % (str(args)))
-            return []
-
     def createDeviceObjects(self):
         """Transform the raw device descriptions into instances of _devices.HMDevice or availabe subclass"""
+        global working
+
+        working = True
         for dev in self._devices_raw:
             if not dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
@@ -84,8 +96,11 @@ class RPCFunctions:
                         deviceObject = _devices.HMDevice(dev, self._proxy)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['PARENT']].CHILDREN[dev['INDEX']] = deviceObject
+        if self.devices_all and self.resolvenames:
+            self.addDeviceNames()
+        working = False
         return True
-    
+
     def error(self, interface_id, errorcode, msg):
         """When some error occurs the CCU / Homegear will send it's error message here"""
         LOG.debug("RPCFunctions.error: interface_id = %s, errorcode = %i, message = %s" % (interface_id, int(errorcode), str(msg)))
@@ -107,7 +122,7 @@ class RPCFunctions:
                 return False
         else:
             return True
-    
+
     def event(self, interface_id, address, value_key, value):
         """If a device emits some sort event, we will handle it here."""
         LOG.debug("RPCFunctions.event: interface_id = %s, address = %s, value_key = %s, value = %s" % (interface_id, address, value_key, str(value)))
@@ -115,12 +130,12 @@ class RPCFunctions:
         if self.eventcallback:
             self.eventcallback(interface_id=interface_id, address=address, value_key=value_key, value=value)
         return True
-    
+
     def listDevices(self, interface_id):
         """The CCU / Homegear asks for devices known to our XML-RPC server. We respond to that request using this method."""
         LOG.debug("RPCFunctions.listDevices: interface_id = %s, _devices_raw = %s" % (interface_id, str(self._devices_raw)))
         return self._devices_raw
-    
+
     def newDevices(self, interface_id, dev_descriptions):
         """The CCU / Homegear informs us about newly added devices. We react on that and add those devices as well."""
         LOG.debug("RPCFunctions.newDevices: interface_id = %s, dev_descriptions = %s" % (interface_id, str(dev_descriptions)))
@@ -132,7 +147,7 @@ class RPCFunctions:
         if self.systemcallback:
             self.systemcallback('newDevices', interface_id, dev_descriptions)
         return True
-    
+
     def deleteDevices(self, interface_id, addresses):
         """The CCU / Homegear informs us about removed devices. We react on that and remove those devices as well."""
         LOG.debug("RPCFunctions.deleteDevices: interface_id = %s, addresses = %s" % (interface_id, str(addresses)))
@@ -142,27 +157,48 @@ class RPCFunctions:
         if self.systemcallback:
             self.systemcallback('deleteDevice', interface_id, addresses)
         return True
-    
+
     def updateDevice(self, interface_id, address, hint):
         LOG.debug("RPCFunctions.updateDevice: interface_id = %s, address = %s, hint = %s" % (interface_id, address, str(hint)))
         #TODO: Implement updateDevice
         if self.systemcallback:
             self.systemcallback('updateDevice', interface_id, address, hint)
         return True
-    
+
     def replaceDevice(self, interface_id, oldDeviceAddress, newDeviceAddress):
         LOG.debug("RPCFunctions.replaceDevice: interface_id = %s, oldDeviceAddress = %s, newDeviceAddress = %s" % (interface_id, oldDeviceAddress, newDeviceAddress))
         #TODO: Implement replaceDevice
         if self.systemcallback:
             self.systemcallback('replaceDevice', interface_id, oldDeviceAddress, newDeviceAddress)
         return True
-    
+
     def readdedDevice(self, interface_id, addresses):
         LOG.debug("RPCFunctions.readdedDevices: interface_id = %s, addresses = %s" % (interface_id, str(addresses)))
         #TODO: Implement readdedDevice
         if self.systemcallback:
             self.systemcallback('readdedDevice', interface_id, addresses)
         return True
+
+    def addDeviceNames(self):
+        """ If XML-API (http://www.homematic-inside.de/software/addons/item/xmlapi) is installed on CCU this function will add names to CCU devices """
+        LOG.debug("RPCFunctions.addDeviceNames")
+        try:
+            response = urllib.request.urlopen("http://%s%s" % (self._remote_ip, XML_API_URL), timeout=5)
+            device_list = response.read().decode("ISO-8859-1")
+        except Exception as err:
+            LOG.warning("RPCFunctions.addDeviceNames: Could not access XML-API: %s" % (str(err), ))
+            return False
+        device_list_tree = ET.ElementTree(ET.fromstring(device_list))
+        for device in device_list_tree.getroot():
+            address = device.attrib['address']
+            name = device.attrib['name']
+            if address in self.devices:
+                self.devices[address].NAME = name
+                for address, device in self.devices[address].CHILDREN.items():
+                    device.NAME = name
+                    self.devices_all[device.ADDRESS].NAME = name
+        return True
+
 
 # Restrict to particular paths.
 class RequestHandler(SimpleXMLRPCRequestHandler):
@@ -178,7 +214,8 @@ class ServerThread(threading.Thread):
                  devicefile=DEVICEFILE,
                  interface_id=INTERFACE_ID,
                  eventcallback=False,
-                 systemcallback=False):
+                 systemcallback=False,
+                 resolvenames=False):
         global LOCAL, LOCALPORT, REMOTE, REMOTEPORT, DEVICEFILE, INTERFACE_ID
         LOG.debug("ServerThread.__init__")
         threading.Thread.__init__(self)
@@ -190,6 +227,7 @@ class ServerThread(threading.Thread):
         DEVICEFILE = devicefile
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
+        self.resolvenames = resolvenames
 
         # Create proxy to interact with CCU / Homegear
         LOG.info("Creating proxy. Connecting to http://%s:%i" % (REMOTE, int(REMOTEPORT)))
@@ -201,13 +239,16 @@ class ServerThread(threading.Thread):
 
         self._rpcfunctions = RPCFunctions(devicefile=DEVICEFILE,
                                           proxy=self.proxy,
+                                          remote_ip = REMOTE,
                                           eventcallback=self.eventcallback,
-                                          systemcallback=self.systemcallback)
-        
+                                          systemcallback=self.systemcallback,
+                                          resolvenames=self.resolvenames)
+
         # Setup server to handle requests from CCU / Homegear
         LOG.debug("ServerThread.__init__: Setting up server")
         self.server = SimpleXMLRPCServer((LOCAL, int(LOCALPORT)),
-                                         requestHandler=RequestHandler)
+                                         requestHandler=RequestHandler,
+                                         logRequests=False)
         self.server.register_introspection_functions()
         self.server.register_multicall_functions()
         LOG.debug("ServerThread.__init__: Registering RPC functions")
@@ -216,7 +257,7 @@ class ServerThread(threading.Thread):
     def run(self):
         LOG.info("Starting server at http://%s:%i" % (LOCAL, int(LOCALPORT)))
         self.server.serve_forever()
-    
+
     def proxyInit(self):
         """
         To receive events the proxy has to tell the CCU / Homegear where to send the events. For that we call the init-method.
