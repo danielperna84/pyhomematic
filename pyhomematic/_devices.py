@@ -34,7 +34,10 @@ class HMDevice(object):
             # These properties only exist for interfaces themselves
             self._CHILDREN = device_description.get('CHILDREN')
             self._RF_ADDRESS = device_description.get('RF_ADDRESS')
-            
+
+            # We set the name to the address initially
+            self._name = device_description.get('ADDRESS')
+
             # Optional properties might not always be present
             if 'CHANNELS' in device_description:
                 self._CHANNELS = device_description['CHANNELS']
@@ -55,7 +58,10 @@ class HMDevice(object):
             self._LINK_SOURCE_ROLES = device_description.get('LINK_SOURCE_ROLES')
             self._LINK_TARGET_ROLES = device_description.get('LINK_TARGET_ROLES')
             self._PARENT_TYPE = device_description.get('PARENT_TYPE')
-            
+
+            # We set the name to the parents address initially
+            self._name = device_description.get('ADDRESS')
+
             # Optional properties of device-channels
             self._GROUP = device_description.get('GROUP')
             self._TEAM = device_description.get('TEAM')
