@@ -71,7 +71,8 @@ def create_server(local=LOCAL,
                   interface_id=INTERFACE_ID,
                   autostart=False,
                   eventcallback=False,
-                  systemcallback=False):
+                  systemcallback=False,
+                  resolvenames=False):
     """
     Helper-function to quickly create the server thread to which the CCU / Homegear will emit events.
     Without spacifying the remote-data we'll assume we're running Homegear on localhost on the default port.
@@ -87,7 +88,8 @@ def create_server(local=LOCAL,
                                       devicefile=devicefile,
                                       interface_id=interface_id,
                                       eventcallback=eventcallback,
-                                      systemcallback=systemcallback)
+                                      systemcallback=systemcallback,
+                                      resolvenames=resolvenames)
 
         LOCAL = _server.LOCAL
         LOCALPORT = _server.LOCALPORT
