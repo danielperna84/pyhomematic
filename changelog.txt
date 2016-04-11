@@ -1,6 +1,9 @@
+Version 0.0.9 (2016-04-NN)
+- _server.RPCFunctions.createDeviceObjects and listDevices uses systemcallbacks
+
 Version 0.0.8 (2016-04-10)
-- Added working-flag (pyhomematic._server.working)
-- Added option to resolve devicenames if XML-API is installed on CCU (initially device-address)
+- Added working-flag (pyhomematic._server.working) @jazzaj
+- Added option to resolve devicenames if XML-API is installed on CCU (initially device-address) @jazzaj
 
 Version 0.0.7 (2016-04-09)
 - Intermediate version for PyPi
@@ -8,8 +11,8 @@ Version 0.0.7 (2016-04-09)
 Version 0.0.6 (2016-04-09)
 - Fixed missing _proxy in device-objects (Issue #4)
 - Renamed package to pyhomematic to avoid conflicts (Issue #5)
-- Added 'UNREACH' state for devices (Issue #8)
-- Added devices HM-LC-Bl1PBU-FM, HM-LC-Dim1L-Pl-3, HM-LC-Sw1-Pl-2
+- Added 'UNREACH' state for devices (Issue #8) @jazzaj
+- Added devices HM-LC-Bl1PBU-FM, HM-LC-Dim1L-Pl-3, HM-LC-Sw1-Pl-2 @jazzaj
 
 Version 0.0.5 (2016-03-04)
 - Extended example.py and updated README.rst to reflect changes in module
