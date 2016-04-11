@@ -99,6 +99,8 @@ class RPCFunctions:
         if self.devices_all and self.resolvenames:
             self.addDeviceNames()
         working = False
+        if self.systemcallback:
+            self.systemcallback('createDeviceObjects')
         return True
 
     def error(self, interface_id, errorcode, msg):
@@ -134,6 +136,8 @@ class RPCFunctions:
     def listDevices(self, interface_id):
         """The CCU / Homegear asks for devices known to our XML-RPC server. We respond to that request using this method."""
         LOG.debug("RPCFunctions.listDevices: interface_id = %s, _devices_raw = %s" % (interface_id, str(self._devices_raw)))
+        if self.systemcallback:
+            self.systemcallback('listDevices', interface_id)
         return self._devices_raw
 
     def newDevices(self, interface_id, dev_descriptions):
