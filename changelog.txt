@@ -1,5 +1,7 @@
 Version 0.0.9 (2016-04-NN)
 - _server.RPCFunctions.createDeviceObjects and listDevices uses systemcallbacks
+- Thermostats differentiate between set temperature and actual temperature @bimbar
+- Added MAX! thermostat support (BC-RT-TRX-CyG, BC-RT-TRX-CyG-2, BC-RT-TRX-CyG-3, BC-RT-TRX-CyG-4) @bimbar
 
 Version 0.0.8 (2016-04-10)
 - Added working-flag (pyhomematic._server.working) @jazzaj
