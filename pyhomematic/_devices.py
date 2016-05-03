@@ -106,6 +106,17 @@ class HMDevice(object):
     def NAME(self, name):
         self._name = name
 
+    @property
+    def UNREACH(self):
+        """ Returns true if the device or any children is not reachable """
+        if self._unreach:
+            return True
+        else:
+            for channel, device in self.CHILDREN.items():
+                if device.UNREACH:
+                    return True
+        return False
+
     def getParamsetDescription(self, paramset):
         """
         Descriptions for paramsets are available to determine what can be don with the device.
@@ -179,7 +190,7 @@ class HMDevice(object):
     
     def getValue(self, key):
         """
-        Some devices allow to directly get values for specific parameters
+        Some devices allow to directly get values for specific parameters.
         """
         try:
             returnvalue = self._proxy.getValue(self._ADDRESS, key)
@@ -211,22 +222,11 @@ class HMDevice(object):
                 for channel, device in self.CHILDREN.items():
                     device._eventcallbacks.append(callback)
 
-    @property
-    def UNREACH(self):
-        """ Returns true if the device or any children is not reachable """
-        if self._unreach:
-            return True
-        else:
-            for channel, device in self.CHILDREN.items():
-                if device.UNREACH:
-                    return True
-        return False 
-
 
 # Subclass HMDevice to add specific device types
 class HMRollerShutter(HMDevice):
     """
-    ZEL STG RM FEP 230V (by Roto tronic, which is probably the same as the one from Homematic. Need to check that.)
+    HM-LC-Bl1-SM, HM-LC-Bl1-FM, HM-LC-Bl1-PB-FM, ZEL STG RM FEP 230V, 263 146, HM-LC-BlX
     Rollershutter switch that raises and lowers roller shutters.
     """
     
@@ -269,7 +269,7 @@ class HMRollerShutter(HMDevice):
 
 class HMDoorContact(HMDevice):
     """
-    HM-Sec-SC-2
+    HM-Sec-SC, HM-Sec-SC-2, ZEL STG RM FFK
     Door / Window contact that emits its open/closed state.
     """
     @property
@@ -316,7 +316,7 @@ class HMDoorContact(HMDevice):
 
 class HMThermostat(HMDevice):
     """
-    HM-CC-RT-DN
+    HM-CC-RT-DN, HM-CC-RT-DN-BoM
     ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
     """
     AUTO_MODE = 0
@@ -564,7 +564,7 @@ class HMMAXThermostat(HMDevice):
 
 class HMDimmer(HMDevice):
     """
-    HM-LC-Dim1L-Pl-3 (and likely other ELV Dimmer as well)
+    HM-LC-Dim1L-Pl, HM-LC-Dim1L-CV, HM-LC-Dim1L-Pl-3, HM-LC-Dim1L-CV-2
     Dimmer switch that controls level of light brightness.
     """
     
@@ -600,7 +600,9 @@ class HMDimmer(HMDevice):
             
 class HMSwitch(HMDevice):
     """
-    HM-LC-Sw1-Pl-2 (and likely other ELV switches as well)
+    HM-LC-Sw1-Pl, HM-LC-Sw1-Pl-2, HM-LC-Sw1-SM, HM-LC-Sw2-SM, HM-LC-Sw4-SM, HM-LC-Sw4-PCB, HM-LC-Sw4-WM, HM-LC-Sw1-FM,
+    263 130, HM-LC-Sw2-FM, HM-LC-Sw1-PB-FM, HM-LC-Sw2-PB-FM, HM-LC-Sw4-DR, HM-LC-Sw2-DR, ZEL STG RM FZS,
+    ZEL STG RM FZS-2, HM-LC-SwX
     Switch turning plugged in device on or off.
     """
     
@@ -624,39 +626,64 @@ class HMSwitch(HMDevice):
     def state(self):
         """ Returns if switch is 'on' or 'off'. """
         if self.is_off:
-            return 0
+            return False
         else:
-            return 1
+            return True
     
     @state.setter
     def state(self, onoff):
         """Turn switch on/off"""
         try:
-            onoff = int(bool(onoff))
+            onoff = bool(onoff)
         except Exception as err:
             LOG.debug("HMSwitch.state: Exception %s" % (err, ))
             return False
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'STATE', str(onoff))
+            self._proxy.setValue(self._PARENT+':1', 'STATE', onoff)
         else:
-            self.CHILDREN[1].setValue('STATE', str(onoff))
+            self.CHILDREN[1].setValue('STATE', onoff)
     
     def on(self):
         """Turn switch on."""
-        self.state = 1
+        self.state = True
     
     def off(self):
         """Turn switch off."""
-        self.state = 0
+        self.state = False
 
 
 DEVICETYPES = {
-    "ZEL STG RM FEP 230V" : HMRollerShutter,
+    "HM-LC-Bl1-SM" : HMRollerShutter,
     "HM-LC-Bl1-FM" : HMRollerShutter,
     "HM-LC-Bl1PBU-FM" : HMRollerShutter,
+    "HM-LC-Bl1-PB-FM" : HMRollerShutter,
+    "ZEL STG RM FEP 230V" : HMRollerShutter,
+    "263 146" : HMRollerShutter,
+    "HM-LC-BlX" : HMRollerShutter,
+    "HM-LC-Dim1L-Pl" : HMDimmer,
     "HM-LC-Dim1L-Pl-3" : HMDimmer,
+    "HM-LC-Dim1L-CV" : HMDimmer,
+    "HM-LC-Dim1L-CV-2" : HMDimmer,
+    "HM-LC-Sw1-Pl" : HMSwitch,
     "HM-LC-Sw1-Pl-2" : HMSwitch,
+    "HM-LC-Sw1-SM" : HMSwitch,
+    "HM-LC-Sw2-SM" : HMSwitch,
+    "HM-LC-Sw4-SM" : HMSwitch,
+    "HM-LC-Sw4-PCB" : HMSwitch,
+    "HM-LC-Sw4-WM" : HMSwitch,
+    "HM-LC-Sw1-FM" : HMSwitch,
+    "263 130" : HMSwitch,
+    "HM-LC-Sw2-FM" : HMSwitch,
+    "HM-LC-Sw1-PB-FM" : HMSwitch,
+    "HM-LC-Sw2-PB-FM" : HMSwitch,
+    "HM-LC-Sw4-DR" : HMSwitch,
+    "HM-LC-Sw2-DR" : HMSwitch,
+    "ZEL STG RM FZS" : HMSwitch,
+    "ZEL STG RM FZS-2" : HMSwitch,
+    "HM-LC-SwX" : HMSwitch,
+    "HM-Sec-SC" : HMDoorContact,
     "HM-Sec-SC-2" : HMDoorContact,
+    "ZEL STG RM FFK" : HMDoorContact,
     "HM-CC-RT-DN" : HMThermostat,
     "HM-CC-RT-DN-BoM" : HMThermostat,
     "BC-RT-TRX-CyG" : HMMAXThermostat,
@@ -664,3 +691,4 @@ DEVICETYPES = {
     "BC-RT-TRX-CyG-3" : HMMAXThermostat,
     "BC-RT-TRX-CyG-4" : HMMAXThermostat,
 }
+
