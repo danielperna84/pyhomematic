@@ -203,6 +203,34 @@ class RPCFunctions:
                     self.devices_all[device.ADDRESS].NAME = name
         return True
 
+class LockingServerProxy(xmlrpc.client.ServerProxy):
+    """
+    ServerProxy implementeation with lock when request is executing
+    """
+
+    def __init__(self, *args, **kwargs):
+        """
+        Initialize new proxy for server
+        """
+
+        self.lock = threading.Lock()
+        xmlrpc.client.ServerProxy.__init__(self, *args, **kwargs)
+
+    def __request(self, *args, **kwargs):
+        """
+        Call method on server side
+        """
+
+        with self.lock:
+            parent = xmlrpc.client.ServerProxy
+            return parent._ServerProxy__request(self, *args, **kwargs)
+
+    def __getattr__(self, *args, **kwargs):
+        """
+        Magic method dispatcher
+        """
+
+        return xmlrpc.client._Method(self.__request, *args, **kwargs)
 
 # Restrict to particular paths.
 class RequestHandler(SimpleXMLRPCRequestHandler):
@@ -236,7 +264,8 @@ class ServerThread(threading.Thread):
         # Create proxy to interact with CCU / Homegear
         LOG.info("Creating proxy. Connecting to http://%s:%i" % (REMOTE, int(REMOTEPORT)))
         try:
-            self.proxy = xmlrpc.client.ServerProxy("http://%s:%i" % (REMOTE, int(REMOTEPORT)))
+            #self.proxy = xmlrpc.client.ServerProxy("http://%s:%i" % (REMOTE, int(REMOTEPORT)))
+            self.proxy = LockingServerProxy("http://%s:%i" % (REMOTE, int(REMOTEPORT)))
         except:
             LOG.warning("Failed connecting to proxy at http://%s:%i" % (REMOTE, int(REMOTEPORT)))
             raise Exception
