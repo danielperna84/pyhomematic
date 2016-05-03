@@ -3,10 +3,10 @@ pyhomematic
 
 Python 3 Interface to interact with Homematic devices.
 
-This module is aimed to provide easy (bi-directional) control of Homematic devices hooked up to a regular CCU or Homegear. The focus is to be able to receive events. If you are only interested in actively controlling devices, you can use the Python-built-in xmlrpc.client.ServerProxy (Python 3). See pyhomematic._server.ServerThread.connect on how to connect to a CCU / Homegear as a client.
+This module provides easy (bi-directional) control of Homematic devices hooked up to a regular CCU or Homegear. The focus is to be able to receive events. If you are only interested in actively controlling devices, you can use the Python-built-in xmlrpc.client.ServerProxy (Python 3). See pyhomematic._server.ServerThread.connect on how to connect to a CCU / Homegear as a client.
 Included is a XML-RPC server to receive events emitted by devices. Multiple callback functions can be set for devices to handle events. You can choose to bequeath callbacks from devices to their channels or not. Channels can not bequeath to their parent devices. You can also pass a callback funtion when creating the server, which then will (additionally) receive all events emitted by any paired device.
 You may specify a devicefile (JSON) to store known devices. This might speed up startup a bit. If you don't, paired devices will always be propagated upon startup. If devices get paired while the server is running, they should be automatically detected and usable. To get notified about such events, it is possible to pass a systemcallback(source, *args)-function while creating the server.
-Compatibility currently is only given for Python 3, but it should be easy to make it work with Python 2.7 as well. Python 2.6, not so much.
+Compatibility currently is only given for Python 3.
 
 As of now, usage is as follows (you could leave away the listening and remote addresses when everything is running on one machine):
     >>> def syscb(src, *args):
@@ -30,15 +30,6 @@ This example connects to the Homegear-server running on the same machine, closes
 An example.py can be found at https://github.com/danielperna84/pyhomematic
 
 Theoretically all Homematic devices will be automatically detected and directly provide the getValue and setValue methods needed to perform any action.
-Additionally the following devices provide convenience methods to easily perform certain tasks:
+Additionally, implemented devices provide convenirnce-properties and methods to perform certain tasks.
 
-- HM-Sec-SC-2 (Door contact - open/closed sensor)
-- HM-CC-RT-DN (Thermostat)
-- HM-CC-RT-DN-BoM (Thermostat)
-- ZEL STG RM FEP 230V (Rollershutter, by Roto Tronic)
-- HM-LC-Bl1-FM * (Rollershutter, not tested, looks exactly like ZEL STG RM FEP 230V, so maybe they're compatible.)
-- HM-LC-Bl1PBU-FM (Rollershutter)
-- HM-LC-Dim1L-Pl-3 (Switch / Dimmer)
-- HM-LC-Sw1-Pl-2 (Switch)
-
-More devices might be supported in the future. 
+For more information visit the Wiki: https://github.com/danielperna84/pyhomematic/wiki
