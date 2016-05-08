@@ -266,8 +266,9 @@ class ServerThread(threading.Thread):
         try:
             #self.proxy = xmlrpc.client.ServerProxy("http://%s:%i" % (REMOTE, int(REMOTEPORT)))
             self.proxy = LockingServerProxy("http://%s:%i" % (REMOTE, int(REMOTEPORT)))
-        except:
+        except Exception as err:
             LOG.warning("Failed connecting to proxy at http://%s:%i" % (REMOTE, int(REMOTEPORT)))
+            LOG.debug("__init__: Exception: %s" % str(err))
             raise Exception
 
         self._rpcfunctions = RPCFunctions(devicefile=DEVICEFILE,
@@ -300,7 +301,8 @@ class ServerThread(threading.Thread):
         try:
             self.proxy.init("http://%s:%i" % (LOCAL, int(LOCALPORT)), INTERFACE_ID)
             LOG.info("Proxy initialized")
-        except:
+        except Exception as err:
+            LOG.debug("proxyInit: Exception: %s" % str(err))
             LOG.warning("Failed to initialize proxy")
             raise Exception
 
@@ -310,8 +312,9 @@ class ServerThread(threading.Thread):
             LOG.debug("ServerThread.stop: Deregistering proxy")
             try:
                 self.proxy.init("http://%s:%i" % (LOCAL, int(LOCALPORT)))
-            except:
+            except Exception as err:
                 LOG.warning("Failed to deregister proxy")
+                LOG.debug("stop: Exception: %s" % str(err))
         LOG.info("Shutting down server")
         self.server.shutdown()
         LOG.debug("ServerThread.stop: Stopping ServerThread")
