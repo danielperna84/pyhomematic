@@ -1,6 +1,10 @@
 Version 0.0.10 (2016-05-NN)
 - Added device-support (other IDs for existing implementations with identical hardware)
 - Minor code improvements
+- Added working-property for rollershutters
+- Added support for remote HM-RC-8
+- Not getting paramsets by default
+- Resolving names from metadata if available (Issue #15)
 
 Version 0.0.9 (2016-05-03)
 - _server.RPCFunctions.createDeviceObjects and listDevices uses systemcallbacks

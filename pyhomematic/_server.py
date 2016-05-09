@@ -34,13 +34,15 @@ class RPCFunctions:
                  remote_ip=False,
                  eventcallback=False,
                  systemcallback=False,
-                 resolvenames=False):
+                 resolvenames=False,
+                 resolveparamsets=False):
         global devices, devices_all, devices_raw, devices_raw_dict
         LOG.debug("RPCFunctions.__init__")
         self.devicefile = devicefile
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
         self.resolvenames = resolvenames
+        self.resolveparamsets = resolveparamsets
 
         # Only required to access device names from Homematic CCU
         self._remote_ip = remote_ip
@@ -82,18 +84,18 @@ class RPCFunctions:
             if not dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
                     if dev['TYPE'] in _devices.DEVICETYPES:
-                        deviceObject = _devices.DEVICETYPES[dev['TYPE']](dev, self._proxy)
+                        deviceObject = _devices.DEVICETYPES[dev['TYPE']](dev, self._proxy, self.resolveparamsets)
                     else:
-                        deviceObject = _devices.HMDevice(dev, self._proxy)
+                        deviceObject = _devices.HMDevice(dev, self._proxy, self.resolveparamsets)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['ADDRESS']] = deviceObject
         for dev in self._devices_raw:
             if dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
                     if self.devices_all[dev['PARENT']]._TYPE in _devices.DEVICETYPES:
-                        deviceObject = _devices.DEVICETYPES[self.devices_all[dev['PARENT']]._TYPE](dev, self._proxy)
+                        deviceObject = _devices.DEVICETYPES[self.devices_all[dev['PARENT']]._TYPE](dev, self._proxy, self.resolveparamsets)
                     else:
-                        deviceObject = _devices.HMDevice(dev, self._proxy)
+                        deviceObject = _devices.HMDevice(dev, self._proxy, self.resolveparamsets)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['PARENT']].CHILDREN[dev['INDEX']] = deviceObject
         if self.devices_all and self.resolvenames:
@@ -186,6 +188,19 @@ class RPCFunctions:
     def addDeviceNames(self):
         """ If XML-API (http://www.homematic-inside.de/software/addons/item/xmlapi) is installed on CCU this function will add names to CCU devices """
         LOG.debug("RPCFunctions.addDeviceNames")
+
+        #First try to get names from metadata
+        for address in self.devices:
+            try:
+                name = self.devices[address]._proxy.getMetadata(address, 'NAME')
+                self.devices[address].NAME = name
+                for address, device in self.devices[address].CHILDREN.items():
+                    device.NAME = name
+                    self.devices_all[device.ADDRESS].NAME = name
+            except Exception as err:
+                LOG.debug("RPCFunctions.addDeviceNames: Unable to get name for %s from metadata." % str(address))
+
+        #Then try to get names from XML-API
         try:
             response = urllib.request.urlopen("http://%s%s" % (self._remote_ip, XML_API_URL), timeout=5)
             device_list = response.read().decode("ISO-8859-1")
@@ -247,7 +262,8 @@ class ServerThread(threading.Thread):
                  interface_id=INTERFACE_ID,
                  eventcallback=False,
                  systemcallback=False,
-                 resolvenames=False):
+                 resolvenames=False,
+                 resolveparamsets=False):
         global LOCAL, LOCALPORT, REMOTE, REMOTEPORT, DEVICEFILE, INTERFACE_ID
         LOG.debug("ServerThread.__init__")
         threading.Thread.__init__(self)
@@ -260,6 +276,7 @@ class ServerThread(threading.Thread):
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
         self.resolvenames = resolvenames
+        self.resolveparamsets = resolveparamsets
 
         # Create proxy to interact with CCU / Homegear
         LOG.info("Creating proxy. Connecting to http://%s:%i" % (REMOTE, int(REMOTEPORT)))
@@ -276,7 +293,8 @@ class ServerThread(threading.Thread):
                                           remote_ip = REMOTE,
                                           eventcallback=self.eventcallback,
                                           systemcallback=self.systemcallback,
-                                          resolvenames=self.resolvenames)
+                                          resolvenames=self.resolvenames,
+                                          resolveparamsets=self.resolveparamsets)
 
         # Setup server to handle requests from CCU / Homegear
         LOG.debug("ServerThread.__init__: Setting up server")

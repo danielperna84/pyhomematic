@@ -11,7 +11,7 @@ PARAM_UNREACH = 'UNREACH'
 PARAMSET_VALUES = 'VALUES'
 
 class HMDevice(object):
-    def __init__(self, device_description, proxy, getparamsetdesriptions = False):
+    def __init__(self, device_description, proxy, resolveparamsets = False):
         # These properties are available for every device and its channels
         self._ADDRESS = device_description.get('ADDRESS')
         LOG.debug("HMDevice.__init__: device_description: " + str(self._ADDRESS) + " : " + str(device_description))
@@ -71,7 +71,8 @@ class HMDevice(object):
             # Not in specification, but often present
             self._CHANNEL = device_description.get('CHANNEL')
 
-            self.updateParamsets()
+            if resolveparamsets:
+                self.updateParamsets()
             
             
     @property
@@ -266,6 +267,14 @@ class HMRollerShutter(HMDevice):
         else:
             self.CHILDREN[1].setValue('STOP', True)
 
+    @property
+    def working(self):
+        """Return True of False if working or not"""
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':1', 'WORKING')
+        else:
+            return self.CHILDREN[1].getValue('WORKING')
+
 
 class HMDoorContact(HMDevice):
     """
@@ -435,6 +444,14 @@ class HMThermostat(HMDevice):
             return self._proxy.getValue(self._PARENT+':4', 'BATTERY_STATE')
         else:
             return self.CHILDREN[4].getValue('BATTERY_STATE')
+
+    @property
+    def valve_state(self):
+        """ Returns the current valve state. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':4', 'VALVE_STATE')
+        else:
+            return self.CHILDREN[4].getValue('VALVE_STATE')
 
 
 
@@ -651,6 +668,8 @@ class HMSwitch(HMDevice):
         """Turn switch off."""
         self.state = False
 
+class HMRemote(HMDevice):
+    pass
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM" : HMRollerShutter,
@@ -690,5 +709,6 @@ DEVICETYPES = {
     "BC-RT-TRX-CyG-2" : HMMAXThermostat,
     "BC-RT-TRX-CyG-3" : HMMAXThermostat,
     "BC-RT-TRX-CyG-4" : HMMAXThermostat,
+    "HM-RC-8" : HMRemote
 }
 
