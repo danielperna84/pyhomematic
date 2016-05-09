@@ -8,6 +8,7 @@ PARAM_OPERATION_WRITE = 2
 PARAM_OPERATION_EVENT = 4
 
 PARAM_UNREACH = 'UNREACH'
+PARAM_WORKING = 'WORKING'
 PARAMSET_VALUES = 'VALUES'
 
 class HMDevice(object):
@@ -70,6 +71,8 @@ class HMDevice(object):
 
             # Not in specification, but often present
             self._CHANNEL = device_description.get('CHANNEL')
+            self._unreach = None
+            self._working = None
 
             self.updateParamsets()
             
@@ -114,6 +117,17 @@ class HMDevice(object):
         else:
             for channel, device in self.CHILDREN.items():
                 if device.UNREACH:
+                    return True
+        return False
+
+    @property
+    def WORKING(self):
+        """ Returns true if the device or any children is currently working """
+        if self._working:
+            return True
+        else:
+            for channel, device in self.CHILDREN.items():
+                if device.WORKING:
                     return True
         return False
 
@@ -206,6 +220,8 @@ class HMDevice(object):
         LOG.info("HMDevice.event: address=%s, interface_id=%s, key=%s, value=%s" % (self._ADDRESS, interface_id, key, value))
         if key == PARAM_UNREACH:
             self._unreach = value
+        if key == PARAM_WORKING:
+            self._working = value
         for callback in self._eventcallbacks:
             LOG.debug("HMDevice.event: Using callback %s " % str(callback))
             callback(self._ADDRESS, interface_id, key, value)
@@ -652,6 +668,10 @@ class HMSwitch(HMDevice):
         self.state = False
 
 
+class HMRemote(HMDevice):
+    pass
+
+
 DEVICETYPES = {
     "HM-LC-Bl1-SM" : HMRollerShutter,
     "HM-LC-Bl1-FM" : HMRollerShutter,
@@ -690,5 +710,5 @@ DEVICETYPES = {
     "BC-RT-TRX-CyG-2" : HMMAXThermostat,
     "BC-RT-TRX-CyG-3" : HMMAXThermostat,
     "BC-RT-TRX-CyG-4" : HMMAXThermostat,
+    "HM-RC-8" : HMRemote,
 }
-
