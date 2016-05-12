@@ -233,6 +233,17 @@ class HMRollerShutter(HMDevice):
     Rollershutter switch that raises and lowers roller shutters.
     """
     
+    def __init__(self, device_description, proxy, resolveparamsets = False):
+        super(HMRollerShutter, self).__init__(device_description, proxy, resolveparamsets)
+        self._working = None
+        
+        def working_callback(device, caller, attribute, value):
+            attribute = str(attribute).upper()
+            if attribute == 'WORKING':
+                self._working = value
+        
+        self.setEventCallback(working_callback, True)
+    
     @property
     def level(self):
         """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
@@ -272,10 +283,7 @@ class HMRollerShutter(HMDevice):
     @property
     def working(self):
         """Return True of False if working or not"""
-        if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'WORKING')
-        else:
-            return self.CHILDREN[1].getValue('WORKING')
+        return self._working
 
 
 class HMShutterContact(HMDevice):
@@ -585,6 +593,17 @@ class HMDimmer(HMDevice):
     Dimmer switch that controls level of light brightness.
     """
     
+    def __init__(self, device_description, proxy, resolveparamsets = False):
+        super(HMDimmer, self).__init__(device_description, proxy, resolveparamsets)
+        self._working = None
+        
+        def working_callback(device, caller, attribute, value):
+            attribute = str(attribute).upper()
+            if attribute == 'WORKING':
+                self._working = value
+        
+        self.setEventCallback(working_callback, True)
+    
     @property
     def level(self):
         """Return current brightness level. Return value is float() from 0.0 (0% off) to 1.0 (100% maximum brightness)."""
@@ -593,9 +612,8 @@ class HMDimmer(HMDevice):
         else:
             return self.CHILDREN[1].getValue('LEVEL')
     
-    @level.setter
-    def level(self, brightness):
-        """Set the brightness by specifying a float() from 0.0 to 1.0."""
+    @level.setter    def level(self, brightness):
+        """Set e brightness by specifying a float() from 0.0 to 1.0."""
         try:
             brightness = float(brightness)
         except Exception as err:
@@ -613,6 +631,11 @@ class HMDimmer(HMDevice):
     def off(self):
         """Turn light off."""
         self.level = 0.0
+
+    @property
+    def working(self):
+        """Return True of False if working or not"""
+        return self._working
     
             
 class HMSwitch(HMDevice):
@@ -622,6 +645,17 @@ class HMSwitch(HMDevice):
     ZEL STG RM FZS-2, HM-LC-SwX
     Switch turning plugged in device on or off.
     """
+
+    def __init__(self, device_description, proxy, resolveparamsets = False):
+        super(HMSwitch, self).__init__(device_description, proxy, resolveparamsets)
+        self._working = None
+        
+        def working_callback(device, caller, attribute, value):
+            attribute = str(attribute).upper()
+            if attribute == 'WORKING':
+                self._working = value
+        
+        self.setEventCallback(working_callback, True)
     
     @property
     def is_on(self):
@@ -667,6 +701,11 @@ class HMSwitch(HMDevice):
     def off(self):
         """Turn switch off."""
         self.state = False
+
+    @property
+    def working(self):
+        """Return True of False if working or not"""
+        return self._working
 
 
 class HMSwitchPowermeter(HMDevice):
