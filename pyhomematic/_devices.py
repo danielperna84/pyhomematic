@@ -10,6 +10,7 @@ PARAM_OPERATION_EVENT = 4
 PARAM_UNREACH = 'UNREACH'
 PARAMSET_VALUES = 'VALUES'
 
+
 class HMDevice(object):
     def __init__(self, device_description, proxy, resolveparamsets = False):
         # These properties are available for every device and its channels
@@ -130,7 +131,8 @@ class HMDevice(object):
     
     def updateParamset(self, paramset):
         """
-        Devices should not update their own paramsets. They rely on the state of the server. Hence we pull the specified paramset.
+        Devices should not update their own paramsets. They rely on the state of the server.
+        Hence we pull the specified paramset.
         """
         try:
             if paramset:
@@ -162,7 +164,8 @@ class HMDevice(object):
     def putParamset(self, paramset, data = {}):
         """
         Some devices act upon changes to paramsets.
-        A "putted" paramset must not contain all keys available in the specified paramset, just the ones which are writable and should be changed.
+        A "putted" paramset must not contain all keys available in the specified paramset,
+        just the ones which are writable and should be changed.
         """
         try:
             if paramset in self._PARAMSETS and data:
@@ -224,7 +227,6 @@ class HMDevice(object):
                     device._eventcallbacks.append(callback)
 
 
-# Subclass HMDevice to add specific device types
 class HMRollerShutter(HMDevice):
     """
     HM-LC-Bl1-SM, HM-LC-Bl1-FM, HM-LC-Bl1-PB-FM, ZEL STG RM FEP 230V, 263 146, HM-LC-BlX
@@ -276,7 +278,7 @@ class HMRollerShutter(HMDevice):
             return self.CHILDREN[1].getValue('WORKING')
 
 
-class HMDoorContact(HMDevice):
+class HMShutterContact(HMDevice):
     """
     HM-Sec-SC, HM-Sec-SC-2, ZEL STG RM FFK
     Door / Window contact that emits its open/closed state.
@@ -454,7 +456,6 @@ class HMThermostat(HMDevice):
             return self.CHILDREN[4].getValue('VALVE_STATE')
 
 
-
 class HMMAXThermostat(HMDevice):
     """
     BC-RT-TRX-CyG, BC-RT-TRX-CyG-2, BC-RT-TRX-CyG-3, BC-RT-TRX-CyG-4
@@ -578,7 +579,6 @@ class HMMAXThermostat(HMDevice):
             return self.CHILDREN[0].getValue('LOWBAT')
 
 
-
 class HMDimmer(HMDevice):
     """
     HM-LC-Dim1L-Pl, HM-LC-Dim1L-CV, HM-LC-Dim1L-Pl-3, HM-LC-Dim1L-CV-2
@@ -668,47 +668,129 @@ class HMSwitch(HMDevice):
         """Turn switch off."""
         self.state = False
 
+
+class HMSwitchPowermeter(HMDevice):
+    """
+    HM-ES-PMSw1-Pl, HM-ES-PMSw1-Pl-DN-R1, HM-ES-PMSw1-Pl-DN-R2, HM-ES-PMSw1-Pl-DN-R3, HM-ES-PMSw1-Pl-DN-R4
+    HM-ES-PMSw1-Pl-DN-R5, HM-ES-PMSw1-DR, HM-ES-PMSw1-SM, HM-ES-PMSwX
+    Switch turning plugged in device on or off and measuring energy consumption.
+    """
+
+    @property
+    def is_on(self):
+        """ Returns if switch is on. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':1', 'STATE')
+        else:
+            return self.CHILDREN[1].getValue('STATE')
+
+    @property
+    def is_off(self):
+        """ Returns if switch is off. """
+        if self._PARENT:
+            return not self._proxy.getValue(self._PARENT+':1', 'STATE')
+        else:
+            return not self.CHILDREN[1].getValue('STATE')
+
+    @property
+    def state(self):
+        """ Returns if switch is 'on' or 'off'. """
+        if self.is_off:
+            return False
+        else:
+            return True
+
+    @state.setter
+    def state(self, onoff):
+        """Turn switch on/off"""
+        try:
+            onoff = bool(onoff)
+        except Exception as err:
+            LOG.debug("HMSwitchPowermeter.state: Exception %s" % (err, ))
+            return False
+        if self._PARENT:
+            self._proxy.setValue(self._PARENT+':1', 'STATE', onoff)
+        else:
+            self.CHILDREN[1].setValue('STATE', onoff)
+
+    def on(self):
+        """Turn switch on."""
+        self.state = True
+
+    def off(self):
+        """Turn switch off."""
+        self.state = False
+
+    @property
+    def is_working(self):
+        """ Returns if switch is working or not. """
+        if self._PARENT:
+            return not self._proxy.getValue(self._PARENT+':1', 'WORKING')
+        else:
+            return not self.CHILDREN[1].getValue('WORKING')
+
+    def set_ontime(self, ontime):
+        """Set duration th switch stays on when toggled. """
+        try:
+            ontime = float(ontime)
+        except Exception as err:
+            LOG.debug("HMSwitchPowermeter.set_ontime: Exception %s" % (err, ))
+            return False
+        if self._PARENT:
+            self._proxy.setValue(self._PARENT+':1', 'ON_TIME', ontime)
+        else:
+            self.CHILDREN[1].setValue('ON_TIME', ontime)
+
+
 class HMRemote(HMDevice):
     pass
 
 DEVICETYPES = {
-    "HM-LC-Bl1-SM" : HMRollerShutter,
-    "HM-LC-Bl1-FM" : HMRollerShutter,
-    "HM-LC-Bl1PBU-FM" : HMRollerShutter,
-    "HM-LC-Bl1-PB-FM" : HMRollerShutter,
-    "ZEL STG RM FEP 230V" : HMRollerShutter,
-    "263 146" : HMRollerShutter,
-    "HM-LC-BlX" : HMRollerShutter,
-    "HM-LC-Dim1L-Pl" : HMDimmer,
-    "HM-LC-Dim1L-Pl-3" : HMDimmer,
-    "HM-LC-Dim1L-CV" : HMDimmer,
-    "HM-LC-Dim1L-CV-2" : HMDimmer,
-    "HM-LC-Sw1-Pl" : HMSwitch,
-    "HM-LC-Sw1-Pl-2" : HMSwitch,
-    "HM-LC-Sw1-SM" : HMSwitch,
-    "HM-LC-Sw2-SM" : HMSwitch,
-    "HM-LC-Sw4-SM" : HMSwitch,
-    "HM-LC-Sw4-PCB" : HMSwitch,
-    "HM-LC-Sw4-WM" : HMSwitch,
-    "HM-LC-Sw1-FM" : HMSwitch,
-    "263 130" : HMSwitch,
-    "HM-LC-Sw2-FM" : HMSwitch,
-    "HM-LC-Sw1-PB-FM" : HMSwitch,
-    "HM-LC-Sw2-PB-FM" : HMSwitch,
-    "HM-LC-Sw4-DR" : HMSwitch,
-    "HM-LC-Sw2-DR" : HMSwitch,
-    "ZEL STG RM FZS" : HMSwitch,
-    "ZEL STG RM FZS-2" : HMSwitch,
-    "HM-LC-SwX" : HMSwitch,
-    "HM-Sec-SC" : HMDoorContact,
-    "HM-Sec-SC-2" : HMDoorContact,
-    "ZEL STG RM FFK" : HMDoorContact,
-    "HM-CC-RT-DN" : HMThermostat,
-    "HM-CC-RT-DN-BoM" : HMThermostat,
-    "BC-RT-TRX-CyG" : HMMAXThermostat,
-    "BC-RT-TRX-CyG-2" : HMMAXThermostat,
-    "BC-RT-TRX-CyG-3" : HMMAXThermostat,
-    "BC-RT-TRX-CyG-4" : HMMAXThermostat,
-    "HM-RC-8" : HMRemote
+    "HM-LC-Bl1-SM": HMRollerShutter,
+    "HM-LC-Bl1-FM": HMRollerShutter,
+    "HM-LC-Bl1PBU-FM": HMRollerShutter,
+    "HM-LC-Bl1-PB-FM": HMRollerShutter,
+    "ZEL STG RM FEP 230V": HMRollerShutter,
+    "263 146": HMRollerShutter,
+    "HM-LC-BlX": HMRollerShutter,
+    "HM-LC-Dim1L-Pl": HMDimmer,
+    "HM-LC-Dim1L-Pl-3": HMDimmer,
+    "HM-LC-Dim1L-CV": HMDimmer,
+    "HM-LC-Dim1L-CV-2": HMDimmer,
+    "HM-LC-Sw1-Pl": HMSwitch,
+    "HM-LC-Sw1-Pl-2": HMSwitch,
+    "HM-LC-Sw1-SM": HMSwitch,
+    "HM-LC-Sw2-SM": HMSwitch,
+    "HM-LC-Sw4-SM": HMSwitch,
+    "HM-LC-Sw4-PCB": HMSwitch,
+    "HM-LC-Sw4-WM": HMSwitch,
+    "HM-LC-Sw1-FM": HMSwitch,
+    "263 130": HMSwitch,
+    "HM-LC-Sw2-FM": HMSwitch,
+    "HM-LC-Sw1-PB-FM": HMSwitch,
+    "HM-LC-Sw2-PB-FM": HMSwitch,
+    "HM-LC-Sw4-DR": HMSwitch,
+    "HM-LC-Sw2-DR": HMSwitch,
+    "ZEL STG RM FZS": HMSwitch,
+    "ZEL STG RM FZS-2": HMSwitch,
+    "HM-LC-SwX": HMSwitch,
+    "HM-ES-PMSw1-Pl": HMSwitchPowermeter,
+    "HM-ES-PMSw1-Pl-DN-R1": HMSwitchPowermeter,
+    "HM-ES-PMSw1-Pl-DN-R2": HMSwitchPowermeter,
+    "HM-ES-PMSw1-Pl-DN-R3": HMSwitchPowermeter,
+    "HM-ES-PMSw1-Pl-DN-R4": HMSwitchPowermeter,
+    "HM-ES-PMSw1-Pl-DN-R5": HMSwitchPowermeter,
+    "HM-ES-PMSw1-DR": HMSwitchPowermeter,
+    "HM-ES-PMSw1-SM": HMSwitchPowermeter,
+    "HM-ES-PMSwX": HMSwitchPowermeter,
+    "HM-Sec-SC": HMShutterContact,
+    "HM-Sec-SC-2": HMShutterContact,
+    "ZEL STG RM FFK": HMShutterContact,
+    "HM-CC-RT-DN": HMThermostat,
+    "HM-CC-RT-DN-BoM": HMThermostat,
+    "BC-RT-TRX-CyG": HMMAXThermostat,
+    "BC-RT-TRX-CyG-2": HMMAXThermostat,
+    "BC-RT-TRX-CyG-3": HMMAXThermostat,
+    "BC-RT-TRX-CyG-4": HMMAXThermostat,
+    "HM-RC-8": HMRemote
 }
-
