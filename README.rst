@@ -30,6 +30,6 @@ This example connects to the Homegear-server running on the same machine, closes
 An example.py can be found at https://github.com/danielperna84/pyhomematic
 
 Theoretically all Homematic devices will be automatically detected and directly provide the getValue and setValue methods needed to perform any action.
-Additionally, implemented devices provide convenirnce-properties and methods to perform certain tasks.
+Additionally, implemented devices provide convenience-properties and methods to perform certain tasks.
 
 For more information visit the Wiki: https://github.com/danielperna84/pyhomematic/wiki
