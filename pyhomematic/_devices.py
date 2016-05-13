@@ -670,68 +670,15 @@ class HMSwitch(HMDevice):
         self.state = False
 
 
-class HMSwitchPowermeter(HMDevice):
+class HMSwitchPowermeter(HMSwitch):
     """
     HM-ES-PMSw1-Pl, HM-ES-PMSw1-Pl-DN-R1, HM-ES-PMSw1-Pl-DN-R2, HM-ES-PMSw1-Pl-DN-R3, HM-ES-PMSw1-Pl-DN-R4
     HM-ES-PMSw1-Pl-DN-R5, HM-ES-PMSw1-DR, HM-ES-PMSw1-SM, HM-ES-PMSwX
     Switch turning plugged in device on or off and measuring energy consumption.
     """
 
-    @property
-    def is_on(self):
-        """ Returns if switch is on. """
-        if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'STATE')
-        else:
-            return self.CHILDREN[1].getValue('STATE')
-
-    @property
-    def is_off(self):
-        """ Returns if switch is off. """
-        if self._PARENT:
-            return not self._proxy.getValue(self._PARENT+':1', 'STATE')
-        else:
-            return not self.CHILDREN[1].getValue('STATE')
-
-    @property
-    def state(self):
-        """ Returns if switch is 'on' or 'off'. """
-        if self.is_off:
-            return False
-        else:
-            return True
-
-    @state.setter
-    def state(self, onoff):
-        """Turn switch on/off"""
-        try:
-            onoff = bool(onoff)
-        except Exception as err:
-            LOG.debug("HMSwitchPowermeter.state: Exception %s" % (err, ))
-            return False
-        if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'STATE', onoff)
-        else:
-            self.CHILDREN[1].setValue('STATE', onoff)
-
-    def on(self):
-        """Turn switch on."""
-        self.state = True
-
-    def off(self):
-        """Turn switch off."""
-        self.state = False
-
-    @property
-    def is_working(self):
-        """ Returns if switch is working or not. """
-        if self._PARENT:
-            return not self._proxy.getValue(self._PARENT+':1', 'WORKING')
-        else:
-            return not self.CHILDREN[1].getValue('WORKING')
-
     def set_ontime(self, ontime):
-        """Set duration th switch stays on when toggled. """
+        """Set duration the switch stays on when toggled."""
         try:
             ontime = float(ontime)
         except Exception as err:
@@ -741,6 +688,54 @@ class HMSwitchPowermeter(HMDevice):
             self._proxy.setValue(self._PARENT+':1', 'ON_TIME', ontime)
         else:
             self.CHILDREN[1].setValue('ON_TIME', ontime)
+
+    @property
+    def boot(self):
+        """Don't know what this is for at the moment"""
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':2', 'BOOT')
+        else:
+            return self.CHILDREN[2].getValue('BOOT')
+
+    @property
+    def energy_counter(self):
+        """Returns Watts/h"""
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':2', 'ENERGY_COUNTER')
+        else:
+            return self.CHILDREN[2].getValue('ENERGY_COUNTER')
+
+    @property
+    def power(self):
+        """Returns Watts"""
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':2', 'POWER')
+        else:
+            return self.CHILDREN[2].getValue('POWER')
+
+    @property
+    def current(self):
+        """Returns current in mA"""
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':2', 'CURRENT')
+        else:
+            return self.CHILDREN[2].getValue('CURRENT')
+
+    @property
+    def voltage(self):
+        """Returns voltage in V"""
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':2', 'VOLTAGE')
+        else:
+            return self.CHILDREN[2].getValue('VOLTAGE')
+
+    @property
+    def frequency(self):
+        """Returns frequency in hz"""
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT+':2', 'FREQUENCY')
+        else:
+            return self.CHILDREN[2].getValue('FREQUENCY')
 
 
 class HMRemote(HMDevice):
