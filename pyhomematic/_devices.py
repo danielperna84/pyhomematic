@@ -51,6 +51,7 @@ class HMDevice(object):
             self._FIRMWARE = device_description.get('FIRMWARE')
             self._AVAILABLE_FIRMWARE = device_description.get('AVAILABLE_FIRMWARE')
             self._UPDATABLE = device_description.get('UPDATABLE')
+            self._PARENT_TYPE = None
         else:
             # These properties only exist for device-channels
             self._AES_ACTIVE = device_description.get('AES_ACTIVE')
@@ -72,8 +73,8 @@ class HMDevice(object):
             # Not in specification, but often present
             self._CHANNEL = device_description.get('CHANNEL')
 
-            if resolveparamsets:
-                self.updateParamsets()
+        if resolveparamsets:
+            self.updateParamsets()
             
             
     @property
