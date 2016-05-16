@@ -1,4 +1,3 @@
-#  from . import _devices
 from . import devicetypes
 import os
 import threading
