@@ -286,13 +286,14 @@ class HMRollerShutter(HMDevice):
     @property
     def working(self):
         """Return True of False if working or not"""
-        if self._working is None:
-            if self._PARENT:
-                return self._proxy.getValue(self._PARENT + ':1', 'WORKING')
-            else:
-                return self.CHILDREN[1].getValue('WORKING')
-        else:
+        if self._PARENT:
+            if self._working is None:
+                self._working = self._proxy.getValue(self._PARENT + ':1', 'WORKING')
             return self._working
+        else:
+            if self.CHILDREN[1]._working is None:
+                self.CHILDREN[1]._working = self.CHILDREN[1].getValue('WORKING')
+            return self.CHILDREN[1]._working
 
 
 class HMShutterContact(HMDevice):
@@ -646,13 +647,15 @@ class HMDimmer(HMDevice):
     @property
     def working(self):
         """Return True of False if working or not"""
-        if self._working is None:
-            if self._PARENT:
-                return self._proxy.getValue(self._PARENT + ':1', 'WORKING')
-            else:
-                return self.CHILDREN[1].getValue('WORKING')
-        else:
+        if self._PARENT:
+            if self._working is None:
+                self._working = self._proxy.getValue(self._PARENT + ':1', 'WORKING')
             return self._working
+        else:
+            if self.CHILDREN[1]._working is None:
+                self.CHILDREN[1]._working = self.CHILDREN[1].getValue('WORKING')
+            return self.CHILDREN[1]._working
+
 
 class HMSwitch(HMDevice):
     """
@@ -721,13 +724,14 @@ class HMSwitch(HMDevice):
     @property
     def working(self):
         """Return True of False if working or not"""
-        if self._working is None:
-            if self._PARENT:
-                return self._proxy.getValue(self._PARENT + ':1', 'WORKING')
-            else:
-                return self.CHILDREN[1].getValue('WORKING')
-        else:
+        if self._PARENT:
+            if self._working is None:
+                self._working = self._proxy.getValue(self._PARENT + ':1', 'WORKING')
             return self._working
+        else:
+            if self.CHILDREN[1]._working is None:
+                self.CHILDREN[1]._working = self.CHILDREN[1].getValue('WORKING')
+            return self.CHILDREN[1]._working
 
 
 class HMSwitchPowermeter(HMDevice):
@@ -805,6 +809,57 @@ class HMSwitchPowermeter(HMDevice):
 
 class HMRemote(HMDevice):
     pass
+
+
+class HMWindowHandle(HMDevice):
+    @property
+    def sabotage(self):
+        """ Returns if the devicecase has been opened. """
+        if self._PARENT:
+            error = self._proxy.getValue(self._PARENT + ':1', 'ERROR')
+        else:
+            error = self.CHILDREN[1].getValue('ERROR')
+        if error == 1:
+            return True
+        else:
+            return False
+
+    @property
+    def low_batt(self):
+        """ Returns if the battery is low. """
+        return self.getValue('LOWBAT')
+
+    @property
+    def is_open(self):
+        """ Returns if the handle is open. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT + ':1', 'STATE') == 2
+        else:
+            return self.CHILDREN[1].getValue('STATE') == 2
+
+    @property
+    def is_closed(self):
+        """ Returns if the handle is closed. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT + ':1', 'STATE') == 0
+        else:
+            return self.CHILDREN[1].getValue('STATE') == 0
+
+    @property
+    def is_tilted(self):
+        """ Returns if the handle is tilted. """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT + ':1', 'STATE') == 1
+        else:
+            return self.CHILDREN[1].getValue('STATE') == 1
+
+    @property
+    def state(self):
+        """ Returns current state of handle (0=closed, 1=tilted, 2=open) """
+        if self._PARENT:
+            return self._proxy.getValue(self._PARENT + ':1', 'STATE')
+        else:
+            return self.CHILDREN[1].getValue('STATE')
 
 
 DEVICETYPES = {
