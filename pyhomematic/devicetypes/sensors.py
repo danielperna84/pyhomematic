@@ -107,6 +107,10 @@ class RotaryHandleSensor(generic.HMDevice):
             return self.CHILDREN[1].getValue('STATE')
 
 
+class Remote(generic.HMDevice):
+    pass
+
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -114,5 +118,6 @@ DEVICETYPES = {
     "HM-Sec-RHS": RotaryHandleSensor,
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,
-    "HM-Sec-xx": RotaryHandleSensor
+    "HM-Sec-xx": RotaryHandleSensor,
+    "HM-RC-8": Remote
 }

@@ -279,10 +279,6 @@ class SwitchPowermeter(generic.HMDevice):
             self.CHILDREN[1].setValue('ON_TIME', ontime)
 
 
-class Remote(generic.HMDevice):
-    pass
-
-
 DEVICETYPES = {
     "HM-LC-Bl1-SM": RollerShutter,
     "HM-LC-Bl1-FM": RollerShutter,
@@ -320,6 +316,5 @@ DEVICETYPES = {
     "HM-ES-PMSw1-Pl-DN-R5": SwitchPowermeter,
     "HM-ES-PMSw1-DR": SwitchPowermeter,
     "HM-ES-PMSw1-SM": SwitchPowermeter,
-    "HM-ES-PMSwX": SwitchPowermeter,
-    "HM-RC-8": Remote
+    "HM-ES-PMSwX": SwitchPowermeter
 }
