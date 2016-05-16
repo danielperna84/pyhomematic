@@ -1,5 +1,6 @@
 import os
 import logging
+
 LOG = logging.getLogger(__name__)
 
 # Parameter operations. Actually just needed if we would get the paramset-descriptions to do some auto-configuration magic.
@@ -12,7 +13,7 @@ PARAMSET_VALUES = 'VALUES'
 
 
 class HMDevice(object):
-    def __init__(self, device_description, proxy, resolveparamsets = False):
+    def __init__(self, device_description, proxy, resolveparamsets=False):
         # These properties are available for every device and its channels
         self._ADDRESS = device_description.get('ADDRESS')
         LOG.debug("HMDevice.__init__: device_description: " + str(self._ADDRESS) + " : " + str(device_description))
@@ -30,7 +31,7 @@ class HMDevice(object):
         self._eventcallbacks = []
         self._unreach = None
         self._name = None
-        
+
         if not self._PARENT:
             # These properties only exist for interfaces themselves
             self._CHILDREN = device_description.get('CHILDREN')
@@ -74,24 +75,23 @@ class HMDevice(object):
 
             if resolveparamsets:
                 self.updateParamsets()
-            
-            
+
     @property
     def ADDRESS(self):
         return self._ADDRESS
-    
+
     @property
     def PARENT(self):
         return self._PARENT
-    
+
     @property
     def TYPE(self):
         return self._TYPE
-    
+
     @property
     def PARAMSETS(self):
         return self._paramsets
-    
+
     @property
     def RSSI_DEVICE(self):
         if self._PARENT:
@@ -99,11 +99,11 @@ class HMDevice(object):
         else:
             RSSI = self.getValue('RSSI_DEVICE')
         return RSSI
-    
+
     @property
     def NAME(self):
         return self._name
-    
+
     @NAME.setter
     def NAME(self, name):
         self._name = name
@@ -128,7 +128,7 @@ class HMDevice(object):
         except Exception as err:
             LOG.debug("HMDevice.getParamsetDescription: Exception: " + str(err))
             return False
-    
+
     def updateParamset(self, paramset):
         """
         Devices should not update their own paramsets. They rely on the state of the server.
@@ -142,13 +142,14 @@ class HMDevice(object):
                         self._paramsets[paramset] = returnset
                         if self.PARAMSETS:
                             if self.PARAMSETS.get(PARAMSET_VALUES):
-                                self._unreach = self.PARAMSETS.get(PARAMSET_VALUES).get(PARAM_UNREACH) 
+                                self._unreach = self.PARAMSETS.get(PARAMSET_VALUES).get(PARAM_UNREACH)
                         return True
             return False
         except Exception as err:
-            LOG.debug("HMDevice.updateParamset: Exception: " + str(err) + ", " + str(self._ADDRESS) + ", " + str(paramset))
+            LOG.debug(
+                "HMDevice.updateParamset: Exception: " + str(err) + ", " + str(self._ADDRESS) + ", " + str(paramset))
             return False
-    
+
     def updateParamsets(self):
         """
         Devices should update their own paramsets. They rely on the state of the server. Hence we pull all paramsets.
@@ -160,8 +161,8 @@ class HMDevice(object):
         except Exception as err:
             LOG.debug("HMDevice.updateParamsets: Exception: " + str(err))
             return False
-    
-    def putParamset(self, paramset, data = {}):
+
+    def putParamset(self, paramset, data={}):
         """
         Some devices act upon changes to paramsets.
         A "putted" paramset must not contain all keys available in the specified paramset,
@@ -180,7 +181,7 @@ class HMDevice(object):
         except Exception as err:
             LOG.debug("HMDevice.putParamset: Exception: " + str(err))
             return False
-    
+
     def setValue(self, key, value):
         """
         Some devices allow to directly set values to perform a specific task.
@@ -191,7 +192,7 @@ class HMDevice(object):
         except Exception as err:
             LOG.debug("HMDevice.setValue: Exception: " + str(err))
             return False
-    
+
     def getValue(self, key):
         """
         Some devices allow to directly get values for specific parameters.
@@ -202,19 +203,20 @@ class HMDevice(object):
         except Exception as err:
             LOG.debug("HMDevice.setValue: Exception: " + str(err))
             return False
-    
+
     def event(self, interface_id, key, value):
         """
         Handle the event received by server.
         """
-        LOG.info("HMDevice.event: address=%s, interface_id=%s, key=%s, value=%s" % (self._ADDRESS, interface_id, key, value))
+        LOG.info(
+            "HMDevice.event: address=%s, interface_id=%s, key=%s, value=%s" % (self._ADDRESS, interface_id, key, value))
         if key == PARAM_UNREACH:
             self._unreach = value
         for callback in self._eventcallbacks:
             LOG.debug("HMDevice.event: Using callback %s " % str(callback))
             callback(self._ADDRESS, interface_id, key, value)
-    
-    def setEventCallback(self, callback, bequeath = True):
+
+    def setEventCallback(self, callback, bequeath=True):
         """
         Set additional event callbacks for the device.
         Set the callback for specific channels or use the device itself and let it bequeath the callback to all of its children.
@@ -232,58 +234,64 @@ class HMRollerShutter(HMDevice):
     HM-LC-Bl1-SM, HM-LC-Bl1-FM, HM-LC-Bl1-PB-FM, ZEL STG RM FEP 230V, 263 146, HM-LC-BlX
     Rollershutter switch that raises and lowers roller shutters.
     """
-    
-    def __init__(self, device_description, proxy, resolveparamsets = False):
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
         super(HMRollerShutter, self).__init__(device_description, proxy, resolveparamsets)
         self._working = None
-        
+
         def working_callback(device, caller, attribute, value):
             attribute = str(attribute).upper()
             if attribute == 'WORKING':
                 self._working = value
-        
+
         self.setEventCallback(working_callback, True)
-    
+
     @property
     def level(self):
         """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'LEVEL')
+            return self._proxy.getValue(self._PARENT + ':1', 'LEVEL')
         else:
             return self.CHILDREN[1].getValue('LEVEL')
-    
+
     @level.setter
     def level(self, position):
         """Seek a specific position by specifying a float() from 0.0 to 1.0."""
         try:
             position = float(position)
         except Exception as err:
-            LOG.debug("HMRollerShutter.level: Exception %s" % (err, ))
+            LOG.debug("HMRollerShutter.level: Exception %s" % (err,))
             return False
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'LEVEL', position)
+            self._proxy.setValue(self._PARENT + ':1', 'LEVEL', position)
         else:
             self.CHILDREN[1].setValue('LEVEL', position)
-    
+
     def move_up(self):
         """Move the shutter up all the way."""
         self.level = 1.0
-    
+
     def move_down(self):
         """Move the shutter down all the way."""
         self.level = 0.0
-    
+
     def stop(self):
         """Stop moving."""
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'STOP', True)
+            self._proxy.setValue(self._PARENT + ':1', 'STOP', True)
         else:
             self.CHILDREN[1].setValue('STOP', True)
 
     @property
     def working(self):
         """Return True of False if working or not"""
-        return self._working
+        if self._working is None:
+            if self._PARENT:
+                return self._proxy.getValue(self._PARENT + ':1', 'WORKING')
+            else:
+                return self.CHILDREN[1].getValue('WORKING')
+        else:
+            return self._working
 
 
 class HMShutterContact(HMDevice):
@@ -291,39 +299,40 @@ class HMShutterContact(HMDevice):
     HM-Sec-SC, HM-Sec-SC-2, ZEL STG RM FFK
     Door / Window contact that emits its open/closed state.
     """
+
     @property
     def sabotage(self):
         """ Returns if the devicecase has been opened. """
         if self._PARENT:
-            error = self._proxy.getValue(self._PARENT+':1', 'ERROR')
+            error = self._proxy.getValue(self._PARENT + ':1', 'ERROR')
         else:
             error = self.CHILDREN[1].getValue('ERROR')
         if error == 7:
             return True
         else:
             return False
-    
+
     @property
     def low_batt(self):
         """ Returns if the battery is low. """
         return self.getValue('LOWBAT')
-    
+
     @property
     def is_open(self):
         """ Returns if the contact is open. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'STATE')
+            return self._proxy.getValue(self._PARENT + ':1', 'STATE')
         else:
             return self.CHILDREN[1].getValue('STATE')
-    
+
     @property
     def is_closed(self):
         """ Returns if the contact is closed. """
         if self._PARENT:
-            return not self._proxy.getValue(self._PARENT+':1', 'STATE')
+            return not self._proxy.getValue(self._PARENT + ':1', 'STATE')
         else:
             return not self.CHILDREN[1].getValue('STATE')
-    
+
     @property
     def state(self):
         """ Returns if the contact is 'open' or 'closed'. """
@@ -342,12 +351,12 @@ class HMThermostat(HMDevice):
     MANU_MODE = 1
     PARTY_MODE = 2
     BOOST_MODE = 3
-        
+
     @property
     def actual_temperature(self):
         """ Returns the current temperature. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':4', 'ACTUAL_TEMPERATURE')
+            return self._proxy.getValue(self._PARENT + ':4', 'ACTUAL_TEMPERATURE')
         else:
             return self.CHILDREN[4].getValue('ACTUAL_TEMPERATURE')
 
@@ -355,40 +364,40 @@ class HMThermostat(HMDevice):
     def set_temperature(self):
         """ Returns the current temperature. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':4', 'SET_TEMPERATURE')
+            return self._proxy.getValue(self._PARENT + ':4', 'SET_TEMPERATURE')
         else:
             return self.CHILDREN[4].getValue('SET_TEMPERATURE')
-    
+
     @set_temperature.setter
     def set_temperature(self, target_temperature):
         """ Set the target temperature. """
         try:
             target_temperature = float(target_temperature)
         except Exception as err:
-            LOG.debug("HMThermostat.set_temperature: Exception %s" % (err, ))
+            LOG.debug("HMThermostat.set_temperature: Exception %s" % (err,))
             return False
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':4', 'SET_TEMPERATURE', target_temperature)
+            self._proxy.setValue(self._PARENT + ':4', 'SET_TEMPERATURE', target_temperature)
         else:
             self.CHILDREN[4].setValue('SET_TEMPERATURE', target_temperature)
-    
+
     @property
     def turnoff(self):
         """ Turn off Thermostat. """
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':4', 'SET_TEMPERATURE', 4.5)
+            self._proxy.setValue(self._PARENT + ':4', 'SET_TEMPERATURE', 4.5)
         else:
             self.CHILDREN[4].setValue('SET_TEMPERATURE', 4.5)
-    
+
     @property
     def mode(self):
         """ Return mode. """
         if self._PARENT:
             # 1 Manu, 0 Auto, 3 Boost
-            return self._proxy.getValue(self._PARENT+':4', 'CONTROL_MODE')
+            return self._proxy.getValue(self._PARENT + ':4', 'CONTROL_MODE')
         else:
             return self.CHILDREN[4].getValue("CONTROL_MODE")
-    
+
     @mode.setter
     def mode(self, setmode):
         """ Set mode. """
@@ -403,25 +412,25 @@ class HMThermostat(HMDevice):
         else:
             return False
         if self._PARENT:
-            return self._proxy.setValue(self._PARENT+':4', mode, True)
+            return self._proxy.setValue(self._PARENT + ':4', mode, True)
         else:
             return self.CHILDREN[4].setValue(mode, True)
-    
+
     @property
     def automode(self):
         """ Return auto mode state. """
         return self.mode == self.AUTO_MODE
-    
+
     @automode.setter
     def automode(self, setauto):
         """ Turn on auto mode. """
         self.mode = self.AUTO_MODE
-    
+
     @property
     def manumode(self):
         """ Return manual mode state. """
         return self.mode == self.MANU_MODE
-    
+
     @manumode.setter
     def manumode(self, setmanu):
         """ Turn on manual mode. """
@@ -431,27 +440,27 @@ class HMThermostat(HMDevice):
     def partymode(self):
         """ Return party mode state. """
         return self.mode == self.PARTY_MODE
-    
+
     @partymode.setter
     def partymode(self, partymode):
         """ Turn on paty mode. """
         self.mode = self.PARTY_MODE
-    
+
     @property
     def boostmode(self):
         """ Return boost state. """
         return self.mode == self.BOOST_MODE
-    
+
     @boostmode.setter
     def boostmode(self, setboost):
         """ Turn on boost mode. """
         self.mode = self.BOOST_MODE
-    
+
     @property
     def battery_state(self):
         """ Returns the current battery state. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':4', 'BATTERY_STATE')
+            return self._proxy.getValue(self._PARENT + ':4', 'BATTERY_STATE')
         else:
             return self.CHILDREN[4].getValue('BATTERY_STATE')
 
@@ -459,7 +468,7 @@ class HMThermostat(HMDevice):
     def valve_state(self):
         """ Returns the current valve state. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':4', 'VALVE_STATE')
+            return self._proxy.getValue(self._PARENT + ':4', 'VALVE_STATE')
         else:
             return self.CHILDREN[4].getValue('VALVE_STATE')
 
@@ -473,12 +482,12 @@ class HMMAXThermostat(HMDevice):
     MANU_MODE = 1
     PARTY_MODE = 2
     BOOST_MODE = 3
-        
+
     @property
     def actual_temperature(self):
         """ Returns the current temperature. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'ACTUAL_TEMPERATURE')
+            return self._proxy.getValue(self._PARENT + ':1', 'ACTUAL_TEMPERATURE')
         else:
             return self.CHILDREN[1].getValue('ACTUAL_TEMPERATURE')
 
@@ -486,40 +495,40 @@ class HMMAXThermostat(HMDevice):
     def set_temperature(self):
         """ Returns the current temperature. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'SET_TEMPERATURE')
+            return self._proxy.getValue(self._PARENT + ':1', 'SET_TEMPERATURE')
         else:
             return self.CHILDREN[1].getValue('SET_TEMPERATURE')
-    
+
     @set_temperature.setter
     def set_temperature(self, target_temperature):
         """ Set the target temperature. """
         try:
             target_temperature = float(target_temperature)
         except Exception as err:
-            LOG.debug("HMThermostat.set_temperature: Exception %s" % (err, ))
+            LOG.debug("HMThermostat.set_temperature: Exception %s" % (err,))
             return False
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'SET_TEMPERATURE', target_temperature)
+            self._proxy.setValue(self._PARENT + ':1', 'SET_TEMPERATURE', target_temperature)
         else:
             self.CHILDREN[1].setValue('SET_TEMPERATURE', target_temperature)
-    
+
     @property
     def turnoff(self):
         """ Turn off Thermostat. """
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'SET_TEMPERATURE', 4.5)
+            self._proxy.setValue(self._PARENT + ':1', 'SET_TEMPERATURE', 4.5)
         else:
             self.CHILDREN[1].setValue('SET_TEMPERATURE', 4.5)
-    
+
     @property
     def mode(self):
         """ Return mode. """
         if self._PARENT:
             # 1 Manu, 0 Auto, 3 Boost
-            return self._proxy.getValue(self._PARENT+':1', 'CONTROL_MODE')
+            return self._proxy.getValue(self._PARENT + ':1', 'CONTROL_MODE')
         else:
             return self.CHILDREN[1].getValue("CONTROL_MODE")
-    
+
     @mode.setter
     def mode(self, setmode):
         """ Set mode. """
@@ -534,25 +543,25 @@ class HMMAXThermostat(HMDevice):
         else:
             return False
         if self._PARENT:
-            return self._proxy.setValue(self._PARENT+':1', mode, True)
+            return self._proxy.setValue(self._PARENT + ':1', mode, True)
         else:
             return self.CHILDREN[1].setValue(mode, True)
-    
+
     @property
     def automode(self):
         """ Return auto mode state. """
         return self.mode == self.AUTO_MODE
-    
+
     @automode.setter
     def automode(self, setauto):
         """ Turn on auto mode. """
         self.mode = self.AUTO_MODE
-    
+
     @property
     def manumode(self):
         """ Return manual mode state. """
         return self.mode == self.MANU_MODE
-    
+
     @manumode.setter
     def manumode(self, setmanu):
         """ Turn on manual mode. """
@@ -562,27 +571,27 @@ class HMMAXThermostat(HMDevice):
     def partymode(self):
         """ Return party mode state. """
         return self.mode == self.PARTY_MODE
-    
+
     @partymode.setter
     def partymode(self, partymode):
         """ Turn on paty mode. """
         self.mode = self.PARTY_MODE
-    
+
     @property
     def boostmode(self):
         """ Return boost state. """
         return self.mode == self.BOOST_MODE
-    
+
     @boostmode.setter
     def boostmode(self, setboost):
         """ Turn on boost mode. """
         self.mode = self.BOOST_MODE
-    
+
     @property
     def battery_state(self):
         """ Returns the current battery state. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':0', 'LOWBAT')
+            return self._proxy.getValue(self._PARENT + ':0', 'LOWBAT')
         else:
             return self.CHILDREN[0].getValue('LOWBAT')
 
@@ -592,42 +601,43 @@ class HMDimmer(HMDevice):
     HM-LC-Dim1L-Pl, HM-LC-Dim1L-CV, HM-LC-Dim1L-Pl-3, HM-LC-Dim1L-CV-2
     Dimmer switch that controls level of light brightness.
     """
-    
-    def __init__(self, device_description, proxy, resolveparamsets = False):
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
         super(HMDimmer, self).__init__(device_description, proxy, resolveparamsets)
         self._working = None
-        
+
         def working_callback(device, caller, attribute, value):
             attribute = str(attribute).upper()
             if attribute == 'WORKING':
                 self._working = value
-        
+
         self.setEventCallback(working_callback, True)
-    
+
     @property
     def level(self):
         """Return current brightness level. Return value is float() from 0.0 (0% off) to 1.0 (100% maximum brightness)."""
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'LEVEL')
+            return self._proxy.getValue(self._PARENT + ':1', 'LEVEL')
         else:
             return self.CHILDREN[1].getValue('LEVEL')
-    
-    @level.setter    def level(self, brightness):
+
+    @level.setter
+    def level(self, brightness):
         """Set e brightness by specifying a float() from 0.0 to 1.0."""
         try:
             brightness = float(brightness)
         except Exception as err:
-            LOG.debug("HMDimmer.level: Exception %s" % (err, ))
+            LOG.debug("HMDimmer.level: Exception %s" % (err,))
             return False
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'LEVEL', brightness)
+            self._proxy.setValue(self._PARENT + ':1', 'LEVEL', brightness)
         else:
             self.CHILDREN[1].setValue('LEVEL', brightness)
-    
+
     def on(self):
         """Turn light to maximum brightness."""
         self.level = 1.0
-    
+
     def off(self):
         """Turn light off."""
         self.level = 0.0
@@ -635,9 +645,14 @@ class HMDimmer(HMDevice):
     @property
     def working(self):
         """Return True of False if working or not"""
-        return self._working
-    
-            
+        if self._working is None:
+            if self._PARENT:
+                return self._proxy.getValue(self._PARENT + ':1', 'WORKING')
+            else:
+                return self.CHILDREN[1].getValue('WORKING')
+        else:
+            return self._working
+
 class HMSwitch(HMDevice):
     """
     HM-LC-Sw1-Pl, HM-LC-Sw1-Pl-2, HM-LC-Sw1-SM, HM-LC-Sw2-SM, HM-LC-Sw4-SM, HM-LC-Sw4-PCB, HM-LC-Sw4-WM, HM-LC-Sw1-FM,
@@ -646,33 +661,33 @@ class HMSwitch(HMDevice):
     Switch turning plugged in device on or off.
     """
 
-    def __init__(self, device_description, proxy, resolveparamsets = False):
+    def __init__(self, device_description, proxy, resolveparamsets=False):
         super(HMSwitch, self).__init__(device_description, proxy, resolveparamsets)
         self._working = None
-        
+
         def working_callback(device, caller, attribute, value):
             attribute = str(attribute).upper()
             if attribute == 'WORKING':
                 self._working = value
-        
+
         self.setEventCallback(working_callback, True)
-    
+
     @property
     def is_on(self):
         """ Returns if switch is on. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'STATE')
+            return self._proxy.getValue(self._PARENT + ':1', 'STATE')
         else:
             return self.CHILDREN[1].getValue('STATE')
-    
+
     @property
     def is_off(self):
         """ Returns if switch is off. """
         if self._PARENT:
-            return not self._proxy.getValue(self._PARENT+':1', 'STATE')
+            return not self._proxy.getValue(self._PARENT + ':1', 'STATE')
         else:
             return not self.CHILDREN[1].getValue('STATE')
-    
+
     @property
     def state(self):
         """ Returns if switch is 'on' or 'off'. """
@@ -680,24 +695,24 @@ class HMSwitch(HMDevice):
             return False
         else:
             return True
-    
+
     @state.setter
     def state(self, onoff):
         """Turn switch on/off"""
         try:
             onoff = bool(onoff)
         except Exception as err:
-            LOG.debug("HMSwitch.state: Exception %s" % (err, ))
+            LOG.debug("HMSwitch.state: Exception %s" % (err,))
             return False
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'STATE', onoff)
+            self._proxy.setValue(self._PARENT + ':1', 'STATE', onoff)
         else:
             self.CHILDREN[1].setValue('STATE', onoff)
-    
+
     def on(self):
         """Turn switch on."""
         self.state = True
-    
+
     def off(self):
         """Turn switch off."""
         self.state = False
@@ -705,7 +720,13 @@ class HMSwitch(HMDevice):
     @property
     def working(self):
         """Return True of False if working or not"""
-        return self._working
+        if self._working is None:
+            if self._PARENT:
+                return self._proxy.getValue(self._PARENT + ':1', 'WORKING')
+            else:
+                return self.CHILDREN[1].getValue('WORKING')
+        else:
+            return self._working
 
 
 class HMSwitchPowermeter(HMDevice):
@@ -719,7 +740,7 @@ class HMSwitchPowermeter(HMDevice):
     def is_on(self):
         """ Returns if switch is on. """
         if self._PARENT:
-            return self._proxy.getValue(self._PARENT+':1', 'STATE')
+            return self._proxy.getValue(self._PARENT + ':1', 'STATE')
         else:
             return self.CHILDREN[1].getValue('STATE')
 
@@ -727,7 +748,7 @@ class HMSwitchPowermeter(HMDevice):
     def is_off(self):
         """ Returns if switch is off. """
         if self._PARENT:
-            return not self._proxy.getValue(self._PARENT+':1', 'STATE')
+            return not self._proxy.getValue(self._PARENT + ':1', 'STATE')
         else:
             return not self.CHILDREN[1].getValue('STATE')
 
@@ -745,10 +766,10 @@ class HMSwitchPowermeter(HMDevice):
         try:
             onoff = bool(onoff)
         except Exception as err:
-            LOG.debug("HMSwitchPowermeter.state: Exception %s" % (err, ))
+            LOG.debug("HMSwitchPowermeter.state: Exception %s" % (err,))
             return False
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'STATE', onoff)
+            self._proxy.setValue(self._PARENT + ':1', 'STATE', onoff)
         else:
             self.CHILDREN[1].setValue('STATE', onoff)
 
@@ -764,7 +785,7 @@ class HMSwitchPowermeter(HMDevice):
     def is_working(self):
         """ Returns if switch is working or not. """
         if self._PARENT:
-            return not self._proxy.getValue(self._PARENT+':1', 'WORKING')
+            return not self._proxy.getValue(self._PARENT + ':1', 'WORKING')
         else:
             return not self.CHILDREN[1].getValue('WORKING')
 
@@ -773,16 +794,17 @@ class HMSwitchPowermeter(HMDevice):
         try:
             ontime = float(ontime)
         except Exception as err:
-            LOG.debug("HMSwitchPowermeter.set_ontime: Exception %s" % (err, ))
+            LOG.debug("HMSwitchPowermeter.set_ontime: Exception %s" % (err,))
             return False
         if self._PARENT:
-            self._proxy.setValue(self._PARENT+':1', 'ON_TIME', ontime)
+            self._proxy.setValue(self._PARENT + ':1', 'ON_TIME', ontime)
         else:
             self.CHILDREN[1].setValue('ON_TIME', ontime)
 
 
 class HMRemote(HMDevice):
     pass
+
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": HMRollerShutter,
