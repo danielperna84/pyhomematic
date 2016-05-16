@@ -1,4 +1,4 @@
-import sys, time
+import sys
 
 from . import _server
 from ._server import LOCAL
