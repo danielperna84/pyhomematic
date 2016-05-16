@@ -4,14 +4,14 @@ from . import generic
 LOG = logging.getLogger(__name__)
 
 
-class RollerShutter(generic.HMDevice):
+class Blind(generic.HMDevice):
     """
     HM-LC-Bl1-SM, HM-LC-Bl1-FM, HM-LC-Bl1-PB-FM, ZEL STG RM FEP 230V, 263 146, HM-LC-BlX
-    Rollershutter switch that raises and lowers roller shutters.
+    Blind switch that raises and lowers roller shutters or window blinds.
     """
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        super(RollerShutter, self).__init__(device_description, proxy, resolveparamsets)
+        super(Blind, self).__init__(device_description, proxy, resolveparamsets)
         self._working = None
 
         def working_callback(device, caller, attribute, value):
@@ -280,13 +280,13 @@ class SwitchPowermeter(generic.HMDevice):
 
 
 DEVICETYPES = {
-    "HM-LC-Bl1-SM": RollerShutter,
-    "HM-LC-Bl1-FM": RollerShutter,
-    "HM-LC-Bl1PBU-FM": RollerShutter,
-    "HM-LC-Bl1-PB-FM": RollerShutter,
-    "ZEL STG RM FEP 230V": RollerShutter,
-    "263 146": RollerShutter,
-    "HM-LC-BlX": RollerShutter,
+    "HM-LC-Bl1-SM": Blind,
+    "HM-LC-Bl1-FM": Blind,
+    "HM-LC-Bl1PBU-FM": Blind,
+    "HM-LC-Bl1-PB-FM": Blind,
+    "ZEL STG RM FEP 230V": Blind,
+    "263 146": Blind,
+    "HM-LC-BlX": Blind,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-3": Dimmer,
     "HM-LC-Dim1L-CV": Dimmer,
