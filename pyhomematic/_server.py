@@ -1,4 +1,5 @@
-from . import _devices
+#  from . import _devices
+from . import devicetypes
 import os
 import threading
 import json
@@ -14,7 +15,7 @@ LOCAL = '127.0.0.1'
 LOCALPORT = 7080
 REMOTE = '127.0.0.1'
 REMOTEPORT = 2001
-DEVICEFILE = False # e.g. devices.json
+DEVICEFILE = False  # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
 XML_API_URL = '/config/xmlapi/devicelist.cgi'
 
@@ -76,26 +77,26 @@ class RPCFunctions:
         self.createDeviceObjects()
 
     def createDeviceObjects(self):
-        """Transform the raw device descriptions into instances of _devices.HMDevice or availabe subclass"""
+        """Transform the raw device descriptions into instances of devicetypes.generic.HMDevice or availabe subclass"""
         global working
 
         working = True
         for dev in self._devices_raw:
             if not dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
-                    if dev['TYPE'] in _devices.DEVICETYPES:
-                        deviceObject = _devices.DEVICETYPES[dev['TYPE']](dev, self._proxy, self.resolveparamsets)
+                    if dev['TYPE'] in devicetypes.SUPPORTED:
+                        deviceObject = devicetypes.SUPPORTED[dev['TYPE']](dev, self._proxy, self.resolveparamsets)
                     else:
-                        deviceObject = _devices.HMDevice(dev, self._proxy, self.resolveparamsets)
+                        deviceObject = devicetypes.UNSUPPORTED(dev, self._proxy, self.resolveparamsets)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['ADDRESS']] = deviceObject
         for dev in self._devices_raw:
             if dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
-                    if self.devices_all[dev['PARENT']]._TYPE in _devices.DEVICETYPES:
-                        deviceObject = _devices.DEVICETYPES[self.devices_all[dev['PARENT']]._TYPE](dev, self._proxy, self.resolveparamsets)
+                    if self.devices_all[dev['PARENT']]._TYPE in devicetypes.SUPPORTED:
+                        deviceObject = devicetypes.SUPPORTED[self.devices_all[dev['PARENT']]._TYPE](dev, self._proxy, self.resolveparamsets)
                     else:
-                        deviceObject = _devices.HMDevice(dev, self._proxy, self.resolveparamsets)
+                        deviceObject = devicetypes.UNSUPPORTED(dev, self._proxy, self.resolveparamsets)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['PARENT']].CHILDREN[dev['INDEX']] = deviceObject
         if self.devices_all and self.resolvenames:
