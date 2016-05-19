@@ -16,8 +16,7 @@ setup(
   url='https://github.com/danielperna84/pyhomematic',
   download_url='https://github.com/danielperna84/pyhomematic/tarball/0.1.0',
   keywords=['homematic', 'automation', 'smarthome'],
-  classifiers=["Development Status :: 4 - Beta",
-    "Programming Language :: Python :: 3",
+  classifiers=["Programming Language :: Python :: 3",
     "Intended Audience :: Developers"],
     platforms="Any"
 )
