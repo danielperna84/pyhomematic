@@ -1,4 +1,4 @@
-Version 0.1.0 (2016-05-NN)
+Version 0.1.0 (2016-05-19)
 - Added device-support (other IDs for existing implementations with identical hardware)
 - Minor code improvements
 - Added working-property for rollershutters
