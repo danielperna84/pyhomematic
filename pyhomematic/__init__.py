@@ -23,11 +23,15 @@ if sys.version_info.major < 3:
 Server = None
 
 
-def start():
+def start(*args, **kwargs):
     """
     Start the server thread if it wasn't created with autostart = True.
     """
     global Server
+    if args:
+        LOG.debug("args: %s" % str(args))
+    if kwargs:
+        LOG.debug("kwargs: %s" % str(kwargs))
     if Server:
         try:
             Server.start()
@@ -44,11 +48,15 @@ def start():
         return False
 
 
-def stop():
+def stop(*args, **kwargs):
     """
     Stop the server thread.
     """
     global Server
+    if args:
+        LOG.debug("args: %s" % str(args))
+    if kwargs:
+        LOG.debug("kwargs: %s" % str(kwargs))
     if Server:
         try:
             Server.stop()

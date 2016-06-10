@@ -1,3 +1,6 @@
+Version 0.1.2 (2016-06-11)
+- Added *args and **kwargs to __init__.start + stop because latter gets called with argument by home-assistant
+
 Version 0.1.1 (2016-05-19)
 - Switched to setuptools for packaging because files were missing in 0.1.0 release
 
