@@ -7,7 +7,7 @@ from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import xmlrpc.client
 import logging
-import devicetypes
+from pyhomematic import devicetypes
 
 LOG = logging.getLogger(__name__)
 

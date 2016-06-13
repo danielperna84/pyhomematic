@@ -1,18 +1,18 @@
 import sys
 
-from Server import Server as _homematic
-from Server import LOCAL
-from Server import LOCALPORT
-from Server import REMOTE
-from Server import REMOTEPORT
-from Server import DEVICEFILE
-from Server import INTERFACE_ID
+from pyhomematic import Server as _homematic
+from pyhomematic.Server import LOCAL
+from pyhomematic.Server import LOCALPORT
+from pyhomematic.Server import REMOTE
+from pyhomematic.Server import REMOTEPORT
+from pyhomematic.Server import DEVICEFILE
+from pyhomematic.Server import INTERFACE_ID
 
 # Import device-storage
-from Server import devices
-from Server import devices_all
-from Server import devices_raw
-from Server import devices_raw_dict
+from pyhomematic.Server import devices
+from pyhomematic.Server import devices_all
+from pyhomematic.Server import devices_raw
+from pyhomematic.Server import devices_raw_dict
 
 import logging
 LOG = logging.getLogger(__name__)
