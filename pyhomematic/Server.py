@@ -1,4 +1,3 @@
-from . import devicetypes
 import os
 import threading
 import json
@@ -8,6 +7,8 @@ from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import xmlrpc.client
 import logging
+import devicetypes
+
 LOG = logging.getLogger(__name__)
 
 LOCAL = '127.0.0.1'

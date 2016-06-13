@@ -1,8 +1,8 @@
 import logging
-from . import generic
-from . import sensors
-from . import thermostats
-from . import switches
+import generic
+import sensors
+import thermostats
+import switches
 
 
 LOG = logging.getLogger(__name__)
