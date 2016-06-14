@@ -20,8 +20,8 @@ class HMConnection:
                  resolvenames=False,
                  resolveparamsets=False):
         """
-        Helper-function to quickly create the server thread to which the CCU / Homegear will emit events.
-        Without spacifying the remote-data we'll assume we're running Homegear on localhost on the default port.
+        Helper function to quickly create the server thread to which the CCU / Homegear will emit events.
+        Without specifying the remote data we'll assume we're running Homegear on localhost on the default port.
         """
         LOG.debug("HMConnection: Creating server object")
 
