@@ -1,5 +1,5 @@
 import logging
-from . import generic
+from pyhomematic.devicetypes import generic
 
 LOG = logging.getLogger(__name__)
 

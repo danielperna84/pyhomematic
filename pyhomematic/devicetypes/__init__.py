@@ -1,9 +1,8 @@
 import logging
-from . import generic
-from . import sensors
-from . import thermostats
-from . import switches
-
+from pyhomematic.devicetypes import generic
+from pyhomematic.devicetypes import sensors
+from pyhomematic.devicetypes import switches
+from pyhomematic.devicetypes import thermostats
 
 LOG = logging.getLogger(__name__)
 

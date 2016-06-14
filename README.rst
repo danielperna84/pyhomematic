@@ -17,8 +17,8 @@ As of now, usage is as follows (you could leave away the listening and remote ad
     >>>     print("CALLBACK WITH CHANNELS: %s, %s, %s, %s" % (address, interface_id, key, value))
     >>> def cb2(address, interface_id, key, value):
     >>>     print("CALLBACK WITHOUT CHANNELS: %s, %s, %s, %s" % (address, interface_id, key, value))
-    >>> import pyhomematic
-    >>> pyhomematic.create_server(local="192.168.1.12", localport=7080, remote="192.168.1.23", remoteport=2001, systemcallback=syscb) # Create server thread
+    >>> from pyhomematic import HMConnection
+    >>> pyhomematic = HMConnection(local="192.168.1.12", localport=7080, remote="192.168.1.23", remoteport=2001, systemcallback=syscb) # Create server thread
     >>> pyhomematic.start() # Start server thread, connect to homegear, initialize to receive events
     >>> pyhomematic.devices['address_of_rollershutter_device'].move_down() # Move rollershutter down
     >>> pyhomematic.devices_all['address_of_doorcontact:1'].getValue("STATE") # True or False, depending on state
