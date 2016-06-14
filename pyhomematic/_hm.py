@@ -11,6 +11,7 @@ from pyhomematic import devicetypes
 
 LOG = logging.getLogger(__name__)
 
+# constant
 LOCAL = '127.0.0.1'
 LOCALPORT = 7080
 REMOTE = '127.0.0.1'
@@ -265,33 +266,33 @@ class ServerThread(threading.Thread):
                  systemcallback=False,
                  resolvenames=False,
                  resolveparamsets=False):
-        global LOCAL, LOCALPORT, REMOTE, REMOTEPORT, DEVICEFILE, INTERFACE_ID
         LOG.debug("ServerThread.__init__")
         threading.Thread.__init__(self)
-        INTERFACE_ID = interface_id
-        LOCAL = local
-        LOCALPORT = localport
-        REMOTE = remote
-        REMOTEPORT = remoteport
-        DEVICEFILE = devicefile
+
+        # Member
+        self._interface_id = interface_id
+        self._local = local
+        self._localport = localport
+        self._remote = remote
+        self._remoteport = remoteport
+        self._devicefile = devicefile
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
         self.resolvenames = resolvenames
         self.resolveparamsets = resolveparamsets
 
         # Create proxy to interact with CCU / Homegear
-        LOG.info("Creating proxy. Connecting to http://%s:%i" % (REMOTE, int(REMOTEPORT)))
+        LOG.info("Creating proxy. Connecting to http://%s:%i" % (self._remote, int(self._remoteport)))
         try:
-            #self.proxy = xmlrpc.client.ServerProxy("http://%s:%i" % (REMOTE, int(REMOTEPORT)))
-            self.proxy = LockingServerProxy("http://%s:%i" % (REMOTE, int(REMOTEPORT)))
+            self.proxy = LockingServerProxy("http://%s:%i" % (self._remote, int(self._remoteport)))
         except Exception as err:
-            LOG.warning("Failed connecting to proxy at http://%s:%i" % (REMOTE, int(REMOTEPORT)))
+            LOG.warning("Failed connecting to proxy at http://%s:%i" % (self._remote, int(self._remoteport)))
             LOG.debug("__init__: Exception: %s" % str(err))
             raise Exception
 
-        self._rpcfunctions = RPCFunctions(devicefile=DEVICEFILE,
+        self._rpcfunctions = RPCFunctions(devicefile=self._devicefile,
                                           proxy=self.proxy,
-                                          remote_ip = REMOTE,
+                                          remote_ip=self._remote,
                                           eventcallback=self.eventcallback,
                                           systemcallback=self.systemcallback,
                                           resolvenames=self.resolvenames,
@@ -299,7 +300,7 @@ class ServerThread(threading.Thread):
 
         # Setup server to handle requests from CCU / Homegear
         LOG.debug("ServerThread.__init__: Setting up server")
-        self.server = SimpleXMLRPCServer((LOCAL, int(LOCALPORT)),
+        self.server = SimpleXMLRPCServer((self._local, int(self._localport)),
                                          requestHandler=RequestHandler,
                                          logRequests=False)
         self.server.register_introspection_functions()
@@ -308,7 +309,7 @@ class ServerThread(threading.Thread):
         self.server.register_instance(self._rpcfunctions, allow_dotted_names=True)
 
     def run(self):
-        LOG.info("Starting server at http://%s:%i" % (LOCAL, int(LOCALPORT)))
+        LOG.info("Starting server at http://%s:%i" % (self._local, int(self._localport)))
         self.server.serve_forever()
 
     def proxyInit(self):
@@ -316,9 +317,9 @@ class ServerThread(threading.Thread):
         To receive events the proxy has to tell the CCU / Homegear where to send the events. For that we call the init-method.
         """
         # Call init() with local XML RPC config and interface_id (the name of the receiver) to receive events. XML RPC server has to be running.
-        LOG.debug("ServerThread.proxyInit: init(http://%s:%i, '%s')" % (LOCAL, int(LOCALPORT), INTERFACE_ID))
+        LOG.debug("ServerThread.proxyInit: init(http://%s:%i, '%s')" % (self._local, int(self._localport), self._interface_id))
         try:
-            self.proxy.init("http://%s:%i" % (LOCAL, int(LOCALPORT)), INTERFACE_ID)
+            self.proxy.init("http://%s:%i" % (self._local, int(self._localport)), self._interface_id)
             LOG.info("Proxy initialized")
         except Exception as err:
             LOG.debug("proxyInit: Exception: %s" % str(err))
@@ -330,7 +331,7 @@ class ServerThread(threading.Thread):
         if self.proxy:
             LOG.debug("ServerThread.stop: Deregistering proxy")
             try:
-                self.proxy.init("http://%s:%i" % (LOCAL, int(LOCALPORT)))
+                self.proxy.init("http://%s:%i" % (self._local, int(self._localport)))
             except Exception as err:
                 LOG.warning("Failed to deregister proxy")
                 LOG.debug("stop: Exception: %s" % str(err))
