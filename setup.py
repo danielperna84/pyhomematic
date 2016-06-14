@@ -14,10 +14,10 @@ REQUIRES = []
 
 setup(
     name=PACKAGE_NAME,
-    version="0.1.2",
+    version='0.1.3',
     license='MIT License',
     url='https://github.com/danielperna84/pyhomematic',
-    download_url='https://github.com/danielperna84/pyhomematic/tarball/0.1.2',
+    download_url='https://github.com/danielperna84/pyhomematic/tarball/0.1.3',
     author='Daniel Perna',
     author_email='danielperna84@gmail.com',
     description='Homematic interface',
