@@ -82,6 +82,7 @@ class RPCFunctions:
         global working
 
         working = True
+        # first create parent object
         for dev in self._devices_raw:
             if not dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
@@ -91,6 +92,7 @@ class RPCFunctions:
                         deviceObject = devicetypes.UNSUPPORTED(dev, self._proxy, self.resolveparamsets)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['ADDRESS']] = deviceObject
+        # secend create all childs for parent
         for dev in self._devices_raw:
             if dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:

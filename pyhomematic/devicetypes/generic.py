@@ -11,78 +11,27 @@ PARAM_UNREACH = 'UNREACH'
 PARAMSET_VALUES = 'VALUES'
 
 
-class HMDevice(object):
-    def __init__(self, device_description, proxy, resolveparamsets=False):
+class HMGeneric(object):
+    def __init__(self, device_description, proxy, resolveparamsets):
         # These properties are available for every device and its channels
         self._ADDRESS = device_description.get('ADDRESS')
-        LOG.debug("HMDevice.__init__: device_description: " + str(self._ADDRESS) + " : " + str(device_description))
+        LOG.debug("HMGeneric.__init__: device_description: " + str(self._ADDRESS) + " : " + str(device_description))
         self._FAMILY = device_description.get('FAMILY')
         self._FLAGS = device_description.get('FLAGS')
         self._ID = device_description.get('ID')
         self._PARAMSETS = device_description.get('PARAMSETS')
         self._PARAMSET_DESCRIPTIONS = {}
-        self._PARENT = device_description.get('PARENT')
         self._TYPE = device_description.get('TYPE')
         self._VERSION = device_description.get('VERSION')
-        self.CHILDREN = {}
         self._proxy = proxy
         self._paramsets = {}
         self._eventcallbacks = []
         self._unreach = None
         self._name = None
 
-        if not self._PARENT:
-            # These properties only exist for interfaces themselves
-            self._CHILDREN = device_description.get('CHILDREN')
-            self._RF_ADDRESS = device_description.get('RF_ADDRESS')
-
-            # We set the name to the address initially
-            self._name = device_description.get('ADDRESS')
-
-            # Optional properties might not always be present
-            if 'CHANNELS' in device_description:
-                self._CHANNELS = device_description['CHANNELS']
-            else:
-                self._CHANNELS = []
-            self._PHYSICAL_ADDRESS = device_description.get('PHYSICAL_ADDRESS')
-            self._INTERFACE = device_description.get('INTERFACE')
-            self._ROAMING = device_description.get('ROAMING')
-            self._RX_MODE = device_description.get('RX_MODE')
-            self._FIRMWARE = device_description.get('FIRMWARE')
-            self._AVAILABLE_FIRMWARE = device_description.get('AVAILABLE_FIRMWARE')
-            self._UPDATABLE = device_description.get('UPDATABLE')
-            self._PARENT_TYPE = None
-        else:
-            # These properties only exist for device-channels
-            self._AES_ACTIVE = device_description.get('AES_ACTIVE')
-            self._DIRECTION = device_description.get('DIRECTION')
-            self._INDEX = device_description.get('INDEX')
-            self._LINK_SOURCE_ROLES = device_description.get('LINK_SOURCE_ROLES')
-            self._LINK_TARGET_ROLES = device_description.get('LINK_TARGET_ROLES')
-            self._PARENT_TYPE = device_description.get('PARENT_TYPE')
-
-            # We set the name to the parents address initially
-            self._name = device_description.get('ADDRESS')
-
-            # Optional properties of device-channels
-            self._GROUP = device_description.get('GROUP')
-            self._TEAM = device_description.get('TEAM')
-            self._TEAM_TAG = device_description.get('TEAM_TAG')
-            self._TEAM_CHANNELS = device_description.get('TEAM_CHANNELS')
-
-            # Not in specification, but often present
-            self._CHANNEL = device_description.get('CHANNEL')
-
-            if resolveparamsets:
-                self.updateParamsets()
-
     @property
     def ADDRESS(self):
         return self._ADDRESS
-
-    @property
-    def PARENT(self):
-        return self._PARENT
 
     @property
     def TYPE(self):
@@ -93,14 +42,6 @@ class HMDevice(object):
         return self._paramsets
 
     @property
-    def RSSI_DEVICE(self):
-        if self._PARENT:
-            RSSI = self._proxy.getValue(self._PARENT, 'RSSI_DEVICE')
-        else:
-            RSSI = self.getValue('RSSI_DEVICE')
-        return RSSI
-
-    @property
     def NAME(self):
         return self._name
 
@@ -108,16 +49,40 @@ class HMDevice(object):
     def NAME(self, name):
         self._name = name
 
-    @property
-    def UNREACH(self):
-        """ Returns true if the device or any children is not reachable """
-        if self._unreach:
+    def setValue(self, key, value):
+        """
+        Some devices allow to directly set values to perform a specific task.
+        """
+        try:
+            self._proxy.setValue(self._ADDRESS, key, value)
             return True
-        else:
-            for channel, device in self.CHILDREN.items():
-                if device.UNREACH:
-                    return True
-        return False
+        except Exception as err:
+            LOG.debug("HMDevice.setValue: Exception: " + str(err))
+            return False
+
+    def getValue(self, key):
+        """
+        Some devices allow to directly get values for specific parameters.
+        """
+        try:
+            returnvalue = self._proxy.getValue(self._ADDRESS, key)
+            return returnvalue
+        except Exception as err:
+            LOG.debug("HMDevice.setValue: Exception: " + str(err))
+            return False
+
+    def event(self, interface_id, key, value):
+        """
+        Handle the event received by server.
+        """
+        LOG.info(
+                "HMDevice.event: address=%s, interface_id=%s, key=%s, value=%s"
+                % (self._ADDRESS, interface_id, key, value))
+        if key == PARAM_UNREACH:
+            self._unreach = value
+        for callback in self._eventcallbacks:
+            LOG.debug("HMDevice.event: Using callback %s " % str(callback))
+            callback(self._ADDRESS, interface_id, key, value)
 
     def getParamsetDescription(self, paramset):
         """
@@ -181,47 +146,113 @@ class HMDevice(object):
             LOG.debug("HMDevice.putParamset: Exception: " + str(err))
             return False
 
-    def setValue(self, key, value):
-        """
-        Some devices allow to directly set values to perform a specific task.
-        """
-        try:
-            self._proxy.setValue(self._ADDRESS, key, value)
+
+class HMChannel(HMGeneric):
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        HMGeneric.__init__(self, device_description, proxy, resolveparamsets)
+
+        # These properties only exist for device-channels
+        self._PARENT = device_description.get('PARENT')
+        self._AES_ACTIVE = device_description.get('AES_ACTIVE')
+        self._DIRECTION = device_description.get('DIRECTION')
+        self._INDEX = device_description.get('INDEX')
+        self._LINK_SOURCE_ROLES = device_description.get('LINK_SOURCE_ROLES')
+        self._LINK_TARGET_ROLES = device_description.get('LINK_TARGET_ROLES')
+        self._PARENT_TYPE = device_description.get('PARENT_TYPE')
+
+        # We set the name to the parents address initially
+        self._name = device_description.get('ADDRESS')
+
+        # Optional properties of device-channels
+        self._GROUP = device_description.get('GROUP')
+        self._TEAM = device_description.get('TEAM')
+        self._TEAM_TAG = device_description.get('TEAM_TAG')
+        self._TEAM_CHANNELS = device_description.get('TEAM_CHANNELS')
+
+        # Not in specification, but often present
+        self._CHANNEL = device_description.get('CHANNEL')
+
+        if resolveparamsets:
+            self.updateParamsets()
+
+    @property
+    def PARENT(self):
+        return self._PARENT
+
+    @property
+    def UNREACH(self):
+        """ Returns true if children is not reachable """
+        if self._unreach:
             return True
-        except Exception as err:
-            LOG.debug("HMDevice.setValue: Exception: " + str(err))
-            return False
+        return False
 
-    def getValue(self, key):
+    def setEventCallback(self, callback):
         """
-        Some devices allow to directly get values for specific parameters.
+        Set additional event callbacks for the channel.
+        children.
+        Signature for callback-functions: foo(address, interface_id, key, value).
         """
-        try:
-            returnvalue = self._proxy.getValue(self._ADDRESS, key)
-            return returnvalue
-        except Exception as err:
-            LOG.debug("HMDevice.setValue: Exception: " + str(err))
-            return False
+        if hasattr(callback, '__call__'):
+            self._eventcallbacks.append(callback)
 
-    def event(self, interface_id, key, value):
+
+class HMDevice(HMGeneric):
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        HMGeneric.__init__(self, device_description, proxy, resolveparamsets)
+
+        self.CHILDREN = {}
+
+        # These properties only exist for interfaces themselves
+        self._CHILDREN = device_description.get('CHILDREN')
+        self._RF_ADDRESS = device_description.get('RF_ADDRESS')
+
+        # We set the name to the address initially
+        self._name = device_description.get('ADDRESS')
+
+        # Optional properties might not always be present
+        if 'CHANNELS' in device_description:
+            self._CHANNELS = device_description['CHANNELS']
+        else:
+            self._CHANNELS = []
+
+        self._PHYSICAL_ADDRESS = device_description.get('PHYSICAL_ADDRESS')
+        self._INTERFACE = device_description.get('INTERFACE')
+        self._ROAMING = device_description.get('ROAMING')
+        self._RX_MODE = device_description.get('RX_MODE')
+        self._FIRMWARE = device_description.get('FIRMWARE')
+        self._AVAILABLE_FIRMWARE = device_description.get('AVAILABLE_FIRMWARE')
+        self._UPDATABLE = device_description.get('UPDATABLE')
+        self._PARENT_TYPE = None
+
+    @property
+    def RSSI_DEVICE(self):
+        return RSSI = self.getValue('RSSI_DEVICE')
+
+    @property
+    def UNREACH(self):
+        """ Returns true if the device or any children is not reachable """
+        if self._unreach:
+            return True
+        else:
+            for channel, device in self.CHILDREN.items():
+                if device.UNREACH:
+                    return True
+        return False
+
+    @property
+    def ELEMENT(self):
         """
-        Handle the event received by server.
+        Returns count of element for same functionality.
+        Overwrite this value only if you have a spezial defice such as Sw2 usw.
         """
-        LOG.info(
-                "HMDevice.event: address=%s, interface_id=%s, key=%s, value=%s"
-                % (self._ADDRESS, interface_id, key, value))
-        if key == PARAM_UNREACH:
-            self._unreach = value
-        for callback in self._eventcallbacks:
-            LOG.debug("HMDevice.event: Using callback %s " % str(callback))
-            callback(self._ADDRESS, interface_id, key, value)
+        return 1
 
     def setEventCallback(self, callback, bequeath=True):
         """
         Set additional event callbacks for the device.
-        Set the callback for specific channels or use the device itself and let it bequeath the callback to all of its
-        children.
-        Signature for callback-functions: foo(address, interface_id, key, value).
+        Set the callback for specific channels or use the device itself and let
+        it bequeath the callback to all of its children.
+        Signature for callback-functions: foo(address, interface_id, key, value)
         """
         if hasattr(callback, '__call__'):
             self._eventcallbacks.append(callback)
