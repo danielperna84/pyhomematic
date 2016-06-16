@@ -247,7 +247,7 @@ class HMDevice(HMGeneric):
         """
         return 1
 
-    def setEventCallback(self, callback, bequeath=True):
+    def setEventCallback(self, callback, bequeath=True, channel=0):
         """
         Set additional event callbacks for the device.
         Set the callback for specific channels or use the device itself and let
@@ -255,7 +255,10 @@ class HMDevice(HMGeneric):
         Signature for callback-functions: foo(address, interface_id, key, value)
         """
         if hasattr(callback, '__call__'):
-            self._eventcallbacks.append(callback)
-            if bequeath and not self._PARENT:
+            if channel == 0:
+                self._eventcallbacks.append(callback)
+            elif not bequeath and channel > 0 and channel in self.CHILDREN:
+                self.CHILDREN[channel]._eventcallbacks.append(callback)
+            if bequeath:
                 for channel, device in self.CHILDREN.items():
                     device._eventcallbacks.append(callback)
