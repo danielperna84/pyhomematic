@@ -9,7 +9,6 @@ class HMSensor(HMDevice):
 
 
 class HMBinarySensor(HMDevice):
-    @property
     def get_state(self, channel=1):
         """ Returns current state of handle """
         for name in self.BINARYNODE:

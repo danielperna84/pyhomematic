@@ -8,6 +8,7 @@ from xmlrpc.server import SimpleXMLRPCRequestHandler
 import xmlrpc.client
 import logging
 from pyhomematic import devicetypes
+from pyhomematic.devicetypes.generic import HMChannel
 
 LOG = logging.getLogger(__name__)
 
@@ -96,10 +97,7 @@ class RPCFunctions:
         for dev in self._devices_raw:
             if dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
-                    if self.devices_all[dev['PARENT']]._TYPE in devicetypes.SUPPORTED:
-                        deviceObject = devicetypes.SUPPORTED[self.devices_all[dev['PARENT']]._TYPE](dev, self._proxy, self.resolveparamsets)
-                    else:
-                        deviceObject = devicetypes.UNSUPPORTED(dev, self._proxy, self.resolveparamsets)
+                    deviceObject = HMChannel(dev, self._proxy, self.resolvenames)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['PARENT']].CHILDREN[dev['INDEX']] = deviceObject
         if self.devices_all and self.resolvenames:

@@ -202,7 +202,12 @@ class HMDevice(HMGeneric):
 
         self.CHILDREN = {}
 
-        # Daten point information
+        # Data point information
+        # "NODE_NAME": channel
+        #  for Channel is Possible:
+        # - NONE  / getVaule from Parent
+        # - 0  / getVaule from Channel dynamic
+        # - 1..n / getValue from fix Channel
         self._SENSORNODE = {}
         self._BINARYNODE = {}
         self._ATTRIBUTENODE = {}
