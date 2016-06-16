@@ -4,9 +4,12 @@ from pyhomematic.devicetypes.generic import HMDevice
 LOG = logging.getLogger(__name__)
 
 
-class _working(HMDevice):
+class HMSwitch(HMDevice):
+    """
+    Generic HM Switch Object
+    """
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        HMDevice.__init__(device_description, proxy, resolveparamsets)
+        super().__init__(device_description, proxy, resolveparamsets)
         self._working = None
 
         def working_callback(device, caller, attribute, value):
@@ -16,7 +19,7 @@ class _working(HMDevice):
 
         self.setEventCallback(working_callback, True)
 
-    def isWorking(self, channel=1):
+    def is_working(self, channel=1):
         """Return True of False if working or not"""
         if channel > self.ELEMENT:
             return False
@@ -26,48 +29,54 @@ class _working(HMDevice):
         return self._working
 
 
-class Blind(_working):
+class HMDimmer(HMSwitch):
+    """
+    Generic Dimmer function
+    """
+    def level(self, channel=1):
+        """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
+        if channel > self.ELEMENT:
+            LOG.debug("HMDimmer.level: no element %d", channel)
+            return 0.0
+        return self.CHILDREN[channel].getValue('LEVEL')
+
+    def level(self, position, channel=1):
+        """Seek a specific position by specifying a float() from 0.0 to 1.0."""
+        try:
+            position = float(position)
+            if channel > self.ELEMENT:
+                raise
+        except Exception as err:
+            LOG.debug("HMDimmer.level: Exception %s" % (err,))
+            return False
+
+        self.CHILDREN[channel].setValue('LEVEL', position)
+
+
+class Blind(HMDimmer):
     """
     HM-LC-Bl1-SM, HM-LC-Bl1-FM, HM-LC-Bl1-PB-FM, ZEL STG RM FEP 230V, 263 146, HM-LC-BlX
     Blind switch that raises and lowers roller shutters or window blinds.
     """
-
-    @property
-    def level(self):
-        """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
-        return self.CHILDREN[1].getValue('LEVEL')
-
-    @level.setter
-    def level(self, position):
-        """Seek a specific position by specifying a float() from 0.0 to 1.0."""
-        try:
-            position = float(position)
-        except Exception as err:
-            LOG.debug("RollerShutter.level: Exception %s" % (err,))
-            return False
-
-        self.CHILDREN[1].setValue('LEVEL', position)
-
-    def move_up(self):
+    def move_up(self, channel=1):
         """Move the shutter up all the way."""
-        self.level = 1.0
+        self.level(1.0, channel)
 
-    def move_down(self):
+    def move_down(self, channel=1):
         """Move the shutter down all the way."""
-        self.level = 0.0
+        self.level(0.0, channel=1)
 
-    def stop(self):
+    def stop(self, channel=1):
         """Stop moving."""
-        self.CHILDREN[1].setValue('STOP', True)
+        self.CHILDREN[channel].setValue('STOP', True)
 
 
-class Dimmer(_working):
+class Dimmer(HMSwitch):
     """
     HM-LC-Dim1L-Pl, HM-LC-Dim1L-CV, HM-LC-Dim1L-Pl-3, HM-LC-Dim1L-CV-2
     HM-LC-Dim2L-SM, HM-LC-Dim2L-CV
     Dimmer switch that controls level of light brightness.
     """
-
     @property
     def ELEMENT(self):
         if "Dim2L" in self._TYPE:
@@ -75,39 +84,22 @@ class Dimmer(_working):
 
         return 1
 
-    @property
-    def level(self):
-        """Return current brightness level. Return value is float() from 0.0 (0% off) to 1.0 (100% maximum brightness)."""
-        return self.CHILDREN[1].getValue('LEVEL')
-
-    @level.setter
-    def level(self, brightness):
-        """Set e brightness by specifying a float() from 0.0 to 1.0."""
-        try:
-            brightness = float(brightness)
-        except Exception as err:
-            LOG.debug("Dimmer.level: Exception %s" % (err,))
-            return False
-
-        self.CHILDREN[1].setValue('LEVEL', brightness)
-
-    def on(self):
+    def on(self, channel=1):
         """Turn light to maximum brightness."""
-        self.level = 1.0
+        self.level(1.0, channel)
 
-    def off(self):
+    def off(self, channel=1):
         """Turn light off."""
-        self.level = 0.0
+        self.level(0.0, channel)
 
 
-class Switch(_working):
+class Switch(HMSwitch):
     """
     HM-LC-Sw1-Pl, HM-LC-Sw1-Pl-2, HM-LC-Sw1-SM, HM-LC-Sw2-SM, HM-LC-Sw4-SM, HM-LC-Sw4-PCB, HM-LC-Sw4-WM, HM-LC-Sw1-FM,
     263 130, HM-LC-Sw2-FM, HM-LC-Sw1-PB-FM, HM-LC-Sw2-PB-FM, HM-LC-Sw4-DR, HM-LC-Sw2-DR, ZEL STG RM FZS,
     ZEL STG RM FZS-2, HM-LC-SwX
     Switch turning plugged in device on or off.
     """
-
     @property
     def ELEMENT(self):
         if "Sw2" in self._TYPE:
@@ -119,11 +111,11 @@ class Switch(_working):
 
     def is_on(self, channel=1):
         """ Returns if switch is on. """
-        return self.getState(channel=1)
+        return self.getState(channel)
 
     def is_off(self, channel=1):
         """ Returns if switch is off. """
-        return not self.getState(channel=1)
+        return not self.getState(channel)
 
     def getState(self, channel=1):
         """ Returns if switch is 'on' or 'off'. """

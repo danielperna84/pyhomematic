@@ -149,7 +149,7 @@ class HMGeneric(object):
 
 class HMChannel(HMGeneric):
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        HMGeneric.__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(self, device_description, proxy, resolveparamsets)
 
         # These properties only exist for device-channels
         self._PARENT = device_description.get('PARENT')
@@ -198,7 +198,7 @@ class HMChannel(HMGeneric):
 
 class HMDevice(HMGeneric):
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        HMGeneric.__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(self, device_description, proxy, resolveparamsets)
 
         self.CHILDREN = {}
 
