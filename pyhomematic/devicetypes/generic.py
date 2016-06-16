@@ -210,7 +210,7 @@ class HMDevice(HMGeneric):
         # - 1..n / getValue from fix Channel
         self._SENSORNODE = {}
         self._BINARYNODE = {}
-        self._ATTRIBUTENODE = {}
+        self._ATTRIBUTENODE = {"RSSI_DEVICE": None}
 
         # These properties only exist for interfaces themselves
         self._CHILDREN = device_description.get('CHILDREN')
@@ -236,7 +236,7 @@ class HMDevice(HMGeneric):
 
     @property
     def RSSI_DEVICE(self):
-        return RSSI = self.getValue('RSSI_DEVICE')
+        return self.getValue('RSSI_DEVICE')
 
     @property
     def UNREACH(self):

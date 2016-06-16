@@ -29,7 +29,7 @@ class DefaultBinarySensor(HMBinarySensor):
 
     def low_batt(self):
         """ Returns if the battery is low. """
-        return = self.getAttributData("LOWBAT")
+        return self.getAttributData("LOWBAT")
 
 
 class ShutterContact(DefaultBinarySensor):
@@ -64,7 +64,7 @@ class RotaryHandleSensor(DefaultBinarySensor):
         return self.get_state() == 1
 
 
-class Remote(generic.HMDevice):
+class Remote(HMBinarySensor):
     pass
 
 
