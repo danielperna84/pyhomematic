@@ -71,7 +71,7 @@ class Blind(HMDimmer):
         self.CHILDREN[channel].setValue('STOP', True)
 
 
-class Dimmer(HMSwitch):
+class Dimmer(HMDimmer):
     """
     HM-LC-Dim1L-Pl, HM-LC-Dim1L-CV, HM-LC-Dim1L-Pl-3, HM-LC-Dim1L-CV-2
     HM-LC-Dim2L-SM, HM-LC-Dim2L-CV
