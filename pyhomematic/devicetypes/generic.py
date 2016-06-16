@@ -202,6 +202,11 @@ class HMDevice(HMGeneric):
 
         self.CHILDREN = {}
 
+        # Daten point information
+        self._SENSORNODE = {}
+        self._BINARYNODE = {}
+        self._ATTRIBUTENODE = {}
+
         # These properties only exist for interfaces themselves
         self._CHILDREN = device_description.get('CHILDREN')
         self._RF_ADDRESS = device_description.get('RF_ADDRESS')
@@ -238,6 +243,43 @@ class HMDevice(HMGeneric):
                 if device.UNREACH:
                     return True
         return False
+
+    @property
+    def SENSORNODE(self):
+        return self._SENSORNODE
+
+    @property
+    def BINARYNODE(self):
+        return self._BINARYNODE
+
+    @property
+    def ATTRIBUTENODE(self):
+        return self._ATTRIBUTENODE
+
+    def getAttributData(self, name, channel=1):
+        """ Returns a attribut """
+        return self._getNodeData(name, self._ATTRIBUTENODE, channel)
+
+    def getBinaryData(self, name, channel=1):
+        """ Returns a binary node """
+        return self._getNodeData(name, self._BINARYNODE, channel)
+
+    def getSensorData(self, name, channel=1):
+        """ Returns a sensor node """
+        return self._getNodeData(name, self._SENSORNODE, channel)
+
+    def _getNodeData(self, name, data, channel=1):
+        """ Returns a data point from data"""
+        if name in nodes:
+            node = data[name]
+            if node is None:
+                return self.getValue(name)
+            elif node == 0:
+                node = channel
+            return self.CHILDREN[node].getValue(name)
+
+        LOG.debug("HMDevice._getNodeData: %s not found in %s", name, data)
+        return None
 
     @property
     def ELEMENT(self):
