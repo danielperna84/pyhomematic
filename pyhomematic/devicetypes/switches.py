@@ -33,14 +33,14 @@ class HMDimmer(HMSwitch):
     """
     Generic Dimmer function
     """
-    def level(self, channel=1):
+    def get_level(self, channel=1):
         """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
         if channel > self.ELEMENT:
             LOG.debug("HMDimmer.level: no element %d", channel)
             return 0.0
         return self.CHILDREN[channel].getValue('LEVEL')
 
-    def level(self, position, channel=1):
+    def set_level(self, position, channel=1):
         """Seek a specific position by specifying a float() from 0.0 to 1.0."""
         try:
             position = float(position)
@@ -60,14 +60,17 @@ class Blind(HMDimmer):
     """
     def move_up(self, channel=1):
         """Move the shutter up all the way."""
-        self.level(1.0, channel)
+        self.set_level(1.0, channel)
 
     def move_down(self, channel=1):
         """Move the shutter down all the way."""
-        self.level(0.0, channel=1)
+        self.set_level(0.0, channel=1)
 
     def stop(self, channel=1):
         """Stop moving."""
+        if channel > self.ELEMENT:
+            LOG.debug("Blind.stop: no element %d", channel)
+            return 0.0
         self.CHILDREN[channel].setValue('STOP', True)
 
 
@@ -86,11 +89,11 @@ class Dimmer(HMDimmer):
 
     def on(self, channel=1):
         """Turn light to maximum brightness."""
-        self.level(1.0, channel)
+        self.set_level(1.0, channel)
 
     def off(self, channel=1):
         """Turn light off."""
-        self.level(0.0, channel)
+        self.set_level(0.0, channel)
 
 
 class Switch(HMSwitch):

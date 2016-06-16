@@ -42,10 +42,9 @@ while not pyhomematic.devices and sleepcounter < 20:
 print(pyhomematic.devices)
 
 # Get level of rollershutter from 0.0 to 1.0.
-print(pyhomematic.devices[DEVICE1].level)
 
 # Set level of rollershutter to 50%.
-pyhomematic.devices[DEVICE1].level = 0.5
+pyhomematic.devices[DEVICE1].set_level(0.5)
 time.sleep(10)
 
 # Move rollershutter down.
