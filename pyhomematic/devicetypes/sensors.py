@@ -26,11 +26,7 @@ class DefaultBinarySensor(HMBinarySensor):
 
     def sabotage(self):
         """ Returns if the devicecase has been opened. """
-        error = self.getAttributData("ERROR")
-        if error == 1:
-            return True
-        else:
-            return False
+        return bool(self.getAttributData("ERROR"))
 
     def low_batt(self):
         """ Returns if the battery is low. """
@@ -42,14 +38,6 @@ class ShutterContact(DefaultBinarySensor):
     HM-Sec-SC, HM-Sec-SC-2, ZEL STG RM FFK
     Door / Window contact that emits its open/closed state.
     """
-    def sabotage(self):
-        """ Returns if the devicecase has been opened. """
-        error = self.getAttributData("ERROR")
-        if error == 7:
-            return True
-        else:
-            return False
-
     def is_open(self):
         """ Returns if the contact is open. """
         return self.get_state()
