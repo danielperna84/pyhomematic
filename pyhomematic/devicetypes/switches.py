@@ -10,47 +10,39 @@ class HMSwitch(HMDevice):
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
-        self._working = None
 
-        def working_callback(device, caller, attribute, value):
-            attribute = str(attribute).upper()
-            if attribute == 'WORKING':
-                self._working = value
-
-        self.setEventCallback(working_callback, True)
+        # init metadata
+        self.WRITENODE.update({"STATE": 0})
+        self.ATTRIBUTENODE.update({"WORKING": 0})
 
     def is_working(self, channel=1):
         """Return True of False if working or not"""
-        if channel > self.ELEMENT:
-            return False
-
-        if self._working is None:
-            self._working = self.CHILDREN[channel].getValue('WORKING')
-        return self._working
+        return self.getAttributData("WORKING", channel)
 
 
 class HMDimmer(HMSwitch):
     """
     Generic Dimmer function
     """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE = {"LEVEL": 0}
+
     def get_level(self, channel=1):
         """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
-        if channel > self.ELEMENT:
-            LOG.debug("HMDimmer.level: no element %d", channel)
-            return 0.0
-        return self.CHILDREN[channel].getValue('LEVEL')
+        return self.getWriteData("LEVEL", channel)
 
     def set_level(self, position, channel=1):
         """Seek a specific position by specifying a float() from 0.0 to 1.0."""
         try:
             position = float(position)
-            if channel > self.ELEMENT:
-                raise
         except Exception as err:
             LOG.debug("HMDimmer.level: Exception %s" % (err,))
             return False
 
-        self.CHILDREN[channel].setValue('LEVEL', position)
+        self.writeNodeData("LEVEL", position, channel)
 
 
 class Blind(HMDimmer):
@@ -58,20 +50,23 @@ class Blind(HMDimmer):
     HM-LC-Bl1-SM, HM-LC-Bl1-FM, HM-LC-Bl1-PB-FM, ZEL STG RM FEP 230V, 263 146, HM-LC-BlX
     Blind switch that raises and lowers roller shutters or window blinds.
     """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"STOP": 0})
+
     def move_up(self, channel=1):
         """Move the shutter up all the way."""
         self.set_level(1.0, channel)
 
     def move_down(self, channel=1):
         """Move the shutter down all the way."""
-        self.set_level(0.0, channel=1)
+        self.set_level(0.0, channel)
 
     def stop(self, channel=1):
         """Stop moving."""
-        if channel > self.ELEMENT:
-            LOG.debug("Blind.stop: no element %d", channel)
-            return 0.0
-        self.CHILDREN[channel].setValue('STOP', True)
+        self.writeNodeData("LEVEL", True, channel)
 
 
 class Dimmer(HMDimmer):
@@ -114,38 +109,33 @@ class Switch(HMSwitch):
 
     def is_on(self, channel=1):
         """ Returns if switch is on. """
-        return self.getState(channel)
+        return self.get_state(channel)
 
     def is_off(self, channel=1):
         """ Returns if switch is off. """
-        return not self.getState(channel)
+        return not self.get_state(channel)
 
-    def getState(self, channel=1):
+    def get_state(self, channel=1):
         """ Returns if switch is 'on' or 'off'. """
-        if channel > self.ELEMENT:
-            return false
+        return self.getWriteData("STATE", channel)
 
-        return self.CHILDREN[channel].getValue('STATE')
-
-    def setState(self, onoff, channel=1):
+    def set_state(self, onoff, channel=1):
         """Turn switch on/off"""
         try:
             onoff = bool(onoff)
-            if channel > self.ELEMENT:
-                raise
         except Exception as err:
             LOG.debug("Switch.setState: Exception %s" % (err,))
             return False
 
-        self.CHILDREN[channel].setValue('STATE', onoff)
+        self.setWriteData("STATE", onoff, channel)
 
     def on(self, channel=1):
         """Turn switch on."""
-        self.setState(True, channel)
+        self.set_state(True, channel)
 
     def off(self, channel=1):
         """Turn switch off."""
-        self.setState(False, channel)
+        self.set_state(False, channel)
 
 
 class SwitchPowermeter(Switch):
@@ -154,6 +144,11 @@ class SwitchPowermeter(Switch):
     HM-ES-PMSw1-Pl-DN-R5, HM-ES-PMSw1-DR, HM-ES-PMSw1-SM, HM-ES-PMSwX
     Switch turning plugged in device on or off and measuring energy consumption.
     """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"ON_TIME": 1})
 
     # Overwrite from Switch back to 1 element
     @property
@@ -168,7 +163,7 @@ class SwitchPowermeter(Switch):
             LOG.debug("SwitchPowermeter.set_ontime: Exception %s" % (err,))
             return False
 
-        self.CHILDREN[1].setValue('ON_TIME', ontime)
+        self.writeNodeData("ON_TIME", ontime)
 
 
 DEVICETYPES = {

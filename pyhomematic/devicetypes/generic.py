@@ -208,9 +208,11 @@ class HMDevice(HMGeneric):
         # - NONE  / getVaule from Parent
         # - 0  / getVaule from Channel dynamic
         # - 1..n / getValue from fix Channel
+        # - -1 / getValue with child 0 (MAX-System)
         self._SENSORNODE = {}
         self._BINARYNODE = {}
         self._ATTRIBUTENODE = {"RSSI_DEVICE": None}
+        self._WRITENODE = {}
 
         # These properties only exist for interfaces themselves
         self._CHILDREN = device_description.get('CHILDREN')
@@ -261,6 +263,10 @@ class HMDevice(HMGeneric):
     def ATTRIBUTENODE(self):
         return self._ATTRIBUTENODE
 
+    @property
+    def WRITENODE(self):
+        return self._WRITENODE
+
     def getAttributData(self, name, channel=1):
         """ Returns a attribut """
         return self._getNodeData(name, self._ATTRIBUTENODE, channel)
@@ -273,18 +279,39 @@ class HMDevice(HMGeneric):
         """ Returns a sensor node """
         return self._getNodeData(name, self._SENSORNODE, channel)
 
+    def getWriteData(self, name, channel=1):
+        """ Returns a sensor node """
+        return self._getNodeData(name, self._WRITENODE, channel)
+
     def _getNodeData(self, name, data, channel=1):
         """ Returns a data point from data"""
         if name in nodes:
-            node = data[name]
-            if node is None:
+            nodeChannel = data[name]
+            if nodeChannel is None:
                 return self.getValue(name)
-            elif node == 0:
-                node = channel
-            return self.CHILDREN[node].getValue(name)
+            elif nodeChannel == 0:
+                nodeChannel = channel
+            elif nodeChannel == -1:
+                nodeChannel = 0
+            return self.CHILDREN[nodeChannel].getValue(name)
 
         LOG.debug("HMDevice._getNodeData: %s not found in %s", name, data)
         return None
+
+    def writeNodeData(self, name, data, channel=1):
+        """ Returns a data point from data"""
+        if name in nodes:
+            nodeChannel = self.WRITENODE[name]
+            if nodeChannel is None:
+                return self.setValue(data)
+            elif nodeChannel == 0:
+                nodeChannel = channel
+            if nodeChannel <= self.ELEMENT
+                return self.CHILDREN[nodeChannel].setValue(data)
+
+        LOG.debug("HMDevice.writeNodeData: %s not found with value %s on %i",
+                  name, data, nodeChannel)
+        return False
 
     @property
     def ELEMENT(self):

@@ -20,6 +20,7 @@ class DefaultBinarySensor(HMBinarySensor):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(self, device_description, proxy, resolveparamsets)
 
+        # init metadata
         self.BINARYNODE.update({"STATE": 1})
         self.ATTRIBUTENODE.update({"LOWBAT": None, "ERROR": 1})
 
