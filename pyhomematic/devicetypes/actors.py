@@ -16,7 +16,7 @@ class HMActor(HMDevice):
 
     def is_working(self, channel=1):
         """Return True of False if working or not"""
-        return self.getAttributData("WORKING", channel)
+        return self.getAttributeData("WORKING", channel)
 
 
 class HMSwitch(HMActor):

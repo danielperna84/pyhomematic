@@ -267,7 +267,7 @@ class HMDevice(HMGeneric):
     def WRITENODE(self):
         return self._WRITENODE
 
-    def getAttributData(self, name, channel=1):
+    def getAttributeData(self, name, channel=1):
         """ Returns a attribut """
         return self._getNodeData(name, self._ATTRIBUTENODE, channel)
 
@@ -306,7 +306,7 @@ class HMDevice(HMGeneric):
                 return self.setValue(data)
             elif nodeChannel == 0:
                 nodeChannel = channel
-            if nodeChannel <= self.ELEMENT
+            if nodeChannel <= self.ELEMENT:
                 return self.CHILDREN[nodeChannel].setValue(data)
 
         LOG.debug("HMDevice.writeNodeData: %s not found with value %s on %i",

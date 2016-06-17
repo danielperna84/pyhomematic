@@ -4,7 +4,7 @@ from pyhomematic.devicetypes.generic import HMDevice
 LOG = logging.getLogger(__name__)
 
 
-class Thermostat(HMDevice):
+class HMThermostat(HMDevice):
     """
     HM-CC-RT-DN, HM-CC-RT-DN-BoM
     ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -49,7 +49,7 @@ class Thermostat(HMDevice):
     @property
     def mode(self):
         """ Return mode. """
-        return self.getAttributData("CONTROL_MODE")
+        return self.getAttributeData("CONTROL_MODE")
 
     @mode.setter
     def mode(self, setmode):
@@ -109,12 +109,12 @@ class Thermostat(HMDevice):
     @property
     def battery_state(self):
         """ Returns the current battery state. """
-        return self.getAttributData("BATTERY_STATE")
+        return selfgetAttributeDataa("BATTERY_STATE")
 
     @property
     def valve_state(self):
         """ Returns the current valve state. """
-        return self.getAttributData("VALVE_STATE")
+        return selgetAttributeDatata("VALVE_STATE")
 
 class Thermostat(HMThermostat):
     """

@@ -26,11 +26,11 @@ class DefaultBinarySensor(HMBinarySensor):
 
     def sabotage(self):
         """ Returns if the devicecase has been opened. """
-        return bool(self.getAttributData("ERROR"))
+        return bool(self.getAttributeData("ERROR"))
 
     def low_batt(self):
         """ Returns if the battery is low. """
-        return self.getAttributData("LOWBAT")
+        return selfgetAttributeDataa("LOWBAT")
 
 
 class ShutterContact(DefaultBinarySensor):
