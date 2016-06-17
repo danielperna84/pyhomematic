@@ -1,5 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, SimpleBinarySensor
 
 LOG = logging.getLogger(__name__)
 
@@ -12,28 +13,7 @@ class HMBinarySensor(HMDevice):
     pass
 
 
-class DefaultBinarySensor(HMBinarySensor):
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(self, device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.BINARYNODE.update({"STATE": 1})
-        self.ATTRIBUTENODE.update({"LOWBAT": None, "ERROR": 1})
-
-    def get_state(self, channel=1):
-        """ Returns current state of handle """
-        return self.getBinaryData("STATE", channel)
-
-    def sabotage(self, channel=1):
-        """ Returns if the devicecase has been opened. """
-        return bool(self.getAttributeData("ERROR", channel))
-
-    def low_batt(self, channel=1):
-        """ Returns if the battery is low. """
-        return selfgetAttributeDataa("LOWBAT", channel)
-
-
-class ShutterContact(DefaultBinarySensor):
+class ShutterContact(SimpleBinarySensor):
     """
     HM-Sec-SC, HM-Sec-SC-2, ZEL STG RM FFK, HM-Sec-SCo
     Door / Window contact that emits its open/closed state.
@@ -47,7 +27,7 @@ class ShutterContact(DefaultBinarySensor):
         return not bool(self.get_state(channel))
 
 
-class RotaryHandleSensor(DefaultBinarySensor):
+class RotaryHandleSensor(SimpleBinarySensor):
     """
     HM-Sec-RHS, ZEL STG RM FDK, HM-Sec-RHS-2, HM-Sec-xx
     Window handle contact
@@ -120,6 +100,13 @@ class Motion(HMBinarySensor, HMSensor):
         return self.getSensorData("BRIGHTNESS", channel)
 
 
+class MotionV2(Motion, HelperSabotage):
+    """
+    HM-Sec-MDIR-3, HM-Sec-MDIR-2, HM-Sec-MDIR, 263 162, HM-Sec-MD
+    """
+    pass
+
+
 class RemoteMotion(Remote, Motion):
     """
     HM-Sen-MDIR-WM55
@@ -183,5 +170,10 @@ DEVICETYPES = {
     "HM-Sen-MDIR-SM": Motion,
     "HM-Sen-MDIR-O": Motion,
     "HM-MD": Motion,
-    "HM-Sen-MDIR-O-2": Motion
+    "HM-Sen-MDIR-O-2": Motion,
+    "HM-Sec-MDIR-3": MotionV2,
+    "HM-Sec-MDIR-2": MotionV2,
+    "HM-Sec-MDIR": MotionV2,
+    "263 162": MotionV2,
+    "HM-Sec-MD": MotionV2
 }
