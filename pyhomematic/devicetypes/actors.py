@@ -139,9 +139,9 @@ class Switch(HMSwitch):
     """
     @property
     def ELEMENT(self):
-        if "Sw2" in self._TYPE:
+        if "LC-Sw2" in self.TYPE:
             return 2
-        elif "Sw4" in self._TYPE:
+        elif "LC-Sw4" in self.TYPE:
             return 4
         return 1
 
@@ -156,12 +156,7 @@ class SwitchPowermeter(Switch):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"ON_TIME": 1})
-
-    # Overwrite from Switch back to 1 element
-    @property
-    def ELEMENT(self):
-        return 1
+        self.WRITENODE.update({"ON_TIME": 2})
 
     def set_ontime(self, ontime):
         """Set duration th switch stays on when toggled. """

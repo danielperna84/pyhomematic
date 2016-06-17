@@ -56,7 +56,7 @@ time.sleep(10)
 print(pyhomematic.devices_all[DEVICE1 + ':1'].getValue("LEVEL"))
 
 # Check if doorcontact is open by querying the device.
-print(pyhomematic.devices[DEVICE2].is_open)
+print(pyhomematic.devices[DEVICE2].is_open())
 
 # Check if doorcontact is open or closed by querying the device-channel. True or False, depending on state.
 print(pyhomematic.devices_all[DEVICE2 + ':1'].getValue("STATE"))

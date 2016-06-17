@@ -9,11 +9,7 @@ class HMSensor(HMDevice):
 
 
 class HMBinarySensor(HMDevice):
-    def get_state(self, channel=1):
-        """ Returns current state of handle """
-        for name in self.BINARYNODE:
-            return self.getBinaryData(name, channel)
-        return None
+    pass
 
 
 class DefaultBinarySensor(HMBinarySensor):
@@ -24,13 +20,17 @@ class DefaultBinarySensor(HMBinarySensor):
         self.BINARYNODE.update({"STATE": 1})
         self.ATTRIBUTENODE.update({"LOWBAT": None, "ERROR": 1})
 
-    def sabotage(self):
-        """ Returns if the devicecase has been opened. """
-        return bool(self.getAttributeData("ERROR"))
+    def get_state(self, channel=1):
+        """ Returns current state of handle """
+        return self.getBinaryData("STATE", channel)
 
-    def low_batt(self):
+    def sabotage(self, channel=1):
+        """ Returns if the devicecase has been opened. """
+        return bool(self.getAttributeData("ERROR", channel))
+
+    def low_batt(self, channel=1):
         """ Returns if the battery is low. """
-        return selfgetAttributeDataa("LOWBAT")
+        return selfgetAttributeDataa("LOWBAT", channel)
 
 
 class ShutterContact(DefaultBinarySensor):
@@ -38,13 +38,13 @@ class ShutterContact(DefaultBinarySensor):
     HM-Sec-SC, HM-Sec-SC-2, ZEL STG RM FFK, HM-Sec-SCo
     Door / Window contact that emits its open/closed state.
     """
-    def is_open(self):
+    def is_open(self, channel=1):
         """ Returns if the contact is open. """
-        return self.get_state()
+        return bool(self.get_state(channel))
 
-    def is_closed(self):
+    def is_closed(self, channel=1):
         """ Returns if the contact is closed. """
-        return not self.get_state()
+        return not bool(self.get_state(channel))
 
 
 class RotaryHandleSensor(DefaultBinarySensor):
@@ -52,17 +52,17 @@ class RotaryHandleSensor(DefaultBinarySensor):
     HM-Sec-RHS, ZEL STG RM FDK, HM-Sec-RHS-2, HM-Sec-xx
     Window handle contact
     """
-    def is_open(self):
+    def is_open(self, channel=1):
         """ Returns if the handle is open. """
-        return self.get_state() == 2
+        return self.get_state(channel) == 2
 
-    def is_closed(self):
+    def is_closed(self, channel=1):
         """ Returns if the handle is closed. """
-        return self.get_state() == 0
+        return self.get_state(channel) == 0
 
-    def is_tilted(self):
+    def is_tilted(self, channel=1):
         """ Returns if the handle is tilted. """
-        return self.get_state() == 1
+        return self.get_state(channel) == 1
 
 
 class Remote(HMBinarySensor):
@@ -79,6 +79,64 @@ class Remote(HMBinarySensor):
 
         self.BINARYNODE.update({"PRESS_SHORT": 0, "PRESS_LONG": 0})
 
+    @property
+    def ELEMENT(self):
+        if "RC-2" in self.TYPE or "PB-2" in self.TYPE:
+            return 2
+        if "Sec3" in self.TYPE or "Key3" in self.TYPE:
+            return 3
+        if "RC-4" in self.TYPE or "PB-4" in self.TYPE:
+            return 4
+        if "Sec4" in self.TYPE or "Key4" in self.TYPE:
+            return 4
+        if "PB-6" in self.TYPE:
+            return 6
+        if "RC-8" in self.TYPE:
+            return 8
+        if "RC-12" in self.TYPE:
+            return 12
+        if "RC-19" in self.TYPE:
+            return 19
+        return 1
+
+
+class Motion(HMBinarySensor, HMSensor):
+    """
+    HM-Sen-MDIR-SM, HM-Sen-MDIR-O, HM-MD, HM-Sen-MDIR-O-2
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(self, device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION": 0})
+        self.SENSORNODE.update({"BRIGHTNESS": 0})
+
+    def is_motion(self, channel=1):
+        """ Return is motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def get_brightness(self, channel=1):
+        """ Return brightness """
+        return self.getSensorData("BRIGHTNESS", channel)
+
+
+class RemoteMotion(Remote, Motion):
+    """
+    HM-Sen-MDIR-WM55
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(self, device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION": 3,
+                                "PRESS_SHORT": 0,
+                                "PRESS_LONG": 0})
+        self.SENSORNODE.update({"BRIGHTNESS": 3})
+
+    @property
+    def ELEMENT(self):
+        return 2
+
 
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
@@ -89,7 +147,6 @@ DEVICETYPES = {
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,
     "HM-Sec-xx": RotaryHandleSensor,
-    "HM-RC-8": Remote,
     "BRC-H": Remote,
     "HM-RC-2-PBU-FM": Remote,
     "HM-RC-Dis-H-x-EU": Remote,
@@ -121,5 +178,10 @@ DEVICETYPES = {
     "HM-PB-6-WM55": Remote,
     "RC-H": Remote,
     "atent": Remote,
-    "ZEL STG RM HS 4": Remote
+    "ZEL STG RM HS 4": Remote,
+    "HM-Sen-MDIR-WM55": RemoteMotion,
+    "HM-Sen-MDIR-SM": Motion,
+    "HM-Sen-MDIR-O": Motion,
+    "HM-MD": Motion,
+    "HM-Sen-MDIR-O-2": Motion
 }

@@ -76,7 +76,7 @@ class HMGeneric(object):
         Handle the event received by server.
         """
         LOG.info(
-                "HMDevice.event: address=%s, interface_id=%s, key=%s, value=%s"
+                "HMGeneric.event: address=%s, interface_id=%s, key=%s, value=%s"
                 % (self._ADDRESS, interface_id, key, value))
         if key == PARAM_UNREACH:
             self._unreach = value
@@ -91,7 +91,7 @@ class HMGeneric(object):
         try:
             self._PARAMSET_DESCRIPTIONS[paramset] = self._proxy.getParamsetDescription(self._ADDRESS, paramset)
         except Exception as err:
-            LOG.debug("HMDevice.getParamsetDescription: Exception: " + str(err))
+            LOG.debug("HMGeneric.getParamsetDescription: Exception: " + str(err))
             return False
 
     def updateParamset(self, paramset):
@@ -111,7 +111,7 @@ class HMGeneric(object):
                         return True
             return False
         except Exception as err:
-            LOG.debug("HMDevice.updateParamset: Exception: %s, %s, %s" % (str(err), str(self._ADDRESS), str(paramset)))
+            LOG.debug("HMGeneric.updateParamset: Exception: %s, %s, %s" % (str(err), str(self._ADDRESS), str(paramset)))
             return False
 
     def updateParamsets(self):
@@ -123,7 +123,7 @@ class HMGeneric(object):
                 self.updateParamset(ps)
             return True
         except Exception as err:
-            LOG.debug("HMDevice.updateParamsets: Exception: " + str(err))
+            LOG.debug("HMGeneric.updateParamsets: Exception: " + str(err))
             return False
 
     def putParamset(self, paramset, data={}):
@@ -143,7 +143,7 @@ class HMGeneric(object):
             else:
                 return False
         except Exception as err:
-            LOG.debug("HMDevice.putParamset: Exception: " + str(err))
+            LOG.debug("HMGeneric.putParamset: Exception: " + str(err))
             return False
 
 
@@ -295,7 +295,7 @@ class HMDevice(HMGeneric):
                 nodeChannel = 0
             return self.CHILDREN[nodeChannel].getValue(name)
 
-        LOG.debug("HMDevice._getNodeData: %s not found in %s", name, data)
+        LOG.error("HMDevice._getNodeData: %s not found in %s", name, data)
         return None
 
     def writeNodeData(self, name, data, channel=1):
@@ -309,7 +309,7 @@ class HMDevice(HMGeneric):
             if nodeChannel <= self.ELEMENT:
                 return self.CHILDREN[nodeChannel].setValue(data)
 
-        LOG.debug("HMDevice.writeNodeData: %s not found with value %s on %i",
+        LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i",
                   name, data, nodeChannel)
         return False
 
