@@ -1,25 +1,11 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
+from pyhomematic.devicetypes.helper import HelperWorking
 
 LOG = logging.getLogger(__name__)
 
 
-class HMActor(HMDevice):
-    """
-    Generic HM Switch Object
-    """
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.ATTRIBUTENODE.update({"WORKING": 0})
-
-    def is_working(self, channel=1):
-        """Return True of False if working or not"""
-        return self.getAttributeData("WORKING", channel)
-
-
-class HMSwitch(HMActor):
+class HMSwitch(HelperWorking):
     """
     Generic HM Switch Object
     """
@@ -60,7 +46,7 @@ class HMSwitch(HMActor):
         self.set_state(False, channel)
 
 
-class HMDimmer(HMActor):
+class HMDimmer(HelperWorking):
     """
     Generic Dimmer function
     """

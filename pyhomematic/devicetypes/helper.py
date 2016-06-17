@@ -29,12 +29,28 @@ class HelperLowBat(HMDevice):
         return selfgetAttributeDataa("LOWBAT", channel)
 
 
-class SimpleBinarySensor(HelperSabotage, HelperLowBat):
+class HelperWorking(HMDevice):
+    """
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"WORKING": 0})
+
+    def is_working(self, channel=1):
+        """Return True of False if working or not"""
+        return self.getAttributeData("WORKING", channel)
+
+
+class HelperBinaryState(HMDevice):
+    """
+    """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(self, device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.BINARYNODE.update({"STATE": 1})
+        self.BINARYNODE.update({"STATE": 0})
 
     def get_state(self, channel=1):
         """ Returns current state of handle """

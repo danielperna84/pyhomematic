@@ -1,6 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, SimpleBinarySensor
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperBinaryState
 
 LOG = logging.getLogger(__name__)
 
@@ -13,7 +13,7 @@ class HMBinarySensor(HMDevice):
     pass
 
 
-class ShutterContact(SimpleBinarySensor):
+class ShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabotage):
     """
     HM-Sec-SC, HM-Sec-SC-2, ZEL STG RM FFK, HM-Sec-SCo
     Door / Window contact that emits its open/closed state.
@@ -27,7 +27,7 @@ class ShutterContact(SimpleBinarySensor):
         return not bool(self.get_state(channel))
 
 
-class RotaryHandleSensor(SimpleBinarySensor):
+class RotaryHandleSensor(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabotage):
     """
     HM-Sec-RHS, ZEL STG RM FDK, HM-Sec-RHS-2, HM-Sec-xx
     Window handle contact
