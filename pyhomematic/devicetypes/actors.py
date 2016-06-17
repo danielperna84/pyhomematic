@@ -4,7 +4,22 @@ from pyhomematic.devicetypes.generic import HMDevice
 LOG = logging.getLogger(__name__)
 
 
-class HMSwitch(HMDevice):
+class HMActor(HMDevice):
+    """
+    Generic HM Switch Object
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"WORKING": 0})
+
+    def is_working(self, channel=1):
+        """Return True of False if working or not"""
+        return self.getAttributData("WORKING", channel)
+
+
+class HMSwitch(HMActor):
     """
     Generic HM Switch Object
     """
@@ -13,14 +28,39 @@ class HMSwitch(HMDevice):
 
         # init metadata
         self.WRITENODE.update({"STATE": 0})
-        self.ATTRIBUTENODE.update({"WORKING": 0})
 
-    def is_working(self, channel=1):
-        """Return True of False if working or not"""
-        return self.getAttributData("WORKING", channel)
+    def is_on(self, channel=1):
+        """ Returns if switch is on. """
+        return self.get_state(channel)
+
+    def is_off(self, channel=1):
+        """ Returns if switch is off. """
+        return not self.get_state(channel)
+
+    def get_state(self, channel=1):
+        """ Returns if switch is 'on' or 'off'. """
+        return self.getWriteData("STATE", channel)
+
+    def set_state(self, onoff, channel=1):
+        """Turn switch on/off"""
+        try:
+            onoff = bool(onoff)
+        except Exception as err:
+            LOG.debug("Switch.setState: Exception %s" % (err,))
+            return False
+
+        self.setWriteData("STATE", onoff, channel)
+
+    def on(self, channel=1):
+        """Turn switch on."""
+        self.set_state(True, channel)
+
+    def off(self, channel=1):
+        """Turn switch off."""
+        self.set_state(False, channel)
 
 
-class HMDimmer(HMSwitch):
+class HMDimmer(HMActor):
     """
     Generic Dimmer function
     """
@@ -28,7 +68,7 @@ class HMDimmer(HMSwitch):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE = {"LEVEL": 0}
+        self.WRITENODE.update({"LEVEL": 0})
 
     def get_level(self, channel=1):
         """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
@@ -66,7 +106,7 @@ class Blind(HMDimmer):
 
     def stop(self, channel=1):
         """Stop moving."""
-        self.writeNodeData("LEVEL", True, channel)
+        self.writeNodeData("STOP", True, channel)
 
 
 class Dimmer(HMDimmer):
@@ -79,7 +119,6 @@ class Dimmer(HMDimmer):
     def ELEMENT(self):
         if "Dim2L" in self._TYPE:
             return 2
-
         return 1
 
     def on(self, channel=1):
@@ -104,38 +143,7 @@ class Switch(HMSwitch):
             return 2
         elif "Sw4" in self._TYPE:
             return 4
-
         return 1
-
-    def is_on(self, channel=1):
-        """ Returns if switch is on. """
-        return self.get_state(channel)
-
-    def is_off(self, channel=1):
-        """ Returns if switch is off. """
-        return not self.get_state(channel)
-
-    def get_state(self, channel=1):
-        """ Returns if switch is 'on' or 'off'. """
-        return self.getWriteData("STATE", channel)
-
-    def set_state(self, onoff, channel=1):
-        """Turn switch on/off"""
-        try:
-            onoff = bool(onoff)
-        except Exception as err:
-            LOG.debug("Switch.setState: Exception %s" % (err,))
-            return False
-
-        self.setWriteData("STATE", onoff, channel)
-
-    def on(self, channel=1):
-        """Turn switch on."""
-        self.set_state(True, channel)
-
-    def off(self, channel=1):
-        """Turn switch off."""
-        self.set_state(False, channel)
 
 
 class SwitchPowermeter(Switch):

@@ -77,7 +77,7 @@ class Remote(HMBinarySensor):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(self, device_description, proxy, resolveparamsets)
 
-        self.BINARYNODE.update({"STATE": 0})
+        self.BINARYNODE.update({"PRESS_SHORT": 0, "PRESS_LONG": 0})
 
 
 DEVICETYPES = {
