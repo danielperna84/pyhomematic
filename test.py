@@ -22,16 +22,15 @@ def eventcallback(address, interface_id, key, value):
 @click.option("--remotePort", "-rp", default=2001, help="Remote port for CCU/homegear")
 @click.option("--address", "-a", help="Address of homematic device for tests")
 @click.option("--channel", "-c", default=1, help="Homematic device channel")
-@click.option("--time", "-t", default=30, help="Time in sec for waiting of events (debug)")
-def cli(local, localPort, remote, remotePort, address, channel, time):
-
+@click.option("--timer", "-t", default=30, help="Time in sec for waiting of events (debug)")
+def cli(local, localport, remote, remoteport, address, channel, timer):
     try:
         # Connect to HM
         pyhomematic = HMConnection(interface_id="test-pyhomatic",
                                    local=local,
-                                   localport=localPort,
+                                   localport=localport,
                                    remote=remote,
-                                   remoteport=remotePort,
+                                   remoteport=remoteport,
                                    autostart=True,
                                    systemcallback=systemcallback)
     except:
@@ -47,8 +46,11 @@ def cli(local, localPort, remote, remotePort, address, channel, time):
     print(pyhomematic.devices)
 
     # do nothing for show & debug events
-    time.sleep(time)
+    print("Now waiting for events/callback")
+    time.sleep(timer)
 
+    # end
+    pyhomematic.stop();
 
 if __name__ == "__main__":
     cli()
