@@ -1,5 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
+from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.helper import HelperWorking
 
 LOG = logging.getLogger(__name__)
@@ -132,7 +133,7 @@ class Switch(HMSwitch):
         return 1
 
 
-class SwitchPowermeter(HMSwitch):
+class SwitchPowermeter(HMSwitch, HMSensor):
     """
     HM-ES-PMSw1-Pl, HM-ES-PMSw1-Pl-DN-R1, HM-ES-PMSw1-Pl-DN-R2, HM-ES-PMSw1-Pl-DN-R3, HM-ES-PMSw1-Pl-DN-R4
     HM-ES-PMSw1-Pl-DN-R5, HM-ES-PMSw1-DR, HM-ES-PMSw1-SM, HM-ES-PMSwX
