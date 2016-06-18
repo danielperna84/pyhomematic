@@ -206,9 +206,8 @@ class HMDevice(HMGeneric):
         # "NODE_NAME": channel
         #  for Channel is Possible:
         # - NONE  / getVaule from Parent
-        # - 0  / getVaule from Channel dynamic
-        # - 1..n / getValue from fix Channel
-        # - -1 / getValue with child 0 (MAX-System)
+        # - c  / getVaule from Channel dynamic
+        # - 0..n / getValue from fix Channel
         self._SENSORNODE = {}
         self._BINARYNODE = {}
         self._ATTRIBUTENODE = {"RSSI_DEVICE": None}
@@ -289,11 +288,10 @@ class HMDevice(HMGeneric):
             nodeChannel = data[name]
             if nodeChannel is None:
                 return self.getValue(name)
-            elif nodeChannel == 0:
+            elif nodeChannel == 'c':
                 nodeChannel = channel
-            elif nodeChannel == -1:
-                nodeChannel = 0
-            return self.CHILDREN[nodeChannel].getValue(name)
+            if nodeChannel <= self.ELEMENT:
+                return self.CHILDREN[nodeChannel].getValue(name)
 
         LOG.error("HMDevice._getNodeData: %s not found in %s", name, data)
         return None
@@ -304,7 +302,7 @@ class HMDevice(HMGeneric):
             nodeChannel = self.WRITENODE[name]
             if nodeChannel is None:
                 return self.setValue(data)
-            elif nodeChannel == 0:
+            elif nodeChannel == 'c':
                 nodeChannel = channel
             if nodeChannel <= self.ELEMENT:
                 return self.CHILDREN[nodeChannel].setValue(data)

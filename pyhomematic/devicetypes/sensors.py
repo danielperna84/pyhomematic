@@ -57,7 +57,7 @@ class Remote(HMBinarySensor):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(self, device_description, proxy, resolveparamsets)
 
-        self.BINARYNODE.update({"PRESS_SHORT": 0, "PRESS_LONG": 0})
+        self.BINARYNODE.update({"PRESS_SHORT": 'c', "PRESS_LONG": 'c'})
 
     @property
     def ELEMENT(self):
@@ -88,8 +88,8 @@ class Motion(HMBinarySensor, HMSensor):
         super().__init__(self, device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.BINARYNODE.update({"MOTION": 0})
-        self.SENSORNODE.update({"BRIGHTNESS": 0})
+        self.BINARYNODE.update({"MOTION": 'c'})
+        self.SENSORNODE.update({"BRIGHTNESS": 'c'})
 
     def is_motion(self, channel=1):
         """ Return is motion is detected """
@@ -116,8 +116,8 @@ class RemoteMotion(Remote, Motion):
 
         # init metadata
         self.BINARYNODE.update({"MOTION": 3,
-                                "PRESS_SHORT": 0,
-                                "PRESS_LONG": 0})
+                                "PRESS_SHORT": 'c',
+                                "PRESS_LONG": 'c'})
         self.SENSORNODE.update({"BRIGHTNESS": 3})
 
     @property

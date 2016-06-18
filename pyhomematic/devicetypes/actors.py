@@ -13,7 +13,7 @@ class HMSwitch(HelperWorking):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"STATE": 0})
+        self.WRITENODE.update({"STATE": 'c'})
 
     def is_on(self, channel=1):
         """ Returns if switch is on. """
@@ -54,7 +54,7 @@ class HMDimmer(HelperWorking):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"LEVEL": 0})
+        self.WRITENODE.update({"LEVEL": 'c'})
 
     def get_level(self, channel=1):
         """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
@@ -80,7 +80,7 @@ class Blind(HMDimmer):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"STOP": 0})
+        self.WRITENODE.update({"STOP": 'c'})
 
     def move_up(self, channel=1):
         """Move the shutter up all the way."""

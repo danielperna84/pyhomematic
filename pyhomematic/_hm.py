@@ -30,7 +30,7 @@ working = False
 
 
 # Object holding the methods the XML-RPC server should provide.
-class RPCFunctions:
+class RPCFunctions(object):
     def __init__(self,
                  devicefile=DEVICEFILE,
                  proxy=False,

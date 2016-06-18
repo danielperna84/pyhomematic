@@ -150,7 +150,7 @@ class MAXThermostat(HMThermostat):
                                "MANU_MODE": 1,
                                "PARTY_MODE": 1,
                                "BOOST_MODE": 1})
-        self.ATTRIBUTENODE.update({"BATTERY_STATE": -1, "CONTROL_MODE": 1})
+        self.ATTRIBUTENODE.update({"BATTERY_STATE": 0, "CONTROL_MODE": 1})
 
 
 DEVICETYPES = {

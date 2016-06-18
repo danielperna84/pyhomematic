@@ -8,7 +8,7 @@ class HelperSabotage(HMDevice):
         super().__init__(self, device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"ERROR": 0})
+        self.ATTRIBUTENODE.update({"ERROR": 'c'})
 
     def sabotage(self, channel=1):
         """ Returns if the devicecase has been opened. """
@@ -36,7 +36,7 @@ class HelperWorking(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"WORKING": 0})
+        self.ATTRIBUTENODE.update({"WORKING": 'c'})
 
     def is_working(self, channel=1):
         """Return True of False if working or not"""
@@ -50,7 +50,7 @@ class HelperBinaryState(HMDevice):
         super().__init__(self, device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.BINARYNODE.update({"STATE": 0})
+        self.BINARYNODE.update({"STATE": 'c'})
 
     def get_state(self, channel=1):
         """ Returns current state of handle """
