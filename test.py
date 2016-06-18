@@ -4,7 +4,6 @@ import logging
 import click
 from pyhomematic import HMConnection
 
-logging.basicConfig(level=logging.DEBUG)
 
 def systemcallback(src, *args):
     print(src)
@@ -23,7 +22,15 @@ def eventcallback(address, interface_id, key, value):
 @click.option("--address", "-a", help="Address of homematic device for tests")
 @click.option("--channel", "-c", default=1, help="Homematic device channel")
 @click.option("--timer", "-t", default=30, help="Time in sec for waiting of events (debug)")
-def cli(local, localport, remote, remoteport, address, channel, timer):
+@click.option("--debug", "-d", is_flag=True, help="Use DEBUG instead INFO for logger")
+def cli(local, localport, remote, remoteport, address, channel, timer, debug):
+
+    # debug?
+    if debug:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+
     try:
         # Connect to HM
         pyhomematic = HMConnection(interface_id="test-pyhomatic",
