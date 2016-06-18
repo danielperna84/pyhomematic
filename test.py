@@ -4,7 +4,7 @@ import logging
 import click
 from pyhomematic import HMConnection
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 def systemcallback(src, *args):
     print(src)

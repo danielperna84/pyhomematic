@@ -5,7 +5,7 @@ class HelperSabotage(HMDevice):
     """
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
         self.ATTRIBUTENODE.update({"ERROR": 'c'})
@@ -19,7 +19,7 @@ class HelperLowBat(HMDevice):
     """
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
         self.ATTRIBUTENODE.update({"LOWBAT": None})
@@ -47,7 +47,7 @@ class HelperBinaryState(HMDevice):
     """
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
         self.BINARYNODE.update({"STATE": 'c'})

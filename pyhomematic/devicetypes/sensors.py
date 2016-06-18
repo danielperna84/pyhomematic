@@ -55,7 +55,7 @@ class Remote(HMBinarySensor):
     Remote handle buttons
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(device_description, proxy, resolveparamsets)
 
         self.BINARYNODE.update({"PRESS_SHORT": 'c', "PRESS_LONG": 'c'})
 
@@ -85,7 +85,7 @@ class Motion(HMBinarySensor, HMSensor):
     HM-Sen-MDIR-SM, HM-Sen-MDIR-O, HM-MD, HM-Sen-MDIR-O-2
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
         self.BINARYNODE.update({"MOTION": 'c'})
@@ -112,7 +112,7 @@ class RemoteMotion(Remote, Motion):
     HM-Sen-MDIR-WM55
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
         self.BINARYNODE.update({"MOTION": 3,

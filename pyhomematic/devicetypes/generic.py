@@ -57,7 +57,7 @@ class HMGeneric(object):
             self._proxy.setValue(self._ADDRESS, key, value)
             return True
         except Exception as err:
-            LOG.debug("HMDevice.setValue: Exception: " + str(err))
+            LOG.error("HMDevice.setValue: Exception: " + str(err))
             return False
 
     def getValue(self, key):
@@ -68,7 +68,7 @@ class HMGeneric(object):
             returnvalue = self._proxy.getValue(self._ADDRESS, key)
             return returnvalue
         except Exception as err:
-            LOG.debug("HMDevice.setValue: Exception: " + str(err))
+            LOG.error("HMDevice.setValue: Exception: " + str(err))
             return False
 
     def event(self, interface_id, key, value):
@@ -91,7 +91,7 @@ class HMGeneric(object):
         try:
             self._PARAMSET_DESCRIPTIONS[paramset] = self._proxy.getParamsetDescription(self._ADDRESS, paramset)
         except Exception as err:
-            LOG.debug("HMGeneric.getParamsetDescription: Exception: " + str(err))
+            LOG.error("HMGeneric.getParamsetDescription: Exception: " + str(err))
             return False
 
     def updateParamset(self, paramset):
@@ -123,7 +123,7 @@ class HMGeneric(object):
                 self.updateParamset(ps)
             return True
         except Exception as err:
-            LOG.debug("HMGeneric.updateParamsets: Exception: " + str(err))
+            LOG.error("HMGeneric.updateParamsets: Exception: " + str(err))
             return False
 
     def putParamset(self, paramset, data={}):
@@ -143,13 +143,13 @@ class HMGeneric(object):
             else:
                 return False
         except Exception as err:
-            LOG.debug("HMGeneric.putParamset: Exception: " + str(err))
+            LOG.error("HMGeneric.putParamset: Exception: " + str(err))
             return False
 
 
 class HMChannel(HMGeneric):
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(device_description, proxy, resolveparamsets)
 
         # These properties only exist for device-channels
         self._PARENT = device_description.get('PARENT')
@@ -198,7 +198,7 @@ class HMChannel(HMGeneric):
 
 class HMDevice(HMGeneric):
     def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(self, device_description, proxy, resolveparamsets)
+        super().__init__(device_description, proxy, resolveparamsets)
 
         self.CHILDREN = {}
 
