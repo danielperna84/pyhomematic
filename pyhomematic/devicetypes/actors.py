@@ -132,7 +132,7 @@ class Switch(HMSwitch):
         return 1
 
 
-class SwitchPowermeter(Switch):
+class SwitchPowermeter(HMSwitch):
     """
     HM-ES-PMSw1-Pl, HM-ES-PMSw1-Pl-DN-R1, HM-ES-PMSw1-Pl-DN-R2, HM-ES-PMSw1-Pl-DN-R3, HM-ES-PMSw1-Pl-DN-R4
     HM-ES-PMSw1-Pl-DN-R5, HM-ES-PMSw1-DR, HM-ES-PMSw1-SM, HM-ES-PMSwX
@@ -142,7 +142,11 @@ class SwitchPowermeter(Switch):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"ON_TIME": 2})
+        self.WRITENODE.update({"ON_TIME": 'c'})
+        self.SENSORNODE.update({"POWER": 2,
+                                "CURRENT": 2,
+                                "VOLTAGE": 2,
+                                "ENERGY_COUNTER": 2})
 
     def set_ontime(self, ontime):
         """Set duration th switch stays on when toggled. """
@@ -153,7 +157,6 @@ class SwitchPowermeter(Switch):
             return False
 
         self.writeNodeData("ON_TIME", ontime)
-
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
