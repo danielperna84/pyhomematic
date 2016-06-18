@@ -133,10 +133,10 @@ class RPCFunctions(object):
 
     def event(self, interface_id, address, value_key, value):
         """If a device emits some sort event, we will handle it here."""
-        LOG.debug("RPCFunctions.event: interface_id = %s, address = %s, value_key = %s, value = %s" % (interface_id, address, value_key, str(value)))
-        self.devices_all[address].event(interface_id, value_key, value)
+        LOG.debug("RPCFunctions.event: interface_id = %s, address = %s, value_key = %s, value = %s" % (interface_id, address, value_key.upper(), str(value)))
+        self.devices_all[address].event(interface_id, value_key.upper(), value)
         if self.eventcallback:
-            self.eventcallback(interface_id=interface_id, address=address, value_key=value_key, value=value)
+            self.eventcallback(interface_id=interface_id, address=address, value_key=value_key.upper(), value=value)
         return True
 
     def listDevices(self, interface_id):

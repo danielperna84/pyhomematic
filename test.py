@@ -6,12 +6,14 @@ from pyhomematic import HMConnection
 
 
 def systemcallback(src, *args):
+    print("##### SYSTEMCALLBACK #######")
     print(src)
     for arg in args:
         print(arg)
+    print("############################")
 
 def eventcallback(address, interface_id, key, value):
-    print("CALLBACK: %s, %s, %s, %s" % (address, interface_id, key, value))
+    print("## CALLBACK: %s, %s, %s, %s ##" % (address, interface_id, key, value))
 
 
 @click.command()
@@ -52,12 +54,19 @@ def cli(local, localport, remote, remoteport, address, channel, timer, debug):
         time.sleep(1)
     print(pyhomematic.devices)
 
+    # need test a hm object?
+    if address in pyhomematic.devices:
+        device = pyhomematic.devices[address]
+
+        print("Show metadata from %s" % address)
+        print("Elements: %i / Childs: %i" % (device.ELEMENT, len(device.CHILDREN)))
+
     # do nothing for show & debug events
     print("Now waiting for events/callback")
     time.sleep(timer)
 
     # end
-    pyhomematic.stop();
+    pyhomematic.stop()
 
 if __name__ == "__main__":
     cli()
