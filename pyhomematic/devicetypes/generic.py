@@ -293,7 +293,7 @@ class HMDevice(HMGeneric):
             if nodeChannel <= self.ELEMENT:
                 return self.CHILDREN[nodeChannel].getValue(name)
 
-        LOG.error("HMDevice._getNodeData: %s not found in %s", name, data)
+        LOG.error("HMDevice._getNodeData: %s not found in %s" % (name, data))
         return None
 
     def writeNodeData(self, name, data, channel=1):
@@ -307,8 +307,8 @@ class HMDevice(HMGeneric):
             if nodeChannel <= self.ELEMENT:
                 return self.CHILDREN[nodeChannel].setValue(data)
 
-        LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i",
-                  name, data, nodeChannel)
+        LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i" %
+                  (name, data, nodeChannel))
         return False
 
     @property
