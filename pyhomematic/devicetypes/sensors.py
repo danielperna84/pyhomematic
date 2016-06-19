@@ -19,11 +19,11 @@ class ShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabo
     Door / Window contact that emits its open/closed state.
     """
     def is_open(self, channel=1):
-        """ Returns if the contact is open. """
+        """ Returns True if the contact is open. """
         return bool(self.get_state(channel))
 
     def is_closed(self, channel=1):
-        """ Returns if the contact is closed. """
+        """ Returns True if the contact is closed. """
         return not bool(self.get_state(channel))
 
 
@@ -33,15 +33,15 @@ class RotaryHandleSensor(HMBinarySensor, HelperBinaryState, HelperLowBat, Helper
     Window handle contact
     """
     def is_open(self, channel=1):
-        """ Returns if the handle is open. """
+        """ Returns True if the handle is set to open. """
         return self.get_state(channel) == 2
 
     def is_closed(self, channel=1):
-        """ Returns if the handle is closed. """
+        """ Returns True if the handle is set to closed. """
         return self.get_state(channel) == 0
 
     def is_tilted(self, channel=1):
-        """ Returns if the handle is tilted. """
+        """ Returns True if the handle is set to tilted. """
         return self.get_state(channel) == 1
 
 class Smoke(HMBinarySensor, HelperBinaryState):
@@ -50,7 +50,7 @@ class Smoke(HMBinarySensor, HelperBinaryState):
     Smoke alarm
     """
     def is_smoke(self, channel=1):
-        """ Return is smoke is detected """
+        """ Return True if smoke is detected """
         return bool(self.get_state(channel))
 
 
@@ -113,11 +113,11 @@ class Motion(HMBinarySensor, HMSensor):
         self.SENSORNODE.update({"BRIGHTNESS": 'c'})
 
     def is_motion(self, channel=1):
-        """ Return is motion is detected """
+        """ Return True if motion is detected """
         return bool(self.getBinaryData("MOTION", channel))
 
     def get_brightness(self, channel=1):
-        """ Return brightness """
+        """ Return brightness from 0 (dark ) to 255 (bright) """
         return int(self.getSensorData("BRIGHTNESS", channel))
 
 
@@ -157,7 +157,7 @@ class AreaThermostat(HMSensor):
         # init metadata
         self.SENSORNODE.update({"TEMPERATURE": 'c', "HUMIDITY": 'c'})
 
-    def get_temperatur(self, channel=1):
+    def get_temperature(self, channel=1):
         return float(self.getSensorData("TEMPERATURE", channel))
 
     def get_humidity(self, channel=1):
