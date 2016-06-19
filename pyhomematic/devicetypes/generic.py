@@ -212,7 +212,7 @@ class HMDevice(HMGeneric):
         # - 0..n / getValue from fix Channel
         self._SENSORNODE = {}
         self._BINARYNODE = {}
-        self._ATTRIBUTENODE = {"RSSI_DEVICE": None}
+        self._ATTRIBUTENODE = {"RSSI_DEVICE": 0}
         self._WRITENODE = {}
 
         # These properties only exist for interfaces themselves
@@ -236,10 +236,6 @@ class HMDevice(HMGeneric):
         self._AVAILABLE_FIRMWARE = device_description.get('AVAILABLE_FIRMWARE')
         self._UPDATABLE = device_description.get('UPDATABLE')
         self._PARENT_TYPE = None
-
-    @property
-    def RSSI_DEVICE(self):
-        return self.getValue('RSSI_DEVICE')
 
     @property
     def UNREACH(self):
@@ -316,6 +312,9 @@ class HMDevice(HMGeneric):
         LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i" %
                   (name, data, nodeChannel))
         return False
+
+    def get_rssi(self, channel=1):
+        return self.getAttributeData("RSSI_DEVICE", channel)
 
     @property
     def ELEMENT(self):

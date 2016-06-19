@@ -81,6 +81,7 @@ def cli(local, localport, remote, remoteport, address, channel, timer, debug):
             print(" / Contact open: %s" % str(device.is_open()))
 
         ########### Attribute #########
+        print(" / RSSI_DEVICE: %i" % device.get_rssi())
 
         if isinstance(device, HelperLowBat):
             print(" / Low batter: %s" % str(device.low_batt()))
