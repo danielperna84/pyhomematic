@@ -1,75 +1,23 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
-from pyhomematic.devicetypes.helper import HelperWorking
+from pyhomematic.devicetypes.helper import HelperWorking, HelperSwitch, HelperLevel
 
 LOG = logging.getLogger(__name__)
 
 
-class HMSwitch(HelperWorking):
+class HMSwitch(HelperSwitch, HelperWorking):
     """
     Generic HM Switch Object
     """
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.WRITENODE.update({"STATE": 'c'})
-
-    def is_on(self, channel=1):
-        """ Returns if switch is on. """
-        return self.get_state(channel)
-
-    def is_off(self, channel=1):
-        """ Returns if switch is off. """
-        return not self.get_state(channel)
-
-    def get_state(self, channel=1):
-        """ Returns if switch is 'on' or 'off'. """
-        return bool(self.getWriteData("STATE", channel))
-
-    def set_state(self, onoff, channel=1):
-        """Turn switch on/off"""
-        try:
-            onoff = bool(onoff)
-        except Exception as err:
-            LOG.debug("Switch.setState: Exception %s" % (err,))
-            return False
-
-        self.writeNodeData("STATE", onoff, channel)
-
-    def on(self, channel=1):
-        """Turn switch on."""
-        self.set_state(True, channel)
-
-    def off(self, channel=1):
-        """Turn switch off."""
-        self.set_state(False, channel)
+    pass
 
 
-class HMDimmer(HelperWorking):
+class HMDimmer(HelperLevel, HelperWorking):
     """
     Generic Dimmer function
     """
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.WRITENODE.update({"LEVEL": 'c'})
-
-    def get_level(self, channel=1):
-        """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
-        return self.getWriteData("LEVEL", channel)
-
-    def set_level(self, position, channel=1):
-        """Seek a specific position by specifying a float() from 0.0 to 1.0."""
-        try:
-            position = float(position)
-        except Exception as err:
-            LOG.debug("HMDimmer.level: Exception %s" % (err,))
-            return False
-
-        self.writeNodeData("LEVEL", position, channel)
+    pass
 
 
 class Blind(HMDimmer):
