@@ -160,7 +160,7 @@ class AreaThermostat(HMSensor):
         return float(self.getSensorData("TEMPERATURE", channel))
 
     def get_humidity(self, channel=1):
-        return float(self.getSensorData("HUMIDITY", channel))
+        return int(self.getSensorData("HUMIDITY", channel))
 
 
 DEVICETYPES = {

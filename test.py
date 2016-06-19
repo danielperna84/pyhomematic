@@ -3,7 +3,8 @@ import sys
 import logging
 import click
 from pyhomematic import HMConnection
-from pyhomematic.devicetypes.sensors import AreaThermostat
+from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage
 
 
 def systemcallback(src, *args):
@@ -70,8 +71,22 @@ def cli(local, localport, remote, remoteport, address, channel, timer, debug):
         print("* Attribute datapoint: %s" % str(device.ATTRIBUTENODE))
         print("******************************")
 
+        # AreaThermostat
         if isinstance(device, AreaThermostat):
-            print("Temperature: %f" % device.get_temperatur())
+            print(" / Temperature: %f" % device.get_temperatur())
+            print(" / Humidity: %i" % device.get_humidity())
+
+        # ShutterContact
+        if isinstance(device, ShutterContact):
+            print(" / Contact open: %s" % str(device.is_open()))
+
+        ########### Attribute #########
+
+        if isinstance(device, HelperLowBat):
+            print(" / Low batter: %s" % str(device.low_batt()))
+
+        if isinstance(device, HelperSabotage):
+            print(" / Sabotage: %s" % str(device.sabotage()))
 
     # do nothing for show & debug events
     print("Now waiting for events/callback")

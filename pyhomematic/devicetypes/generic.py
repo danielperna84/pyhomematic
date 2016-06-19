@@ -53,22 +53,24 @@ class HMGeneric(object):
         """
         Some devices allow to directly set values to perform a specific task.
         """
+        LOG.info("HMGeneric.setValue: key = '%s' value = '%s'" % (key, value))
         try:
             self._proxy.setValue(self._ADDRESS, key, value)
             return True
         except Exception as err:
-            LOG.error("HMDevice.setValue: Exception: " + str(err))
+            LOG.error("HMGeneric.setValue: Exception: " + str(err))
             return False
 
     def getValue(self, key):
         """
         Some devices allow to directly get values for specific parameters.
         """
+        LOG.info("HMGeneric.getValue: key = '%s'" % key)
         try:
             returnvalue = self._proxy.getValue(self._ADDRESS, key)
             return returnvalue
         except Exception as err:
-            LOG.error("HMDevice.setValue: Exception: " + str(err))
+            LOG.error("HMGeneric.getValue: Exception: " + str(err))
             return False
 
     def event(self, interface_id, key, value):

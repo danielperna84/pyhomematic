@@ -22,11 +22,11 @@ class HelperLowBat(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"LOWBAT": None})
+        self.ATTRIBUTENODE.update({"LOWBAT": 'c'})
 
     def low_batt(self, channel=1):
         """ Returns if the battery is low. """
-        return selfgetAttributeDataa("LOWBAT", channel)
+        return self.getAttributeData("LOWBAT", channel)
 
 
 class HelperWorking(HMDevice):
@@ -49,7 +49,7 @@ class HelperBatteryState(HMDevice):
     @property
     def battery_state(self):
         """ Returns the current battery state. """
-        return self.getAttributeDataa("BATTERY_STATE")
+        return self.getAttributeData("BATTERY_STATE")
 
 
 class HelperValveState(HMDevice):
@@ -58,7 +58,7 @@ class HelperValveState(HMDevice):
     @property
     def valve_state(self):
         """ Returns the current valve state. """
-        return self.getAttributeDatata("VALVE_STATE")
+        return self.getAttributeData("VALVE_STATE")
 
 class HelperBinaryState(HMDevice):
     """
