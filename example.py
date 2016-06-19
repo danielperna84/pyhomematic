@@ -42,10 +42,10 @@ while not pyhomematic.devices and sleepcounter < 20:
 print(pyhomematic.devices)
 
 # Get level of rollershutter from 0.0 to 1.0.
-print(pyhomematic.devices[DEVICE1].level)
+print(pyhomematic.devices[DEVICE1].get_level())
 
 # Set level of rollershutter to 50%.
-pyhomematic.devices[DEVICE1].level = 0.5
+pyhomematic.devices[DEVICE1].set_level(0.5)
 time.sleep(10)
 
 # Move rollershutter down.
@@ -56,7 +56,7 @@ time.sleep(10)
 print(pyhomematic.devices_all[DEVICE1 + ':1'].getValue("LEVEL"))
 
 # Check if doorcontact is open by querying the device.
-print(pyhomematic.devices[DEVICE2].is_open)
+print(pyhomematic.devices[DEVICE2].is_open())
 
 # Check if doorcontact is open or closed by querying the device-channel. True or False, depending on state.
 print(pyhomematic.devices_all[DEVICE2 + ':1'].getValue("STATE"))

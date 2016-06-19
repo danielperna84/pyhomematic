@@ -8,6 +8,7 @@ from xmlrpc.server import SimpleXMLRPCRequestHandler
 import xmlrpc.client
 import logging
 from pyhomematic import devicetypes
+from pyhomematic.devicetypes.generic import HMChannel
 
 LOG = logging.getLogger(__name__)
 
@@ -29,7 +30,7 @@ working = False
 
 
 # Object holding the methods the XML-RPC server should provide.
-class RPCFunctions:
+class RPCFunctions(object):
     def __init__(self,
                  devicefile=DEVICEFILE,
                  proxy=False,
@@ -82,24 +83,25 @@ class RPCFunctions:
         global working
 
         working = True
+        # first create parent object
         for dev in self._devices_raw:
             if not dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
                     if dev['TYPE'] in devicetypes.SUPPORTED:
                         deviceObject = devicetypes.SUPPORTED[dev['TYPE']](dev, self._proxy, self.resolveparamsets)
+                        LOG.debug("RPCFunctions.createDeviceObjects: create %s  as SUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
                     else:
                         deviceObject = devicetypes.UNSUPPORTED(dev, self._proxy, self.resolveparamsets)
+                        LOG.debug("RPCFunctions.createDeviceObjects: create %s  as UNSUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['ADDRESS']] = deviceObject
+        # secend create all childs for parent
         for dev in self._devices_raw:
             if dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
-                    if self.devices_all[dev['PARENT']]._TYPE in devicetypes.SUPPORTED:
-                        deviceObject = devicetypes.SUPPORTED[self.devices_all[dev['PARENT']]._TYPE](dev, self._proxy, self.resolveparamsets)
-                    else:
-                        deviceObject = devicetypes.UNSUPPORTED(dev, self._proxy, self.resolveparamsets)
+                    deviceObject = HMChannel(dev, self._proxy, self.resolvenames)
                     self.devices_all[dev['ADDRESS']] = deviceObject
-                    self.devices[dev['PARENT']].CHILDREN[dev['INDEX']] = deviceObject
+                    self.devices[dev['PARENT']].CHANNELS[dev['INDEX']] = deviceObject
         if self.devices_all and self.resolvenames:
             self.addDeviceNames()
         working = False
@@ -131,10 +133,10 @@ class RPCFunctions:
 
     def event(self, interface_id, address, value_key, value):
         """If a device emits some sort event, we will handle it here."""
-        LOG.debug("RPCFunctions.event: interface_id = %s, address = %s, value_key = %s, value = %s" % (interface_id, address, value_key, str(value)))
-        self.devices_all[address].event(interface_id, value_key, value)
+        LOG.debug("RPCFunctions.event: interface_id = %s, address = %s, value_key = %s, value = %s" % (interface_id, address, value_key.upper(), str(value)))
+        self.devices_all[address].event(interface_id, value_key.upper(), value)
         if self.eventcallback:
-            self.eventcallback(interface_id=interface_id, address=address, value_key=value_key, value=value)
+            self.eventcallback(interface_id=interface_id, address=address, value_key=value_key.upper(), value=value)
         return True
 
     def listDevices(self, interface_id):
@@ -196,7 +198,7 @@ class RPCFunctions:
             try:
                 name = self.devices[address]._proxy.getMetadata(address, 'NAME')
                 self.devices[address].NAME = name
-                for address, device in self.devices[address].CHILDREN.items():
+                for address, device in self.devices[address].CHANNELS.items():
                     device.NAME = name
                     self.devices_all[device.ADDRESS].NAME = name
             except Exception as err:
@@ -215,7 +217,7 @@ class RPCFunctions:
             name = device.attrib['name']
             if address in self.devices:
                 self.devices[address].NAME = name
-                for address, device in self.devices[address].CHILDREN.items():
+                for address, device in self.devices[address].CHANNELS.items():
                     device.NAME = name
                     self.devices_all[device.ADDRESS].NAME = name
         return True
