@@ -4,7 +4,8 @@ import logging
 import click
 from pyhomematic import HMConnection
 from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact, Smoke, Motion
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking
+from pyhomematic.devicetypes.actors import HMSwitch, HMDimmer
 
 
 def systemcallback(src, *args):
@@ -25,9 +26,11 @@ def eventcallback(address, interface_id, key, value):
 @click.option("--remotePort", "-rp", default=2001, help="Remote port for CCU/homegear")
 @click.option("--address", "-a", help="Address of homematic device for tests")
 @click.option("--channel", "-c", default=1, help="Homematic device channel")
+@click.option("--state", "-s", default=1, help="Set STATE value for actors")
 @click.option("--timer", "-t", default=30, help="Time in sec for waiting of events (debug)")
 @click.option("--debug", "-d", is_flag=True, help="Use DEBUG instead INFO for logger")
-def cli(local, localport, remote, remoteport, address, channel, timer, debug):
+def cli(local, localport, remote, remoteport, address, channel, state,
+        timer, debug):
 
     # debug?
     if debug:
@@ -89,6 +92,13 @@ def cli(local, localport, remote, remoteport, address, channel, timer, debug):
             print(" / Motion detect: %s" % str(device.is_motion()))
             print(" / Brightness: %i" % device.get_brightness())
 
+        # Switch
+        if isinstance(device, HMSwitch):
+            print(" / Switch is on: %s" % str(device.is_on(channel)))
+            print(" / Changee state to: %s" % str(bool(state)))
+            device.set_state(bool(state), channel)
+            print(" / Switch is on: %s" % str(device.is_on(channel)))
+
         ########### Attribute #########
         print(" / RSSI_DEVICE: %i" % device.get_rssi())
 
@@ -97,6 +107,9 @@ def cli(local, localport, remote, remoteport, address, channel, timer, debug):
 
         if isinstance(device, HelperSabotage):
             print(" / Sabotage: %s" % str(device.sabotage()))
+
+        if isinstance(device, HelperWorking):
+            print(" / Working: %s" % str(device.is_working()))
 
     # do nothing for show & debug events
     print("Now waiting for events/callback")

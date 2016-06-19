@@ -303,11 +303,11 @@ class HMDevice(HMGeneric):
         if name in self.WRITENODE:
             nodeChannel = self.WRITENODE[name]
             if nodeChannel is None:
-                return self.setValue(data)
+                return self.setValue(name, data)
             elif nodeChannel == 'c':
                 nodeChannel = channel
             if nodeChannel <= self.ELEMENT:
-                return self._hmchannels[nodeChannel].setValue(data)
+                return self._hmchannels[nodeChannel].setValue(name, data)
 
         LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i" %
                   (name, data, nodeChannel))

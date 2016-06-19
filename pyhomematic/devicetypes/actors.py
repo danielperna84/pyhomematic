@@ -26,7 +26,7 @@ class HMSwitch(HelperWorking):
 
     def get_state(self, channel=1):
         """ Returns if switch is 'on' or 'off'. """
-        return self.getWriteData("STATE", channel)
+        return bool(self.getWriteData("STATE", channel))
 
     def set_state(self, onoff, channel=1):
         """Turn switch on/off"""
@@ -36,7 +36,7 @@ class HMSwitch(HelperWorking):
             LOG.debug("Switch.setState: Exception %s" % (err,))
             return False
 
-        self.setWriteData("STATE", onoff, channel)
+        self.writeNodeData("STATE", onoff, channel)
 
     def on(self, channel=1):
         """Turn switch on."""
