@@ -12,7 +12,7 @@ from pyhomematic.devicetypes.generic import HMChannel
 
 LOG = logging.getLogger(__name__)
 
-# constant
+# Constants
 LOCAL = '127.0.0.1'
 LOCALPORT = 7080
 REMOTE = '127.0.0.1'
@@ -79,11 +79,11 @@ class RPCFunctions(object):
         self.createDeviceObjects()
 
     def createDeviceObjects(self):
-        """Transform the raw device descriptions into instances of devicetypes.generic.HMDevice or availabe subclass"""
+        """Transform the raw device descriptions into instances of devicetypes.generic.HMDevice or availabe subclass."""
         global working
 
         working = True
-        # first create parent object
+        # First create parent object
         for dev in self._devices_raw:
             if not dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
@@ -95,7 +95,7 @@ class RPCFunctions(object):
                         LOG.debug("RPCFunctions.createDeviceObjects: create %s  as UNSUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['ADDRESS']] = deviceObject
-        # secend create all childs for parent
+        # Then create all children for parent
         for dev in self._devices_raw:
             if dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
