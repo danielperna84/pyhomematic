@@ -59,7 +59,7 @@ def cli(local, localport, remote, remoteport, address, channel, timer, debug):
         device = pyhomematic.devices[address]
 
         print("Show metadata from %s" % address)
-        print("Elements: %i / Childs: %i" % (device.ELEMENT, len(device.CHILDREN)))
+        print("Elements: %i / Childs: %i" % (device.ELEMENT, len(device.CHANNELS)))
 
     # do nothing for show & debug events
     print("Now waiting for events/callback")

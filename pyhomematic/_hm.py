@@ -101,7 +101,7 @@ class RPCFunctions(object):
                 if not dev['ADDRESS'] in self.devices_all:
                     deviceObject = HMChannel(dev, self._proxy, self.resolvenames)
                     self.devices_all[dev['ADDRESS']] = deviceObject
-                    self.devices[dev['PARENT']].CHILDREN[dev['INDEX']] = deviceObject
+                    self.devices[dev['PARENT']].CHANNELS[dev['INDEX']] = deviceObject
         if self.devices_all and self.resolvenames:
             self.addDeviceNames()
         working = False
@@ -198,7 +198,7 @@ class RPCFunctions(object):
             try:
                 name = self.devices[address]._proxy.getMetadata(address, 'NAME')
                 self.devices[address].NAME = name
-                for address, device in self.devices[address].CHILDREN.items():
+                for address, device in self.devices[address].CHANNELS.items():
                     device.NAME = name
                     self.devices_all[device.ADDRESS].NAME = name
             except Exception as err:
@@ -217,7 +217,7 @@ class RPCFunctions(object):
             name = device.attrib['name']
             if address in self.devices:
                 self.devices[address].NAME = name
-                for address, device in self.devices[address].CHILDREN.items():
+                for address, device in self.devices[address].CHANNELS.items():
                     device.NAME = name
                     self.devices_all[device.ADDRESS].NAME = name
         return True

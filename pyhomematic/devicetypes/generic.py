@@ -200,7 +200,7 @@ class HMDevice(HMGeneric):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.CHILDREN = {}
+        self._hmchannels = {}
 
         # Data point information
         # "NODE_NAME": channel
@@ -245,10 +245,14 @@ class HMDevice(HMGeneric):
         if self._unreach:
             return True
         else:
-            for channel, device in self.CHILDREN.items():
+            for channel, device in self._hmchannels.items():
                 if device.UNREACH:
                     return True
         return False
+
+    @property
+    def CHANNELS(self):
+        return self._hmchannels
 
     @property
     def SENSORNODE(self):
@@ -291,7 +295,7 @@ class HMDevice(HMGeneric):
             elif nodeChannel == 'c':
                 nodeChannel = channel
             if nodeChannel <= self.ELEMENT:
-                return self.CHILDREN[nodeChannel].getValue(name)
+                return self._hmchannels[nodeChannel].getValue(name)
 
         LOG.error("HMDevice._getNodeData: %s not found in %s" % (name, data))
         return None
@@ -305,7 +309,7 @@ class HMDevice(HMGeneric):
             elif nodeChannel == 'c':
                 nodeChannel = channel
             if nodeChannel <= self.ELEMENT:
-                return self.CHILDREN[nodeChannel].setValue(data)
+                return self._hmchannels[nodeChannel].setValue(data)
 
         LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i" %
                   (name, data, nodeChannel))
@@ -329,8 +333,8 @@ class HMDevice(HMGeneric):
         if hasattr(callback, '__call__'):
             if channel == 0:
                 self._eventcallbacks.append(callback)
-            elif not bequeath and channel > 0 and channel in self.CHILDREN:
-                self.CHILDREN[channel]._eventcallbacks.append(callback)
+            elif not bequeath and channel > 0 and channel in self._hmchannels:
+                self._hmchannels[channel]._eventcallbacks.append(callback)
             if bequeath:
-                for channel, device in self.CHILDREN.items():
+                for channel, device in self._hmchannels.items():
                     device._eventcallbacks.append(callback)
