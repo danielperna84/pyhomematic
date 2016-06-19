@@ -117,7 +117,7 @@ class Motion(HMBinarySensor, HMSensor):
 
     def get_brightness(self, channel=1):
         """ Return brightness """
-        return self.getSensorData("BRIGHTNESS", channel)
+        return int(self.getSensorData("BRIGHTNESS", channel))
 
 
 class MotionV2(Motion, HelperSabotage):

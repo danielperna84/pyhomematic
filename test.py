@@ -3,7 +3,7 @@ import sys
 import logging
 import click
 from pyhomematic import HMConnection
-from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact
+from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact, Smoke, Motion
 from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage
 
 
@@ -79,6 +79,15 @@ def cli(local, localport, remote, remoteport, address, channel, timer, debug):
         # ShutterContact
         if isinstance(device, ShutterContact):
             print(" / Contact open: %s" % str(device.is_open()))
+
+        # Smoke
+        if isinstance(device, Smoke):
+            print(" / Smoke detect: %s" % str(device.is_smoke()))
+
+        # Motion
+        if isinstance(device, Motion):
+            print(" / Motion detect: %s" % str(device.is_motion()))
+            print(" / Brightness: %i" % device.get_brightness())
 
         ########### Attribute #########
         print(" / RSSI_DEVICE: %i" % device.get_rssi())
