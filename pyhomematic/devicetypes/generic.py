@@ -288,7 +288,7 @@ class HMDevice(HMGeneric):
             nodeChannel = metadata[name]
             if nodeChannel == 'c' or nodeChannel is None:
                 nodeChannel = channel
-            if nodeChannel <= len(self.CHANNELS):
+            if nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].getValue(name)
 
         LOG.error("HMDevice._getNodeData: %s not found in %s" % (name, metadata))
@@ -300,7 +300,7 @@ class HMDevice(HMGeneric):
             nodeChannel = self.WRITENODE[name]
             if nodeChannel == 'c' or nodeChannel is None:
                 nodeChannel = channel
-            if nodeChannel <= len(self.CHANNELS):
+            if nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].setValue(name, data)
 
         LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i" %
@@ -338,7 +338,7 @@ class HMDevice(HMGeneric):
         """
         Some devices allow to directly set values to perform a specific task.
         """
-        if channel <= len(self.CHANNELS):
+        if channel in self.CHANNELS:
             return self.CHANNELS[channel].setValue(key, value)
 
         LOG.error("HMDevice.setValue: channel not found %i!" % channel)
@@ -347,7 +347,7 @@ class HMDevice(HMGeneric):
         """
         Some devices allow to directly get values for specific parameters.
         """
-        if channel <= len(self.CHANNELS):
-            return self.CHANNELS[channel].getValue(key, value)
+        if channel in self.CHANNELS:
+            return self.CHANNELS[channel].getValue(key)
 
         LOG.error("HMDevice.getValue: channel not found %i!" % channel)
