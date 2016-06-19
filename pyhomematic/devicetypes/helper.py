@@ -1,5 +1,7 @@
+import logging
 from pyhomematic.devicetypes.generic import HMDevice
 
+LOG = logging.getLogger(__name__)
 
 class HelperSabotage(HMDevice):
     """This helper adds sabotage detection."""
@@ -38,31 +40,6 @@ class HelperWorking(HMDevice):
     def is_working(self, channel=1):
         """Return True of False if working or not"""
         return self.getAttributeData("WORKING", channel)
-
-
-class HelperLevel(HMDevice):
-    """
-    Generic dimmer / level functions
-    """
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.WRITENODE.update({"LEVEL": 'c'})
-
-    def get_level(self, channel=1):
-        """Return current level. Return value is float() from 0.0 to 1.0."""
-        return self.getWriteData("LEVEL", channel)
-
-    def set_level(self, position, channel=1):
-        """Seek a specific value by specifying a float() from 0.0 to 1.0."""
-        try:
-            position = float(position)
-        except Exception as err:
-            LOG.debug("HMLevel.level: Exception %s" % (err,))
-            return False
-
-        self.writeNodeData("LEVEL", position, channel)
 
 
 class HelperBatteryState(HMDevice):
@@ -118,7 +95,7 @@ class HelperSwitch(HMDevice):
         try:
             onoff = bool(onoff)
         except Exception as err:
-            LOG.debug("Switch.setState: Exception %s" % (err,))
+            LOG.debug("HelperSwitch.set_state: Exception %s" % (err,))
             return False
 
         self.writeNodeData("STATE", onoff, channel)
@@ -134,7 +111,7 @@ class HelperSwitch(HMDevice):
 
 class HelperLevel(HMDevice):
     """
-    Generic Dimmer function
+    Generic level functions
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -143,15 +120,15 @@ class HelperLevel(HMDevice):
         self.WRITENODE.update({"LEVEL": 'c'})
 
     def get_level(self, channel=1):
-        """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
+        """Return current level. Return value is float() from 0.0 to 1.0."""
         return self.getWriteData("LEVEL", channel)
 
     def set_level(self, position, channel=1):
-        """Seek a specific position by specifying a float() from 0.0 to 1.0."""
+        """Seek a specific value by specifying a float() from 0.0 to 1.0."""
         try:
             position = float(position)
         except Exception as err:
-            LOG.debug("HMDimmer.level: Exception %s" % (err,))
+            LOG.debug("HelperLevel.set_level: Exception %s" % (err,))
             return False
 
         self.writeNodeData("LEVEL", position, channel)
