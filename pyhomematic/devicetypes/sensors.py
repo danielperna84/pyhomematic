@@ -71,7 +71,8 @@ class Remote(HMBinarySensor):
     HM-RC-4-3, HM-RC-4-3-D, HM-RC-8, HM-RC-12, HM-RC-12-B, HM-RC-12-SW,
     HM-RC-19, HM-RC-19-B, HM-RC-19-SW, HM-RC-Key3, HM-RC-Key3-B, HM-RC-Key4-2,
     HM-RC-Key4-3, HM-RC-Sec3, HM-RC-Sec3-B, HM-RC-Sec4-2, HM-RC-Sec4-3,
-    HM-RC-P1, HM-RC-SB-X, HM-RC-X, HM-PB-2-WM, HM-PB-4-WM, HM-PB-6-WM55
+    HM-RC-P1, HM-RC-SB-X, HM-RC-X, HM-PB-2-WM, HM-PB-4-WM, HM-PB-6-WM55,
+    HM-PB-2-WM55-2, HM-PB-2-WM55, ZEL STG RM WT 2, 263 135
     Remote handle buttons
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -208,6 +209,10 @@ DEVICETYPES = {
     "RC-H": Remote,
     "atent": Remote,
     "ZEL STG RM HS 4": Remote,
+    "HM-PB-2-WM55-2": Remote,
+    "HM-PB-2-WM55": Remote,
+    "ZEL STG RM WT 2": Remote,
+    "263 135": Remote,
     "HM-Sen-MDIR-WM55": RemoteMotion,
     "HM-Sen-MDIR-SM": Motion,
     "HM-Sen-MDIR-O": Motion,
