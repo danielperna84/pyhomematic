@@ -290,12 +290,12 @@ class HMDevice(HMGeneric):
             nodeChannel = metadata[name]
             if nodeChannel is None:
                 return self.getValue(name)
-            elif nodeChannel == 'c':
+            elif nodeChannel == 'c' and channel <= self.ELEMENT:
                 nodeChannel = channel
-            if nodeChannel <= self.ELEMENT:
+            if nodeChannel != 'c' and nodeChannel <= len(self.CHANNELS):
                 return self._hmchannels[nodeChannel].getValue(name)
 
-        LOG.error("HMDevice._getNodeData: %s not found in %s" % (name, data))
+        LOG.error("HMDevice._getNodeData: %s not found in %s" % (name, metadata))
         return None
 
     def writeNodeData(self, name, data, channel=1):
@@ -304,9 +304,9 @@ class HMDevice(HMGeneric):
             nodeChannel = self.WRITENODE[name]
             if nodeChannel is None:
                 return self.setValue(name, data)
-            elif nodeChannel == 'c':
+            elif nodeChannel == 'c' and channel <= self.ELEMENT:
                 nodeChannel = channel
-            if nodeChannel <= self.ELEMENT:
+            if nodeChannel != 'c' and nodeChannel <= len(self._hmchannels):
                 return self._hmchannels[nodeChannel].setValue(name, data)
 
         LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i" %

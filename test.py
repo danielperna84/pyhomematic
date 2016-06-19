@@ -4,7 +4,7 @@ import logging
 import click
 from pyhomematic import HMConnection
 from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact, Smoke, Motion
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
 from pyhomematic.devicetypes.actors import HMSwitch, HMDimmer
 
 
@@ -110,6 +110,12 @@ def cli(local, localport, remote, remoteport, address, channel, state,
 
         if isinstance(device, HelperWorking):
             print(" / Working: %s" % str(device.is_working()))
+
+        if isinstance(device, HelperValveState):
+            print(" / Valve state: %i" % device.valve_state())
+
+        if isinstance(device, HelperBatteryState):
+            print(" / Bettery state: %f" % device.battery_state())
 
     # do nothing for show & debug events
     print("Now waiting for events/callback")
