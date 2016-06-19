@@ -286,10 +286,10 @@ class HMDevice(HMGeneric):
         """ Returns a sensor node """
         return self._getNodeData(name, self._WRITENODE, channel)
 
-    def _getNodeData(self, name, data, channel=1):
+    def _getNodeData(self, name, metadata, channel=1):
         """ Returns a data point from data"""
-        if name in data:
-            nodeChannel = data[name]
+        if name in metadata:
+            nodeChannel = metadata[name]
             if nodeChannel is None:
                 return self.getValue(name)
             elif nodeChannel == 'c':
