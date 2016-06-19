@@ -43,6 +43,23 @@ class HelperWorking(HMDevice):
         return self.getAttributeData("WORKING", channel)
 
 
+class HelperBatteryState(HMDevice):
+    """
+    """
+    @property
+    def battery_state(self):
+        """ Returns the current battery state. """
+        return self.getAttributeDataa("BATTERY_STATE")
+
+
+class HelperValveState(HMDevice):
+    """
+    """
+    @property
+    def valve_state(self):
+        """ Returns the current valve state. """
+        return self.getAttributeDatata("VALVE_STATE")
+
 class HelperBinaryState(HMDevice):
     """
     """

@@ -1,5 +1,7 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
+from pyhomematic.devicetypes.sensors import HMSensor
+from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState
 
 LOG = logging.getLogger(__name__)
 
@@ -106,17 +108,8 @@ class HMThermostat(HMDevice):
         """ Turn on boost mode. """
         self.mode = self.BOOST_MODE
 
-    @property
-    def battery_state(self):
-        """ Returns the current battery state. """
-        return selfgetAttributeDataa("BATTERY_STATE")
 
-    @property
-    def valve_state(self):
-        """ Returns the current valve state. """
-        return selgetAttributeDatata("VALVE_STATE")
-
-class Thermostat(HMThermostat):
+class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
     """
     HM-CC-RT-DN, HM-CC-RT-DN-BoM
     ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -135,7 +128,28 @@ class Thermostat(HMThermostat):
                                    "BATTERY_STATE": 4,
                                    "CONTROL_MODE": 4})
 
-class MAXThermostat(HMThermostat):
+
+class ThermostatWall(HMThermostat, HMSensor, HelperBatteryState):
+    """
+    HM-TC-IT-WM-W-EU
+    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 2,
+                                "TEMPERATURE": 1,
+                                "HUMIDITY": 1})
+        self.WRITENODE.update({"SET_TEMPERATURE": 2,
+                               "AUTO_MODE": 2,
+                               "MANU_MODE": 2,
+                               "PARTY_MODE": 2,
+                               "BOOST_MODE": 2})
+        self.ATTRIBUTENODE.update({"CONTROL_MODE": 2, "BATTERY_STATE": 2})
+
+
+class MAXThermostat(HMThermostat, HelperBatteryState):
     """
     BC-RT-TRX-CyG, BC-RT-TRX-CyG-2, BC-RT-TRX-CyG-3, BC-RT-TRX-CyG-4
     ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -156,6 +170,7 @@ class MAXThermostat(HMThermostat):
 DEVICETYPES = {
     "HM-CC-RT-DN": Thermostat,
     "HM-CC-RT-DN-BoM": Thermostat,
+    "HM-TC-IT-WM-W-EU": ThermostatWall,
     "BC-RT-TRX-CyG": MAXThermostat,
     "BC-RT-TRX-CyG-2": MAXThermostat,
     "BC-RT-TRX-CyG-3": MAXThermostat,
