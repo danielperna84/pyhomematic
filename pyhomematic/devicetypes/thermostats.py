@@ -28,7 +28,7 @@ class HMThermostat(HMDevice):
         return self.getSensorData("ACTUAL_TEMPERATURE")
 
     def get_temperature(self):
-        """ Returns the current temperature. """
+        """ Returns the current target temperature. """
         return self.getWriteData("SET_TEMPERATURE")
 
     def set_temperature(self, target_temperature):
@@ -44,11 +44,13 @@ class HMThermostat(HMDevice):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_TEMPERATURE", self.OFF_VALUE)
 
-    def mode(self):
+    @property
+    def MODE(self):
         """ Return mode. """
         return self.getAttributeData("CONTROL_MODE")
 
-    def mode(self, setmode):
+    @MODE.setter
+    def MODE(self, setmode):
         """ Set mode. """
         if setmode == self.AUTO_MODE:
             mode = 'AUTO_MODE'
@@ -59,38 +61,48 @@ class HMThermostat(HMDevice):
         elif setmode == self.BOOST_MODE:
             mode = 'BOOST_MODE'
         else:
-            return False
-        self.writeNodeData(mode, True)
+            LOG.warning("Thermostat.MODE.setter: Invalid mode: %s" % (str(setmode),))
+            mode = False
+        if mode:
+            self.writeNodeData(mode, True)
 
-    def automode(self):
+    @property
+    def AUTOMODE(self):
         """ Return auto mode state. """
         return self.mode == self.AUTO_MODE
 
-    def automode(self, setauto):
+    @AUTOMODE.setter
+    def AUTOMODE(self, setauto):
         """ Turn on auto mode. """
         self.mode = self.AUTO_MODE
 
-    def manumode(self):
+    @property
+    def MANUMODE(self):
         """ Return manual mode state. """
         return self.mode == self.MANU_MODE
 
-    def manumode(self, setmanu):
+    @MANUMODE.setter
+    def MANUMODE(self, setmanu):
         """ Turn on manual mode. """
         self.mode = self.MANU_MODE
 
-    def partymode(self):
+    @property
+    def PARTYMODE(self):
         """ Return party mode state. """
         return self.mode == self.PARTY_MODE
 
-    def partymode(self, partymode):
+    @PARTYMODE.setter
+    def PARTYMODE(self, partymode):
         """ Turn on paty mode. """
         self.mode = self.PARTY_MODE
 
-    def boostmode(self):
+    @property
+    def BOOSTMODE(self):
         """ Return boost state. """
         return self.mode == self.BOOST_MODE
 
-    def boostmode(self, setboost):
+    @BOOSTMODE.setter
+    def BOOSTMODE(self, setboost):
         """ Turn on boost mode. """
         self.mode = self.BOOST_MODE
 
