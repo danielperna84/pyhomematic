@@ -167,7 +167,6 @@ class HMChannel(HMGeneric):
     def setEventCallback(self, callback):
         """
         Set additional event callbacks for the channel.
-        children.
         Signature for callback-functions: foo(address, interface_id, key, value).
         """
         if hasattr(callback, '__call__'):
@@ -206,9 +205,9 @@ class HMDevice(HMGeneric):
 
         # Data point information
         # "NODE_NAME": channel
-        #  for Channel is Possible:
-        # - c  / getVaule from Channel dynamic
-        # - 0..n / getValue from fix Channel
+        #  for channel is possible:
+        # - c  / getVaule from channel (dynamic)
+        # - 0...n / getValue from channel (fix)
         self._SENSORNODE = {}
         self._BINARYNODE = {}
         self._ATTRIBUTENODE = {"RSSI_DEVICE": 0}
@@ -314,8 +313,8 @@ class HMDevice(HMGeneric):
     @property
     def ELEMENT(self):
         """
-        Returns count of element for same functionality.
-        Overwrite this value only if you have a spezial defice such as Sw2 usw.
+        Returns count of elements for same functionality.
+        Overwrite this value only if you have a special device such as Sw2 etc.
         """
         return 1
 
