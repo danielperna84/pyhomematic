@@ -49,30 +49,6 @@ class HMGeneric(object):
     def NAME(self, name):
         self._name = name
 
-    def setValue(self, key, value):
-        """
-        Some devices allow to directly set values to perform a specific task.
-        """
-        LOG.info("HMGeneric.setValue: key = '%s' value = '%s'" % (key, value))
-        try:
-            self._proxy.setValue(self._ADDRESS, key, value)
-            return True
-        except Exception as err:
-            LOG.error("HMGeneric.setValue: Exception: " + str(err))
-            return False
-
-    def getValue(self, key):
-        """
-        Some devices allow to directly get values for specific parameters.
-        """
-        LOG.info("HMGeneric.getValue: key = '%s'" % key)
-        try:
-            returnvalue = self._proxy.getValue(self._ADDRESS, key)
-            return returnvalue
-        except Exception as err:
-            LOG.error("HMGeneric.getValue: Exception: " + str(err))
-            return False
-
     def event(self, interface_id, key, value):
         """
         Handle the event received by server.
@@ -196,6 +172,30 @@ class HMChannel(HMGeneric):
         """
         if hasattr(callback, '__call__'):
             self._eventcallbacks.append(callback)
+
+    def setValue(self, key, value):
+        """
+        Some devices allow to directly set values to perform a specific task.
+        """
+        LOG.info("HMGeneric.setValue: key = '%s' value = '%s'" % (key, value))
+        try:
+            self._proxy.setValue(self._ADDRESS, key, value)
+            return True
+        except Exception as err:
+            LOG.error("HMGeneric.setValue: Exception: " + str(err))
+            return False
+
+    def getValue(self, key):
+        """
+        Some devices allow to directly get values for specific parameters.
+        """
+        LOG.info("HMGeneric.getValue: key = '%s'" % key)
+        try:
+            returnvalue = self._proxy.getValue(self._ADDRESS, key)
+            return returnvalue
+        except Exception as err:
+            LOG.error("HMGeneric.getValue: Exception: " + str(err))
+            return False
 
 
 class HMDevice(HMGeneric):
@@ -339,3 +339,21 @@ class HMDevice(HMGeneric):
             if bequeath:
                 for channel, device in self._hmchannels.items():
                     device._eventcallbacks.append(callback)
+
+    def setValue(self, key, value, channel=1):
+        """
+        Some devices allow to directly set values to perform a specific task.
+        """
+        if channel <= len(self.CHANNELS):
+            return self.CHANNELS[channel].setValue(key, value)
+
+        LOG.error("HMDevice.setValue: channel not found %i!" % channel)
+
+    def getValue(self, key, channel=1):
+        """
+        Some devices allow to directly get values for specific parameters.
+        """
+        if channel <= len(self.CHANNELS):
+            return self.CHANNELS[channel].getValue(key, value)
+
+        LOG.error("HMDevice.getValue: channel not found %i!" % channel)
