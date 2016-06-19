@@ -156,6 +156,12 @@ class AreaThermostat(HMSensor):
         # init metadata
         self.SENSORNODE.update({"TEMPERATURE": 'c', "HUMIDITY": 'c'})
 
+    def get_temperatur(self, channel=1):
+        return float(self.getSensorData("TEMPERATURE", channel))
+
+    def get_humidity(self, channel=1):
+        return float(self.getSensorData("HUMIDITY", channel))
+
 
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,

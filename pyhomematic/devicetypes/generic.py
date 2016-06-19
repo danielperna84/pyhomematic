@@ -288,7 +288,7 @@ class HMDevice(HMGeneric):
 
     def _getNodeData(self, name, data, channel=1):
         """ Returns a data point from data"""
-        if name in nodes:
+        if name in data:
             nodeChannel = data[name]
             if nodeChannel is None:
                 return self.getValue(name)
@@ -302,7 +302,7 @@ class HMDevice(HMGeneric):
 
     def writeNodeData(self, name, data, channel=1):
         """ Returns a data point from data"""
-        if name in nodes:
+        if name in self.WRITENODE:
             nodeChannel = self.WRITENODE[name]
             if nodeChannel is None:
                 return self.setValue(data)

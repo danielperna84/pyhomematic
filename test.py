@@ -3,6 +3,7 @@ import sys
 import logging
 import click
 from pyhomematic import HMConnection
+from pyhomematic.devicetypes.sensors import AreaThermostat
 
 
 def systemcallback(src, *args):
@@ -69,6 +70,8 @@ def cli(local, localport, remote, remoteport, address, channel, timer, debug):
         print("* Attribute datapoint: %s" % str(device.ATTRIBUTENODE))
         print("******************************")
 
+        if isinstance(device, AreaThermostat):
+            print("Temperature: %f" % device.get_temperatur())
 
     # do nothing for show & debug events
     print("Now waiting for events/callback")
