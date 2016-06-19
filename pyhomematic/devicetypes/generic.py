@@ -207,7 +207,6 @@ class HMDevice(HMGeneric):
         # Data point information
         # "NODE_NAME": channel
         #  for Channel is Possible:
-        # - NONE  / getVaule from Parent
         # - c  / getVaule from Channel dynamic
         # - 0..n / getValue from fix Channel
         self._SENSORNODE = {}
@@ -288,11 +287,9 @@ class HMDevice(HMGeneric):
         """ Returns a data point from data"""
         if name in metadata:
             nodeChannel = metadata[name]
-            if nodeChannel is None:
-                return self.getValue(name)
-            elif nodeChannel == 'c' and channel <= self.ELEMENT:
+            if nodeChannel == 'c' or nodeChannel is None:
                 nodeChannel = channel
-            if nodeChannel != 'c' and nodeChannel <= len(self.CHANNELS):
+            if nodeChannel <= len(self.CHANNELS):
                 return self._hmchannels[nodeChannel].getValue(name)
 
         LOG.error("HMDevice._getNodeData: %s not found in %s" % (name, metadata))
@@ -302,11 +299,9 @@ class HMDevice(HMGeneric):
         """ Returns a data point from data"""
         if name in self.WRITENODE:
             nodeChannel = self.WRITENODE[name]
-            if nodeChannel is None:
-                return self.setValue(name, data)
-            elif nodeChannel == 'c' and channel <= self.ELEMENT:
+            if nodeChannel == 'c' or nodeChannel is None:
                 nodeChannel = channel
-            if nodeChannel != 'c' and nodeChannel <= len(self._hmchannels):
+            if nodeChannel <= len(self.CHANNELS):
                 return self._hmchannels[nodeChannel].setValue(name, data)
 
         LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i" %
