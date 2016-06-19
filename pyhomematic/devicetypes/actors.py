@@ -1,7 +1,7 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
-from pyhomematic.devicetypes.helper import HelperWorking, HelperLevel
+from pyhomematic.devicetypes.helper import HelperWorking
 
 LOG = logging.getLogger(__name__)
 
@@ -17,15 +17,15 @@ class HMSwitch(HelperWorking):
         self.WRITENODE.update({"STATE": 'c'})
 
     def is_on(self, channel=1):
-        """ Returns True if switch is on. """
+        """ Returns if switch is on. """
         return self.get_state(channel)
 
     def is_off(self, channel=1):
-        """ Returns True if switch is off. """
+        """ Returns if switch is off. """
         return not self.get_state(channel)
 
     def get_state(self, channel=1):
-        """ Returns True or False if switch is 'on' or 'off'. """
+        """ Returns if switch is 'on' or 'off'. """
         return bool(self.getWriteData("STATE", channel))
 
     def set_state(self, onoff, channel=1):
@@ -47,7 +47,32 @@ class HMSwitch(HelperWorking):
         self.set_state(False, channel)
 
 
-class Blind(HelperLevel, HelperWorking):
+class HMDimmer(HelperWorking):
+    """
+    Generic Dimmer function
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"LEVEL": 'c'})
+
+    def get_level(self, channel=1):
+        """Return current position. Return value is float() from 0.0 (0% open) to 1.0 (100% open)."""
+        return self.getWriteData("LEVEL", channel)
+
+    def set_level(self, position, channel=1):
+        """Seek a specific position by specifying a float() from 0.0 to 1.0."""
+        try:
+            position = float(position)
+        except Exception as err:
+            LOG.debug("HMDimmer.level: Exception %s" % (err,))
+            return False
+
+        self.writeNodeData("LEVEL", position, channel)
+
+
+class Blind(HMDimmer):
     """
     HM-LC-Bl1-SM, HM-LC-Bl1-FM, HM-LC-Bl1-PB-FM, ZEL STG RM FEP 230V, 263 146, HM-LC-BlX
     Blind switch that raises and lowers roller shutters or window blinds.
@@ -71,7 +96,7 @@ class Blind(HelperLevel, HelperWorking):
         self.writeNodeData("STOP", True, channel)
 
 
-class Dimmer(HelperLevel):
+class Dimmer(HMDimmer):
     """
     HM-LC-Dim1L-Pl, HM-LC-Dim1L-CV, HM-LC-Dim1L-Pl-3, HM-LC-Dim1L-CV-2
     HM-LC-Dim2L-SM, HM-LC-Dim2L-CV
