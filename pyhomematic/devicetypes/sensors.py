@@ -44,6 +44,26 @@ class RotaryHandleSensor(HMBinarySensor, HelperBinaryState, HelperLowBat, Helper
         """ Returns if the handle is tilted. """
         return self.get_state(channel) == 1
 
+class Smoke(HMBinarySensor, HelperBinaryState):
+    """
+    HM-Sec-SD, HM-Sec-SD-Generic
+    Smoke alarm
+    """
+    def is_smoke(self, channel=1):
+        """ Return is smoke is detected """
+        return bool(self.get_state(channel))
+
+
+class SmokeV2(Smoke, HelperLowBat):
+    """
+    HM-Sec-SD-2, HM-Sec-SD-2-Generic
+    Smoke alarm
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.ATTRIBUTENODE.update({"ERROR_ALARM_TEST": 'c',
+                                   "ERROR_ALARM_TEST": 'c'})
 
 class Remote(HMBinarySensor):
     """
@@ -134,6 +154,10 @@ DEVICETYPES = {
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,
     "HM-Sec-xx": RotaryHandleSensor,
+    "HM-Sec-SD": Smoke,
+    "HM-Sec-SD-Generic": Smoke,
+    "HM-Sec-SD-2": SmokeV2,
+    "HM-Sec-SD-2-Generic": SmokeV2,
     "BRC-H": Remote,
     "HM-RC-2-PBU-FM": Remote,
     "HM-RC-Dis-H-x-EU": Remote,
