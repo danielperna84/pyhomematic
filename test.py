@@ -4,8 +4,8 @@ import logging
 import click
 from pyhomematic import HMConnection
 from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact, Smoke, Motion
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
-from pyhomematic.devicetypes.actors import HMSwitch, HMDimmer
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState, HelperLevel
+from pyhomematic.devicetypes.actors import HMSwitch
 
 
 def systemcallback(src, *args):
