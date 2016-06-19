@@ -89,10 +89,10 @@ class RPCFunctions(object):
                 if not dev['ADDRESS'] in self.devices_all:
                     if dev['TYPE'] in devicetypes.SUPPORTED:
                         deviceObject = devicetypes.SUPPORTED[dev['TYPE']](dev, self._proxy, self.resolveparamsets)
-                        LOG.debug("RPCFunctions.createDeviceObjects: create %s  as SUPPORTED device for %s" % (str(dev['ADDRESS']), str(dev['TYPE'])))
+                        LOG.debug("RPCFunctions.createDeviceObjects: create %s  as SUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
                     else:
                         deviceObject = devicetypes.UNSUPPORTED(dev, self._proxy, self.resolveparamsets)
-                        LOG.debug("RPCFunctions.createDeviceObjects: create %s  as UNSUPPORTED device for %s" % (str(dev['ADDRESS']), str(dev['TYPE'])))
+                        LOG.debug("RPCFunctions.createDeviceObjects: create %s  as UNSUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['ADDRESS']] = deviceObject
         # secend create all childs for parent
