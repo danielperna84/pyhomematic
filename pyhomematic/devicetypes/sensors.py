@@ -145,6 +145,18 @@ class RemoteMotion(Remote, Motion):
         return 2
 
 
+class AreaThermostat(HMSensor):
+    """
+    ASH550I, ASH550, HM-WDS10-TH-O, 263 158, HM-WDS20-TH-O, HM-WDS40-TH-I,
+    263 157, IS-WDS-TH-OD-S-R3
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"TEMPERATURE": 'c', "HUMIDITY": 'c'})
+
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -199,5 +211,13 @@ DEVICETYPES = {
     "HM-Sec-MDIR-2": MotionV2,
     "HM-Sec-MDIR": MotionV2,
     "263 162": MotionV2,
-    "HM-Sec-MD": MotionV2
+    "HM-Sec-MD": MotionV2,
+    "ASH550I": AreaThermostat,
+    "ASH550": AreaThermostat,
+    "HM-WDS10-TH-O": AreaThermostat,
+    "263 158": AreaThermostat,
+    "HM-WDS20-TH-O": AreaThermostat,
+    "HM-WDS40-TH-I": AreaThermostat,
+    "263 157": AreaThermostat,
+    "IS-WDS-TH-OD-S-R3": AreaThermostat
 }

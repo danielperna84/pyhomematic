@@ -1,6 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
-from pyhomematic.devicetypes.sensors import HMSensor
+from pyhomematic.devicetypes.sensors import AreaThermostat
 from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState
 
 LOG = logging.getLogger(__name__)
@@ -129,7 +129,7 @@ class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
                                    "CONTROL_MODE": 4})
 
 
-class ThermostatWall(HMThermostat, HMSensor, HelperBatteryState):
+class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
     """
     HM-TC-IT-WM-W-EU
     ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -138,9 +138,7 @@ class ThermostatWall(HMThermostat, HMSensor, HelperBatteryState):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 2,
-                                "TEMPERATURE": 1,
-                                "HUMIDITY": 1})
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 2})
         self.WRITENODE.update({"SET_TEMPERATURE": 2,
                                "AUTO_MODE": 2,
                                "MANU_MODE": 2,
