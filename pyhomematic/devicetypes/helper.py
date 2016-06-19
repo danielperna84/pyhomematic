@@ -46,7 +46,6 @@ class HelperWorking(HMDevice):
 class HelperBatteryState(HMDevice):
     """
     """
-    @property
     def battery_state(self):
         """ Returns the current battery state. """
         return float(self.getAttributeData("BATTERY_STATE"))
@@ -55,7 +54,6 @@ class HelperBatteryState(HMDevice):
 class HelperValveState(HMDevice):
     """
     """
-    @property
     def valve_state(self):
         """ Returns the current valve state. """
         return int(self.getAttributeData("VALVE_STATE"))
