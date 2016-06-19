@@ -58,8 +58,17 @@ def cli(local, localport, remote, remoteport, address, channel, timer, debug):
     if address in pyhomematic.devices:
         device = pyhomematic.devices[address]
 
-        print("Show metadata from %s" % address)
-        print("Elements: %i / Childs: %i" % (device.ELEMENT, len(device.CHANNELS)))
+        print("******************************")
+        print("* Show metadata from %s" % address)
+        print("* Elements: %i / Childs: %i" % (device.ELEMENT, len(device.CHANNELS)))
+        print("* Class: %s" % str(device.__class__))
+        print("* Base: %s" % str(device.__class__.__bases__))
+        print("* Sensor datapoint: %s" % str(device.SENSORNODE))
+        print("* Binary datapoint: %s" % str(device.BINARYNODE))
+        print("* Write datapoint: %s" % str(device.WRITENODE))
+        print("* Attribute datapoint: %s" % str(device.ATTRIBUTENODE))
+        print("******************************")
+
 
     # do nothing for show & debug events
     print("Now waiting for events/callback")
