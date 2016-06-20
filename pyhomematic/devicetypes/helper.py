@@ -68,7 +68,7 @@ class HelperBinaryState(HMDevice):
         return self.getBinaryData("STATE", channel)
 
 
-class HelperSwitch(HMDevice):
+class HelperSwitchState(HMDevice):
     """
     Generic HM Switch Object
     """

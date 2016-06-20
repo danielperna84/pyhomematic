@@ -27,7 +27,7 @@ class HMThermostat(HMDevice):
         """ Returns the current temperature. """
         return self.getSensorData("ACTUAL_TEMPERATURE")
 
-    def get_set_temperature(self):
+    def set_temperature(self):
         """ Returns the current target temperature. """
         return self.getWriteData("SET_TEMPERATURE")
 

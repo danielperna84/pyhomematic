@@ -1,12 +1,12 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
-from pyhomematic.devicetypes.helper import HelperWorking, HelperSwitch, HelperLevel
+from pyhomematic.devicetypes.helper import HelperWorking, HelperSwitchState, HelperLevel
 
 LOG = logging.getLogger(__name__)
 
 
-class HMSwitch(HelperSwitch, HelperWorking):
+class HMSwitch(HelperSwitchState, HelperWorking):
     """
     Generic HM Switch Object
     """
