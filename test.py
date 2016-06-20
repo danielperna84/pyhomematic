@@ -4,8 +4,8 @@ import logging
 import click
 from pyhomematic import HMConnection
 from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact, Smoke, Motion
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState, HelperLevel
-from pyhomematic.devicetypes.actors import HMSwitch
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
+from pyhomematic.devicetypes.actors import Switch
 
 
 def systemcallback(src, *args):
@@ -76,7 +76,7 @@ def cli(local, localport, remote, remoteport, address, channel, state,
 
         # AreaThermostat
         if isinstance(device, AreaThermostat):
-            print(" / Temperature: %f" % device.get_temperatur())
+            print(" / Temperature: %f" % device.get_temperature())
             print(" / Humidity: %i" % device.get_humidity())
 
         # ShutterContact
@@ -93,7 +93,7 @@ def cli(local, localport, remote, remoteport, address, channel, state,
             print(" / Brightness: %i" % device.get_brightness())
 
         # Switch
-        if isinstance(device, HMSwitch):
+        if isinstance(device, Switch):
             print(" / Switch is on: %s" % str(device.is_on(channel)))
             print(" / Changee state to: %s" % str(bool(state)))
             device.set_state(bool(state), channel)

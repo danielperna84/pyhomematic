@@ -1,26 +1,21 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
-from pyhomematic.devicetypes.helper import HelperWorking, HelperSwitchState, HelperLevel
+from pyhomematic.devicetypes.helper import HelperWorking,\
+                                           HelperActorState,\
+                                           HelperActorLevel,\
+                                           HelperActorOnTime
 
 LOG = logging.getLogger(__name__)
 
 
-class HMSwitch(HelperSwitchState, HelperWorking):
+class HMActor(HMDevice):
     """
-    Generic HM Switch Object
-    """
-    pass
-
-
-class HMDimmer(HelperLevel, HelperWorking):
-    """
-    Generic Dimmer function
+    Generic HM Actor Object
     """
     pass
 
-
-class Blind(HMDimmer):
+class Blind(HMActor, HelperActorLevel, HelperWorking):
     """
     HM-LC-Bl1-SM, HM-LC-Bl1-FM, HM-LC-Bl1-PB-FM, ZEL STG RM FEP 230V, 263 146, HM-LC-BlX
     Blind switch that raises and lowers roller shutters or window blinds.
@@ -44,7 +39,7 @@ class Blind(HMDimmer):
         self.writeNodeData("STOP", True, channel)
 
 
-class Dimmer(HMDimmer):
+class Dimmer(HMActor, HelperActorLevel, HelperWorking):
     """
     HM-LC-Dim1L-Pl, HM-LC-Dim1L-CV, HM-LC-Dim1L-Pl-3, HM-LC-Dim1L-CV-2
     HM-LC-Dim2L-SM, HM-LC-Dim2L-CV
@@ -65,7 +60,7 @@ class Dimmer(HMDimmer):
         self.set_level(0.0, channel)
 
 
-class Switch(HMSwitch):
+class Switch(HMActor, HelperActorState, HelperWorking):
     """
     HM-LC-Sw1-Pl, HM-LC-Sw1-Pl-2, HM-LC-Sw1-SM, HM-LC-Sw2-SM, HM-LC-Sw4-SM, HM-LC-Sw4-PCB, HM-LC-Sw4-WM, HM-LC-Sw1-FM,
     263 130, HM-LC-Sw2-FM, HM-LC-Sw1-PB-FM, HM-LC-Sw2-PB-FM, HM-LC-Sw4-DR, HM-LC-Sw2-DR, ZEL STG RM FZS,
@@ -80,8 +75,24 @@ class Switch(HMSwitch):
             return 4
         return 1
 
+    def is_on(self, channel=1):
+        """ Returns True if switch is on. """
+        return self.get_state(channel)
 
-class SwitchPowermeter(HMSwitch, HMSensor):
+    def is_off(self, channel=1):
+        """ Returns True if switch is off. """
+        return not self.get_state(channel)
+
+    def on(self, channel=1):
+        """Turn switch on."""
+        self.set_state(True, channel)
+
+    def off(self, channel=1):
+        """Turn switch off."""
+        self.set_state(False, channel)
+
+
+class SwitchPowermeter(Switch, HelperActorOnTime, HMSensor):
     """
     HM-ES-PMSw1-Pl, HM-ES-PMSw1-Pl-DN-R1, HM-ES-PMSw1-Pl-DN-R2, HM-ES-PMSw1-Pl-DN-R3, HM-ES-PMSw1-Pl-DN-R4
     HM-ES-PMSw1-Pl-DN-R5, HM-ES-PMSw1-DR, HM-ES-PMSw1-SM, HM-ES-PMSwX
@@ -91,21 +102,15 @@ class SwitchPowermeter(HMSwitch, HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"ON_TIME": 'c'})
         self.SENSORNODE.update({"POWER": 2,
                                 "CURRENT": 2,
                                 "VOLTAGE": 2,
                                 "ENERGY_COUNTER": 2})
 
-    def set_ontime(self, ontime):
-        """Set duration th switch stays on when toggled. """
-        try:
-            ontime = float(ontime)
-        except Exception as err:
-            LOG.debug("SwitchPowermeter.set_ontime: Exception %s" % (err,))
-            return False
+    @property
+    def ELEMENT(self):
+        return 1
 
-        self.writeNodeData("ON_TIME", ontime)
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,

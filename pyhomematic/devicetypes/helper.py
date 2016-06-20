@@ -68,7 +68,7 @@ class HelperBinaryState(HMDevice):
         return self.getBinaryData("STATE", channel)
 
 
-class HelperSwitchState(HMDevice):
+class HelperActorState(HMDevice):
     """
     Generic HM Switch Object
     """
@@ -77,14 +77,6 @@ class HelperSwitchState(HMDevice):
 
         # init metadata
         self.WRITENODE.update({"STATE": 'c'})
-
-    def is_on(self, channel=1):
-        """ Returns True if switch is on. """
-        return self.get_state(channel)
-
-    def is_off(self, channel=1):
-        """ Returns True if switch is off. """
-        return not self.get_state(channel)
 
     def get_state(self, channel=1):
         """ Returns if switch is 'on' or 'off'. """
@@ -100,16 +92,8 @@ class HelperSwitchState(HMDevice):
 
         self.writeNodeData("STATE", onoff, channel)
 
-    def on(self, channel=1):
-        """Turn switch on."""
-        self.set_state(True, channel)
 
-    def off(self, channel=1):
-        """Turn switch off."""
-        self.set_state(False, channel)
-
-
-class HelperLevel(HMDevice):
+class HelperActorLevel(HMDevice):
     """
     Generic level functions
     """
@@ -132,3 +116,23 @@ class HelperLevel(HMDevice):
             return False
 
         self.writeNodeData("LEVEL", position, channel)
+
+
+class HelperActorOnTime(HMDevice):
+    """
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"ON_TIME": 'c'})
+
+    def set_ontime(self, ontime):
+        """Set duration th switch stays on when toggled. """
+        try:
+            ontime = float(ontime)
+        except Exception as err:
+            LOG.debug("SwitchPowermeter.set_ontime: Exception %s" % (err,))
+            return False
+
+        self.writeNodeData("ON_TIME", ontime)
