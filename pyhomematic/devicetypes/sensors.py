@@ -1,6 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperBinaryState
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperBinaryState, HelperSensorState
 
 LOG = logging.getLogger(__name__)
 
@@ -20,14 +20,14 @@ class ShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabo
     """
     def is_open(self, channel=1):
         """ Returns True if the contact is open. """
-        return bool(self.get_state(channel))
+        return self.get_state(channel)
 
     def is_closed(self, channel=1):
         """ Returns True if the contact is closed. """
-        return not bool(self.get_state(channel))
+        return not self.get_state(channel)
 
 
-class RotaryHandleSensor(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabotage):
+class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabotage):
     """
     HM-Sec-RHS, ZEL STG RM FDK, HM-Sec-RHS-2, HM-Sec-xx
     Window handle contact
@@ -51,7 +51,7 @@ class Smoke(HMBinarySensor, HelperBinaryState):
     """
     def is_smoke(self, channel=1):
         """ Return True if smoke is detected """
-        return bool(self.get_state(channel))
+        return self.get_state(channel)
 
 
 class SmokeV2(Smoke, HelperLowBat):

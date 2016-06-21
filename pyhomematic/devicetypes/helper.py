@@ -55,6 +55,7 @@ class HelperValveState(HMDevice):
         """ Returns the current valve state. """
         return int(self.getAttributeData("VALVE_STATE"))
 
+
 class HelperBinaryState(HMDevice):
     """Return the state of binary sensors."""
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -63,9 +64,22 @@ class HelperBinaryState(HMDevice):
         # init metadata
         self.BINARYNODE.update({"STATE": 'c'})
 
-    def get_state(self, channel=2):
+    def get_state(self, channel=1):
         """ Returns current state of handle """
-        return self.getBinaryData("STATE", channel)
+        return bool(self.getBinaryData("STATE", channel))
+
+
+class HelperSensorState(HMDevice):
+    """Return the state of binary sensors."""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"STATE": 'c'})
+
+    def get_state(self, channel=1):
+        """ Returns current state of handle """
+        return self.getSensorData("STATE", channel)
 
 
 class HelperActorState(HMDevice):
