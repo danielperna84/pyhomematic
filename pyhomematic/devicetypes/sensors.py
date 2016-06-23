@@ -65,14 +65,9 @@ class SmokeV2(Smoke, HelperLowBat):
         self.ATTRIBUTENODE.update({"ERROR_ALARM_TEST": 'c',
                                    "ERROR_ALARM_TEST": 'c'})
 
+
 class Remote(HMBinarySensor):
     """
-    BRC-H, HM-RC-2-PBU-FM, HM-RC-Dis-H-x-EU, HM-RC-4, HM-RC-4-B, HM-RC-4-2,
-    HM-RC-4-3, HM-RC-4-3-D, HM-RC-8, HM-RC-12, HM-RC-12-B, HM-RC-12-SW,
-    HM-RC-19, HM-RC-19-B, HM-RC-19-SW, HM-RC-Key3, HM-RC-Key3-B, HM-RC-Key4-2,
-    HM-RC-Key4-3, HM-RC-Sec3, HM-RC-Sec3-B, HM-RC-Sec4-2, HM-RC-Sec4-3,
-    HM-RC-P1, HM-RC-SB-X, HM-RC-X, HM-PB-2-WM, HM-PB-4-WM, HM-PB-6-WM55,
-    HM-PB-2-WM55-2, HM-PB-2-WM55, ZEL STG RM WT 2, 263 135
     Remote handle buttons
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -85,7 +80,7 @@ class Remote(HMBinarySensor):
         if "RC-2" in self.TYPE or "PB-2" in self.TYPE:
             return 2
         if "HM-Dis-WM55" in self.TYPE:
-            return 2   
+            return 2
         if "Sec3" in self.TYPE or "Key3" in self.TYPE:
             return 3
         if "RC-4" in self.TYPE or "PB-4" in self.TYPE:
@@ -94,13 +89,23 @@ class Remote(HMBinarySensor):
             return 4
         if "PB-6" in self.TYPE:
             return 6
-        if "RC-8" in self.TYPE:
+        if "RC-8" in self.TYPE or "HM-MOD-EM-8" in self.TYPE:
             return 8
         if "RC-12" in self.TYPE:
             return 12
         if "RC-19" in self.TYPE:
             return 19
         return 1
+
+
+class GongSensor(HMBinarySensor):
+    """
+    Gong
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.EVENTNODE.update({"PRESS_SHORT": 'c'})
 
 
 class Motion(HMBinarySensor, HMSensor):
@@ -175,6 +180,7 @@ DEVICETYPES = {
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,
     "HM-Sec-xx": RotaryHandleSensor,
+    "HM-Sen-DB-PCB": GongSensor,
     "HM-Sec-SD": Smoke,
     "HM-Sec-SD-Generic": Smoke,
     "HM-Sec-SD-2": SmokeV2,
@@ -210,6 +216,7 @@ DEVICETYPES = {
     "HM-PB-2-WM55-2": Remote,
     "HM-PB-2-WM55": Remote,
     "HM-Dis-WM55": Remote,
+    "HM-MOD-EM-8": Remote,
     "RC-H": Remote,
     "BRC-H": Remote,
     "atent": Remote,
