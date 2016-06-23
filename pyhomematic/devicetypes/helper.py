@@ -132,14 +132,14 @@ class HelperActorLevel(HMDevice):
         self.writeNodeData("LEVEL", position, channel)
 
 
-class HelperActorOnTime(HMDevice):
+class HelperActionOnTime(HMDevice):
     """
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"ON_TIME": 'c'})
+        self.ACTIONNODE.update({"ON_TIME": 'c'})
 
     def set_ontime(self, ontime):
         """Set duration th switch stays on when toggled. """
@@ -149,4 +149,4 @@ class HelperActorOnTime(HMDevice):
             LOG.debug("SwitchPowermeter.set_ontime: Exception %s" % (err,))
             return False
 
-        self.writeNodeData("ON_TIME", ontime)
+        self.actionNodeData("ON_TIME", ontime)

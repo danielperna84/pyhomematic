@@ -4,7 +4,7 @@ from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.helper import HelperWorking,\
                                            HelperActorState,\
                                            HelperActorLevel,\
-                                           HelperActorOnTime
+                                           HelperActionOnTime
 
 LOG = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class Blind(HMActor, HelperActorLevel, HelperWorking):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"STOP": 'c'})
+        self.ACTIONNODE.update({"STOP": 'c'})
 
     def move_up(self, channel=1):
         """Move the shutter up all the way."""
@@ -36,7 +36,7 @@ class Blind(HMActor, HelperActorLevel, HelperWorking):
 
     def stop(self, channel=1):
         """Stop moving."""
-        self.writeNodeData("STOP", True, channel)
+        self.actionNodeData("STOP", True, channel)
 
 
 class Dimmer(HMActor, HelperActorLevel, HelperWorking):
@@ -92,7 +92,7 @@ class Switch(HMActor, HelperActorState, HelperWorking):
         self.set_state(False, channel)
 
 
-class SwitchPowermeter(Switch, HelperActorOnTime, HMSensor):
+class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
     """
     HM-ES-PMSw1-Pl, HM-ES-PMSw1-Pl-DN-R1, HM-ES-PMSw1-Pl-DN-R2, HM-ES-PMSw1-Pl-DN-R3, HM-ES-PMSw1-Pl-DN-R4
     HM-ES-PMSw1-Pl-DN-R5, HM-ES-PMSw1-DR, HM-ES-PMSw1-SM, HM-ES-PMSwX
