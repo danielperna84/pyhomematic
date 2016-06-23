@@ -212,6 +212,8 @@ class HMDevice(HMGeneric):
         self._BINARYNODE = {}
         self._ATTRIBUTENODE = {"RSSI_DEVICE": 0}
         self._WRITENODE = {}
+        self._EVENTNODE = {}
+        self._ACTIONNODE = {}
 
         # These properties only exist for interfaces themselves
         self._CHILDREN = device_description.get('CHILDREN')
@@ -266,6 +268,14 @@ class HMDevice(HMGeneric):
     def WRITENODE(self):
         return self._WRITENODE
 
+    @property
+    def EVENTNODE(self):
+        return self._EVENTNODE
+
+    @property
+    def ACTIONNODE(self):
+        return self._ACTIONNODE
+
     def getAttributeData(self, name, channel=1):
         """ Returns a attribut """
         return self._getNodeData(name, self._ATTRIBUTENODE, channel)
@@ -295,15 +305,21 @@ class HMDevice(HMGeneric):
         return None
 
     def writeNodeData(self, name, data, channel=1):
+        return self._setNodeData(name, self.WRITENODE, data, channel)
+
+    def actionNodeData(self, name, data, channel=1):
+        return self._setNodeData(name, self.ACTIONNODE, data, channel)
+
+    def _setNodeData(self, name, metadata, data, channel=1):
         """ Returns a data point from data"""
-        if name in self.WRITENODE:
-            nodeChannel = self.WRITENODE[name]
+        if name in metadata:
+            nodeChannel = metadata[name]
             if nodeChannel == 'c' or nodeChannel is None:
                 nodeChannel = channel
             if nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].setValue(name, data)
 
-        LOG.error("HMDevice.writeNodeData: %s not found with value %s on %i" %
+        LOG.error("HMDevice.setNodeData: %s not found with value %s on %i" %
                   (name, data, nodeChannel))
         return False
 

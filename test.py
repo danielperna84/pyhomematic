@@ -72,6 +72,8 @@ def cli(local, localport, remote, remoteport, address, channel, state,
         print("* Binary datapoint: %s" % str(device.BINARYNODE))
         print("* Write datapoint: %s" % str(device.WRITENODE))
         print("* Attribute datapoint: %s" % str(device.ATTRIBUTENODE))
+        print("* Event datapoint: %s" % str(device.EVENTNODE))
+        print("* Action datapoint: %s" % str(device.ACTIONNODE))
         print("******************************")
 
         # AreaThermostat

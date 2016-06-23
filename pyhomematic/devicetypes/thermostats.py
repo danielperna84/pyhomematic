@@ -56,15 +56,13 @@ class HMThermostat(HMDevice):
             mode = 'AUTO_MODE'
         elif setmode == self.MANU_MODE:
             mode = 'MANU_MODE'
-        elif setmode == self.PARTY_MODE:
-            mode = 'PARTY_MODE'
         elif setmode == self.BOOST_MODE:
             mode = 'BOOST_MODE'
         else:
             LOG.warning("Thermostat.MODE.setter: Invalid mode: %s" % (str(setmode),))
             mode = False
         if mode:
-            self.writeNodeData(mode, True)
+            self.actionNodeData(mode, True)
 
     @property
     def AUTOMODE(self):
@@ -91,11 +89,6 @@ class HMThermostat(HMDevice):
         """ Return party mode state. """
         return self.mode == self.PARTY_MODE
 
-    @PARTYMODE.setter
-    def PARTYMODE(self, partymode):
-        """ Turn on paty mode. """
-        self.mode = self.PARTY_MODE
-
     @property
     def BOOSTMODE(self):
         """ Return boost state. """
@@ -117,11 +110,10 @@ class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
 
         # init metadata
         self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 4})
-        self.WRITENODE.update({"SET_TEMPERATURE": 4,
-                               "AUTO_MODE": 4,
-                               "MANU_MODE": 4,
-                               "PARTY_MODE": 4,
-                               "BOOST_MODE": 4})
+        self.WRITENODE.update({"SET_TEMPERATURE": 4})
+        self.ACTIONNODE.update({"AUTO_MODE": 4,
+                                "MANU_MODE": 4,
+                                "BOOST_MODE": 4})
         self.ATTRIBUTENODE.update({"VALVE_STATE": 4,
                                    "BATTERY_STATE": 4,
                                    "CONTROL_MODE": 4})
@@ -137,11 +129,10 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
 
         # init metadata
         self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 2})
-        self.WRITENODE.update({"SET_TEMPERATURE": 2,
-                               "AUTO_MODE": 2,
-                               "MANU_MODE": 2,
-                               "PARTY_MODE": 2,
-                               "BOOST_MODE": 2})
+        self.WRITENODE.update({"SET_TEMPERATURE": 2})
+        self.ACTIONNODE.update({"AUTO_MODE": 2,
+                                "MANU_MODE": 2,
+                                "BOOST_MODE": 2})
         self.ATTRIBUTENODE.update({"CONTROL_MODE": 2, "BATTERY_STATE": 2})
 
 
@@ -155,11 +146,10 @@ class MAXThermostat(HMThermostat, HelperBatteryState):
 
         # init metadata
         self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 1})
-        self.WRITENODE.update({"SET_TEMPERATURE": 1,
-                               "AUTO_MODE": 1,
-                               "MANU_MODE": 1,
-                               "PARTY_MODE": 1,
-                               "BOOST_MODE": 1})
+        self.WRITENODE.update({"SET_TEMPERATURE": 1})
+        self.ACTIONNODE.update({"AUTO_MODE": 1,
+                                "MANU_MODE": 1,
+                                "BOOST_MODE": 1})
         self.ATTRIBUTENODE.update({"BATTERY_STATE": 0, "CONTROL_MODE": 1})
 
 

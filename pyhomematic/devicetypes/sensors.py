@@ -78,7 +78,7 @@ class Remote(HMBinarySensor):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.BINARYNODE.update({"PRESS_SHORT": 'c', "PRESS_LONG": 'c'})
+        self.EVENTNODE.update({"PRESS_SHORT": 'c', "PRESS_LONG": 'c'})
 
     @property
     def ELEMENT(self):
