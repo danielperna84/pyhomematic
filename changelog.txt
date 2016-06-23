@@ -1,3 +1,7 @@
+Version 0.1.6 (2016-06-23)
+- Added support for lots of devices @pvizeli
+- New metadata design @pvizeli
+
 Version 0.1.5 (2016-06-21)
 - (Hopefully) Finished restructuring by @pvizeli
 
