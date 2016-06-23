@@ -17,7 +17,6 @@ class HMActor(HMDevice):
 
 class Blind(HMActor, HelperActorLevel, HelperWorking):
     """
-    HM-LC-Bl1-SM, HM-LC-Bl1-FM, HM-LC-Bl1-PB-FM, ZEL STG RM FEP 230V, 263 146, HM-LC-BlX
     Blind switch that raises and lowers roller shutters or window blinds.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -41,8 +40,6 @@ class Blind(HMActor, HelperActorLevel, HelperWorking):
 
 class Dimmer(HMActor, HelperActorLevel, HelperWorking):
     """
-    HM-LC-Dim1L-Pl, HM-LC-Dim1L-CV, HM-LC-Dim1L-Pl-3, HM-LC-Dim1L-CV-2
-    HM-LC-Dim2L-SM, HM-LC-Dim2L-CV
     Dimmer switch that controls level of light brightness.
     """
     @property
@@ -62,9 +59,6 @@ class Dimmer(HMActor, HelperActorLevel, HelperWorking):
 
 class Switch(HMActor, HelperActorState, HelperWorking):
     """
-    HM-LC-Sw1-Pl, HM-LC-Sw1-Pl-2, HM-LC-Sw1-SM, HM-LC-Sw2-SM, HM-LC-Sw4-SM, HM-LC-Sw4-PCB, HM-LC-Sw4-WM, HM-LC-Sw1-FM,
-    263 130, HM-LC-Sw2-FM, HM-LC-Sw1-PB-FM, HM-LC-Sw2-PB-FM, HM-LC-Sw4-DR, HM-LC-Sw2-DR, ZEL STG RM FZS,
-    ZEL STG RM FZS-2, HM-LC-SwX
     Switch turning plugged in device on or off.
     """
     @property
@@ -73,6 +67,8 @@ class Switch(HMActor, HelperActorState, HelperWorking):
             return 2
         elif "LC-Sw4" in self.TYPE:
             return 4
+        elif "Re-8" in self.TYPE:
+            return 8
         return 1
 
     def is_on(self, channel=1):
@@ -94,8 +90,6 @@ class Switch(HMActor, HelperActorState, HelperWorking):
 
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
     """
-    HM-ES-PMSw1-Pl, HM-ES-PMSw1-Pl-DN-R1, HM-ES-PMSw1-Pl-DN-R2, HM-ES-PMSw1-Pl-DN-R3, HM-ES-PMSw1-Pl-DN-R4
-    HM-ES-PMSw1-Pl-DN-R5, HM-ES-PMSw1-DR, HM-ES-PMSw1-SM, HM-ES-PMSwX
     Switch turning plugged in device on or off and measuring energy consumption.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -121,26 +115,72 @@ DEVICETYPES = {
     "263 146": Blind,
     "HM-LC-BlX": Blind,
     "HM-LC-Dim1L-Pl": Dimmer,
+    "HM-LC-Dim1L-Pl-2": Dimmer,
     "HM-LC-Dim1L-Pl-3": Dimmer,
     "HM-LC-Dim1L-CV": Dimmer,
     "HM-LC-Dim1L-CV-2": Dimmer,
+    "HM-LC-Dim1T-Pl": Dimmer,
+    "HM-LC-Dim1T-Pl-3": Dimmer,
+    "HM-LC-Dim1T-CV": Dimmer,
+    "HM-LC-Dim1T-CV-2": Dimmer,
+    "HM-LC-Dim1T-FM": Dimmer,
+    "HM-LC-Dim1T-FM-2": Dimmer,
+    "HM-LC-Dim1T-FM-LF": Dimmer,
+    "HM-LC-Dim1PWM-CV": Dimmer,
+    "HM-LC-Dim1PWM-CV-2": Dimmer,
+    "HM-LC-Dim1TPBU-FM": Dimmer,
+    "HM-LC-Dim1TPBU-FM-2": Dimmer,
+    "HM-LC-Dim2L-CV": Dimmer,
+    "HM-LC-Dim2L-SM": Dimmer,
+    "HM-LC-Dim2L-SM-2": Dimmer,
+    "HM-LC-Dim2T-SM": Dimmer,
+    "HM-LC-Dim2T-SM-2": Dimmer,
+    "HSS-DX": Dimmer,
+    "263 132": Dimmer,
+    "263 133": Dimmer,
+    "263 134": Dimmer,
     "HM-LC-Sw1-Pl": Switch,
     "HM-LC-Sw1-Pl-2": Switch,
+    "HM-LC-Sw1-Pl-3": Switch,
+    "HM-LC-Sw1-Pl-DN-R1": Switch,
+    "HM-LC-Sw1-Pl-DN-R2": Switch,
+    "HM-LC-Sw1-Pl-DN-R3": Switch,
+    "HM-LC-Sw1-Pl-DN-R4": Switch,
+    "HM-LC-Sw1-Pl-DN-R5": Switch,
+    "HM-LC-Sw1-Pl-CT-R1": Switch,
+    "HM-LC-Sw1-Pl-CT-R2": Switch,
+    "HM-LC-Sw1-Pl-CT-R3": Switch,
+    "HM-LC-Sw1-Pl-CT-R4": Switch,
+    "HM-LC-Sw1-Pl-CT-R5": Switch,
+    "HM-LC-Sw1-Pl-OM54": Switch,
+    "HM-LC-Sw1-DR": Switch,
     "HM-LC-Sw1-SM": Switch,
-    "HM-LC-Sw2-SM": Switch,
-    "HM-LC-Sw4-SM": Switch,
-    "HM-LC-Sw4-PCB": Switch,
-    "HM-LC-Sw4-WM": Switch,
+    "HM-LC-Sw1-SM-2": Switch,
     "HM-LC-Sw1-FM": Switch,
-    "263 130": Switch,
-    "HM-LC-Sw2-FM": Switch,
+    "HM-LC-Sw1-FM-2": Switch,
     "HM-LC-Sw1-PB-FM": Switch,
-    "HM-LC-Sw2-PB-FM": Switch,
-    "HM-LC-Sw4-DR": Switch,
+    "HM-LC-Sw1-Ba-PCB": Switch,
+    "HM-LC-Sw1-SM-ATmega168": Switch,
+    "HM-LC-Sw2-SM": Switch,
+    "HM-LC-Sw2-FM": Switch,
+    "HM-LC-Sw2-FM-2": Switch,
     "HM-LC-Sw2-DR": Switch,
+    "HM-LC-Sw2-DR-2": Switch,
+    "HM-LC-Sw2-PB-FM": Switch,
+    "HM-LC-Sw4-SM": Switch,
+    "HM-LC-Sw4-SM-2": Switch,
+    "HM-LC-Sw4-SM-ATmega168": Switch,
+    "HM-LC-Sw4-PCB": Switch,
+    "HM-LC-Sw4-PCB-2": Switch,
+    "HM-LC-Sw4-WM": Switch,
+    "HM-LC-Sw4-WM-2": Switch,
+    "HM-LC-Sw4-DR": Switch,
+    "HM-LC-Sw4-DR-2": Switch,
+    "263 130": Switch,
     "ZEL STG RM FZS": Switch,
     "ZEL STG RM FZS-2": Switch,
     "HM-LC-SwX": Switch,
+    "HM-MOD-Re-8": Switch,
     "HM-ES-PMSw1-Pl": SwitchPowermeter,
     "HM-ES-PMSw1-Pl-DN-R1": SwitchPowermeter,
     "HM-ES-PMSw1-Pl-DN-R2": SwitchPowermeter,

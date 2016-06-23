@@ -84,6 +84,8 @@ class Remote(HMBinarySensor):
     def ELEMENT(self):
         if "RC-2" in self.TYPE or "PB-2" in self.TYPE:
             return 2
+        if "HM-Dis-WM55" in self.TYPE:
+            return 2   
         if "Sec3" in self.TYPE or "Key3" in self.TYPE:
             return 3
         if "RC-4" in self.TYPE or "PB-4" in self.TYPE:
@@ -177,7 +179,6 @@ DEVICETYPES = {
     "HM-Sec-SD-Generic": Smoke,
     "HM-Sec-SD-2": SmokeV2,
     "HM-Sec-SD-2-Generic": SmokeV2,
-    "BRC-H": Remote,
     "HM-RC-2-PBU-FM": Remote,
     "HM-RC-Dis-H-x-EU": Remote,
     "HM-RC-4": Remote,
@@ -206,12 +207,14 @@ DEVICETYPES = {
     "HM-PB-2-WM": Remote,
     "HM-PB-4-WM": Remote,
     "HM-PB-6-WM55": Remote,
-    "RC-H": Remote,
-    "atent": Remote,
-    "ZEL STG RM HS 4": Remote,
     "HM-PB-2-WM55-2": Remote,
     "HM-PB-2-WM55": Remote,
+    "HM-Dis-WM55": Remote,
+    "RC-H": Remote,
+    "BRC-H": Remote,
+    "atent": Remote,
     "ZEL STG RM WT 2": Remote,
+    "ZEL STG RM HS 4": Remote,
     "263 135": Remote,
     "HM-Sen-MDIR-WM55": RemoteMotion,
     "HM-Sen-MDIR-SM": Motion,
@@ -226,9 +229,10 @@ DEVICETYPES = {
     "ASH550I": AreaThermostat,
     "ASH550": AreaThermostat,
     "HM-WDS10-TH-O": AreaThermostat,
-    "263 158": AreaThermostat,
     "HM-WDS20-TH-O": AreaThermostat,
     "HM-WDS40-TH-I": AreaThermostat,
+    "HM-WDS40-TH-I-2": AreaThermostat,
     "263 157": AreaThermostat,
+    "263 158": AreaThermostat,
     "IS-WDS-TH-OD-S-R3": AreaThermostat
 }
