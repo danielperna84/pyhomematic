@@ -99,7 +99,7 @@ class RPCFunctions(object):
         for dev in self._devices_raw:
             if dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
-                    deviceObject = HMChannel(dev, self._proxy, self.resolvenames)
+                    deviceObject = HMChannel(dev, self._proxy, self.resolveparamsets)
                     self.devices_all[dev['ADDRESS']] = deviceObject
                     self.devices[dev['PARENT']].CHANNELS[dev['INDEX']] = deviceObject
         if self.devices_all and self.resolvenames:
