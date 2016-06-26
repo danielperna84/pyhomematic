@@ -1,3 +1,7 @@
+Version 0.1.7 (2016-...)
+- resolvenames=True now doesn't set resolveparamsets=True anymore
+- 
+
 Version 0.1.6 (2016-06-23)
 - Added support for lots of devices @pvizeli
 - New metadata design @pvizeli
