@@ -28,10 +28,7 @@ class ShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabo
 
 
 class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabotage):
-    """
-    HM-Sec-RHS, ZEL STG RM FDK, HM-Sec-RHS-2, HM-Sec-xx
-    Window handle contact
-    """
+    """Window handle contact."""
     def is_open(self, channel=1):
         """ Returns True if the handle is set to open. """
         return self.get_state(channel) == 2
@@ -43,6 +40,20 @@ class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabota
     def is_tilted(self, channel=1):
         """ Returns True if the handle is set to tilted. """
         return self.get_state(channel) == 1
+
+
+class WaterSensor(HMSensor, HelperSensorState, HelperLowBat):
+    """Watter detect sensor."""
+
+    def is_dry(self, channel=1):
+        return self.get_state(channel) == 0
+
+    def is_wet(self, channel=1):
+        return self.get_state(channel) == 1
+
+    def is_water(self, channel=1):
+        return self.get_state(channel) == 2
+
 
 class Smoke(HMBinarySensor, HelperBinaryState):
     """
@@ -180,6 +191,8 @@ DEVICETYPES = {
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,
     "HM-Sec-xx": RotaryHandleSensor,
+    "HM-Sec-WDS": WaterSensor,
+    "HM-Sec-WDS-2": WaterSensor,
     "HM-Sen-DB-PCB": GongSensor,
     "HM-Sec-SD": Smoke,
     "HM-Sec-SD-Generic": Smoke,
