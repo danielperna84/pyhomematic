@@ -46,12 +46,15 @@ class WaterSensor(HMSensor, HelperSensorState, HelperLowBat):
     """Watter detect sensor."""
 
     def is_dry(self, channel=1):
+        """Return True if the state is DRY"""
         return self.get_state(channel) == 0
 
     def is_wet(self, channel=1):
+        """Return True if the state is WET"""
         return self.get_state(channel) == 1
 
     def is_water(self, channel=1):
+        """Return True if the state is WATER"""
         return self.get_state(channel) == 2
 
 
