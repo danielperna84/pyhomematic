@@ -20,6 +20,10 @@ REMOTEPORT = 2001
 DEVICEFILE = False  # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
 XML_API_URL = '/config/xmlapi/devicelist.cgi'
+JSONRPC_URL = '/api/homematic.cgi'
+RPC_USERNAME = 'Admin'
+RPC_PASSWORD = ''
+
 
 # Device-storage
 devices = {}
@@ -35,10 +39,13 @@ class RPCFunctions(object):
                  devicefile=DEVICEFILE,
                  proxy=False,
                  remote_ip=False,
+                 remote_port=False,
                  eventcallback=False,
                  systemcallback=False,
                  resolvenames=False,
-                 resolveparamsets=False):
+                 resolveparamsets=False,
+                 rpcusername=False,
+                 rpcpassword=False):
         global devices, devices_all, devices_raw, devices_raw_dict
         LOG.debug("RPCFunctions.__init__")
         self.devicefile = devicefile
@@ -46,9 +53,12 @@ class RPCFunctions(object):
         self.systemcallback = systemcallback
         self.resolvenames = resolvenames
         self.resolveparamsets = resolveparamsets
+        self.rpcusername = rpcusername
+        self.rpcpassword = rpcpassword
 
         # Only required to access device names from Homematic CCU
         self._remote_ip = remote_ip
+        self._remote_port = remote_port
 
         # The methods need to know about the proxy to be able to pass it on to the device-objects
         self._proxy = proxy
@@ -189,38 +199,106 @@ class RPCFunctions(object):
             self.systemcallback('readdedDevice', interface_id, addresses)
         return True
 
+    def jsonRpcPost(self, method, params={}, timeout=5):
+        LOG.debug("RPCFunctions.jsonRpcPost: Method: %s" % method)
+        try:
+            payload = json.dumps({"method": method, "params": params, "jsonrpc": "1.1", "id": 0}).encode('utf-8')
+
+            headers = {"Content-Type": 'application/json',
+                       "Content-Length": len(payload)}
+            apiendpoint = "http://%s%s" % (self._remote_ip, JSONRPC_URL)
+            LOG.debug("RPCFunctions.jsonRpcPost: API-Endpoint: %s" % apiendpoint)
+            req = urllib.request.Request(apiendpoint, payload, headers)
+            resp = urllib.request.urlopen(req)
+            if resp.status == 200:
+                return json.loads(resp.read().decode('utf-8'))
+            else:
+                LOG.error("RPCFunctions.jsonRpcPost: Status: %i" % resp.status)
+                return {'error': resp.status, 'result': {}}
+        except Exception as err:
+            LOG.error("RPCFunctions.jsonRpcPost: Exception: %s" % str(err))
+            return {'error': str(err), 'result': {}}
+
     def addDeviceNames(self):
         """ If XML-API (http://www.homematic-inside.de/software/addons/item/xmlapi) is installed on CCU this function will add names to CCU devices """
         LOG.debug("RPCFunctions.addDeviceNames")
 
-        #First try to get names from metadata
-        for address in self.devices:
+        #First try to get names from metadata when nur credentials are set
+        if self.resolvenames == 'metadata':
+            for address in self.devices:
+                try:
+                    name = self.devices[address]._proxy.getMetadata(address, 'NAME')
+                    self.devices[address].NAME = name
+                    for address, device in self.devices[address].CHANNELS.items():
+                        device.NAME = name
+                        self.devices_all[device.ADDRESS].NAME = name
+                except Exception as err:
+                    LOG.debug("RPCFunctions.addDeviceNames: Unable to get name for %s from metadata." % str(address))
+
+        # Then try to get names via JSON-RPC
+        elif self.resolvenames == 'json' and self.rpcusername and self.rpcpassword:
+            LOG.debug("RPCFunctions.addDeviceNames: Getting names via JSON-RPC")
             try:
-                name = self.devices[address]._proxy.getMetadata(address, 'NAME')
-                self.devices[address].NAME = name
-                for address, device in self.devices[address].CHANNELS.items():
-                    device.NAME = name
-                    self.devices_all[device.ADDRESS].NAME = name
+                session = False
+                params = {"username": self.rpcusername, "password": self.rpcpassword}
+                response = self.jsonRpcPost("Session.login", params)
+                if response['error'] is None and response['result']:
+                    session = response['result']
+
+                if not session:
+                    LOG.warning("RPCFunctions.addDeviceNames: Unable to open session.")
+                    return
+
+                params = {"_session_id_": session}
+                response = self.jsonRpcPost("Interface.listInterfaces", params)
+                interface = False
+                if response['error'] is None and response['result']:
+                    for i in response['result']:
+                        if i['port'] == self._remote_port:
+                            interface = i['name']
+                            break
+                LOG.debug("RPCFunctions.addDeviceNames: Got interface: %s" % interface)
+                if not interface:
+                    params = {"_session_id_": session}
+                    response = self.jsonRpcPost("Session.logout", params)
+                    return
+
+                params = {"_session_id_": session}
+                response = self.jsonRpcPost("Device.listAllDetail", params)
+
+                if response['error'] is None and response['result']:
+                    LOG.debug("RPCFunctions.addDeviceNames: Resolving devicenames")
+                    for i in response['result']:
+                        try:
+                            if i.get('address') in self.devices:
+                                self.devices[i['address']].NAME = i['name']
+                        except Exception as err:
+                            LOG.warning("RPCFunctions.addDeviceNames: Exception: %s" % str(err))
+
+                params = {"_session_id_": session}
+                response = self.jsonRpcPost("Session.logout", params)
             except Exception as err:
-                LOG.debug("RPCFunctions.addDeviceNames: Unable to get name for %s from metadata." % str(address))
+                params = {"_session_id_": session}
+                response = self.jsonRpcPost("Session.logout", params)
+                LOG.warning("RPCFunctions.addDeviceNames: Exception: %s" % str(err))
 
         #Then try to get names from XML-API
-        try:
-            response = urllib.request.urlopen("http://%s%s" % (self._remote_ip, XML_API_URL), timeout=5)
-            device_list = response.read().decode("ISO-8859-1")
-        except Exception as err:
-            LOG.warning("RPCFunctions.addDeviceNames: Could not access XML-API: %s" % (str(err), ))
-            return False
-        device_list_tree = ET.ElementTree(ET.fromstring(device_list))
-        for device in device_list_tree.getroot():
-            address = device.attrib['address']
-            name = device.attrib['name']
-            if address in self.devices:
-                self.devices[address].NAME = name
-                for address, device in self.devices[address].CHANNELS.items():
-                    device.NAME = name
-                    self.devices_all[device.ADDRESS].NAME = name
-        return True
+        elif self.resolvenames == 'xml':
+            try:
+                response = urllib.request.urlopen("http://%s%s" % (self._remote_ip, XML_API_URL), timeout=5)
+                device_list = response.read().decode("ISO-8859-1")
+            except Exception as err:
+                LOG.warning("RPCFunctions.addDeviceNames: Could not access XML-API: %s" % (str(err), ))
+                return
+            device_list_tree = ET.ElementTree(ET.fromstring(device_list))
+            for device in device_list_tree.getroot():
+                address = device.attrib['address']
+                name = device.attrib['name']
+                if address in self.devices:
+                    self.devices[address].NAME = name
+                    for address, device in self.devices[address].CHANNELS.items():
+                        device.NAME = name
+                        self.devices_all[device.ADDRESS].NAME = name
 
 class LockingServerProxy(xmlrpc.client.ServerProxy):
     """
@@ -267,6 +345,8 @@ class ServerThread(threading.Thread):
                  eventcallback=False,
                  systemcallback=False,
                  resolvenames=False,
+                 rpcusername=RPC_USERNAME,
+                 rpcpassword=RPC_PASSWORD,
                  resolveparamsets=False):
         LOG.debug("ServerThread.__init__")
         threading.Thread.__init__(self)
@@ -281,6 +361,8 @@ class ServerThread(threading.Thread):
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
         self.resolvenames = resolvenames
+        self.rpcusername = rpcusername
+        self.rpcpassword = rpcpassword
         self.resolveparamsets = resolveparamsets
 
         # Create proxy to interact with CCU / Homegear
@@ -295,9 +377,12 @@ class ServerThread(threading.Thread):
         self._rpcfunctions = RPCFunctions(devicefile=self._devicefile,
                                           proxy=self.proxy,
                                           remote_ip=self._remote,
+                                          remote_port=self._remoteport,
                                           eventcallback=self.eventcallback,
                                           systemcallback=self.systemcallback,
                                           resolvenames=self.resolvenames,
+                                          rpcusername=self.rpcusername,
+                                          rpcpassword=self.rpcpassword,
                                           resolveparamsets=self.resolveparamsets)
 
         # Setup server to handle requests from CCU / Homegear

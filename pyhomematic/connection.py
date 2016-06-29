@@ -18,7 +18,9 @@ class HMConnection(object):
                  eventcallback=False,
                  systemcallback=False,
                  resolvenames=False,
-                 resolveparamsets=False):
+                 resolveparamsets=False,
+                 rpcusername=_hm.RPC_USERNAME,
+                 rpcpassword=_hm.RPC_PASSWORD):
         """
         Helper function to quickly create the server thread to which the CCU / Homegear will emit events.
         Without specifying the remote data we'll assume we're running Homegear on localhost on the default port.
@@ -41,6 +43,8 @@ class HMConnection(object):
                                             eventcallback=eventcallback,
                                             systemcallback=systemcallback,
                                             resolvenames=resolvenames,
+                                            rpcusername=rpcusername,
+                                            rpcpassword=rpcpassword,
                                             resolveparamsets=resolveparamsets)
 
         except Exception as err:
