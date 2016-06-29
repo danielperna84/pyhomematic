@@ -1,6 +1,8 @@
-Version 0.1.7 (2016-...)
+Version 0.1.7 (2016-06-29)
 - resolvenames=True now doesn't set resolveparamsets=True anymore
 - Added support for water detector like HM-Sec-WDS by @pvizeli
+- Added PRESS_LONG_CONT and PRESS_LONG_RELEASE for sensors (Issue #23)
+- Added JSON-RPC to fetch device names from CUU (Issue #29)
 
 Version 0.1.6 (2016-06-23)
 - Added support for lots of devices @pvizeli
