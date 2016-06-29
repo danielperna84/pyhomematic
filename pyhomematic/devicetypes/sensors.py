@@ -87,7 +87,10 @@ class Remote(HMBinarySensor):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.EVENTNODE.update({"PRESS_SHORT": 'c', "PRESS_LONG": 'c'})
+        self.EVENTNODE.update({"PRESS_SHORT": 'c',
+                               "PRESS_LONG": 'c',
+                               "PRESS_LONG_CONT": 'c',
+                               "PRESS_LONG_RELEASE": 'c'})
 
     @property
     def ELEMENT(self):
@@ -159,7 +162,9 @@ class RemoteMotion(Remote, Motion):
         # init metadata
         self.BINARYNODE.update({"MOTION": 3,
                                 "PRESS_SHORT": 'c',
-                                "PRESS_LONG": 'c'})
+                                "PRESS_LONG": 'c',
+                                "PRESS_LONG_CONT": 'c',
+                                "PRESS_LONG_RELEASE": 'c'})
         self.SENSORNODE.update({"BRIGHTNESS": 3})
 
     @property
