@@ -1,6 +1,6 @@
 Version 0.1.7 (2016-...)
 - resolvenames=True now doesn't set resolveparamsets=True anymore
-- 
+- Added support for water detector like HM-Sec-WDS by @pvizeli
 
 Version 0.1.6 (2016-06-23)
 - Added support for lots of devices @pvizeli
