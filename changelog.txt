@@ -1,3 +1,6 @@
+Version 0.1.8 (2016-06-29)
+- PRESS_CONT instead of PRESS_LONG_CONT
+
 Version 0.1.7 (2016-06-29)
 - resolvenames=True now doesn't set resolveparamsets=True anymore
 - Added support for water detector like HM-Sec-WDS by @pvizeli

@@ -93,7 +93,7 @@ class Remote(HMEvent):
 
         self.EVENTNODE.update({"PRESS_SHORT": 'c',
                                "PRESS_LONG": 'c',
-                               "PRESS_LONG_CONT": 'c',
+                               "PRESS_CONT": 'c',
                                "PRESS_LONG_RELEASE": 'c'})
 
     @property
