@@ -13,6 +13,10 @@ class HMBinarySensor(HMDevice):
     pass
 
 
+class HMEvent(HMDevice):
+    pass
+
+
 class ShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabotage):
     """
     HM-Sec-SC, HM-Sec-SC-2, ZEL STG RM FFK, HM-Sec-SCo
@@ -80,7 +84,7 @@ class SmokeV2(Smoke, HelperLowBat):
                                    "ERROR_ALARM_TEST": 'c'})
 
 
-class Remote(HMBinarySensor):
+class Remote(HMEvent):
     """
     Remote handle buttons
     """
@@ -115,7 +119,7 @@ class Remote(HMBinarySensor):
         return 1
 
 
-class GongSensor(HMBinarySensor):
+class GongSensor(HMEvent):
     """
     Gong
     """
@@ -160,11 +164,7 @@ class RemoteMotion(Remote, Motion):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.BINARYNODE.update({"MOTION": 3,
-                                "PRESS_SHORT": 'c',
-                                "PRESS_LONG": 'c',
-                                "PRESS_LONG_CONT": 'c',
-                                "PRESS_LONG_RELEASE": 'c'})
+        self.BINARYNODE.update({"MOTION": 3})
         self.SENSORNODE.update({"BRIGHTNESS": 3})
 
     @property
