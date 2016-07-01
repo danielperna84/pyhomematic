@@ -95,6 +95,8 @@ class Remote(HMEvent):
                                "PRESS_LONG": 'c',
                                "PRESS_CONT": 'c',
                                "PRESS_LONG_RELEASE": 'c'})
+        self.ACTIONNODE.update({"PRESS_SHORT": 'c',
+                                "PRESS_LONG": 'c'})
 
     @property
     def ELEMENT(self):
@@ -117,6 +119,14 @@ class Remote(HMEvent):
         if "RC-19" in self.TYPE:
             return 19
         return 1
+
+    def press_long(self, channel=1):
+        """Simulat a button press long."""
+        self.actionNodeData("PRESS_LONG", 1, channel)
+
+    def press_short(self, channel=1):
+        """Simulat a button press short."""
+        self.actionNodeData("PRESS_SHORT", 1, channel)
 
 
 class GongSensor(HMEvent):

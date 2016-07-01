@@ -3,7 +3,7 @@ import sys
 import logging
 import click
 from pyhomematic import HMConnection
-from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact, Smoke, Motion
+from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact, Smoke, Motion, Remote
 from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
 from pyhomematic.devicetypes.actors import Switch
 
@@ -27,9 +27,10 @@ def eventcallback(address, interface_id, key, value):
 @click.option("--address", "-a", help="Address of homematic device for tests")
 @click.option("--channel", "-c", default=1, help="Homematic device channel")
 @click.option("--state", "-s", default=1, help="Set STATE value for actors")
+@click.option("--toggle", "-to", is_flag=True, help="Set STATE is this activated")
 @click.option("--timer", "-t", default=30, help="Time in sec for waiting of events (debug)")
 @click.option("--debug", "-d", is_flag=True, help="Use DEBUG instead INFO for logger")
-def cli(local, localport, remote, remoteport, address, channel, state,
+def cli(local, localport, remote, remoteport, address, channel, state, toggle,
         timer, debug):
 
     # debug?
@@ -94,12 +95,23 @@ def cli(local, localport, remote, remoteport, address, channel, state,
             print(" / Motion detect: %s" % str(device.is_motion()))
             print(" / Brightness: %i" % device.get_brightness())
 
+        # Remote
+        if isinstance(device, Remote):
+            print(" / is a Remote")
+
+            if toggle:
+                print(" / Press short/long")
+                device.press_long(channel)
+                device.press_short(channel)
+
         # Switch
         if isinstance(device, Switch):
             print(" / Switch is on: %s" % str(device.is_on(channel)))
-            print(" / Changee state to: %s" % str(bool(state)))
-            device.set_state(bool(state), channel)
-            print(" / Switch is on: %s" % str(device.is_on(channel)))
+
+            if toggle:
+                print(" / Changee state to: %s" % str(bool(state)))
+                device.set_state(bool(state), channel)
+                print(" / Switch is on: %s" % str(device.is_on(channel)))
 
         ########### Attribute #########
         print(" / RSSI_DEVICE: %i" % device.get_rssi())
