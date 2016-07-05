@@ -1,7 +1,7 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import AreaThermostat
-from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState
+from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState, HelperLowBat
 
 LOG = logging.getLogger(__name__)
 
@@ -136,7 +136,7 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
         self.ATTRIBUTENODE.update({"CONTROL_MODE": 2, "BATTERY_STATE": 2})
 
 
-class MAXThermostat(HMThermostat, HelperBatteryState):
+class MAXThermostat(HMThermostat, HelperLowBat):
     """
     BC-RT-TRX-CyG, BC-RT-TRX-CyG-2, BC-RT-TRX-CyG-3, BC-RT-TRX-CyG-4
     ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -150,7 +150,7 @@ class MAXThermostat(HMThermostat, HelperBatteryState):
         self.ACTIONNODE.update({"AUTO_MODE": 1,
                                 "MANU_MODE": 1,
                                 "BOOST_MODE": 1})
-        self.ATTRIBUTENODE.update({"BATTERY_STATE": 0, "CONTROL_MODE": 1})
+        self.ATTRIBUTENODE.update({"LOWBAT": 0, "CONTROL_MODE": 1})
 
 
 DEVICETYPES = {
