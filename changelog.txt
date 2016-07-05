@@ -1,3 +1,6 @@
+Version 0.1.9 (2016-nn-nn)
+- Fix LOWBAT for MAX! Thermostats @bimbar
+
 Version 0.1.8 (2016-06-29)
 - PRESS_CONT instead of PRESS_LONG_CONT
 
