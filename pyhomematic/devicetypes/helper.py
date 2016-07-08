@@ -150,3 +150,21 @@ class HelperActionOnTime(HMDevice):
             return False
 
         self.actionNodeData("ON_TIME", ontime)
+
+
+class HelperActionPress(HMDevice):
+    """Helper for simulate press button."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.ACTIONNODE.update({"PRESS_SHORT": 'c',
+                                "PRESS_LONG": 'c'})
+
+    def press_long(self, channel=1):
+        """Simulat a button press long."""
+        self.actionNodeData("PRESS_LONG", 1, channel)
+
+    def press_short(self, channel=1):
+        """Simulat a button press short."""
+        self.actionNodeData("PRESS_SHORT", 1, channel)

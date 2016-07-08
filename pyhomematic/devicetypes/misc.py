@@ -1,5 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
+from pyhomematic.devicetypes.helper import HelperActionPress
 
 LOG = logging.getLogger(__name__)
 
@@ -8,10 +9,20 @@ class HMEvent(HMDevice):
     pass
 
 
-class Remote(HMEvent):
-    """
-    Remote handle buttons
-    """
+class HMCCU(HMDevice):
+    pass
+
+
+class RemoteVirtual(HMCCU, HelperActionPress):
+    """For virtual remote from ccu/homegear."""
+
+    @property
+    def ELEMENT(self):
+        return 50
+
+
+class Remote(HMEvent, HelperActionPress):
+    """Remote handle buttons."""
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
@@ -19,8 +30,6 @@ class Remote(HMEvent):
                                "PRESS_LONG": 'c',
                                "PRESS_CONT": 'c',
                                "PRESS_LONG_RELEASE": 'c'})
-        self.ACTIONNODE.update({"PRESS_SHORT": 'c',
-                                "PRESS_LONG": 'c'})
 
     @property
     def ELEMENT(self):
@@ -44,16 +53,9 @@ class Remote(HMEvent):
             return 19
         return 1
 
-    def press_long(self, channel=1):
-        """Simulat a button press long."""
-        self.actionNodeData("PRESS_LONG", 1, channel)
-
-    def press_short(self, channel=1):
-        """Simulat a button press short."""
-        self.actionNodeData("PRESS_SHORT", 1, channel)
-
 
 DEVICETYPES = {
+    "HM-RCV-50": RemoteVirtual,
     "HM-RC-2-PBU-FM": Remote,
     "HM-RC-Dis-H-x-EU": Remote,
     "HM-RC-4": Remote,
