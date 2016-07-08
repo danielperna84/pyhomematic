@@ -152,6 +152,30 @@ class RemoteMotion(Remote, Motion):
         return 2
 
 
+class LuxSensor(HMSensor):
+    """Sensor for messure LUX."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"LUX": 1})
+
+    def get_lux(self, channel=1):
+        """Return messure lux."""
+        return float(self.getSensorData("LUX", channel))
+
+
+class ImpulseSensor(HMEvent):
+    """Inpulse sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.EVENTNODE.update({"SEQUENCE_OK": 'c'})
+
+
 class AreaThermostat(HMSensor):
     """Wall mount thermostat."""
 
@@ -195,6 +219,9 @@ DEVICETYPES = {
     "HM-Sec-MDIR": MotionV2,
     "263 162": MotionV2,
     "HM-Sec-MD": MotionV2,
+    "HM-Sen-LI-O": LuxSensor,
+    "HM-Sen-EP": ImpulseSensor,
+    "HM-Sen-X": ImpulseSensor,
     "ASH550I": AreaThermostat,
     "ASH550": AreaThermostat,
     "HM-WDS10-TH-O": AreaThermostat,
