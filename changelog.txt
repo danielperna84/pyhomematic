@@ -1,5 +1,8 @@
-Version 0.1.9 (2016-nn-nn)
+Version 0.1.9 (2016-07-13)
 - Fix LOWBAT for MAX! Thermostats @bimbar
+- Added support vor HM-RCV-50 (50 virtual buttons of CCU) @pvizeli
+- Added support for HM-ES-TX-WM @pvizeli
+- Added support for HM-Sen-LI-O, HM-Sen-EP, HM-Sen-X @pvizeli
 
 Version 0.1.8 (2016-06-29)
 - PRESS_CONT instead of PRESS_LONG_CONT
