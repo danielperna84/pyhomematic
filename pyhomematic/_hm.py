@@ -97,21 +97,27 @@ class RPCFunctions(object):
         for dev in self._devices_raw:
             if not dev['PARENT']:
                 if not dev['ADDRESS'] in self.devices_all:
-                    if dev['TYPE'] in devicetypes.SUPPORTED:
-                        deviceObject = devicetypes.SUPPORTED[dev['TYPE']](dev, self._proxy, self.resolveparamsets)
-                        LOG.debug("RPCFunctions.createDeviceObjects: create %s  as SUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
-                    else:
-                        deviceObject = devicetypes.UNSUPPORTED(dev, self._proxy, self.resolveparamsets)
-                        LOG.debug("RPCFunctions.createDeviceObjects: create %s  as UNSUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
-                    self.devices_all[dev['ADDRESS']] = deviceObject
-                    self.devices[dev['ADDRESS']] = deviceObject
+                    try:
+                        if dev['TYPE'] in devicetypes.SUPPORTED:
+                            deviceObject = devicetypes.SUPPORTED[dev['TYPE']](dev, self._proxy, self.resolveparamsets)
+                            LOG.debug("RPCFunctions.createDeviceObjects: create %s  as SUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
+                        else:
+                            deviceObject = devicetypes.UNSUPPORTED(dev, self._proxy, self.resolveparamsets)
+                            LOG.debug("RPCFunctions.createDeviceObjects: create %s  as UNSUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
+                        self.devices_all[dev['ADDRESS']] = deviceObject
+                        self.devices[dev['ADDRESS']] = deviceObject
+                    except Exception as err:
+                        LOG.critical("RPCFunctions.createDeviceObjects: Parent: %s", str(err))
         # Then create all children for parent
         for dev in self._devices_raw:
             if dev['PARENT']:
-                if not dev['ADDRESS'] in self.devices_all:
-                    deviceObject = HMChannel(dev, self._proxy, self.resolveparamsets)
-                    self.devices_all[dev['ADDRESS']] = deviceObject
-                    self.devices[dev['PARENT']].CHANNELS[dev['INDEX']] = deviceObject
+                try:
+                    if not dev['ADDRESS'] in self.devices_all:
+                        deviceObject = HMChannel(dev, self._proxy, self.resolveparamsets)
+                        self.devices_all[dev['ADDRESS']] = deviceObject
+                        self.devices[dev['PARENT']].CHANNELS[dev['INDEX']] = deviceObject
+                except Exception as err:
+                    LOG.critical("RPCFunctions.createDeviceObjects: Child: %s", str(err))
         if self.devices_all and self.resolvenames:
             self.addDeviceNames()
         working = False
@@ -135,8 +141,7 @@ class RPCFunctions(object):
                     df.write(json.dumps(self._devices_raw))
                 return True
             except Exception as err:
-                LOG.debug("RPCFunctions.saveDevices: Exception saving _devices_raw: %s" % (str(err), ))
-                LOG.warning("RPCFunctions.saveDevices: Exception saving _devices_raw")
+                LOG.warn("RPCFunctions.saveDevices: Exception saving _devices_raw: %s", str(err))
                 return False
         else:
             return True
