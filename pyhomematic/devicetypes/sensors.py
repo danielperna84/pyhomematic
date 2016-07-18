@@ -64,10 +64,10 @@ class PowermeterGas(HMSensor):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.SENSORNODE({"GAS_ENERGY_COUNTER": 1,
-                         "GAS_POWER": 1,
-                         "ENERGY_COUNTER": 1,
-                         "POWER": 1})
+        self.SENSORNODE.update({"GAS_ENERGY_COUNTER": 1,
+                                "GAS_POWER": 1,
+                                "ENERGY_COUNTER": 1,
+                                "POWER": 1})
 
     def get_gas_counter(self, channel=1):
         """Return gas counter."""
