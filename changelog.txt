@@ -1,3 +1,6 @@
+Version 0.1.10 (2016-07-20)
+- Bugfix and stability @pvizeli
+
 Version 0.1.9 (2016-07-13)
 - Fix LOWBAT for MAX! Thermostats @bimbar
 - Added support vor HM-RCV-50 (50 virtual buttons of CCU) @pvizeli
