@@ -1,3 +1,6 @@
+Version 0.1.11 (2016-n-n)
+- Allow system-variable modification via _server-attribute @danielperna84
+
 Version 0.1.10 (2016-07-20)
 - Bugfix and stability @pvizeli
 
