@@ -432,3 +432,147 @@ class ServerThread(threading.Thread):
         LOG.debug("ServerThread.stop: Stopping ServerThread")
         self.server.server_close()
         LOG.info("Server stopped")
+
+    def parseCCUSysVar(self, data):
+        if data['type'] == 'LOGIC':
+            return data['name'], data['value'] == 'true'
+        elif data['type'] == 'NUMBER':
+            return data['name'], float(data['value'])
+        elif data['type'] == 'LIST':
+            return data['name'], int(data['value'])
+        else:
+            return data['name'], data['value']
+
+    def jsonRpcLogin(self):
+        session = False
+        try:
+            params = {"username": self.rpcusername, "password": self.rpcpassword}
+            response = self._rpcfunctions.jsonRpcPost("Session.login", params)
+            if response['error'] is None and response['result']:
+                session = response['result']
+
+            if not session:
+                LOG.warning("ServerThread.jsonRpcLogin: Unable to open session.")
+        except Exception as err:
+            LOG.debug("ServerThread.jsonRpcLogin: Exception while logging in via JSON-RPC: %s" % str(err))
+        return session
+
+    def jsonRpcLogout(self, session):
+        logout = False
+        try:
+            params = {"_session_id_": session}
+            response = self._rpcfunctions.jsonRpcPost("Session.logout", params)
+            if response['error'] is None and response['result']:
+                logout = response['result']
+        except Exception as err:
+            LOG.debug("ServerThread.jsonRpcLogout: Exception while logging in via JSON-RPC: %s" % str(err))
+        return logout
+
+    def getAllSystemVariables(self):
+        """Get all system variables from CCU / Homegear"""
+        variables = {}
+        if self.rpcusername and self.rpcpassword:
+            LOG.debug("ServerThread.getAllSystemVariables: Getting all System variables via JSON-RPC")
+            session = self.jsonRpcLogin()
+            if not session:
+                return
+            try:
+                params = {"_session_id_": session}
+                response = self._rpcfunctions.jsonRpcPost("SysVar.getAll", params)
+                if response['error'] is None and response['result']:
+                    for var in response['result']:
+                        key, value = self.parseCCUSysVar(var)
+                        variables[key] = value
+
+                self.jsonRpcLogout(session)
+            except Exception as err:
+                self.jsonRpcLogout(session)
+                LOG.warning("ServerThread.getAllSystemVariables: Exception: %s" % str(err))
+        else:
+            try:
+                variables = self.proxy.getAllSystemVariables()
+            except Exception as err:
+                LOG.debug("ServerThread.getAllSystemVariables: Exception: %s" % str(err))
+        return variables
+
+    def getSystemVariable(self, name):
+        """Get single system variable from CCU / Homegear"""
+        var = None
+        if self.rpcusername and self.rpcpassword:
+            LOG.debug("ServerThread.getSystemVariable: Getting System variable via JSON-RPC")
+            session = self.jsonRpcLogin()
+            if not session:
+                return
+            try:
+                params = {"_session_id_": session, "name": name}
+                response = self._rpcfunctions.jsonRpcPost("SysVar.getValueByName", params)
+                if response['error'] is None and response['result']:
+                    try:
+                        var = float(response['result'])
+                    except:
+                        if response['result'] == 'true':
+                            var = True
+                        else:
+                            var = False
+
+                self.jsonRpcLogout(session)
+            except Exception as err:
+                self.jsonRpcLogout(session)
+                LOG.warning("ServerThread.getSystemVariable: Exception: %s" % str(err))
+        else:
+            try:
+                var = self.proxy.getSystemVariable(name)
+            except Exception as err:
+                LOG.debug("ServerThread.getSystemVariable: Exception: %s" % str(err))
+        return var
+
+    def deleteSystemVariable(self, name):
+        """Delete a system variable from CCU / Homegear"""
+        if self.rpcusername and self.rpcpassword:
+            LOG.debug("ServerThread.deleteSystemVariable: Getting System variable via JSON-RPC")
+            session = self.jsonRpcLogin()
+            if not session:
+                return
+            try:
+                params = {"_session_id_": session, "name": name}
+                response = self._rpcfunctions.jsonRpcPost("SysVar.deleteSysVarByName", params)
+                if response['error'] is None and response['result']:
+                    deleted = response['result']
+                    LOG.warning("ServerThread.deleteSystemVariable: Deleted: %s" % str(deleted))
+
+                self.jsonRpcLogout(session)
+            except Exception as err:
+                self.jsonRpcLogout(session)
+                LOG.warning("ServerThread.deleteSystemVariable: Exception: %s" % str(err))
+        else:
+            try:
+                return self.proxy.deleteSystemVariable(name)
+            except Exception as err:
+                LOG.debug("ServerThread.deleteSystemVariable: Exception: %s" % str(err))
+
+    def setSystemVariable(self, name, value):
+        """Set a system variable on CCU / Homegear"""
+        if self.rpcusername and self.rpcpassword:
+            LOG.debug("ServerThread.setSystemVariable: Setting System variable via JSON-RPC")
+            session = self.jsonRpcLogin()
+            if not session:
+                return
+            try:
+                params = {"_session_id_": session, "name": name, "value": value}
+                if value is True or value is False:
+                    response = self._rpcfunctions.jsonRpcPost("SysVar.setBool", params)
+                else:
+                    response = self._rpcfunctions.jsonRpcPost("SysVar.setFloat", params)
+                if response['error'] is None and response['result']:
+                    res = response['result']
+                    LOG.debug("ServerThread.setSystemVariable: Result while deleting: %s" % str(res))
+
+                self.jsonRpcLogout(session)
+            except Exception as err:
+                self.jsonRpcLogout(session)
+                LOG.warning("ServerThread.setSystemVariable: Exception: %s" % str(err))
+        else:
+            try:
+                return self.proxy.setSystemVariable(name, value)
+            except Exception as err:
+                LOG.debug("ServerThread.setSystemVariable: Exception: %s" % str(err))
