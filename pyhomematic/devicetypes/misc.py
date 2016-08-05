@@ -41,6 +41,8 @@ class Remote(HMEvent, HelperActionPress):
             return 3
         if "RC-4" in self.TYPE or "PB-4" in self.TYPE:
             return 4
+        if "HM-PBI-4-FM" in self.TYPE or "ZEL STG RM FST UP4" in self.TYPE or "263 145" in self.TYPE or "HM-PBI-X" in self.TYPE:
+            return 4
         if "Sec4" in self.TYPE or "Key4" in self.TYPE:
             return 4
         if "PB-6" in self.TYPE:
@@ -86,6 +88,8 @@ DEVICETYPES = {
     "HM-PB-6-WM55": Remote,
     "HM-PB-2-WM55-2": Remote,
     "HM-PB-2-WM55": Remote,
+    "HM-PBI-4-FM": Remote,
+    "HM-PBI-X": Remote,
     "HM-Dis-WM55": Remote,
     "HM-MOD-EM-8": Remote,
     "RC-H": Remote,
@@ -93,5 +97,7 @@ DEVICETYPES = {
     "atent": Remote,
     "ZEL STG RM WT 2": Remote,
     "ZEL STG RM HS 4": Remote,
+    "ZEL STG RM FST UP4": Remote,
+    "263 145": Remote,
     "263 135": Remote
 }
