@@ -30,8 +30,10 @@ def eventcallback(address, interface_id, key, value):
 @click.option("--toggle", "-to", is_flag=True, help="Set STATE is this activated")
 @click.option("--timer", "-t", default=30, help="Time in sec for waiting of events (debug)")
 @click.option("--debug", "-d", is_flag=True, help="Use DEBUG instead INFO for logger")
+@click.option("--user", "-u", default="Admin", help="Username")
+@click.option("--password", "-p", default="", help="Password")
 def cli(local, localport, remote, remoteport, address, channel, state, toggle,
-        timer, debug):
+        timer, debug, user, password):
 
     # debug?
     if debug:
@@ -47,6 +49,8 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
                                    remote=remote,
                                    remoteport=remoteport,
                                    autostart=True,
+                                   rpcusername=user,
+                                   rpcpassword=password,
                                    systemcallback=systemcallback)
     except:
         print("Can't init HMConnection!")
@@ -59,6 +63,11 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
         sleepcounter += 1
         time.sleep(1)
     print(pyhomematic.devices)
+
+    # read system variables
+    print("******************************")
+    print("Read all: %s" % str(pyhomematic.getAllSystemVariables()))
+    print("******************************")
 
     # need test a hm object?
     if address in pyhomematic.devices:

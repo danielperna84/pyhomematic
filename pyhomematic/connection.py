@@ -88,3 +88,23 @@ class HMConnection(object):
             LOG.critical("Failed to stop server")
             LOG.debug(str(err))
             return False
+
+    def getAllSystemVariables(self):
+        """Get all system variables from CCU / Homegear"""
+        if self._server is not None:
+            return self._server.getAllSystemVariables()
+
+    def getSystemVariable(self, name):
+        """Get single system variable from CCU / Homegear"""
+        if self._server is not None:
+            return self._server.getSystemVariable(name)
+
+    def deleteSystemVariable(self, name):
+        """Delete a system variable from CCU / Homegear"""
+        if self._server is not None:
+            return self._server.deleteSystemVariable(name)
+
+    def setSystemVariable(self, name, value):
+        """Set a system variable on CCU / Homegear"""
+        if self._server is not None:
+            return self._server.setSystemVariable(name, value)
