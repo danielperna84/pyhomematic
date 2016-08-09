@@ -32,8 +32,10 @@ def eventcallback(address, interface_id, key, value):
 @click.option("--debug", "-d", is_flag=True, help="Use DEBUG instead INFO for logger")
 @click.option("--user", "-u", default="Admin", help="Username")
 @click.option("--password", "-p", default="", help="Password")
+@click.option("--variable", "-v", default=None, help="Variable for set data")
+@click.option("--data", "-vd", default=None, help="Input data for variable")
 def cli(local, localport, remote, remoteport, address, channel, state, toggle,
-        timer, debug, user, password):
+        timer, debug, user, password, variable, data):
 
     # debug?
     if debug:
@@ -67,6 +69,9 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
     # read system variables
     print("******************************")
     print("Read all: %s" % str(pyhomematic.getAllSystemVariables()))
+    if variable is not None:
+        pyhomematic.setSystemVariable(variable, data)
+        print("Read: %s" % str(pyhomematic.getSystemVariable(variable)))
     print("******************************")
 
     # need test a hm object?
