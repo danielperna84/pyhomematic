@@ -1,5 +1,6 @@
 Version 0.1.11 (2016-08-09)
 - Allow system-variable modification via _server-attribute @danielperna84
+- Added wrapper for system-variable modification @pvizeli
 - Added support for HM-LC-Sw1PBU-FM and HM-PBI-4-FM @danielperna84
 
 Version 0.1.10 (2016-07-20)
