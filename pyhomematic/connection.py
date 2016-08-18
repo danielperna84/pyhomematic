@@ -83,6 +83,13 @@ class HMConnection(object):
         try:
             self._server.stop()
             self._server = None
+
+            # Device-storage clear
+            self.devices.clear()
+            self.devices_all.clear()
+            self.devices_raw.clear()
+            self.devices_raw_dict.clear()
+
             return True
         except Exception as err:
             LOG.critical("Failed to stop server")
