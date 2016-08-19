@@ -128,7 +128,7 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 2})
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 2, "ACTUAL_HUMIDITY": 2})
         self.WRITENODE.update({"SET_TEMPERATURE": 2})
         self.ACTIONNODE.update({"AUTO_MODE": 2,
                                 "MANU_MODE": 2,
