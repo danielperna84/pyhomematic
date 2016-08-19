@@ -576,3 +576,39 @@ class ServerThread(threading.Thread):
                 return self.proxy.setSystemVariable(name, value)
             except Exception as err:
                 LOG.debug("ServerThread.setSystemVariable: Exception: %s" % str(err))
+
+    def getServiceMessages(self):
+        """Get service messages from CCU / Homegear"""
+        try:
+            return self.proxy.getServiceMessages()
+        except Exception as err:
+            LOG.debug("ServerThread.getServiceMessages: Exception: %s" % str(err))
+
+    def rssiInfo(self):
+        """Get RSSI information for all devices from CCU / Homegear"""
+        try:
+            return self.proxy.rssiInfo()
+        except Exception as err:
+            LOG.debug("ServerThread.rssiInfo: Exception: %s" % str(err))
+
+    def setInstallMode(self, on=True, t=60, mode=1, address=None):
+        """Activate or deactivate installmode on CCU / Homegear"""
+        try:
+            args = [on]
+            if on and t:
+                args.append(t)
+                if address:
+                    args.append(address)
+                else:
+                    args.append(mode)
+
+            return self.proxy.setInstallMode(*args)
+        except Exception as err:
+            LOG.debug("ServerThread.setInstallMode: Exception: %s" % str(err))
+
+    def getInstallMode(self):
+        """Get remaining time in seconds install mode is active from CCU / Homegear"""
+        try:
+            return self.proxy.getInstallMode()
+        except Exception as err:
+            LOG.debug("ServerThread.getInstallMode: Exception: %s" % str(err))

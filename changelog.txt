@@ -1,3 +1,6 @@
+Version 0.1.12 (2016-nn-nn)
+- Added getServiceMessages, rssiInfo, get/setInstallMode @danielperna84
+
 Version 0.1.11 (2016-08-09)
 - Allow system-variable modification via _server-attribute @danielperna84
 - Added wrapper for system-variable modification @pvizeli

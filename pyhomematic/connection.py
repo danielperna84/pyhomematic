@@ -108,3 +108,23 @@ class HMConnection(object):
         """Set a system variable on CCU / Homegear"""
         if self._server is not None:
             return self._server.setSystemVariable(name, value)
+
+    def getServiceMessages(self):
+        """Get service messages from CCU / Homegear"""
+        if self._server is not None:
+            return self._server.getServiceMessages()
+
+    def rssiInfo(self):
+        """Get RSSI information for all devices from CCU / Homegear"""
+        if self._server is not None:
+            return self._server.rssiInfo()
+
+    def setInstallMode(self, on=True, t=60, mode=1, address=None):
+        """Activate or deactivate installmode on CCU / Homegear"""
+        if self._server is not None:
+            return self._server.setInstallMode(on, t, mode, address)
+
+    def getInstallMode(self):
+        """Get remaining time in seconds install mode is active from CCU / Homegear"""
+        if self._server is not None:
+            return self._server.getInstallMode()
