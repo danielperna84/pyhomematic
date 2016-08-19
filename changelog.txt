@@ -1,4 +1,4 @@
-Version 0.1.12 (2016-nn-nn)
+Version 0.1.12 (2016-08-19)
 - Added getServiceMessages, rssiInfo, get/setInstallMode @danielperna84
 - Clearing dicts when stopping server @pvizeli
 
