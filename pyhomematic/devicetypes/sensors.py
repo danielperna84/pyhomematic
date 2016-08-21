@@ -274,8 +274,12 @@ DEVICETYPES = {
     "HM-WDS20-TH-O": AreaThermostat,
     "HM-WDS40-TH-I": AreaThermostat,
     "HM-WDS40-TH-I-2": AreaThermostat,
-    "HM-WDS100-C6-O": WeatherSensor,
     "263 157": AreaThermostat,
     "263 158": AreaThermostat,
-    "IS-WDS-TH-OD-S-R3": AreaThermostat
+    "IS-WDS-TH-OD-S-R3": AreaThermostat,
+    "HM-WDS100-C6-O": WeatherSensor,
+    "KS550": WeatherSensor,
+    "KS888": WeatherSensor,
+    "KS550Tech": WeatherSensor,
+    "KS550LC": WeatherSensor
 }

@@ -83,6 +83,7 @@ DEVICETYPES = {
     "HM-RC-P1": Remote,
     "HM-RC-SB-X": Remote,
     "HM-RC-X": Remote,
+    "HM-PB-2-FM": Remote,
     "HM-PB-2-WM": Remote,
     "HM-PB-4-WM": Remote,
     "HM-PB-6-WM55": Remote,

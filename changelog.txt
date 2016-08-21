@@ -1,5 +1,6 @@
 Version 0.1.13 (2016-nn-nn)
-- Added WeatherSensor (HM-WDS100-C6-O) @mcdeck
+- Added WeatherSensor (HM-WDS100-C6-O and comp.) @mcdeck
+- Added HM-PB-2-FM @danielperna84
 
 Version 0.1.12 (2016-08-19)
 - Added getServiceMessages, rssiInfo, get/setInstallMode @danielperna84
