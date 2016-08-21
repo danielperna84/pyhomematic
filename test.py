@@ -3,7 +3,7 @@ import sys
 import logging
 import click
 from pyhomematic import HMConnection
-from pyhomematic.devicetypes.sensors import AreaThermostat, ShutterContact, Smoke, Motion, Remote
+from pyhomematic.devicetypes.sensors import WeatherSensor, AreaThermostat, ShutterContact, Smoke, Motion, Remote
 from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
 from pyhomematic.devicetypes.actors import Switch
 
@@ -90,6 +90,18 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
         print("* Event datapoint: %s" % str(device.EVENTNODE))
         print("* Action datapoint: %s" % str(device.ACTIONNODE))
         print("******************************")
+
+        # WeatherSensor
+        if isinstance(device, WeatherSensor):
+            print(" / Temperature: %f" % device.get_temperature())
+            print(" / Humidity: %i" % device.get_humidity())
+            print(" / Rain Counter: %f" % device.get_rain_counter())
+            print(" / Wind Speed: %f" % device.get_wind_speed())
+            print(" / Wind Direction: %i" % device.get_wind_direction())
+            print(" / Wind Direction Range: %i" % device.get_wind_direction_range())
+            print(" / Sunshineduration: %i" % device.get_sunshineduration())
+            print(" / Brightness: %i" % device.get_brightness())
+            print(" / Is Raining: %s" % str(device.is_raining()))
 
         # AreaThermostat
         if isinstance(device, AreaThermostat):

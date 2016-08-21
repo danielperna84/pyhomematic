@@ -192,6 +192,52 @@ class AreaThermostat(HMSensor):
         return int(self.getSensorData("HUMIDITY", channel))
 
 
+class WeatherSensor(HMBinarySensor, HMSensor):
+    """Weather sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"TEMPERATURE": 'c', 
+                                "HUMIDITY": 'c',
+                                "RAIN_COUNTER": 'c',
+                                "WIND_SPEED": 'c',
+                                "WIND_DIRECTION": 'c',
+                                "WIND_DIRECTION_RANGE": 'c',
+                                "SUNSHINEDURATION": 'c',
+                                "BRIGHTNESS": 'c'})
+        self.BINARYNODE.update({"RAINING": 'c'})
+
+    def get_temperature(self, channel=1):
+        return float(self.getSensorData("TEMPERATURE", channel))
+
+    def get_humidity(self, channel=1):
+        return int(self.getSensorData("HUMIDITY", channel))
+
+    def get_rain_counter(self, channel=1):
+        return float(self.getSensorData("RAIN_COUNTER", channel))
+
+    def get_wind_speed(self, channel=1):
+        return float(self.getSensorData("WIND_SPEED", channel))
+
+    def get_wind_direction(self, channel=1):
+        return int(self.getSensorData("WIND_DIRECTION", channel))
+
+    def get_wind_direction_range(self, channel=1):
+        return int(self.getSensorData("WIND_DIRECTION_RANGE", channel))
+
+    def get_sunshineduration(self, channel=1):
+        return int(self.getSensorData("SUNSHINEDURATION", channel))
+
+    def get_brightness(self, channel=1):
+        return int(self.getSensorData("BRIGHTNESS", channel))
+
+    def is_raining(self, channel=1):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("RAINING", channel))
+
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -228,6 +274,7 @@ DEVICETYPES = {
     "HM-WDS20-TH-O": AreaThermostat,
     "HM-WDS40-TH-I": AreaThermostat,
     "HM-WDS40-TH-I-2": AreaThermostat,
+    "HM-WDS100-C6-O": WeatherSensor,
     "263 157": AreaThermostat,
     "263 158": AreaThermostat,
     "IS-WDS-TH-OD-S-R3": AreaThermostat
