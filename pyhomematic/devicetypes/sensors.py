@@ -192,7 +192,7 @@ class AreaThermostat(HMSensor):
         return int(self.getSensorData("HUMIDITY", channel))
 
 
-class WeatherSensor(HMBinarySensor, HMSensor):
+class WeatherSensor(HMSensor, HMBinarySensor):
     """Weather sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
