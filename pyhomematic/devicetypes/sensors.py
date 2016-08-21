@@ -238,6 +238,27 @@ class WeatherSensor(HMSensor, HMBinarySensor):
         return bool(self.getBinaryData("RAINING", channel))
 
 
+class WeatherStation(HMSensor):
+    """Weather station."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"TEMPERATURE": 'c',
+                                "HUMIDITY": 'c',
+                                "AIR_PRESSURE": 'c'})
+
+    def get_temperature(self, channel=10):
+        return float(self.getSensorData("TEMPERATURE", channel))
+
+    def get_humidity(self, channel=10):
+        return int(self.getSensorData("HUMIDITY", channel))
+
+    def get_air_pressure(self, channel=10):
+        return int(self.getSensorData("AIR_PRESSURE", channel))
+
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -281,5 +302,11 @@ DEVICETYPES = {
     "KS550": WeatherSensor,
     "KS888": WeatherSensor,
     "KS550Tech": WeatherSensor,
-    "KS550LC": WeatherSensor
+    "KS550LC": WeatherSensor,
+    "WS550": WeatherStation,
+    "WS888": WeatherStation,
+    "WS550Tech": WeatherStation,
+    "WS550LCB": WeatherStation,
+    "WS550LCW": WeatherStation,
+    "HM-WDC7000": WeatherStation
 }
