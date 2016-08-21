@@ -4,6 +4,7 @@ Version 0.1.13 (2016-nn-nn)
 - Added delete/set/getMetadata methods (Issue #15) @danielperna84
 - Added listBidcosInterfaces method @danielperna84
 - Added weather stations (WS550 and compatible) @danielperna
+- Added tilt-sensor HM-Sec-TiS @danielperna84
 
 Version 0.1.12 (2016-08-19)
 - Added getServiceMessages, rssiInfo, get/setInstallMode @danielperna84

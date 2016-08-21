@@ -27,6 +27,17 @@ class ShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabo
         return not self.get_state(channel)
 
 
+class TiltSensor(HMBinarySensor, HelperBinaryState, HelperLowBat):
+    """Sensor that emits its tilted state."""
+    def is_tilted(self, channel=1):
+        """ Returns True if the contact is tilted. """
+        return self.get_state(channel)
+
+    def is_not_tilted(self, channel=1):
+        """ Returns True if the contact is not tilted. """
+        return not self.get_state(channel)
+
+
 class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabotage):
     """Window handle contact."""
     def is_open(self, channel=1):
@@ -308,5 +319,6 @@ DEVICETYPES = {
     "WS550Tech": WeatherStation,
     "WS550LCB": WeatherStation,
     "WS550LCW": WeatherStation,
-    "HM-WDC7000": WeatherStation
+    "HM-WDC7000": WeatherStation,
+    "HM-Sec-TiS": TiltSensor
 }
