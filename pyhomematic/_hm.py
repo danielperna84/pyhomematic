@@ -612,3 +612,24 @@ class ServerThread(threading.Thread):
             return self.proxy.getInstallMode()
         except Exception as err:
             LOG.debug("ServerThread.getInstallMode: Exception: %s" % str(err))
+
+    def getAllMetadata(self, address):
+        """Get all metadata of device"""
+        try:
+            return self.proxy.getAllMetadata(address)
+        except Exception as err:
+            LOG.debug("ServerThread.getAllMetadata: Exception: %s" % str(err))
+
+    def getMetadata(self, address, key):
+        """Get metadata of device"""
+        try:
+            return self.proxy.getMetadata(address, key)
+        except Exception as err:
+            LOG.debug("ServerThread.getMetadata: Exception: %s" % str(err))
+
+    def setMetadata(self, address, key, value):
+        """Set metadata of device"""
+        try:
+            return self.proxy.setMetadata(address, key, value)
+        except Exception as err:
+            LOG.debug("ServerThread.getMetadata: Exception: %s" % str(err))

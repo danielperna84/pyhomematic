@@ -135,3 +135,18 @@ class HMConnection(object):
         """Get remaining time in seconds install mode is active from CCU / Homegear"""
         if self._server is not None:
             return self._server.getInstallMode()
+
+    def getAllMetadata(self, address):
+        """Get all metadata of device"""
+        if self._server is not None:
+            return self._server.getAllMetadata(address)
+
+    def getMetadata(self, address, key):
+        """Get metadata of device"""
+        if self._server is not None:
+            return self._server.getAllMetadata(address, key)
+
+    def setMetadata(self, address, key, value):
+        """Set metadata of device"""
+        if self._server is not None:
+            return self._server.getAllMetadata(address, key, value)
