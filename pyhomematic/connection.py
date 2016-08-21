@@ -150,3 +150,13 @@ class HMConnection(object):
         """Set metadata of device"""
         if self._server is not None:
             return self._server.getAllMetadata(address, key, value)
+
+    def deleteMetadata(self, address, key):
+        """Delete metadata of device"""
+        if self._server is not None:
+            return self._server.deleteAllMetadata(address, key)
+
+    def listBidcosInterfaces(self):
+        """Return all available BidCos Interfaces"""
+        if self._server is not None:
+            return self._server.listBidcosInterfaces()

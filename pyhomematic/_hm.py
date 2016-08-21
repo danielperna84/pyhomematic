@@ -632,4 +632,18 @@ class ServerThread(threading.Thread):
         try:
             return self.proxy.setMetadata(address, key, value)
         except Exception as err:
-            LOG.debug("ServerThread.getMetadata: Exception: %s" % str(err))
+            LOG.debug("ServerThread.setMetadata: Exception: %s" % str(err))
+
+    def deleteMetadata(self, address, key):
+        """Delete metadata of device"""
+        try:
+            return self.proxy.deleteMetadata(address, key)
+        except Exception as err:
+            LOG.debug("ServerThread.deleteMetadata: Exception: %s" % str(err))
+
+    def listBidcosInterfaces(self):
+        """Return all available BidCos Interfaces"""
+        try:
+            return self.proxy.listBidcosInterfaces()
+        except Exception as err:
+            LOG.debug("ServerThread.listBidcosInterfaces: Exception: %s" % str(err))
