@@ -1,7 +1,9 @@
 Version 0.1.13 (2016-nn-nn)
 - Added WeatherSensor (HM-WDS100-C6-O and compatible) @mcdeck
 - Added HM-PB-2-FM @danielperna84
-- Added set/getMetadata methods @danielperna84
+- Added delete/set/getMetadata methods @danielperna84
+- Added listBidcosInterfaces method @danielperna84
+- Added weather stations (WS550 and compatible) @danielperna
 
 Version 0.1.12 (2016-08-19)
 - Added getServiceMessages, rssiInfo, get/setInstallMode @danielperna84
