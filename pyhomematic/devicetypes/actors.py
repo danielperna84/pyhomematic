@@ -69,6 +69,9 @@ class Switch(HMActor, HelperActorState, HelperWorking):
             return 4
         elif "Re-8" in self.TYPE:
             return 8
+        # Chimes
+        elif "HM-OU-CFM-Pl" in self.TYPE or "HM-OU-CFM-TW" in self.TYPE:
+            return 2
         return 1
 
     def is_on(self, channel=1):
@@ -139,6 +142,9 @@ DEVICETYPES = {
     "263 132": Dimmer,
     "263 133": Dimmer,
     "263 134": Dimmer,
+    "HM-OU-CM-PCB": Switch,
+    "HM-OU-CFM-Pl": Switch,
+    "HM-OU-CFM-TW": Switch,
     "HM-LC-Sw1-Pl": Switch,
     "HM-LC-Sw1-Pl-2": Switch,
     "HM-LC-Sw1-Pl-3": Switch,
