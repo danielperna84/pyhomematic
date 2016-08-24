@@ -218,6 +218,41 @@ class AreaThermostat(HMSensor):
         return int(self.getSensorData("HUMIDITY", channel))
 
 
+class TemperatureSensor(HMSensor):
+    """Temperature Sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"TEMPERATURE": 'c'})
+
+    def get_temperature_1(self, channel=1):
+        return float(self.getSensorData("TEMPERATURE", channel))
+
+
+class TemperatureDiffSensor(HMSensor):
+    """Temperature difference Sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"TEMPERATURE": 'c'})
+
+    def get_temperature_1(self, channel=1):
+        return float(self.getSensorData("TEMPERATURE", channel))
+
+    def get_temperature_2(self, channel=2):
+        return float(self.getSensorData("TEMPERATURE", channel))
+
+    def get_diff(self, channel=3):
+        return float(self.getSensorData("TEMPERATURE", channel))
+
+    def get_diff_neg(self, channel=4):
+        return float(self.getSensorData("TEMPERATURE", channel))
+
+
 class WeatherSensor(HMSensor, HMBinarySensor):
     """Weather sensor."""
 
@@ -338,5 +373,9 @@ DEVICETYPES = {
     "HM-WDC7000": WeatherStation,
     "HM-Sec-TiS": TiltSensor,
     "HM-CC-SCD": CO2Sensor,
-    "263 160": CO2Sensor
+    "263 160": CO2Sensor,
+    "HM-WDS30-OT2-SM": TemperatureDiffSensor,
+    "HM-WDS30-OT2-SM-2": TemperatureDiffSensor,
+    "HM-WDS30-T-O": TemperatureSensor,
+    "S550IA": TemperatureSensor
 }

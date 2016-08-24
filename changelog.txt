@@ -8,6 +8,7 @@ Version 0.1.13 (2016-nn-nn)
 - Added Chimes (HM-OU-CM-PCB etc.) @danielperna84
 - Added some other HA-compatible devices (switches, blinds) @danielperna84
 - Added CO2 Sensor HM-CC-SCD @danielperna84
+- Added temperature sensors @danielperna84
 
 Version 0.1.12 (2016-08-19)
 - Added getServiceMessages, rssiInfo, get/setInstallMode @danielperna84
