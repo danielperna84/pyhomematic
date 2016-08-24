@@ -310,6 +310,7 @@ DEVICETYPES = {
     "263 158": AreaThermostat,
     "IS-WDS-TH-OD-S-R3": AreaThermostat,
     "HM-WDS100-C6-O": WeatherSensor,
+    "HM-WDS100-C6-O-2": WeatherSensor,
     "KS550": WeatherSensor,
     "KS888": WeatherSensor,
     "KS550Tech": WeatherSensor,
