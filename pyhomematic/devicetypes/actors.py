@@ -70,7 +70,7 @@ class Switch(HMActor, HelperActorState, HelperWorking):
         elif "Re-8" in self.TYPE:
             return 8
         # Chimes
-        elif "HM-OU-CFM-Pl" in self.TYPE or "HM-OU-CFM-TW" in self.TYPE:
+        elif "HM-OU-CFM-Pl" in self.TYPE or "HM-OU-CFM-TW" in self.TYPE or "HM-OU-CF-Pl" in self.TYPE:
             return 2
         return 1
 
@@ -111,11 +111,14 @@ class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
+    "HM-LC-Bl1-SM-2": Blind,
     "HM-LC-Bl1-FM": Blind,
+    "HM-LC-Bl1-FM-2": Blind,
     "HM-LC-Bl1PBU-FM": Blind,
     "HM-LC-Bl1-PB-FM": Blind,
     "ZEL STG RM FEP 230V": Blind,
     "263 146": Blind,
+    "263 147": Blind,
     "HM-LC-BlX": Blind,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-2": Dimmer,
@@ -142,6 +145,8 @@ DEVICETYPES = {
     "263 132": Dimmer,
     "263 133": Dimmer,
     "263 134": Dimmer,
+    "HM-Dis-TD-T": Switch,
+    "HM-OU-CF-Pl": Switch,
     "HM-OU-CM-PCB": Switch,
     "HM-OU-CFM-Pl": Switch,
     "HM-OU-CFM-TW": Switch,

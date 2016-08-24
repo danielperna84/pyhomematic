@@ -37,6 +37,8 @@ class Remote(HMEvent, HelperActionPress):
             return 2
         if "HM-Dis-WM55" in self.TYPE:
             return 2
+        if "HM-RC-Dis-H-x-EU" in self.TYPE:
+            return 20
         if "Sec3" in self.TYPE or "Key3" in self.TYPE:
             return 3
         if "RC-4" in self.TYPE or "PB-4" in self.TYPE:
