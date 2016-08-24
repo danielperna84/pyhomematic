@@ -1,4 +1,4 @@
-Version 0.1.13 (2016-nn-nn)
+Version 0.1.13 (2016-08-24)
 - Added WeatherSensor (HM-WDS100-C6-O and compatible) @mcdeck
 - Added HM-PB-2-FM @danielperna84
 - Added delete/set/getMetadata methods (Issue #15) @danielperna84
