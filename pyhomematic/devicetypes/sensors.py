@@ -53,6 +53,21 @@ class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabota
         return self.get_state(channel) == 1
 
 
+class CO2Sensor(HMSensor, HelperSensorState):
+    """CO2 Sensor"""
+    def is_normal(self, channel=1):
+        """ Returns True if CO2 state is normal. """
+        return self.get_state(channel) == 0
+
+    def is_added(self, channel=1):
+        """ Returns True if CO2 state is added. """
+        return self.get_state(channel) == 1
+
+    def is_added_strong(self, channel=1):
+        """ Returns True if CO2 state is added strong. """
+        return self.get_state(channel) == 2
+
+
 class WaterSensor(HMSensor, HelperSensorState, HelperLowBat):
     """Watter detect sensor."""
 
@@ -321,5 +336,7 @@ DEVICETYPES = {
     "WS550LCB": WeatherStation,
     "WS550LCW": WeatherStation,
     "HM-WDC7000": WeatherStation,
-    "HM-Sec-TiS": TiltSensor
+    "HM-Sec-TiS": TiltSensor,
+    "HM-CC-SCD": CO2Sensor,
+    "263 160": CO2Sensor
 }
