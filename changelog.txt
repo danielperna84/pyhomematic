@@ -1,3 +1,6 @@
+Version 0.1.14 (2016-09-13)
+- Bugfix for Thermostats @pvizeli
+
 Version 0.1.13 (2016-08-24)
 - Added WeatherSensor (HM-WDS100-C6-O and compatible) @mcdeck
 - Added HM-PB-2-FM @danielperna84
