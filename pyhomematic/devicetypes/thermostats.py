@@ -52,17 +52,19 @@ class HMThermostat(HMDevice):
     @MODE.setter
     def MODE(self, setmode):
         """ Set mode. """
+        set_data = True
+        mode = None
         if setmode == self.AUTO_MODE:
             mode = 'AUTO_MODE'
         elif setmode == self.MANU_MODE:
             mode = 'MANU_MODE'
+            set_data = self.actual_temperature()
         elif setmode == self.BOOST_MODE:
             mode = 'BOOST_MODE'
         else:
-            LOG.warning("Thermostat.MODE.setter: Invalid mode: %s" % (str(setmode),))
-            mode = False
+            LOG.warning("Thermostat.MODE.setter: Invalid mode: %s" % str(setmode))
         if mode:
-            self.actionNodeData(mode, True)
+            self.actionNodeData(mode, set_data)
 
     @property
     def AUTOMODE(self):
