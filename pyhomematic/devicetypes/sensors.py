@@ -139,6 +139,23 @@ class GongSensor(HMEvent):
         self.EVENTNODE.update({"PRESS_SHORT": 'c'})
 
 
+class WiredSensor(HMEvent):
+    """Wired binary Sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.EVENTNODE.update({"SENSOR": 'c'})
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+    def get_state(self, channel=1):
+        """ Returns current state of sensor """
+        return bool(self.getBinaryData("SENSOR", channel))
+
+
 class Motion(HMBinarySensor, HMSensor):
     """Motion detection."""
 

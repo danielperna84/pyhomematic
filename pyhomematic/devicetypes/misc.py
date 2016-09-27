@@ -14,10 +14,14 @@ class HMCCU(HMDevice):
 
 
 class RemoteVirtual(HMCCU, HelperActionPress):
-    """For virtual remote from ccu/homegear."""
+    """For virtual remote from ccu/homegear or simple devices with just PRESS_SHORT and PRESS_LONG."""
 
     @property
     def ELEMENT(self):
+        if "HMW-IO-4-FM" in self.TYPE:
+            return [1, 2, 3, 4]
+        if "HMW-IO-12-FM" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         return [c for c in range(1, 51)]
 
 
@@ -102,5 +106,8 @@ DEVICETYPES = {
     "ZEL STG RM HS 4": Remote,
     "ZEL STG RM FST UP4": Remote,
     "263 145": Remote,
-    "263 135": Remote
+    "263 135": Remote,
+    "HMW-RCV-50": RemoteVirtual,
+    "HMW-IO-4-FM": RemoteVirtual,
+    "HMW-IO-12-FM": RemoteVirtual,
 }

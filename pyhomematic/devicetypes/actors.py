@@ -4,7 +4,8 @@ from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.helper import HelperWorking,\
                                            HelperActorState,\
                                            HelperActorLevel,\
-                                           HelperActionOnTime
+                                           HelperActionOnTime,\
+                                           HelperActionPress
 
 LOG = logging.getLogger(__name__)
 
@@ -38,6 +39,35 @@ class Blind(HMActor, HelperActorLevel, HelperWorking):
         self.actionNodeData("STOP", True, channel)
 
 
+class KeyBlind(HMActor, HelperActorLevel, HelperWorking, HelperActionPress):
+    """
+    Blind switch that raises and lowers roller shutters or window blinds.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ACTIONNODE.update({"STOP": 'c'})
+        self.EVENTNODE.update({"PRESS_SHORT": 'c',
+                               "PRESS_LONG_RELEASE": 'c'})
+
+    @property
+    def ELEMENT(self):
+        return [1, 2]
+
+    def move_up(self, channel=3):
+        """Move the shutter up all the way."""
+        self.set_level(1.0, channel)
+
+    def move_down(self, channel=3):
+        """Move the shutter down all the way."""
+        self.set_level(0.0, channel)
+
+    def stop(self, channel=3):
+        """Stop moving."""
+        self.actionNodeData("STOP", True, channel)
+
+
 class Dimmer(HMActor, HelperActorLevel, HelperWorking):
     """
     Dimmer switch that controls level of light brightness.
@@ -57,6 +87,29 @@ class Dimmer(HMActor, HelperActorLevel, HelperWorking):
         self.set_level(0.0, channel)
 
 
+class KeyDimmer(HMActor, HelperActorLevel, HelperWorking, HelperActionPress):
+    """
+    Dimmer switch that controls level of light brightness.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.EVENTNODE.update({"PRESS_SHORT": 'c',
+                               "PRESS_LONG_RELEASE": 'c'})
+    @property
+    def ELEMENT(self):
+        return [1, 2]
+
+    def on(self, channel=3):
+        """Turn light to maximum brightness."""
+        self.set_level(1.0, channel)
+
+    def off(self, channel=3):
+        """Turn light off."""
+        self.set_level(0.0, channel)
+
+
 class Switch(HMActor, HelperActorState, HelperWorking):
     """
     Switch turning plugged in device on or off.
@@ -69,9 +122,49 @@ class Switch(HMActor, HelperActorState, HelperWorking):
             return [1, 2, 3, 4]
         elif "Re-8" in self.TYPE:
             return [1, 2, 3, 4, 5, 6, 7, 8]
-        # Chimes
         elif "HM-OU-CFM-Pl" in self.TYPE or "HM-OU-CFM-TW" in self.TYPE or "HM-OU-CF-Pl" in self.TYPE:
             return [1, 2]
+        elif "HMW-IO-12-Sw14-DR" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6]
+        elif "HMW-IO-12-Sw7-DR" in self.TYPE:
+            return [13, 14, 15, 16, 17, 18, 19]
+        return [1]
+
+    def is_on(self, channel=1):
+        """ Returns True if switch is on. """
+        return self.get_state(channel)
+
+    def is_off(self, channel=1):
+        """ Returns True if switch is off. """
+        return not self.get_state(channel)
+
+    def on(self, channel=1):
+        """Turn switch on."""
+        self.set_state(True, channel)
+
+    def off(self, channel=1):
+        """Turn switch off."""
+        self.set_state(False, channel)
+
+
+class IOSwitch(HMActor, HelperActorState, HelperWorking):
+    """
+    Switch turning attached device on or off.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.EVENTNODE.update({"PRESS_SHORT": 'c',
+                               "PRESS_LONG": 'c',
+                               "PRESS_CONT": 'c',
+                               "PRESS_LONG_RELEASE": 'c'})
+
+    @property
+    def ELEMENT(self):
+        if "HMW-IO-12-Sw7-DR" in self.TYPE:
+            return [13, 14, 15, 16, 17, 18, 19]
+        if "HMW-LC-Sw2-DR" in self.TYPE:
+            return [3, 4]
         return [1]
 
     def is_on(self, channel=1):
@@ -204,5 +297,10 @@ DEVICETYPES = {
     "HM-ES-PMSw1-Pl-DN-R5": SwitchPowermeter,
     "HM-ES-PMSw1-DR": SwitchPowermeter,
     "HM-ES-PMSw1-SM": SwitchPowermeter,
-    "HM-ES-PMSwX": SwitchPowermeter
+    "HM-ES-PMSwX": SwitchPowermeter,
+    "HMW-IO-12-Sw7-DR": IOSwitch,
+    "HMW-LC-Sw2-DR": IOSwitch,
+    "HMW-LC-Bl1-DR": KeyBlind,
+    "HMW-LC-Bl1-DR-2": KeyBlind,
+    "HMW-LC-Dim1L-DR": KeyDimmer,
 }
