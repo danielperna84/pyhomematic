@@ -18,7 +18,7 @@ class RemoteVirtual(HMCCU, HelperActionPress):
 
     @property
     def ELEMENT(self):
-        return 50
+        return [c for c in range(1, 51)]
 
 
 class Remote(HMEvent, HelperActionPress):
@@ -34,27 +34,27 @@ class Remote(HMEvent, HelperActionPress):
     @property
     def ELEMENT(self):
         if "RC-2" in self.TYPE or "PB-2" in self.TYPE:
-            return 2
+            return [1, 2]
         if "HM-Dis-WM55" in self.TYPE:
-            return 2
+            return [1, 2]
         if "HM-RC-Dis-H-x-EU" in self.TYPE:
-            return 20
+            return [c for c in range(1, 21)]
         if "Sec3" in self.TYPE or "Key3" in self.TYPE:
-            return 3
+            return [1, 2, 3]
         if "RC-4" in self.TYPE or "PB-4" in self.TYPE:
-            return 4
+            return [1, 2, 3, 4]
         if "HM-PBI-4-FM" in self.TYPE or "ZEL STG RM FST UP4" in self.TYPE or "263 145" in self.TYPE or "HM-PBI-X" in self.TYPE:
-            return 4
+            return [1, 2, 3, 4]
         if "Sec4" in self.TYPE or "Key4" in self.TYPE:
-            return 4
+            return [1, 2, 3, 4]
         if "PB-6" in self.TYPE:
-            return 6
+            return [1, 2, 3, 4, 5, 6]
         if "RC-8" in self.TYPE or "HM-MOD-EM-8" in self.TYPE:
-            return 8
+            return [1, 2, 3, 4, 5, 6, 7, 8]
         if "RC-12" in self.TYPE:
-            return 12
+            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         if "RC-19" in self.TYPE:
-            return 19
+            return [c for c in range(1, 20)]
         return 1
 
 

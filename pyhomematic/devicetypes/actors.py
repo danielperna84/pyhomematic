@@ -45,8 +45,8 @@ class Dimmer(HMActor, HelperActorLevel, HelperWorking):
     @property
     def ELEMENT(self):
         if "Dim2L" in self._TYPE:
-            return 2
-        return 1
+            return [1, 2]
+        return [1]
 
     def on(self, channel=1):
         """Turn light to maximum brightness."""
@@ -64,15 +64,15 @@ class Switch(HMActor, HelperActorState, HelperWorking):
     @property
     def ELEMENT(self):
         if "LC-Sw2" in self.TYPE:
-            return 2
+            return [1, 2]
         elif "LC-Sw4" in self.TYPE:
-            return 4
+            return [1, 2, 3, 4]
         elif "Re-8" in self.TYPE:
-            return 8
+            return [1, 2, 3, 4, 5, 6, 7, 8]
         # Chimes
         elif "HM-OU-CFM-Pl" in self.TYPE or "HM-OU-CFM-TW" in self.TYPE or "HM-OU-CF-Pl" in self.TYPE:
-            return 2
-        return 1
+            return [1, 2]
+        return [1]
 
     def is_on(self, channel=1):
         """ Returns True if switch is on. """
@@ -106,7 +106,7 @@ class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
 
     @property
     def ELEMENT(self):
-        return 1
+        return [1]
 
 
 DEVICETYPES = {

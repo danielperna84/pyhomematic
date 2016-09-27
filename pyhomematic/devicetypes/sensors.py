@@ -175,7 +175,7 @@ class RemoteMotion(Remote, Motion):
 
     @property
     def ELEMENT(self):
-        return 2
+        return [1, 2]
 
 
 class LuxSensor(HMSensor):

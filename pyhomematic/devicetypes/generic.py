@@ -332,7 +332,7 @@ class HMDevice(HMGeneric):
         Returns count of elements for same functionality.
         Overwrite this value only if you have a special device such as Sw2 etc.
         """
-        return 1
+        return [1]
 
     def setEventCallback(self, callback, bequeath=True, channel=0):
         """

@@ -1,3 +1,6 @@
+Version 0.1.15 (2019-nn-nn)
+- ELEMENT-property now returns list of channels instead of int for better device support
+
 Version 0.1.14 (2016-09-13)
 - Bugfix for Thermostats @pvizeli
 
