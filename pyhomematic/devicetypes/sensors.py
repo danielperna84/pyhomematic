@@ -16,7 +16,12 @@ class HMBinarySensor(HMDevice):
     pass
 
 
-class ShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabotage):
+class ShutterContact(IPShutterContact, HelperSabotage):
+    """Door / Window contact that emits its open/closed state."""
+    pass
+
+
+class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
     """Door / Window contact that emits its open/closed state."""
     def is_open(self, channel=1):
         """ Returns True if the contact is open. """
@@ -343,6 +348,7 @@ DEVICETYPES = {
     "HM-Sec-SC-2": ShutterContact,
     "HM-Sec-SCo": ShutterContact,
     "ZEL STG RM FFK": ShutterContact,
+    "HMIP-SWDO": IPShutterContact,
     "HM-Sec-RHS": RotaryHandleSensor,
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,

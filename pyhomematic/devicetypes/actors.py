@@ -175,6 +175,16 @@ class IOSwitch(HMActor, HelperActorState, HelperWorking, HelperEventRemote):
         self.set_state(False, channel)
 
 
+class IPSwitch(HMActor, HelperActorState, HelperActionOnTime):
+    """
+    Switch turning attached device on or off.
+    """
+
+    @property
+    def ELEMENT(self):
+        return [3]
+
+
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
     """
     Switch turning plugged in device on or off and measuring energy consumption.
@@ -191,6 +201,21 @@ class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
     @property
     def ELEMENT(self):
         return [1]
+
+
+class IPSwitchPowermeter(IPSwitch, HMSensor):
+    """
+    Switch turning plugged in device on or off and measuring energy consumption.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"POWER": [6],
+                                "CURRENT": [6],
+                                "VOLTAGE": [6],
+                                "FREQUENCY": [6],
+                                "ENERGY_COUNTER": [6]})
 
 
 DEVICETYPES = {
@@ -294,4 +319,6 @@ DEVICETYPES = {
     "HMW-LC-Bl1-DR": KeyBlind,
     "HMW-LC-Bl1-DR-2": KeyBlind,
     "HMW-LC-Dim1L-DR": KeyDimmer,
+    "HMIP-PS": IPSwitch,
+    "HMIP-PSM": IPSwitchPowerMeter,
 }
