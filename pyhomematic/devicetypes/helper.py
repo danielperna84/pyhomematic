@@ -170,7 +170,7 @@ class HelperActionPress(HMDevice):
         self.actionNodeData("PRESS_SHORT", 1, channel)
 
 
-class HelperEventRemote(HMEvent):
+class HelperEventRemote(HMDevice):
     """Remote handle buttons."""
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)

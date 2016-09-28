@@ -298,7 +298,7 @@ class HMDevice(HMGeneric):
             nodeChannelList = metadata[name]
             if len(nodeChannelList) > 1:
                 nodeChannel = channel
-            elif len(nodeChannelList) == 1
+            elif len(nodeChannelList) == 1:
                 nodeChannel = nodeChannelList[0]
             if nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].getValue(name)
@@ -318,7 +318,7 @@ class HMDevice(HMGeneric):
             nodeChannelList = metadata[name]
             if len(nodeChannelList) > 1:
                 nodeChannel = channel
-            elif len(nodeChannelList) == 1
+            elif len(nodeChannelList) == 1:
                 nodeChannel = nodeChannelList[0]
             if nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].setValue(name, data)

@@ -16,11 +16,6 @@ class HMBinarySensor(HMDevice):
     pass
 
 
-class ShutterContact(IPShutterContact, HelperSabotage):
-    """Door / Window contact that emits its open/closed state."""
-    pass
-
-
 class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
     """Door / Window contact that emits its open/closed state."""
     def is_open(self, channel=1):
@@ -30,6 +25,11 @@ class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
     def is_closed(self, channel=1):
         """ Returns True if the contact is closed. """
         return not self.get_state(channel)
+
+
+class ShutterContact(IPShutterContact, HelperSabotage):
+    """Door / Window contact that emits its open/closed state."""
+    pass
 
 
 class TiltSensor(HMBinarySensor, HelperBinaryState, HelperLowBat):

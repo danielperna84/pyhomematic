@@ -320,5 +320,5 @@ DEVICETYPES = {
     "HMW-LC-Bl1-DR-2": KeyBlind,
     "HMW-LC-Dim1L-DR": KeyDimmer,
     "HMIP-PS": IPSwitch,
-    "HMIP-PSM": IPSwitchPowerMeter,
+    "HMIP-PSM": IPSwitchPowermeter,
 }
