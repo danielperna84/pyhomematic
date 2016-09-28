@@ -295,9 +295,11 @@ class HMDevice(HMGeneric):
     def _getNodeData(self, name, metadata, channel=1):
         """ Returns a data point from data"""
         if name in metadata:
-            nodeChannel = metadata[name]
-            if nodeChannel == 'c' or nodeChannel is None:
+            nodeChannelList = metadata[name]
+            if len(nodeChannelList) > 1:
                 nodeChannel = channel
+            elif len(nodeChannelList) == 1
+                nodeChannel = nodeChannelList[0]
             if nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].getValue(name)
 
@@ -313,9 +315,11 @@ class HMDevice(HMGeneric):
     def _setNodeData(self, name, metadata, data, channel=1):
         """ Returns a data point from data"""
         if name in metadata:
-            nodeChannel = metadata[name]
-            if nodeChannel == 'c' or nodeChannel is None:
+            nodeChannelList = metadata[name]
+            if len(nodeChannelList) > 1:
                 nodeChannel = channel
+            elif len(nodeChannelList) == 1
+                nodeChannel = nodeChannelList[0]
             if nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].setValue(name, data)
 
