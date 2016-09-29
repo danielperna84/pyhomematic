@@ -58,7 +58,7 @@ class HMThermostat(HMDevice):
             mode = 'AUTO_MODE'
         elif setmode == self.MANU_MODE:
             mode = 'MANU_MODE'
-            set_data = self.actual_temperature()
+            set_data = self.get_set_temperature()
         elif setmode == self.BOOST_MODE:
             mode = 'BOOST_MODE'
         else:
