@@ -565,7 +565,10 @@ class ServerThread(threading.Thread):
                     response = self._rpcfunctions.jsonRpcPost("SysVar.setFloat", params)
                 if response['error'] is None and response['result']:
                     res = response['result']
-                    LOG.debug("ServerThread.setSystemVariable: Result while deleting: %s" % str(res))
+                    LOG.debug("ServerThread.setSystemVariable: Result while setting variable: %s" % str(res))
+                else:
+                    if response['error']:
+                        LOG.debug("ServerThread.setSystemVariable: Error while setting variable: %s" % str(res))
 
                 self.jsonRpcLogout(session)
             except Exception as err:
