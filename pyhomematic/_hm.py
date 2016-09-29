@@ -568,7 +568,7 @@ class ServerThread(threading.Thread):
                     LOG.debug("ServerThread.setSystemVariable: Result while setting variable: %s" % str(res))
                 else:
                     if response['error']:
-                        LOG.debug("ServerThread.setSystemVariable: Error while setting variable: %s" % str(res))
+                        LOG.debug("ServerThread.setSystemVariable: Error while setting variable: %s" % str(response['error']))
 
                 self.jsonRpcLogout(session)
             except Exception as err:
