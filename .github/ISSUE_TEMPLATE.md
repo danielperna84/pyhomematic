@@ -1,4 +1,5 @@
-Make sure you are running the latest version of pyhomematic when using as a library before reporting an issue. If you think you have encountered a bug, please fill out the template below. For feature- or changerequests, just write down what's on your mind.
+Make sure you are running the latest version of pyhomematic when using as a library before reporting an issue. If you think you have encountered a bug, please fill out the template below. For feature- or changerequests, just write down what's on your mind.  
+PS: German allowed
 
 If you're running Home Assistant, use the following configuration for debug-output of the related components:
 ```yaml
