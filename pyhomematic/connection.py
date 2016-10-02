@@ -10,6 +10,7 @@ class HMConnection(object):
     def __init__(self,
                  local=_hm.LOCAL,
                  localport=_hm.LOCALPORT,
+                 remotes=_hm.REMOTES,
                  remote=_hm.REMOTE,
                  remoteport=_hm.REMOTEPORT,
                  devicefile=_hm.DEVICEFILE,
@@ -36,6 +37,7 @@ class HMConnection(object):
         try:
             self._server = _hm.ServerThread(local=local,
                                             localport=localport,
+                                            remotes=remotes,
                                             remote=remote,
                                             remoteport=remoteport,
                                             devicefile=devicefile,
