@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import xmlrpc.client
+import socket
 import logging
 from pyhomematic import devicetypes
 from pyhomematic.devicetypes.generic import HMChannel
@@ -13,8 +14,8 @@ from pyhomematic.devicetypes.generic import HMChannel
 LOG = logging.getLogger(__name__)
 
 # Constants
-LOCAL = '127.0.0.1'
-LOCALPORT = 7080
+LOCAL = '0.0.0.0'
+LOCALPORT = 0
 REMOTE = '127.0.0.1'
 REMOTEPORT = 2001
 DEVICEFILE = False  # e.g. devices.json
@@ -307,16 +308,24 @@ class RPCFunctions(object):
 
 class LockingServerProxy(xmlrpc.client.ServerProxy):
     """
-    ServerProxy implementeation with lock when request is executing
+    ServerProxy implementation with lock when request is executing
     """
 
     def __init__(self, *args, **kwargs):
         """
-        Initialize new proxy for server
+        Initialize new proxy for server and get local ip
         """
 
         self.lock = threading.Lock()
         xmlrpc.client.ServerProxy.__init__(self, *args, **kwargs)
+        self._remoteip, self._remoteport = self._ServerProxy__host.split(':')
+        self._remoteport = int(self._remoteport)
+        LOG.debug("LockingServerProxy.__init__: Getting local ip")
+        tmpsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        tmpsocket.connect((self._remoteip, self._remoteport))
+        self._localip = tmpsocket.getsockname()[0]
+        tmpsocket.close()
+        LOG.debug("LockingServerProxy.__init__: Got local ip %s" % self._localip)
 
     def __request(self, *args, **kwargs):
         """
@@ -359,9 +368,9 @@ class ServerThread(threading.Thread):
         # Member
         self._interface_id = interface_id
         self._local = local
-        self._localport = localport
+        self._localport = int(localport)
         self._remote = remote
-        self._remoteport = remoteport
+        self._remoteport = int(remoteport)
         self._devicefile = devicefile
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
@@ -371,11 +380,11 @@ class ServerThread(threading.Thread):
         self.resolveparamsets = resolveparamsets
 
         # Create proxy to interact with CCU / Homegear
-        LOG.info("Creating proxy. Connecting to http://%s:%i" % (self._remote, int(self._remoteport)))
+        LOG.info("Creating proxy. Connecting to http://%s:%i" % (self._remote, self._remoteport))
         try:
-            self.proxy = LockingServerProxy("http://%s:%i" % (self._remote, int(self._remoteport)))
+            self.proxy = LockingServerProxy("http://%s:%i" % (self._remote, self._remoteport))
         except Exception as err:
-            LOG.warning("Failed connecting to proxy at http://%s:%i" % (self._remote, int(self._remoteport)))
+            LOG.warning("Failed connecting to proxy at http://%s:%i" % (self._remote, self._remoteport))
             LOG.debug("__init__: Exception: %s" % str(err))
             raise Exception
 
@@ -392,16 +401,19 @@ class ServerThread(threading.Thread):
 
         # Setup server to handle requests from CCU / Homegear
         LOG.debug("ServerThread.__init__: Setting up server")
-        self.server = SimpleXMLRPCServer((self._local, int(self._localport)),
+        self.server = SimpleXMLRPCServer((self._local, self._localport),
                                          requestHandler=RequestHandler,
                                          logRequests=False)
+        self._localport = self.server.socket.getsockname()[1]
+        if self._local == '0.0.0.0':
+            self._local = self.proxy._localip
         self.server.register_introspection_functions()
         self.server.register_multicall_functions()
         LOG.debug("ServerThread.__init__: Registering RPC functions")
         self.server.register_instance(self._rpcfunctions, allow_dotted_names=True)
 
     def run(self):
-        LOG.info("Starting server at http://%s:%i" % (self._local, int(self._localport)))
+        LOG.info("Starting server at http://%s:%i" % (self._local, self._localport))
         self.server.serve_forever()
 
     def proxyInit(self):
@@ -409,9 +421,9 @@ class ServerThread(threading.Thread):
         To receive events the proxy has to tell the CCU / Homegear where to send the events. For that we call the init-method.
         """
         # Call init() with local XML RPC config and interface_id (the name of the receiver) to receive events. XML RPC server has to be running.
-        LOG.debug("ServerThread.proxyInit: init(http://%s:%i, '%s')" % (self._local, int(self._localport), self._interface_id))
+        LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" % (self._local, self._localport, self._interface_id))
         try:
-            self.proxy.init("http://%s:%i" % (self._local, int(self._localport)), self._interface_id)
+            self.proxy.init("http://%s:%i" % (self._local, self._localport), self._interface_id)
             LOG.info("Proxy initialized")
         except Exception as err:
             LOG.debug("proxyInit: Exception: %s" % str(err))
@@ -423,7 +435,7 @@ class ServerThread(threading.Thread):
         if self.proxy:
             LOG.debug("ServerThread.stop: Deregistering proxy")
             try:
-                self.proxy.init("http://%s:%i" % (self._local, int(self._localport)))
+                self.proxy.init("http://%s:%i" % (self._local, self._localport))
             except Exception as err:
                 LOG.warning("Failed to deregister proxy")
                 LOG.debug("stop: Exception: %s" % str(err))
