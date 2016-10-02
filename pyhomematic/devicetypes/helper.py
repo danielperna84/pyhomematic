@@ -9,7 +9,7 @@ class HelperSabotage(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"ERROR": 'c'})
+        self.ATTRIBUTENODE.update({"ERROR": self.ELEMENT})
 
     def sabotage(self, channel=1):
         """Returns True if the devicecase has been opened."""
@@ -22,7 +22,7 @@ class HelperLowBat(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"LOWBAT": 'c'})
+        self.ATTRIBUTENODE.update({"LOWBAT": self.ELEMENT})
 
     def low_batt(self, channel=1):
         """ Returns if the battery is low. """
@@ -35,7 +35,7 @@ class HelperWorking(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"WORKING": 'c'})
+        self.ATTRIBUTENODE.update({"WORKING": self.ELEMENT})
 
     def is_working(self, channel=1):
         """Return True of False if working or not"""
@@ -62,7 +62,7 @@ class HelperBinaryState(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.BINARYNODE.update({"STATE": 'c'})
+        self.BINARYNODE.update({"STATE": self.ELEMENT})
 
     def get_state(self, channel=1):
         """ Returns current state of handle """
@@ -75,7 +75,7 @@ class HelperSensorState(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"STATE": 'c'})
+        self.SENSORNODE.update({"STATE": self.ELEMENT})
 
     def get_state(self, channel=1):
         """ Returns current state of handle """
@@ -90,7 +90,7 @@ class HelperActorState(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"STATE": 'c'})
+        self.WRITENODE.update({"STATE": self.ELEMENT})
 
     def get_state(self, channel=1):
         """ Returns if switch is 'on' or 'off'. """
@@ -115,7 +115,7 @@ class HelperActorLevel(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"LEVEL": 'c'})
+        self.WRITENODE.update({"LEVEL": self.ELEMENT})
 
     def get_level(self, channel=1):
         """Return current level. Return value is float() from 0.0 to 1.0."""
@@ -139,7 +139,7 @@ class HelperActionOnTime(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ACTIONNODE.update({"ON_TIME": 'c'})
+        self.ACTIONNODE.update({"ON_TIME": self.ELEMENT})
 
     def set_ontime(self, ontime):
         """Set duration th switch stays on when toggled. """
@@ -158,8 +158,8 @@ class HelperActionPress(HMDevice):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.ACTIONNODE.update({"PRESS_SHORT": 'c',
-                                "PRESS_LONG": 'c'})
+        self.ACTIONNODE.update({"PRESS_SHORT": self.ELEMENT,
+                                "PRESS_LONG": self.ELEMENT})
 
     def press_long(self, channel=1):
         """Simulat a button press long."""
@@ -168,3 +168,14 @@ class HelperActionPress(HMDevice):
     def press_short(self, channel=1):
         """Simulat a button press short."""
         self.actionNodeData("PRESS_SHORT", 1, channel)
+
+
+class HelperEventRemote(HMDevice):
+    """Remote handle buttons."""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT,
+                               "PRESS_LONG": self.ELEMENT,
+                               "PRESS_CONT": self.ELEMENT,
+                               "PRESS_LONG_RELEASE": self.ELEMENT})

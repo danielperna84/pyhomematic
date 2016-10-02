@@ -16,7 +16,7 @@ class HMBinarySensor(HMDevice):
     pass
 
 
-class ShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabotage):
+class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
     """Door / Window contact that emits its open/closed state."""
     def is_open(self, channel=1):
         """ Returns True if the contact is open. """
@@ -25,6 +25,11 @@ class ShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperSabo
     def is_closed(self, channel=1):
         """ Returns True if the contact is closed. """
         return not self.get_state(channel)
+
+
+class ShutterContact(IPShutterContact, HelperSabotage):
+    """Door / Window contact that emits its open/closed state."""
+    pass
 
 
 class TiltSensor(HMBinarySensor, HelperBinaryState, HelperLowBat):
@@ -90,10 +95,10 @@ class PowermeterGas(HMSensor):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.SENSORNODE.update({"GAS_ENERGY_COUNTER": 1,
-                                "GAS_POWER": 1,
-                                "ENERGY_COUNTER": 1,
-                                "POWER": 1})
+        self.SENSORNODE.update({"GAS_ENERGY_COUNTER": [1],
+                                "GAS_POWER": [1],
+                                "ENERGY_COUNTER": [1],
+                                "POWER": [1]})
 
     def get_gas_counter(self, channel=1):
         """Return gas counter."""
@@ -126,8 +131,8 @@ class SmokeV2(Smoke, HelperLowBat):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.ATTRIBUTENODE.update({"ERROR_ALARM_TEST": 'c',
-                                   "ERROR_ALARM_TEST": 'c'})
+        self.ATTRIBUTENODE.update({"ERROR_ALARM_TEST": self.ELEMENT,
+                                   "ERROR_ALARM_TEST": self.ELEMENT})
 
 
 class GongSensor(HMEvent):
@@ -136,7 +141,7 @@ class GongSensor(HMEvent):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.EVENTNODE.update({"PRESS_SHORT": 'c'})
+        self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT})
 
 
 class WiredSensor(HMEvent):
@@ -145,7 +150,7 @@ class WiredSensor(HMEvent):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.EVENTNODE.update({"SENSOR": 'c'})
+        self.EVENTNODE.update({"SENSOR": self.ELEMENT})
 
     @property
     def ELEMENT(self):
@@ -163,8 +168,8 @@ class Motion(HMBinarySensor, HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.BINARYNODE.update({"MOTION": 'c'})
-        self.SENSORNODE.update({"BRIGHTNESS": 'c'})
+        self.BINARYNODE.update({"MOTION": self.ELEMENT})
+        self.SENSORNODE.update({"BRIGHTNESS": self.ELEMENT})
 
     def is_motion(self, channel=1):
         """ Return True if motion is detected """
@@ -187,8 +192,8 @@ class RemoteMotion(Remote, Motion):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.BINARYNODE.update({"MOTION": 3})
-        self.SENSORNODE.update({"BRIGHTNESS": 3})
+        self.BINARYNODE.update({"MOTION": [3]})
+        self.SENSORNODE.update({"BRIGHTNESS": [3]})
 
     @property
     def ELEMENT(self):
@@ -202,7 +207,7 @@ class LuxSensor(HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"LUX": 1})
+        self.SENSORNODE.update({"LUX": [1]})
 
     def get_lux(self, channel=1):
         """Return messure lux."""
@@ -216,7 +221,7 @@ class ImpulseSensor(HMEvent):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.EVENTNODE.update({"SEQUENCE_OK": 'c'})
+        self.EVENTNODE.update({"SEQUENCE_OK": self.ELEMENT})
 
 
 class AreaThermostat(HMSensor):
@@ -226,7 +231,8 @@ class AreaThermostat(HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"TEMPERATURE": 'c', "HUMIDITY": 'c'})
+        self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT,
+                                "HUMIDITY": self.ELEMENT})
 
     def get_temperature(self, channel=1):
         return float(self.getSensorData("TEMPERATURE", channel))
@@ -242,7 +248,7 @@ class TemperatureSensor(HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"TEMPERATURE": 'c'})
+        self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT})
 
     def get_temperature_1(self, channel=1):
         return float(self.getSensorData("TEMPERATURE", channel))
@@ -255,7 +261,7 @@ class TemperatureDiffSensor(HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"TEMPERATURE": 'c'})
+        self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT})
 
     def get_temperature_1(self, channel=1):
         return float(self.getSensorData("TEMPERATURE", channel))
@@ -277,15 +283,15 @@ class WeatherSensor(HMSensor, HMBinarySensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"TEMPERATURE": 'c', 
-                                "HUMIDITY": 'c',
-                                "RAIN_COUNTER": 'c',
-                                "WIND_SPEED": 'c',
-                                "WIND_DIRECTION": 'c',
-                                "WIND_DIRECTION_RANGE": 'c',
-                                "SUNSHINEDURATION": 'c',
-                                "BRIGHTNESS": 'c'})
-        self.BINARYNODE.update({"RAINING": 'c'})
+        self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT,
+                                "HUMIDITY": self.ELEMENT,
+                                "RAIN_COUNTER": self.ELEMENT,
+                                "WIND_SPEED": self.ELEMENT,
+                                "WIND_DIRECTION": self.ELEMENT,
+                                "WIND_DIRECTION_RANGE": self.ELEMENT,
+                                "SUNSHINEDURATION": self.ELEMENT,
+                                "BRIGHTNESS": self.ELEMENT})
+        self.BINARYNODE.update({"RAINING": self.ELEMENT})
 
     def get_temperature(self, channel=1):
         return float(self.getSensorData("TEMPERATURE", channel))
@@ -323,9 +329,9 @@ class WeatherStation(HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"TEMPERATURE": 'c',
-                                "HUMIDITY": 'c',
-                                "AIR_PRESSURE": 'c'})
+        self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT,
+                                "HUMIDITY": self.ELEMENT,
+                                "AIR_PRESSURE": self.ELEMENT})
 
     def get_temperature(self, channel=10):
         return float(self.getSensorData("TEMPERATURE", channel))
@@ -342,6 +348,7 @@ DEVICETYPES = {
     "HM-Sec-SC-2": ShutterContact,
     "HM-Sec-SCo": ShutterContact,
     "ZEL STG RM FFK": ShutterContact,
+    "HMIP-SWDO": IPShutterContact,
     "HM-Sec-RHS": RotaryHandleSensor,
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,

@@ -1,11 +1,9 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
-from pyhomematic.devicetypes.helper import HelperWorking,\
-                                           HelperActorState,\
-                                           HelperActorLevel,\
-                                           HelperActionOnTime,\
-                                           HelperActionPress
+from pyhomematic.devicetypes.helper import (
+    HelperWorking, HelperActorState, HelperActorLevel, HelperActionOnTime,
+    HelperActionPress, HelperEventRemote)
 
 LOG = logging.getLogger(__name__)
 
@@ -24,7 +22,7 @@ class Blind(HMActor, HelperActorLevel, HelperWorking):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ACTIONNODE.update({"STOP": 'c'})
+        self.ACTIONNODE.update({"STOP": self.ELEMENT})
 
     def move_up(self, channel=1):
         """Move the shutter up all the way."""
@@ -47,9 +45,9 @@ class KeyBlind(HMActor, HelperActorLevel, HelperWorking, HelperActionPress):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ACTIONNODE.update({"STOP": 'c'})
-        self.EVENTNODE.update({"PRESS_SHORT": 'c',
-                               "PRESS_LONG_RELEASE": 'c'})
+        self.ACTIONNODE.update({"STOP": self.ELEMENT})
+        self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT,
+                               "PRESS_LONG_RELEASE": self.ELEMENT})
 
     @property
     def ELEMENT(self):
@@ -95,8 +93,8 @@ class KeyDimmer(HMActor, HelperActorLevel, HelperWorking, HelperActionPress):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.EVENTNODE.update({"PRESS_SHORT": 'c',
-                               "PRESS_LONG_RELEASE": 'c'})
+        self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT,
+                               "PRESS_LONG_RELEASE": self.ELEMENT})
     @property
     def ELEMENT(self):
         return [1, 2]
@@ -147,17 +145,10 @@ class Switch(HMActor, HelperActorState, HelperWorking):
         self.set_state(False, channel)
 
 
-class IOSwitch(HMActor, HelperActorState, HelperWorking):
+class IOSwitch(HMActor, HelperActorState, HelperWorking, HelperEventRemote):
     """
     Switch turning attached device on or off.
     """
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        self.EVENTNODE.update({"PRESS_SHORT": 'c',
-                               "PRESS_LONG": 'c',
-                               "PRESS_CONT": 'c',
-                               "PRESS_LONG_RELEASE": 'c'})
 
     @property
     def ELEMENT(self):
@@ -184,6 +175,16 @@ class IOSwitch(HMActor, HelperActorState, HelperWorking):
         self.set_state(False, channel)
 
 
+class IPSwitch(HMActor, HelperActorState, HelperActionOnTime):
+    """
+    Switch turning attached device on or off.
+    """
+
+    @property
+    def ELEMENT(self):
+        return [3]
+
+
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
     """
     Switch turning plugged in device on or off and measuring energy consumption.
@@ -192,14 +193,29 @@ class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"POWER": 2,
-                                "CURRENT": 2,
-                                "VOLTAGE": 2,
-                                "ENERGY_COUNTER": 2})
+        self.SENSORNODE.update({"POWER": [2],
+                                "CURRENT": [2],
+                                "VOLTAGE": [2],
+                                "ENERGY_COUNTER": [2]})
 
     @property
     def ELEMENT(self):
         return [1]
+
+
+class IPSwitchPowermeter(IPSwitch, HMSensor):
+    """
+    Switch turning plugged in device on or off and measuring energy consumption.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"POWER": [6],
+                                "CURRENT": [6],
+                                "VOLTAGE": [6],
+                                "FREQUENCY": [6],
+                                "ENERGY_COUNTER": [6]})
 
 
 DEVICETYPES = {
@@ -303,4 +319,6 @@ DEVICETYPES = {
     "HMW-LC-Bl1-DR": KeyBlind,
     "HMW-LC-Bl1-DR-2": KeyBlind,
     "HMW-LC-Dim1L-DR": KeyDimmer,
+    "HMIP-PS": IPSwitch,
+    "HMIP-PSM": IPSwitchPowermeter,
 }

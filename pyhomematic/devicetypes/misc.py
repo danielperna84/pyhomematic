@@ -1,6 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
-from pyhomematic.devicetypes.helper import HelperActionPress
+from pyhomematic.devicetypes.helper import HelperActionPress, HelperEventRemote
 
 LOG = logging.getLogger(__name__)
 
@@ -25,15 +25,8 @@ class RemoteVirtual(HMCCU, HelperActionPress):
         return [c for c in range(1, 51)]
 
 
-class Remote(HMEvent, HelperActionPress):
+class Remote(HMEvent, HelperEventRemote, HelperActionPress):
     """Remote handle buttons."""
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        self.EVENTNODE.update({"PRESS_SHORT": 'c',
-                               "PRESS_LONG": 'c',
-                               "PRESS_CONT": 'c',
-                               "PRESS_LONG_RELEASE": 'c'})
 
     @property
     def ELEMENT(self):

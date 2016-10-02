@@ -58,7 +58,7 @@ class HMThermostat(HMDevice):
             mode = 'AUTO_MODE'
         elif setmode == self.MANU_MODE:
             mode = 'MANU_MODE'
-            set_data = self.actual_temperature()
+            set_data = self.get_set_temperature()
         elif setmode == self.BOOST_MODE:
             mode = 'BOOST_MODE'
         else:
@@ -111,14 +111,14 @@ class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 4})
-        self.WRITENODE.update({"SET_TEMPERATURE": 4})
-        self.ACTIONNODE.update({"AUTO_MODE": 4,
-                                "MANU_MODE": 4,
-                                "BOOST_MODE": 4})
-        self.ATTRIBUTENODE.update({"VALVE_STATE": 4,
-                                   "BATTERY_STATE": 4,
-                                   "CONTROL_MODE": 4})
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [4]})
+        self.WRITENODE.update({"SET_TEMPERATURE": [4]})
+        self.ACTIONNODE.update({"AUTO_MODE": [4],
+                                "MANU_MODE": [4],
+                                "BOOST_MODE": [4]})
+        self.ATTRIBUTENODE.update({"VALVE_STATE": [4],
+                                   "BATTERY_STATE": [4],
+                                   "CONTROL_MODE": [4]})
 
 
 class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
@@ -130,12 +130,13 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 2, "ACTUAL_HUMIDITY": 2})
-        self.WRITENODE.update({"SET_TEMPERATURE": 2})
-        self.ACTIONNODE.update({"AUTO_MODE": 2,
-                                "MANU_MODE": 2,
-                                "BOOST_MODE": 2})
-        self.ATTRIBUTENODE.update({"CONTROL_MODE": 2, "BATTERY_STATE": 2})
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [2],
+                                "ACTUAL_HUMIDITY": [2]})
+        self.WRITENODE.update({"SET_TEMPERATURE": [2]})
+        self.ACTIONNODE.update({"AUTO_MODE": [2],
+                                "MANU_MODE": [2],
+                                "BOOST_MODE": [2]})
+        self.ATTRIBUTENODE.update({"CONTROL_MODE": [2], "BATTERY_STATE": [2]})
 
 
 class MAXThermostat(HMThermostat, HelperLowBat):
@@ -147,12 +148,12 @@ class MAXThermostat(HMThermostat, HelperLowBat):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": 1})
-        self.WRITENODE.update({"SET_TEMPERATURE": 1})
-        self.ACTIONNODE.update({"AUTO_MODE": 1,
-                                "MANU_MODE": 1,
-                                "BOOST_MODE": 1})
-        self.ATTRIBUTENODE.update({"LOWBAT": 0, "CONTROL_MODE": 1})
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1]})
+        self.WRITENODE.update({"SET_TEMPERATURE": [1]})
+        self.ACTIONNODE.update({"AUTO_MODE": [1],
+                                "MANU_MODE": [1],
+                                "BOOST_MODE": [1]})
+        self.ATTRIBUTENODE.update({"LOWBAT": [0], "CONTROL_MODE": [1]})
 
 
 DEVICETYPES = {
