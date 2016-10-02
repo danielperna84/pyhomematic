@@ -34,19 +34,25 @@ class HMConnection(object):
         self.devices_raw = _hm.devices_raw
         self.devices_raw_dict = _hm.devices_raw_dict
 
+        if remote and remoteport:
+            remotes['default']['ip'] = remote
+            remotes['default']['port'] = remoteport
+            if resolvenames:
+                remotes['default']['resolvenames'] = resolvenames
+                if rpcusername:
+                    remotes['default']['username'] = rpcusername
+                if rpcpassword:
+                    remotes['default']['password'] = rpcpassword
+
+
         try:
             self._server = _hm.ServerThread(local=local,
                                             localport=localport,
                                             remotes=remotes,
-                                            remote=remote,
-                                            remoteport=remoteport,
                                             devicefile=devicefile,
                                             interface_id=interface_id,
                                             eventcallback=eventcallback,
                                             systemcallback=systemcallback,
-                                            resolvenames=resolvenames,
-                                            rpcusername=rpcusername,
-                                            rpcpassword=rpcpassword,
                                             resolveparamsets=resolveparamsets)
 
         except Exception as err:
@@ -98,67 +104,67 @@ class HMConnection(object):
             LOG.debug(str(err))
             return False
 
-    def getAllSystemVariables(self):
+    def getAllSystemVariables(self, remote):
         """Get all system variables from CCU / Homegear"""
         if self._server is not None:
-            return self._server.getAllSystemVariables()
+            return self._server.getAllSystemVariables(remote)
 
-    def getSystemVariable(self, name):
+    def getSystemVariable(self, remote, name):
         """Get single system variable from CCU / Homegear"""
         if self._server is not None:
-            return self._server.getSystemVariable(name)
+            return self._server.getSystemVariable(remote, name)
 
-    def deleteSystemVariable(self, name):
+    def deleteSystemVariable(self, remote, name):
         """Delete a system variable from CCU / Homegear"""
         if self._server is not None:
-            return self._server.deleteSystemVariable(name)
+            return self._server.deleteSystemVariable(remote, name)
 
-    def setSystemVariable(self, name, value):
+    def setSystemVariable(self, remote, name, value):
         """Set a system variable on CCU / Homegear"""
         if self._server is not None:
-            return self._server.setSystemVariable(name, value)
+            return self._server.setSystemVariable(remote, name, value)
 
-    def getServiceMessages(self):
+    def getServiceMessages(self, remote):
         """Get service messages from CCU / Homegear"""
         if self._server is not None:
-            return self._server.getServiceMessages()
+            return self._server.getServiceMessages(remote)
 
-    def rssiInfo(self):
+    def rssiInfo(self, remote):
         """Get RSSI information for all devices from CCU / Homegear"""
         if self._server is not None:
-            return self._server.rssiInfo()
+            return self._server.rssiInfo(remote)
 
-    def setInstallMode(self, on=True, t=60, mode=1, address=None):
+    def setInstallMode(self, remote, on=True, t=60, mode=1, address=None):
         """Activate or deactivate installmode on CCU / Homegear"""
         if self._server is not None:
-            return self._server.setInstallMode(on, t, mode, address)
+            return self._server.setInstallMode(remote, on, t, mode, address)
 
-    def getInstallMode(self):
+    def getInstallMode(self, remote):
         """Get remaining time in seconds install mode is active from CCU / Homegear"""
         if self._server is not None:
-            return self._server.getInstallMode()
+            return self._server.getInstallMode(remote)
 
-    def getAllMetadata(self, address):
+    def getAllMetadata(self, remote, address):
         """Get all metadata of device"""
         if self._server is not None:
-            return self._server.getAllMetadata(address)
+            return self._server.getAllMetadata(remote, address)
 
-    def getMetadata(self, address, key):
+    def getMetadata(self, remote, address, key):
         """Get metadata of device"""
         if self._server is not None:
-            return self._server.getAllMetadata(address, key)
+            return self._server.getAllMetadata(remote, address, key)
 
-    def setMetadata(self, address, key, value):
+    def setMetadata(self, remote, address, key, value):
         """Set metadata of device"""
         if self._server is not None:
-            return self._server.getAllMetadata(address, key, value)
+            return self._server.getAllMetadata(remote, address, key, value)
 
-    def deleteMetadata(self, address, key):
+    def deleteMetadata(self, remote, address, key):
         """Delete metadata of device"""
         if self._server is not None:
-            return self._server.deleteAllMetadata(address, key)
+            return self._server.deleteAllMetadata(remote, address, key)
 
-    def listBidcosInterfaces(self):
+    def listBidcosInterfaces(self, remote):
         """Return all available BidCos Interfaces"""
         if self._server is not None:
-            return self._server.listBidcosInterfaces()
+            return self._server.listBidcosInterfaces(remote)
