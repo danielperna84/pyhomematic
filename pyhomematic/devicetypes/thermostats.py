@@ -139,6 +139,20 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
         self.ATTRIBUTENODE.update({"CONTROL_MODE": [2], "BATTERY_STATE": [2]})
 
 
+class ThermostatWall2(HMThermostat, AreaThermostat, HelperBatteryState):
+    """
+    HM-CC-TC
+    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"TEMPERATURE": [1],
+                                "HUMIDITY": [1]})
+        self.WRITENODE.update({"SETPOINT": [2]})
+
+
 class MAXThermostat(HMThermostat, HelperLowBat):
     """
     BC-RT-TRX-CyG, BC-RT-TRX-CyG-2, BC-RT-TRX-CyG-3, BC-RT-TRX-CyG-4
@@ -160,6 +174,8 @@ DEVICETYPES = {
     "HM-CC-RT-DN": Thermostat,
     "HM-CC-RT-DN-BoM": Thermostat,
     "HM-TC-IT-WM-W-EU": ThermostatWall,
+    "HM-CC-TC": ThermostatWall2,
+    "ZEL STG RM FWT": ThermostatWall2,
     "BC-RT-TRX-CyG": MAXThermostat,
     "BC-RT-TRX-CyG-2": MAXThermostat,
     "BC-RT-TRX-CyG-3": MAXThermostat,
