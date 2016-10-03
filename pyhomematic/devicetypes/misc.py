@@ -1,6 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
-from pyhomematic.devicetypes.helper import HelperActionPress, HelperEventRemote
+from pyhomematic.devicetypes.helper import HelperActionPress, HelperEventRemote, HelperEventPress
 
 LOG = logging.getLogger(__name__)
 
@@ -52,7 +52,15 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress):
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         if "RC-19" in self.TYPE:
             return [c for c in range(1, 20)]
-        return 1
+        return [1]
+
+
+class RemotePress(HMEvent, HelperEventPress, HelperActionPress):
+    """Remote handle buttons."""
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3]
 
 
 DEVICETYPES = {
@@ -100,6 +108,10 @@ DEVICETYPES = {
     "ZEL STG RM FST UP4": Remote,
     "263 145": Remote,
     "263 135": Remote,
+    "HM-SwI-3-FM": RemotePress,
+    "ZEL STG RM FSS UP3": RemotePress,
+    "263 144": RemotePress,
+    "HM-SwI-X": RemotePress,
     "HMW-RCV-50": RemoteVirtual,
     "HMW-IO-4-FM": RemoteVirtual,
     "HMW-IO-12-FM": RemoteVirtual,
