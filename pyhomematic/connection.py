@@ -11,17 +11,17 @@ class HMConnection(object):
                  local=_hm.LOCAL,
                  localport=_hm.LOCALPORT,
                  remotes=_hm.REMOTES,
-                 remote=_hm.REMOTE,
-                 remoteport=_hm.REMOTEPORT,
+                 remote=_hm.REMOTES['default']['ip'],
+                 remoteport=_hm.REMOTES['default']['port'],
                  devicefile=_hm.DEVICEFILE,
                  interface_id=_hm.INTERFACE_ID,
                  autostart=False,
                  eventcallback=False,
                  systemcallback=False,
-                 resolvenames=False,
+                 resolvenames=_hm.REMOTES['default']['resolvenames'],
                  resolveparamsets=False,
-                 rpcusername=_hm.RPC_USERNAME,
-                 rpcpassword=_hm.RPC_PASSWORD):
+                 rpcusername=_hm.REMOTES['default']['username'],
+                 rpcpassword=_hm.REMOTES['default']['password']):
         """
         Helper function to quickly create the server thread to which the CCU / Homegear will emit events.
         Without specifying the remote data we'll assume we're running Homegear on localhost on the default port.
@@ -39,10 +39,10 @@ class HMConnection(object):
             remotes['default']['port'] = remoteport
             if resolvenames:
                 remotes['default']['resolvenames'] = resolvenames
-                if rpcusername:
-                    remotes['default']['username'] = rpcusername
-                if rpcpassword:
-                    remotes['default']['password'] = rpcpassword
+            if rpcusername:
+                remotes['default']['username'] = rpcusername
+            if rpcpassword:
+                remotes['default']['password'] = rpcpassword
 
 
         try:

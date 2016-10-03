@@ -16,15 +16,16 @@ LOG = logging.getLogger(__name__)
 # Constants
 LOCAL = '0.0.0.0'
 LOCALPORT = 0
-REMOTE = '127.0.0.1'
-REMOTEPORT = 2001
-REMOTES = {'default': {'ip': '127.0.0.1', 'port': 2001, 'username': 'Admin', 'password': '', 'resolvenames': False}}
+REMOTES = {'default':
+               {'ip': '127.0.0.1',
+                'port': 2001,
+                'username': 'Admin',
+                'password': '',
+                'resolvenames': False}}
 DEVICEFILE = False  # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
 XML_API_URL = '/config/xmlapi/devicelist.cgi'
 JSONRPC_URL = '/api/homematic.cgi'
-RPC_USERNAME = 'Admin'
-RPC_PASSWORD = ''
 
 
 # Device-storage
@@ -39,7 +40,6 @@ working = False
 class RPCFunctions(object):
     def __init__(self,
                  devicefile=DEVICEFILE,
-                 proxy=False,
                  proxies={},
                  remotes={},
                  eventcallback=False,
@@ -53,7 +53,7 @@ class RPCFunctions(object):
         self.resolveparamsets = resolveparamsets
         self.remotes = remotes
 
-        # The methods need to know about the proxy to be able to pass it on to the device-objects
+        # The methods need to know about the proxyies to be able to pass it on to the device-objects
         self._proxies = proxies
 
         # Devices w/o channels will be accessible using the device-address as the key
@@ -65,9 +65,9 @@ class RPCFunctions(object):
         self._devices_raw_dict = devices_raw_dict
         self._devices_raw = devices_raw
 
-        for proxyid in proxies:
-            LOG.debug("RPCFunctions.__init__: iterating proxy = %s" % (proxyid, ))
-            remote = proxyid.split('-')[-1]
+        for interface_id in proxies:
+            LOG.debug("RPCFunctions.__init__: iterating proxy = %s" % (interface_id, ))
+            remote = interface_id.split('-')[-1]
             self.devices[remote] = {}
             self.devices_all[remote] = {}
             self._devices_raw[remote] = []
@@ -86,46 +86,45 @@ class RPCFunctions(object):
                 self._devices_raw_dict[remote][device['ADDRESS']] = device
             LOG.debug("RPCFunctions.__init__: devices_raw = %s" % (str(self._devices_raw[remote]), ))
 
-        # Create the "interactive" device-objects and store them in self._devices and self._devices_all
-        self.createDeviceObjects()
+            # Create the "interactive" device-objects and store them in self._devices and self._devices_all
+            self.createDeviceObjects(interface_id)
 
-    def createDeviceObjects(self):
+    def createDeviceObjects(self, interface_id):
         """Transform the raw device descriptions into instances of devicetypes.generic.HMDevice or availabe subclass."""
         global working
         working = True
-        for proxyid, proxy in self._proxies.items():
-            remote = proxyid.split('-')[-1]
-            LOG.debug("RPCFunctions.createDeviceObjects: iterating proxy = %s" % (remote, ))
-            # First create parent object
-            for dev in self._devices_raw[remote]:
-                if not dev['PARENT']:
-                    if dev['ADDRESS'] not in self.devices_all[remote]:
-                        try:
-                            if dev['TYPE'] in devicetypes.SUPPORTED:
-                                deviceObject = devicetypes.SUPPORTED[dev['TYPE']](dev, proxy, self.resolveparamsets)
-                                LOG.debug("RPCFunctions.createDeviceObjects: created %s  as SUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
-                            else:
-                                deviceObject = devicetypes.UNSUPPORTED(dev, proxy, self.resolveparamsets)
-                                LOG.debug("RPCFunctions.createDeviceObjects: created %s  as UNSUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
-                            LOG.debug("RPCFunctions.createDeviceObjects: adding to self.devices_all")
-                            self.devices_all[remote][dev['ADDRESS']] = deviceObject
-                            LOG.debug("RPCFunctions.createDeviceObjects: adding to self.devices")
-                            self.devices[remote][dev['ADDRESS']] = deviceObject
-                        except Exception as err:
-                            LOG.critical("RPCFunctions.createDeviceObjects: Parent: %s", str(err))
-            # Then create all children for parent
-            for dev in self._devices_raw[remote]:
-                if dev['PARENT']:
+        remote = interface_id.split('-')[-1]
+        LOG.debug("RPCFunctions.createDeviceObjects: iterating interface_id = %s" % (remote, ))
+        # First create parent object
+        for dev in self._devices_raw[remote]:
+            if not dev['PARENT']:
+                if dev['ADDRESS'] not in self.devices_all[remote]:
                     try:
-                        if dev['ADDRESS'] not in self.devices_all[remote]:
-                            deviceObject = HMChannel(dev, proxy, self.resolveparamsets)
-                            self.devices_all[remote][dev['ADDRESS']] = deviceObject
-                            self.devices[remote][dev['PARENT']].CHANNELS[dev['INDEX']] = deviceObject
+                        if dev['TYPE'] in devicetypes.SUPPORTED:
+                            deviceObject = devicetypes.SUPPORTED[dev['TYPE']](dev, self._proxies[interface_id], self.resolveparamsets)
+                            LOG.debug("RPCFunctions.createDeviceObjects: created %s  as SUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
+                        else:
+                            deviceObject = devicetypes.UNSUPPORTED(dev, self._proxies[interface_id], self.resolveparamsets)
+                            LOG.debug("RPCFunctions.createDeviceObjects: created %s  as UNSUPPORTED device for %s" % (dev['ADDRESS'], dev['TYPE']))
+                        LOG.debug("RPCFunctions.createDeviceObjects: adding to self.devices_all")
+                        self.devices_all[remote][dev['ADDRESS']] = deviceObject
+                        LOG.debug("RPCFunctions.createDeviceObjects: adding to self.devices")
+                        self.devices[remote][dev['ADDRESS']] = deviceObject
                     except Exception as err:
-                        LOG.critical("RPCFunctions.createDeviceObjects: Child: %s", str(err))
-            if self.devices_all[remote] and self.remotes[remote]['resolvenames']:
-                self.addDeviceNames(remote)
-            working = False
+                        LOG.critical("RPCFunctions.createDeviceObjects: Parent: %s", str(err))
+        # Then create all children for parent
+        for dev in self._devices_raw[remote]:
+            if dev['PARENT']:
+                try:
+                    if dev['ADDRESS'] not in self.devices_all[remote]:
+                        deviceObject = HMChannel(dev, self._proxies[interface_id], self.resolveparamsets)
+                        self.devices_all[remote][dev['ADDRESS']] = deviceObject
+                        self.devices[remote][dev['PARENT']].CHANNELS[dev['INDEX']] = deviceObject
+                except Exception as err:
+                    LOG.critical("RPCFunctions.createDeviceObjects: Child: %s", str(err))
+        if self.devices_all[remote] and self.remotes[remote]['resolvenames']:
+            self.addDeviceNames(remote)
+        working = False
         if self.systemcallback:
             self.systemcallback('createDeviceObjects')
         return True
@@ -181,7 +180,7 @@ class RPCFunctions(object):
             self._devices_raw[remote].append(d)
             self._devices_raw_dict[remote][d['ADDRESS']] = d
         self.saveDevices(remote)
-        self.createDeviceObjects()
+        self.createDeviceObjects(interface_id)
         if self.systemcallback:
             self.systemcallback('newDevices', interface_id, dev_descriptions)
         return True
@@ -433,10 +432,10 @@ class ServerThread(threading.Thread):
         To receive events the proxy has to tell the CCU / Homegear where to send the events. For that we call the init-method.
         """
         # Call init() with local XML RPC config and interface_id (the name of the receiver) to receive events. XML RPC server has to be running.
-        for remote, proxy in self.proxies.items():
-            LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" % (proxy._localip, self._localport, remote))
+        for interface_id, proxy in self.proxies.items():
+            LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" % (proxy._localip, self._localport, interface_id))
             try:
-                proxy.init("http://%s:%i" % (proxy._localip, self._localport), remote)
+                proxy.init("http://%s:%i" % (proxy._localip, self._localport), interface_id)
                 LOG.info("Proxy initialized")
             except Exception as err:
                 LOG.debug("proxyInit: Exception: %s" % str(err))
@@ -446,15 +445,16 @@ class ServerThread(threading.Thread):
     def stop(self):
         """To stop the server we de-init from the CCU / Homegear, then shut down our XML-RPC server."""
         stopped = []
-        for remote, proxy in self.proxies.items():
-            if not proxy._localip in stopped:
-                LOG.debug("ServerThread.stop: Deregistering proxy for server %s" % proxy._localip)
+        for interface_id in self.proxies:
+            if not self.proxies[interface_id]._localip in stopped:
+                LOG.debug("ServerThread.stop: Deregistering proxy for server %s" % self.proxies[interface_id]._localip)
                 try:
-                    proxy.init("http://%s:%i" % (proxy._localip, self._localport))
-                    stopped.append(proxy._localip)
+                    self.proxies[interface_id].init("http://%s:%i" % (self.proxies[interface_id]._localip, self._localport))
+                    stopped.append(self.proxies[interface_id]._localip)
                 except Exception as err:
                     LOG.warning("Failed to deregister proxy")
                     LOG.debug("stop: Exception: %s" % str(err))
+        del self.proxies[:]
         LOG.info("Shutting down server")
         self.server.shutdown()
         LOG.debug("ServerThread.stop: Stopping ServerThread")
