@@ -26,6 +26,12 @@ class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
         """ Returns True if the contact is closed. """
         return not self.get_state(channel)
 
+    @property
+    def ELEMENT(self):
+        if "HM-SCI-3-FM" in self._TYPE:
+            return [1, 2, 3]
+        return [1]
+
 
 class ShutterContact(IPShutterContact, HelperSabotage):
     """Door / Window contact that emits its open/closed state."""
