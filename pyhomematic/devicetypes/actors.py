@@ -175,6 +175,17 @@ class IOSwitch(HMActor, HelperActorState, HelperWorking, HelperEventRemote):
         self.set_state(False, channel)
 
 
+class KeyMatic(HMActor, HelperActorState):
+    """
+    Open or close KeyMatic.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ACTIONNODE.update({"OPEN": self.ELEMENT})
+
+
 class IPSwitch(HMActor, HelperActorState, HelperActionOnTime):
     """
     Switch turning attached device on or off.
@@ -321,4 +332,8 @@ DEVICETYPES = {
     "HMW-LC-Dim1L-DR": KeyDimmer,
     "HMIP-PS": IPSwitch,
     "HMIP-PSM": IPSwitchPowermeter,
+    "HM-Sec-Key": KeyMatic,
+    "HM-Sec-Key-S": KeyMatic,
+    "HM-Sec-Key-O": KeyMatic,
+    "HM-Sec-Key-Generic": KeyMatic,
 }
