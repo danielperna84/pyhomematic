@@ -1,3 +1,6 @@
+Version 0.1.16 (2016-10-03)
+- Bugfix for RSSI @pvizeli
+
 Version 0.1.15 (2016-10-03)
 - ELEMENT-property now returns list of channels instead of int for better device support
 - Added support for all wired devices, HMW-IO-12-Sw14-DR partially @danielperna84 (Issue #38)
