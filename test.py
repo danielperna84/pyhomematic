@@ -80,7 +80,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
 
         print("******************************")
         print("* Show metadata from %s" % address)
-        print("* Elements: %i / Childs: %i" % (device.ELEMENT, len(device.CHANNELS)))
+        print("* Elements: %s / Childs: %i" % (device.ELEMENT, len(device.CHANNELS)))
         print("* Class: %s" % str(device.__class__))
         print("* Base: %s" % str(device.__class__.__bases__))
         print("* Sensor datapoint: %s" % str(device.SENSORNODE))

@@ -210,7 +210,7 @@ class HMDevice(HMGeneric):
         # - 0...n / getValue from channel (fix)
         self._SENSORNODE = {}
         self._BINARYNODE = {}
-        self._ATTRIBUTENODE = {"RSSI_DEVICE": 0}
+        self._ATTRIBUTENODE = {"RSSI_DEVICE": [0]}
         self._WRITENODE = {}
         self._EVENTNODE = {}
         self._ACTIONNODE = {}
