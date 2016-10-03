@@ -250,7 +250,7 @@ class TemperatureSensor(HMSensor):
         # init metadata
         self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT})
 
-    def get_temperature_1(self, channel=1):
+    def get_temperature(self, channel=1):
         return float(self.getSensorData("TEMPERATURE", channel))
 
 
@@ -261,18 +261,9 @@ class TemperatureDiffSensor(HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT})
+        self.SENSORNODE.update({"TEMPERATURE": [1, 2, 3, 4]})
 
-    def get_temperature_1(self, channel=1):
-        return float(self.getSensorData("TEMPERATURE", channel))
-
-    def get_temperature_2(self, channel=2):
-        return float(self.getSensorData("TEMPERATURE", channel))
-
-    def get_diff(self, channel=3):
-        return float(self.getSensorData("TEMPERATURE", channel))
-
-    def get_diff_neg(self, channel=4):
+    def get_temperature(self, channel=1):
         return float(self.getSensorData("TEMPERATURE", channel))
 
 
