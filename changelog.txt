@@ -1,5 +1,5 @@
 Version 0.1.17 (2016-nn-nn)
-- Fixed HmIP Switches (Issue #37)
+- Fixed HmIP Switches @danielperna84 (Issue #37)
 
 Version 0.1.16 (2016-10-03)
 - Bugfix for RSSI @pvizeli
