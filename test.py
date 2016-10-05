@@ -4,7 +4,7 @@ import logging
 import click
 from pyhomematic import HMConnection
 from pyhomematic.devicetypes.sensors import WeatherSensor, AreaThermostat, ShutterContact, Smoke, Motion, Remote
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState, HelperActorState
 from pyhomematic.devicetypes.actors import Switch
 
 
@@ -131,7 +131,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
                 device.press_short(channel)
 
         # Switch
-        if isinstance(device, Switch):
+        if isinstance(device, HelperActorState):
             print(" / Switch is on: %s" % str(device.is_on(channel)))
 
             if toggle:
