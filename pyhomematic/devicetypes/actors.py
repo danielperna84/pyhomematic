@@ -195,6 +195,22 @@ class IPSwitch(HMActor, HelperActorState, HelperActionOnTime):
     def ELEMENT(self):
         return [3]
 
+    def is_on(self, channel=1):
+        """ Returns True if switch is on. """
+        return self.get_state(channel)
+
+    def is_off(self, channel=1):
+        """ Returns True if switch is off. """
+        return not self.get_state(channel)
+
+    def on(self, channel=1):
+        """Turn switch on."""
+        self.set_state(True, channel)
+
+    def off(self, channel=1):
+        """Turn switch off."""
+        self.set_state(False, channel)
+
 
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
     """
