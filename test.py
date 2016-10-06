@@ -20,8 +20,8 @@ def eventcallback(address, interface_id, key, value):
 
 
 @click.command()
-@click.option("--local", "-l", help="Local address for server")
-@click.option("--localPort", "-lp", default=8201, help="Local Port for server")
+@click.option("--local", "-l", default="0.0.0.0", help="Local address for server")
+@click.option("--localPort", "-lp", default=0, help="Local Port for server")
 @click.option("--remote", "-r", help="Remote address for CCU/homegear")
 @click.option("--remotePort", "-rp", default=2001, help="Remote port for CCU/homegear")
 @click.option("--address", "-a", help="Address of homematic device for tests")
