@@ -18,11 +18,11 @@ class HMBinarySensor(HMDevice):
 
 class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
     """Door / Window contact that emits its open/closed state."""
-    def is_open(self, channel=1):
+    def is_open(self, channel=None):
         """ Returns True if the contact is open. """
         return self.get_state(channel)
 
-    def is_closed(self, channel=1):
+    def is_closed(self, channel=None):
         """ Returns True if the contact is closed. """
         return not self.get_state(channel)
 
@@ -40,41 +40,41 @@ class ShutterContact(IPShutterContact, HelperSabotage):
 
 class TiltSensor(HMBinarySensor, HelperBinaryState, HelperLowBat):
     """Sensor that emits its tilted state."""
-    def is_tilted(self, channel=1):
+    def is_tilted(self, channel=None):
         """ Returns True if the contact is tilted. """
         return self.get_state(channel)
 
-    def is_not_tilted(self, channel=1):
+    def is_not_tilted(self, channel=None):
         """ Returns True if the contact is not tilted. """
         return not self.get_state(channel)
 
 
 class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabotage):
     """Window handle contact."""
-    def is_open(self, channel=1):
+    def is_open(self, channel=None):
         """ Returns True if the handle is set to open. """
         return self.get_state(channel) == 2
 
-    def is_closed(self, channel=1):
+    def is_closed(self, channel=None):
         """ Returns True if the handle is set to closed. """
         return self.get_state(channel) == 0
 
-    def is_tilted(self, channel=1):
+    def is_tilted(self, channel=None):
         """ Returns True if the handle is set to tilted. """
         return self.get_state(channel) == 1
 
 
 class CO2Sensor(HMSensor, HelperSensorState):
     """CO2 Sensor"""
-    def is_normal(self, channel=1):
+    def is_normal(self, channel=None):
         """ Returns True if CO2 state is normal. """
         return self.get_state(channel) == 0
 
-    def is_added(self, channel=1):
+    def is_added(self, channel=None):
         """ Returns True if CO2 state is added. """
         return self.get_state(channel) == 1
 
-    def is_added_strong(self, channel=1):
+    def is_added_strong(self, channel=None):
         """ Returns True if CO2 state is added strong. """
         return self.get_state(channel) == 2
 
@@ -82,15 +82,15 @@ class CO2Sensor(HMSensor, HelperSensorState):
 class WaterSensor(HMSensor, HelperSensorState, HelperLowBat):
     """Watter detect sensor."""
 
-    def is_dry(self, channel=1):
+    def is_dry(self, channel=None):
         """Return True if the state is DRY"""
         return self.get_state(channel) == 0
 
-    def is_wet(self, channel=1):
+    def is_wet(self, channel=None):
         """Return True if the state is WET"""
         return self.get_state(channel) == 1
 
-    def is_water(self, channel=1):
+    def is_water(self, channel=None):
         """Return True if the state is WATER"""
         return self.get_state(channel) == 2
 
@@ -106,19 +106,19 @@ class PowermeterGas(HMSensor):
                                 "ENERGY_COUNTER": [1],
                                 "POWER": [1]})
 
-    def get_gas_counter(self, channel=1):
+    def get_gas_counter(self, channel=None):
         """Return gas counter."""
         return float(self.getSensorData("GAS_ENERGY_COUNTER", channel))
 
-    def get_gas_power(self, channel=1):
+    def get_gas_power(self, channel=None):
         """Return gas power."""
         return float(self.getSensorData("GAS_POWER", channel))
 
-    def get_energy(self, channel=1):
+    def get_energy(self, channel=None):
         """Return energy counter."""
         return float(self.getSensorData("ENERGY_COUNTER", channel))
 
-    def get_power(self, channel=1):
+    def get_power(self, channel=None):
         """Return power counter."""
         return float(self.getSensorData("POWER", channel))
 
@@ -126,7 +126,7 @@ class PowermeterGas(HMSensor):
 class Smoke(HMBinarySensor, HelperBinaryState):
     """Smoke alarm."""
 
-    def is_smoke(self, channel=1):
+    def is_smoke(self, channel=None):
         """ Return True if smoke is detected """
         return self.get_state(channel)
 
@@ -162,7 +162,7 @@ class WiredSensor(HMEvent):
     def ELEMENT(self):
         return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-    def get_state(self, channel=1):
+    def get_state(self, channel=None):
         """ Returns current state of sensor """
         return bool(self.getBinaryData("SENSOR", channel))
 
@@ -177,11 +177,11 @@ class Motion(HMBinarySensor, HMSensor):
         self.BINARYNODE.update({"MOTION": self.ELEMENT})
         self.SENSORNODE.update({"BRIGHTNESS": self.ELEMENT})
 
-    def is_motion(self, channel=1):
+    def is_motion(self, channel=None):
         """ Return True if motion is detected """
         return bool(self.getBinaryData("MOTION", channel))
 
-    def get_brightness(self, channel=1):
+    def get_brightness(self, channel=None):
         """ Return brightness from 0 (dark ) to 255 (bright) """
         return int(self.getSensorData("BRIGHTNESS", channel))
 
@@ -215,7 +215,7 @@ class LuxSensor(HMSensor):
         # init metadata
         self.SENSORNODE.update({"LUX": [1]})
 
-    def get_lux(self, channel=1):
+    def get_lux(self, channel=None):
         """Return messure lux."""
         return float(self.getSensorData("LUX", channel))
 
@@ -240,10 +240,10 @@ class AreaThermostat(HMSensor):
         self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT,
                                 "HUMIDITY": self.ELEMENT})
 
-    def get_temperature(self, channel=1):
+    def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))
 
-    def get_humidity(self, channel=1):
+    def get_humidity(self, channel=None):
         return int(self.getSensorData("HUMIDITY", channel))
 
 
@@ -256,7 +256,7 @@ class TemperatureSensor(HMSensor):
         # init metadata
         self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT})
 
-    def get_temperature(self, channel=1):
+    def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))
 
 
@@ -269,7 +269,7 @@ class TemperatureDiffSensor(HMSensor):
         # init metadata
         self.SENSORNODE.update({"TEMPERATURE": [1, 2, 3, 4]})
 
-    def get_temperature(self, channel=1):
+    def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))
 
 
@@ -290,31 +290,31 @@ class WeatherSensor(HMSensor, HMBinarySensor):
                                 "BRIGHTNESS": self.ELEMENT})
         self.BINARYNODE.update({"RAINING": self.ELEMENT})
 
-    def get_temperature(self, channel=1):
+    def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))
 
-    def get_humidity(self, channel=1):
+    def get_humidity(self, channel=None):
         return int(self.getSensorData("HUMIDITY", channel))
 
-    def get_rain_counter(self, channel=1):
+    def get_rain_counter(self, channel=None):
         return float(self.getSensorData("RAIN_COUNTER", channel))
 
-    def get_wind_speed(self, channel=1):
+    def get_wind_speed(self, channel=None):
         return float(self.getSensorData("WIND_SPEED", channel))
 
-    def get_wind_direction(self, channel=1):
+    def get_wind_direction(self, channel=None):
         return int(self.getSensorData("WIND_DIRECTION", channel))
 
-    def get_wind_direction_range(self, channel=1):
+    def get_wind_direction_range(self, channel=None):
         return int(self.getSensorData("WIND_DIRECTION_RANGE", channel))
 
-    def get_sunshineduration(self, channel=1):
+    def get_sunshineduration(self, channel=None):
         return int(self.getSensorData("SUNSHINEDURATION", channel))
 
-    def get_brightness(self, channel=1):
+    def get_brightness(self, channel=None):
         return int(self.getSensorData("BRIGHTNESS", channel))
 
-    def is_raining(self, channel=1):
+    def is_raining(self, channel=None):
         """ Return True if motion is detected """
         return bool(self.getBinaryData("RAINING", channel))
 
@@ -330,13 +330,13 @@ class WeatherStation(HMSensor):
                                 "HUMIDITY": self.ELEMENT,
                                 "AIR_PRESSURE": self.ELEMENT})
 
-    def get_temperature(self, channel=10):
+    def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))
 
-    def get_humidity(self, channel=10):
+    def get_humidity(self, channel=None):
         return int(self.getSensorData("HUMIDITY", channel))
 
-    def get_air_pressure(self, channel=10):
+    def get_air_pressure(self, channel=None):
         return int(self.getSensorData("AIR_PRESSURE", channel))
 
 

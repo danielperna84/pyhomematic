@@ -11,7 +11,7 @@ class HelperSabotage(HMDevice):
         # init metadata
         self.ATTRIBUTENODE.update({"ERROR": self.ELEMENT})
 
-    def sabotage(self, channel=1):
+    def sabotage(self, channel=None):
         """Returns True if the devicecase has been opened."""
         return bool(self.getAttributeData("ERROR", channel))
 
@@ -24,7 +24,7 @@ class HelperLowBat(HMDevice):
         # init metadata
         self.ATTRIBUTENODE.update({"LOWBAT": self.ELEMENT})
 
-    def low_batt(self, channel=1):
+    def low_batt(self, channel=None):
         """ Returns if the battery is low. """
         return self.getAttributeData("LOWBAT", channel)
 
@@ -37,7 +37,7 @@ class HelperWorking(HMDevice):
         # init metadata
         self.ATTRIBUTENODE.update({"WORKING": self.ELEMENT})
 
-    def is_working(self, channel=1):
+    def is_working(self, channel=None):
         """Return True of False if working or not"""
         return self.getAttributeData("WORKING", channel)
 
@@ -64,7 +64,7 @@ class HelperBinaryState(HMDevice):
         # init metadata
         self.BINARYNODE.update({"STATE": self.ELEMENT})
 
-    def get_state(self, channel=1):
+    def get_state(self, channel=None):
         """ Returns current state of handle """
         return bool(self.getBinaryData("STATE", channel))
 
@@ -77,7 +77,7 @@ class HelperSensorState(HMDevice):
         # init metadata
         self.SENSORNODE.update({"STATE": self.ELEMENT})
 
-    def get_state(self, channel=1):
+    def get_state(self, channel=None):
         """ Returns current state of handle """
         return self.getSensorData("STATE", channel)
 
@@ -92,11 +92,11 @@ class HelperActorState(HMDevice):
         # init metadata
         self.WRITENODE.update({"STATE": self.ELEMENT})
 
-    def get_state(self, channel=1):
+    def get_state(self, channel=None):
         """ Returns if switch is 'on' or 'off'. """
         return bool(self.getWriteData("STATE", channel))
 
-    def set_state(self, onoff, channel=1):
+    def set_state(self, onoff, channel=None):
         """Turn switch on/off"""
         try:
             onoff = bool(onoff)
@@ -117,11 +117,11 @@ class HelperActorLevel(HMDevice):
         # init metadata
         self.WRITENODE.update({"LEVEL": self.ELEMENT})
 
-    def get_level(self, channel=1):
+    def get_level(self, channel=None):
         """Return current level. Return value is float() from 0.0 to 1.0."""
         return self.getWriteData("LEVEL", channel)
 
-    def set_level(self, position, channel=1):
+    def set_level(self, position, channel=None):
         """Seek a specific value by specifying a float() from 0.0 to 1.0."""
         try:
             position = float(position)
@@ -161,11 +161,11 @@ class HelperActionPress(HMDevice):
         self.ACTIONNODE.update({"PRESS_SHORT": self.ELEMENT,
                                 "PRESS_LONG": self.ELEMENT})
 
-    def press_long(self, channel=1):
+    def press_long(self, channel=None):
         """Simulat a button press long."""
         self.actionNodeData("PRESS_LONG", 1, channel)
 
-    def press_short(self, channel=1):
+    def press_short(self, channel=None):
         """Simulat a button press short."""
         self.actionNodeData("PRESS_SHORT", 1, channel)
 
