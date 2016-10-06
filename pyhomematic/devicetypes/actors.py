@@ -14,7 +14,26 @@ class HMActor(HMDevice):
     """
     pass
 
-class Blind(HMActor, HelperActorLevel, HelperWorking):
+
+class GenericBlind(HMActor, HelperActorLevel):
+    """
+    Blind switch that raises and lowers roller shutters or window blinds.
+    """
+
+    def move_up(self, channel=None):
+        """Move the shutter up all the way."""
+        self.set_level(1.0, channel)
+
+    def move_down(self, channel=None):
+        """Move the shutter down all the way."""
+        self.set_level(0.0, channel)
+
+    def stop(self, channel=None):
+        """Stop moving."""
+        self.actionNodeData("STOP", True, channel)
+
+
+class Blind(GenericBlind, HelperWorking):
     """
     Blind switch that raises and lowers roller shutters or window blinds.
     """
@@ -24,20 +43,8 @@ class Blind(HMActor, HelperActorLevel, HelperWorking):
         # init metadata
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
 
-    def move_up(self, channel=1):
-        """Move the shutter up all the way."""
-        self.set_level(1.0, channel)
 
-    def move_down(self, channel=1):
-        """Move the shutter down all the way."""
-        self.set_level(0.0, channel)
-
-    def stop(self, channel=1):
-        """Stop moving."""
-        self.actionNodeData("STOP", True, channel)
-
-
-class KeyBlind(HMActor, HelperActorLevel, HelperWorking, HelperActionPress):
+class KeyBlind(GenericBlind, HelperWorking, HelperActionPress):
     """
     Blind switch that raises and lowers roller shutters or window blinds.
     """
@@ -53,20 +60,22 @@ class KeyBlind(HMActor, HelperActorLevel, HelperWorking, HelperActionPress):
     def ELEMENT(self):
         return [1, 2]
 
-    def move_up(self, channel=3):
-        """Move the shutter up all the way."""
+
+class GenericDimmer(HMActor, HelperActorLevel):
+    """
+    Dimmer switch that controls level of light brightness.
+    """
+
+    def on(self, channel=None):
+        """Turn light to maximum brightness."""
         self.set_level(1.0, channel)
 
-    def move_down(self, channel=3):
-        """Move the shutter down all the way."""
+    def off(self, channel=None):
+        """Turn light off."""
         self.set_level(0.0, channel)
 
-    def stop(self, channel=3):
-        """Stop moving."""
-        self.actionNodeData("STOP", True, channel)
 
-
-class Dimmer(HMActor, HelperActorLevel, HelperWorking):
+class Dimmer(GenericDimmer, HelperWorking):
     """
     Dimmer switch that controls level of light brightness.
     """
@@ -76,16 +85,8 @@ class Dimmer(HMActor, HelperActorLevel, HelperWorking):
             return [1, 2]
         return [1]
 
-    def on(self, channel=1):
-        """Turn light to maximum brightness."""
-        self.set_level(1.0, channel)
 
-    def off(self, channel=1):
-        """Turn light off."""
-        self.set_level(0.0, channel)
-
-
-class KeyDimmer(HMActor, HelperActorLevel, HelperWorking, HelperActionPress):
+class KeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
     """
     Dimmer switch that controls level of light brightness.
     """
@@ -99,16 +100,30 @@ class KeyDimmer(HMActor, HelperActorLevel, HelperWorking, HelperActionPress):
     def ELEMENT(self):
         return [1, 2]
 
-    def on(self, channel=3):
-        """Turn light to maximum brightness."""
-        self.set_level(1.0, channel)
 
-    def off(self, channel=3):
-        """Turn light off."""
-        self.set_level(0.0, channel)
+class GenericSwitch(HMActor, HelperActorState):
+    """
+    Switch turning plugged in device on or off.
+    """
+
+    def is_on(self, channel=None):
+        """ Returns True if switch is on. """
+        return self.get_state(channel)
+
+    def is_off(self, channel=None):
+        """ Returns True if switch is off. """
+        return not self.get_state(channel)
+
+    def on(self, channel=None):
+        """Turn switch on."""
+        self.set_state(True, channel)
+
+    def off(self, channel=None):
+        """Turn switch off."""
+        self.set_state(False, channel)
 
 
-class Switch(HMActor, HelperActorState, HelperWorking):
+class Switch(GenericSwitch, HelperWorking):
     """
     Switch turning plugged in device on or off.
     """
@@ -128,24 +143,8 @@ class Switch(HMActor, HelperActorState, HelperWorking):
             return [13, 14, 15, 16, 17, 18, 19]
         return [1]
 
-    def is_on(self, channel=1):
-        """ Returns True if switch is on. """
-        return self.get_state(channel)
 
-    def is_off(self, channel=1):
-        """ Returns True if switch is off. """
-        return not self.get_state(channel)
-
-    def on(self, channel=1):
-        """Turn switch on."""
-        self.set_state(True, channel)
-
-    def off(self, channel=1):
-        """Turn switch off."""
-        self.set_state(False, channel)
-
-
-class IOSwitch(HMActor, HelperActorState, HelperWorking, HelperEventRemote):
+class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote):
     """
     Switch turning attached device on or off.
     """
@@ -157,22 +156,6 @@ class IOSwitch(HMActor, HelperActorState, HelperWorking, HelperEventRemote):
         if "HMW-LC-Sw2-DR" in self.TYPE:
             return [3, 4]
         return [1]
-
-    def is_on(self, channel=1):
-        """ Returns True if switch is on. """
-        return self.get_state(channel)
-
-    def is_off(self, channel=1):
-        """ Returns True if switch is off. """
-        return not self.get_state(channel)
-
-    def on(self, channel=1):
-        """Turn switch on."""
-        self.set_state(True, channel)
-
-    def off(self, channel=1):
-        """Turn switch off."""
-        self.set_state(False, channel)
 
 
 class KeyMatic(HMActor, HelperActorState):
@@ -186,7 +169,7 @@ class KeyMatic(HMActor, HelperActorState):
         self.ACTIONNODE.update({"OPEN": self.ELEMENT})
 
 
-class IPSwitch(HMActor, HelperActorState, HelperActionOnTime):
+class IPSwitch(GenericSwitch, HelperActionOnTime):
     """
     Switch turning attached device on or off.
     """
@@ -194,22 +177,6 @@ class IPSwitch(HMActor, HelperActorState, HelperActionOnTime):
     @property
     def ELEMENT(self):
         return [3]
-
-    def is_on(self, channel=1):
-        """ Returns True if switch is on. """
-        return self.get_state(channel)
-
-    def is_off(self, channel=1):
-        """ Returns True if switch is off. """
-        return not self.get_state(channel)
-
-    def on(self, channel=1):
-        """Turn switch on."""
-        self.set_state(True, channel)
-
-    def off(self, channel=1):
-        """Turn switch off."""
-        self.set_state(False, channel)
 
 
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):

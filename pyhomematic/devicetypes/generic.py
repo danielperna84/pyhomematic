@@ -276,28 +276,28 @@ class HMDevice(HMGeneric):
     def ACTIONNODE(self):
         return self._ACTIONNODE
 
-    def getAttributeData(self, name, channel=1):
+    def getAttributeData(self, name, channel=None):
         """ Returns a attribut """
         return self._getNodeData(name, self._ATTRIBUTENODE, channel)
 
-    def getBinaryData(self, name, channel=1):
+    def getBinaryData(self, name, channel=None):
         """ Returns a binary node """
         return self._getNodeData(name, self._BINARYNODE, channel)
 
-    def getSensorData(self, name, channel=1):
+    def getSensorData(self, name, channel=None):
         """ Returns a sensor node """
         return self._getNodeData(name, self._SENSORNODE, channel)
 
-    def getWriteData(self, name, channel=1):
+    def getWriteData(self, name, channel=None):
         """ Returns a sensor node """
         return self._getNodeData(name, self._WRITENODE, channel)
 
-    def _getNodeData(self, name, metadata, channel=1):
+    def _getNodeData(self, name, metadata, channel=None):
         """ Returns a data point from data"""
         if name in metadata:
             nodeChannelList = metadata[name]
             if len(nodeChannelList) > 1:
-                nodeChannel = channel
+                nodeChannel = channel if channel is not None else nodeChannelList[0]
             elif len(nodeChannelList) == 1:
                 nodeChannel = nodeChannelList[0]
             if nodeChannel in self.CHANNELS:
@@ -306,18 +306,18 @@ class HMDevice(HMGeneric):
         LOG.error("HMDevice._getNodeData: %s not found in %s" % (name, metadata))
         return None
 
-    def writeNodeData(self, name, data, channel=1):
+    def writeNodeData(self, name, data, channel=None):
         return self._setNodeData(name, self.WRITENODE, data, channel)
 
-    def actionNodeData(self, name, data, channel=1):
+    def actionNodeData(self, name, data, channel=None):
         return self._setNodeData(name, self.ACTIONNODE, data, channel)
 
-    def _setNodeData(self, name, metadata, data, channel=1):
+    def _setNodeData(self, name, metadata, data, channel=None):
         """ Returns a data point from data"""
         if name in metadata:
             nodeChannelList = metadata[name]
             if len(nodeChannelList) > 1:
-                nodeChannel = channel
+                nodeChannel = channel if channel is not None else nodeChannelList[0]
             elif len(nodeChannelList) == 1:
                 nodeChannel = nodeChannelList[0]
             if nodeChannel in self.CHANNELS:
@@ -327,7 +327,7 @@ class HMDevice(HMGeneric):
                   (name, data, nodeChannel))
         return False
 
-    def get_rssi(self, channel=1):
+    def get_rssi(self, channel=0):
         return self.getAttributeData("RSSI_DEVICE", channel)
 
     @property
