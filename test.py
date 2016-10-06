@@ -4,8 +4,8 @@ import logging
 import click
 from pyhomematic import HMConnection
 from pyhomematic.devicetypes.sensors import WeatherSensor, AreaThermostat, ShutterContact, Smoke, Motion, Remote
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState, HelperActorState
-from pyhomematic.devicetypes.actors import Switch
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
+from pyhomematic.devicetypes.actors import GenericSwitch
 
 
 def systemcallback(src, *args):
@@ -25,7 +25,7 @@ def eventcallback(address, interface_id, key, value):
 @click.option("--remote", "-r", help="Remote address for CCU/homegear")
 @click.option("--remotePort", "-rp", default=2001, help="Remote port for CCU/homegear")
 @click.option("--address", "-a", help="Address of homematic device for tests")
-@click.option("--channel", "-c", default=1, help="Homematic device channel")
+@click.option("--channel", "-c", default=None, help="Homematic device channel")
 @click.option("--state", "-s", default=1, help="Set STATE value for actors")
 @click.option("--toggle", "-to", is_flag=True, help="Set STATE is this activated")
 @click.option("--timer", "-t", default=30, help="Time in sec for waiting of events (debug)")
@@ -131,7 +131,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
                 device.press_short(channel)
 
         # Switch
-        if isinstance(device, HelperActorState):
+        if isinstance(device, GenericSwitch):
             print(" / Switch is on: %s" % str(device.is_on(channel)))
 
             if toggle:
