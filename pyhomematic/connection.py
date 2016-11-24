@@ -11,17 +11,17 @@ class HMConnection(object):
                  local=_hm.LOCAL,
                  localport=_hm.LOCALPORT,
                  remotes=_hm.REMOTES,
-                 remote=_hm.REMOTES['default']['ip'],
-                 remoteport=_hm.REMOTES['default']['port'],
+                 remote=None,
+                 remoteport=None,
                  devicefile=_hm.DEVICEFILE,
                  interface_id=_hm.INTERFACE_ID,
                  autostart=False,
                  eventcallback=False,
                  systemcallback=False,
-                 resolvenames=_hm.REMOTES['default']['resolvenames'],
+                 resolvenames=None,
                  resolveparamsets=False,
-                 rpcusername=_hm.REMOTES['default']['username'],
-                 rpcpassword=_hm.REMOTES['default']['password']):
+                 rpcusername=None,
+                 rpcpassword=None):
         """
         Helper function to quickly create the server thread to which the CCU / Homegear will emit events.
         Without specifying the remote data we'll assume we're running Homegear on localhost on the default port.
