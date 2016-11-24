@@ -1,6 +1,7 @@
-Version 0.1.17 (2016-nn-nn)
+Version 0.1.17 (2016-11-24)
 - Fixed HmIP Switches @danielperna84 (Issue #37)
 - New options to initialize pyhomematic to support multiple XML-RPC backends @danielperna84
+- Code cleanup and reconnect-method for HMConnection-object @pvizeli
 
 Version 0.1.16 (2016-10-03)
 - Bugfix for RSSI @pvizeli
