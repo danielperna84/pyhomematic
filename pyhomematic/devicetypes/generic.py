@@ -176,24 +176,26 @@ class HMChannel(HMGeneric):
         """
         Some devices allow to directly set values to perform a specific task.
         """
-        LOG.info("HMGeneric.setValue: key = '%s' value = '%s'" % (key, value))
+        LOG.debug("HMGeneric.setValue: key = '%s' value = '%s'" % (key, value))
         try:
             self._proxy.setValue(self._ADDRESS, key, value)
             return True
         except Exception as err:
-            LOG.error("HMGeneric.setValue: Exception: " + str(err))
+            LOG.error("HMGeneric.setValue: %s on %s Exception: %s", key,
+                      self._ADDRESS, err)
             return False
 
     def getValue(self, key):
         """
         Some devices allow to directly get values for specific parameters.
         """
-        LOG.info("HMGeneric.getValue: key = '%s'" % key)
+        LOG.debug("HMGeneric.getValue: key = '%s'" % key)
         try:
             returnvalue = self._proxy.getValue(self._ADDRESS, key)
             return returnvalue
         except Exception as err:
-            LOG.error("HMGeneric.getValue: Exception: " + str(err))
+            LOG.error("HMGeneric.getValue: %s on %s Exception: %s", key,
+                      self._ADDRESS, err)
             return False
 
 

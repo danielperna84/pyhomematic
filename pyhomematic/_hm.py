@@ -145,7 +145,7 @@ class RPCFunctions(object):
                     df.write(json.dumps(self._devices_raw[remote]))
                 return True
             except Exception as err:
-                LOG.warn("RPCFunctions.saveDevices: Exception saving _devices_raw: %s", str(err))
+                LOG.warning("RPCFunctions.saveDevices: Exception saving _devices_raw: %s", str(err))
                 return False
         else:
             return True

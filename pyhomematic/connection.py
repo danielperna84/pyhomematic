@@ -104,6 +104,11 @@ class HMConnection(object):
             LOG.debug(str(err))
             return False
 
+    def reconnect(self):
+        """Reinit all RPC proxy."""
+        if self._server is not None:
+            self._server.proxyInit()
+
     def getAllSystemVariables(self, remote):
         """Get all system variables from CCU / Homegear"""
         if self._server is not None:
