@@ -158,7 +158,7 @@ class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote):
         return [1]
 
 
-class KeyMatic(HMActor, HelperActorState):
+class KeyMatic(GenericSwitch):
     """
     Open or close KeyMatic.
     """
