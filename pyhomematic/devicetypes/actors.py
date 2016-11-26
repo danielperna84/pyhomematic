@@ -167,6 +167,10 @@ class KeyMatic(GenericSwitch):
 
         # init metadata
         self.ACTIONNODE.update({"OPEN": self.ELEMENT})
+    
+    @property
+    def ELEMENT(self):
+        return [1]
 
 
 class IPSwitch(GenericSwitch, HelperActionOnTime):
