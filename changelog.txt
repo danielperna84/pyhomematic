@@ -1,5 +1,7 @@
 Version 0.1.18 (2016-nn-nn)
 - Fixed KeyMatic Bug @pvizeli (Issue #45)
+- Bugfix for failure when stopping server thread @danielperna84
+- Other minor fixes @pvizeli @danielperna84
 
 Version 0.1.17 (2016-11-24)
 - Fixed HmIP Switches @danielperna84 (Issue #37)
