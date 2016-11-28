@@ -45,7 +45,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
 
     try:
         # Connect to HM
-        pyhomematic = HMConnection(interface_id="test-pyhomatic",
+        pyhomematic = HMConnection(interface_id="testpyhomatic",
                                    local=local,
                                    localport=localport,
                                    remote=remote,
