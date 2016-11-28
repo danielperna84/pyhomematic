@@ -68,7 +68,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
 
     # read system variables
     print("******************************")
-    print("Read all: %s" % str(pyhomematic.getAllSystemVariables()))
+    print("Read all: %s" % str(pyhomematic.getAllSystemVariables('default')))
     if variable is not None:
         pyhomematic.setSystemVariable(variable, data)
         print("Read: %s" % str(pyhomematic.getSystemVariable(variable)))
