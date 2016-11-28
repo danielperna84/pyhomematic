@@ -1,3 +1,6 @@
+Version 0.1.18 (2016-nn-nn)
+- Fixed KeyMatic Bug @pvizeli (Issue #45)
+
 Version 0.1.17 (2016-11-24)
 - Fixed HmIP Switches @danielperna84 (Issue #37)
 - New options to initialize pyhomematic to support multiple XML-RPC backends @danielperna84
