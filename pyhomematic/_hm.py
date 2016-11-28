@@ -454,7 +454,7 @@ class ServerThread(threading.Thread):
                 except Exception as err:
                     LOG.warning("Failed to deregister proxy")
                     LOG.debug("stop: Exception: %s" % str(err))
-        del self.proxies[:]
+        self.proxies.clear()
         LOG.info("Shutting down server")
         self.server.shutdown()
         LOG.debug("ServerThread.stop: Stopping ServerThread")
