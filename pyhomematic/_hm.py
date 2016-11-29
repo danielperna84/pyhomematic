@@ -161,7 +161,7 @@ class RPCFunctions(object):
     def listDevices(self, interface_id):
         """The CCU / Homegear asks for devices known to our XML-RPC server. We respond to that request using this method."""
         LOG.debug("RPCFunctions.listDevices: interface_id = %s, _devices_raw = %s" % (interface_id, str(self._devices_raw)))
-        remote = self._devices_raw[interface_id.split('-')[-1]]
+        remote = interface_id.split('-')[-1]
         if remote not in self._devices_raw:
             self._devices_raw[remote] = []
         if self.systemcallback:
