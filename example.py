@@ -21,12 +21,11 @@ try:
     # Automatically start everything. Without autostart, pyhomematic.start() can be called.
     # We add a systemcallback so we can see what else happens besides the regular events.
     pyhomematic = HMConnection(interface_id="myserver",
-                               local="127.0.0.1",
-                               localport=7080,
-                               remote="127.0.0.1",
-                               remoteport=2001,
                                autostart=True,
-                               systemcallback=systemcallback)
+                               systemcallback=systemcallback,
+                               remotes={"rf":{
+                                   "ip":"127.0.0.1",
+                                   "port": 2001}})
 except:
     sys.exit(1)
 
