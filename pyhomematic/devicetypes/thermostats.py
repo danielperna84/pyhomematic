@@ -153,7 +153,7 @@ class ThermostatWall2(HMThermostat, AreaThermostat, HelperBatteryState):
         self.WRITENODE.update({"SETPOINT": [2]})
 
 
-class MAXThermostat(HMThermostat, HelperLowBat):
+class MAXThermostat(HMThermostat, HelperLowBat, HelperValveState):
     """
     BC-RT-TRX-CyG, BC-RT-TRX-CyG-2, BC-RT-TRX-CyG-3, BC-RT-TRX-CyG-4
     ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -162,7 +162,8 @@ class MAXThermostat(HMThermostat, HelperLowBat):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1]})
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
+                                "VALVE_STATE": [1]})
         self.WRITENODE.update({"SET_TEMPERATURE": [1]})
         self.ACTIONNODE.update({"AUTO_MODE": [1],
                                 "MANU_MODE": [1],
