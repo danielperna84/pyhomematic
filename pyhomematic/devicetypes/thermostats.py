@@ -169,7 +169,22 @@ class MAXThermostat(HMThermostat, HelperLowBat, HelperValveState):
                                 "MANU_MODE": [1],
                                 "BOOST_MODE": [1]})
         self.ATTRIBUTENODE.update({"LOWBAT": [0], "CONTROL_MODE": [1]})
+        
+class MAXWallThermostat(HMThermostat, HelperLowBat):
+    """
+    BC-TC-C-WM-4
+    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
 
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1]})
+        self.WRITENODE.update({"SET_TEMPERATURE": [1]})
+        self.ACTIONNODE.update({"AUTO_MODE": [1],
+                                "MANU_MODE": [1],
+                                "BOOST_MODE": [1]})
+        self.ATTRIBUTENODE.update({"LOWBAT": [0], "CONTROL_MODE": [1]})
 
 DEVICETYPES = {
     "HM-CC-RT-DN": Thermostat,
@@ -181,5 +196,5 @@ DEVICETYPES = {
     "BC-RT-TRX-CyG-2": MAXThermostat,
     "BC-RT-TRX-CyG-3": MAXThermostat,
     "BC-RT-TRX-CyG-4": MAXThermostat,
-    "BC-TC-C-WM-4": MAXThermostat
+    "BC-TC-C-WM-4": MAXWallThermostat
 }
