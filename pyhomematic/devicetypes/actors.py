@@ -158,6 +158,67 @@ class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote):
         return [1]
 
 
+class HMWIOSwitch(GenericSwitch):
+    """
+    Wired IO module controlling and sensing attached devices.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # Output channels (digital)
+        self._doc = [1, 2, 3, 4, 5, 6]
+        # Output channels (digital/analog)
+        self._daoc = [7, 8, 9, 10, 11, 12, 13, 14]
+        # Output channels (analog), how do we expose these?
+        self._aoc = []
+
+        # Need to know the operational mode to return digital switch channels with ELEMENT-property
+        for chan in self._daoc:
+            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER", "BEHAVIOUR") == 1:
+                # We add the digital channels to self._doc
+                self._doc.append(chan)
+            else:
+                # We add the analog channels to self._aoc
+                self._aoc.append(chan)
+
+        # Input channels (digital/frequency)
+        self._dfic = [15, 16, 17, 18, 19, 20]
+        # Input channels (digital/analog)
+        self._daic = [21, 22, 23, 24, 25, 26]
+        # Input channels (digital)
+        self._dic = []
+        # Input channels (frequency)
+        self._fic = []
+        # Input channels (analog)
+        self._aic = []
+
+        # We also want to know how the inputs are configured
+        for chan in self._dfic:
+            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER", "BEHAVIOUR") == 1:
+                # We add the digital channels to self._dic
+                self._dic.append(chan)
+            else:
+                # We add the frequency channels to self._fic
+                self._fic.append(chan)
+
+        for chan in self._daic:
+            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER", "BEHAVIOUR") == 1:
+                # We add the digital channels to self._dic
+                self._dic.append(chan)
+            else:
+                # We add the analog channels to self._aic
+                self._aic.append(chan)
+
+        # init metadata
+        self.BINARYNODE.update({"STATE": self._dic})
+        self.SENSORNODE.update({"FREQUENCY": self._fic}, # mHz, from 0.0 to 350000.0
+                               {"VALUE": self._aic}) # No specific unit, float from 0.0 to 1000.0
+
+    @property
+    def ELEMENT(self):
+        return self._doc
+
+
 class KeyMatic(GenericSwitch):
     """
     Open or close KeyMatic.
@@ -309,6 +370,7 @@ DEVICETYPES = {
     "HM-ES-PMSw1-SM": SwitchPowermeter,
     "HM-ES-PMSwX": SwitchPowermeter,
     "HMW-IO-12-Sw7-DR": IOSwitch,
+    "HMW-IO-12-Sw14-DR": HMWIOSwitch,
     "HMW-LC-Sw2-DR": IOSwitch,
     "HMW-LC-Bl1-DR": KeyBlind,
     "HMW-LC-Bl1-DR-2": KeyBlind,
