@@ -2,8 +2,8 @@ import os
 from setuptools import setup, find_packages
 
 def readme():
-  with open('README.rst') as f:
-    return f.read()
+    with open('README.rst') as fptr:
+        return fptr.read()
 
 PACKAGE_NAME = 'pyhomematic'
 HERE = os.path.abspath(os.path.dirname(__file__))

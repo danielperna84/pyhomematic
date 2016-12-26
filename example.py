@@ -26,7 +26,7 @@ try:
                                remotes={"rf":{
                                    "ip":"127.0.0.1",
                                    "port": 2001}})
-except:
+except Exception:
     sys.exit(1)
 
 sleepcounter = 0

@@ -77,10 +77,10 @@ class RPCFunctions(object):
             if self.devicefile:
                 LOG.debug("RPCFunctions.__init__: devicefile = %s" % (self.devicefile, ))
                 if os.path.isfile(self.devicefile):
-                    with open(self.devicefile, 'r') as f:
-                        fc = f.read()
-                        if fc:
-                            self._devices_raw[remote] = json.loads(fc)
+                    with open(self.devicefile, 'r') as fptr:
+                        fcontent = fptr.read()
+                        if fcontent:
+                            self._devices_raw[remote] = json.loads(fcontent)
 
             for device in self._devices_raw[remote]:
                 self._devices_raw_dict[remote][device['ADDRESS']] = device
@@ -217,7 +217,7 @@ class RPCFunctions(object):
             self.systemcallback('readdedDevice', interface_id, addresses)
         return True
 
-    def jsonRpcPost(self, host, method, params={}, timeout=5):
+    def jsonRpcPost(self, host, method, params={}):
         LOG.debug("RPCFunctions.jsonRpcPost: Method: %s" % method)
         try:
             payload = json.dumps({"method": method, "params": params, "jsonrpc": "1.1", "id": 0}).encode('utf-8')
@@ -347,6 +347,7 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
 
         with self.lock:
             parent = xmlrpc.client.ServerProxy
+            # pylint: disable=E1101
             return parent._ServerProxy__request(self, *args, **kwargs)
 
     def __getattr__(self, *args, **kwargs):
@@ -358,6 +359,7 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
 
 # Restrict to particular paths.
 class RequestHandler(SimpleXMLRPCRequestHandler):
+    """We handle requests to / and /RPC2"""
     rpc_paths = ('/', '/RPC2',)
 
 class ServerThread(threading.Thread):
@@ -462,6 +464,7 @@ class ServerThread(threading.Thread):
         LOG.info("Server stopped")
 
     def parseCCUSysVar(self, data):
+        """Helper to parse type of system variables of CCU"""
         if data['type'] == 'LOGIC':
             return data['name'], data['value'] == 'true'
         elif data['type'] == 'NUMBER':
@@ -472,6 +475,7 @@ class ServerThread(threading.Thread):
             return data['name'], data['value']
 
     def jsonRpcLogin(self, remote):
+        """Login to CCU and return session"""
         session = False
         try:
             params = {"username": self.remotes[remote]['username'], "password": self.remotes[remote]['password']}
@@ -486,6 +490,7 @@ class ServerThread(threading.Thread):
         return session
 
     def jsonRpcLogout(self, remote, session):
+        """Logout of CCU"""
         logout = False
         try:
             params = {"_session_id_": session}
@@ -537,7 +542,7 @@ class ServerThread(threading.Thread):
                 if response['error'] is None and response['result']:
                     try:
                         var = float(response['result'])
-                    except:
+                    except Exception as err:
                         if response['result'] == 'true':
                             var = True
                         else:

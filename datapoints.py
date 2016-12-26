@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-import sys, pprint, random, json
+import sys
+import pprint
+import random
+import json
 import xmlrpc.client
 
 """
@@ -47,7 +50,7 @@ for device in devices:
         ps = device['PARAMSETS'][i]
         try:
             device['PARAMSETS'][i] = proxy.getParamsetDescription(device['ADDRESS'], ps)
-        except:
+        except Exception:
             pass
     if 'CHILDREN' in device:
         for i in range(len(device['CHILDREN'])):
@@ -55,7 +58,7 @@ for device in devices:
     device['ADDRESS'] = device['ADDRESS'][-3:]
     if 'PARENT' in device:
         device['PARENT'] = device['PARENT'][-3:]
-    r = random.randint(0,5000)
+    r = random.randint(0, 5000)
     if 'PHYSICAL_ADDRESS' in device:
         device['PHYSICAL_ADDRESS'] = device['PHYSICAL_ADDRESS'] + r
     if 'RF_ADDRESS' in device:

@@ -54,7 +54,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
                                    rpcusername=user,
                                    rpcpassword=password,
                                    systemcallback=systemcallback)
-    except:
+    except Exception:
         print("Can't init HMConnection!")
         sys.exit(1)
 

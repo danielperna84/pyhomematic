@@ -1,0 +1,18 @@
+[MASTER]
+reports=no
+
+disable=
+  missing-docstring,
+  global-statement,
+  global-variable-not-assigned,
+  locally-disabled,
+  line-too-long,
+  too-many-instance-attributes,
+  too-many-arguments,
+  invalid-name,
+  protected-access,
+  logging-not-lazy,
+  broad-except,
+  dangerous-default-value,
+  locally-disabled,
+  fixme

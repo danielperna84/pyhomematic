@@ -1,4 +1,3 @@
-import sys
 import logging
 
 from pyhomematic import _hm
@@ -157,17 +156,20 @@ class HMConnection(object):
     def getMetadata(self, remote, address, key):
         """Get metadata of device"""
         if self._server is not None:
+            # pylint: disable=E1121
             return self._server.getAllMetadata(remote, address, key)
 
     def setMetadata(self, remote, address, key, value):
         """Set metadata of device"""
         if self._server is not None:
+            # pylint: disable=E1121
             return self._server.getAllMetadata(remote, address, key, value)
 
     def deleteMetadata(self, remote, address, key):
         """Delete metadata of device"""
         if self._server is not None:
-            return self._server.deleteAllMetadata(remote, address, key)
+            # pylint: disable=E1121
+            return self._server.deleteMetadata(remote, address, key)
 
     def listBidcosInterfaces(self, remote):
         """Return all available BidCos Interfaces"""
