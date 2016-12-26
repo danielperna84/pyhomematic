@@ -54,8 +54,8 @@ class HMGeneric(object):
         Handle the event received by server.
         """
         LOG.info(
-                "HMGeneric.event: address=%s, interface_id=%s, key=%s, value=%s"
-                % (self._ADDRESS, interface_id, key, value))
+            "HMGeneric.event: address=%s, interface_id=%s, key=%s, value=%s"
+            % (self._ADDRESS, interface_id, key, value))
         if key == PARAM_UNREACH:
             self._unreach = value
         for callback in self._eventcallbacks:

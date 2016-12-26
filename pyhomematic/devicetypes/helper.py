@@ -133,8 +133,6 @@ class HelperActorLevel(HMDevice):
 
 
 class HelperActionOnTime(HMDevice):
-    """
-    """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 

@@ -138,7 +138,7 @@ class SmokeV2(Smoke, HelperLowBat):
         super().__init__(device_description, proxy, resolveparamsets)
 
         self.ATTRIBUTENODE.update({"ERROR_ALARM_TEST": self.ELEMENT,
-                                   "ERROR_ALARM_TEST": self.ELEMENT})
+                                   "ERROR_SMOKE_CHAMBER": self.ELEMENT})
 
 
 class GongSensor(HMEvent):
