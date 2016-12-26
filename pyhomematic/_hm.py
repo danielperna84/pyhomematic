@@ -543,10 +543,7 @@ class ServerThread(threading.Thread):
                     try:
                         var = float(response['result'])
                     except Exception as err:
-                        if response['result'] == 'true':
-                            var = True
-                        else:
-                            var = False
+                        var = response['result'] == 'true'
 
                 self.jsonRpcLogout(remote, session)
             except Exception as err:
