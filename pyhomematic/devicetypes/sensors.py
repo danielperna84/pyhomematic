@@ -346,6 +346,7 @@ DEVICETYPES = {
     "HM-Sec-SCo": ShutterContact,
     "ZEL STG RM FFK": ShutterContact,
     "BC-SC-Rd-WM-2": ShutterContact,
+    "BC-SC-Rd-WM": ShutterContact,
     "HM-SCI-3-FM": IPShutterContact,
     "HMIP-SWDO": IPShutterContact,
     "HM-Sec-RHS": RotaryHandleSensor,
