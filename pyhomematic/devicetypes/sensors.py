@@ -190,6 +190,39 @@ class MotionV2(Motion, HelperSabotage):
     """Motion detection version 2."""
     pass
 
+class MotionIP(HMBinarySensor, HMSensor):
+    """Motion detection indoor (rf ip)"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [1], "MOTION": [1]})
+        self.SENSORNODE.update({"ILLUMINATION": [1]})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0], "ERROR_CODE": [0], "SABOTAGE": [0]})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def is_motion_detection_active(self, channel=None):
+        return bool(self.getBinaryData("MOTION_DETECTION_ACTIVE", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark) to 163830 (bright) """
+        return float(self.getSensorData("ILLUMINATION", channel))
+
+    def low_batt(self, channel=None):
+        """ Returns if the battery is low. """
+        return self.getAttributeData("LOW_BAT", channel)
+
+    def sabotage(self, channel=None):
+        """Returns True if the devicecase has been opened."""
+        return bool(self.getAttributeData("SABOTAGE", channel))
+
+    @property
+    def ELEMENT(self):
+        return [0,1]
 
 class RemoteMotion(Remote, Motion):
     """Motion detection with buttons."""
@@ -370,6 +403,7 @@ DEVICETYPES = {
     "HM-Sec-MDIR": MotionV2,
     "263 162": MotionV2,
     "HM-Sec-MD": MotionV2,
+    "HmIP-SMI": MotionIP,
     "HM-Sen-LI-O": LuxSensor,
     "HM-Sen-EP": ImpulseSensor,
     "HM-Sen-X": ImpulseSensor,
