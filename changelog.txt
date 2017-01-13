@@ -1,4 +1,4 @@
-Version 0.1.19 (2017-01)
+Version 0.1.19 (2017-01-13)
 - Added support for HMW-IO-12-Sw14-DR (Issue #38) @danielperna84
 - Added support for MAX! devices (BC-SC-Rd-WM-2, BC-TC-C-WM-4) @jannau
 - Fixed MAX wall Thermostat @cyclingengineer
