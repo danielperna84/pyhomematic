@@ -170,7 +170,7 @@ class MAXThermostat(HMThermostat, HelperLowBat, HelperValveState):
         self.ATTRIBUTENODE.update({"LOWBAT": [0],
                                    "CONTROL_MODE": [1],
                                    "VALVE_STATE": [1]})
-        
+
 class MAXWallThermostat(HMThermostat, HelperLowBat):
     """
     BC-TC-C-WM-4

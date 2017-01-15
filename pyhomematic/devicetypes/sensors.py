@@ -222,7 +222,7 @@ class MotionIP(HMBinarySensor, HMSensor):
 
     @property
     def ELEMENT(self):
-        return [0,1]
+        return [0, 1]
 
 class RemoteMotion(Remote, Motion):
     """Motion detection with buttons."""
