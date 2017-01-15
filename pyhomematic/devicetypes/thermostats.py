@@ -71,20 +71,20 @@ class HMThermostat(HMDevice):
         """ Return auto mode state. """
         return self.mode == self.AUTO_MODE
 
-    @AUTOMODE.setter
-    def AUTOMODE(self, setauto):
-        """ Turn on auto mode. """
-        self.mode = self.AUTO_MODE
+    # @AUTOMODE.setter
+    # def AUTOMODE(self, setauto):
+    #     """ Turn on auto mode. """
+    #     self.mode = self.AUTO_MODE
 
     @property
     def MANUMODE(self):
         """ Return manual mode state. """
         return self.mode == self.MANU_MODE
 
-    @MANUMODE.setter
-    def MANUMODE(self, setmanu):
-        """ Turn on manual mode. """
-        self.mode = self.MANU_MODE
+    # @MANUMODE.setter
+    # def MANUMODE(self, setmanu):
+    #     """ Turn on manual mode. """
+    #     self.mode = self.MANU_MODE
 
     @property
     def PARTYMODE(self):
@@ -96,10 +96,10 @@ class HMThermostat(HMDevice):
         """ Return boost state. """
         return self.mode == self.BOOST_MODE
 
-    @BOOSTMODE.setter
-    def BOOSTMODE(self, setboost):
-        """ Turn on boost mode. """
-        self.mode = self.BOOST_MODE
+    # @BOOSTMODE.setter
+    # def BOOSTMODE(self, setboost):
+    #     """ Turn on boost mode. """
+    #     self.mode = self.BOOST_MODE
 
 
 class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
