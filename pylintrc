@@ -22,4 +22,8 @@ disable=
   broad-except,
   dangerous-default-value,
   locally-disabled,
-  fixme
+  fixme,
+  redefined-variable-type,
+  no-self-use,
+  unused-argument,
+  unused-variable
