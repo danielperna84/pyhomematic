@@ -24,6 +24,4 @@ disable=
   locally-disabled,
   fixme,
   redefined-variable-type,
-  no-self-use,
-  unused-argument,
-  unused-variable
+  no-self-use
