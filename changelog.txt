@@ -1,3 +1,8 @@
+Version 0.1.20 (2017-01-)
+- Fix for HMW-IO-12-Sw14-DR @danielperna84
+- Better handling of empty nodeLists @danielperna84
+- RSSI_DEVICE helper for wired devices @danielperna84
+
 Version 0.1.19 (2017-01-13)
 - Added support for HMW-IO-12-Sw14-DR (Issue #38) @danielperna84
 - Added support for MAX! devices (BC-SC-Rd-WM-2, BC-TC-C-WM-4) @jannau
