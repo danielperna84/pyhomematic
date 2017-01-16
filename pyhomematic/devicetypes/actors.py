@@ -44,7 +44,7 @@ class Blind(GenericBlind, HelperWorking):
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
 
 
-class KeyBlind(GenericBlind, HelperWorking, HelperActionPress):
+class KeyBlind(Blind, HelperActionPress, HelperWired):
     """
     Blind switch that raises and lowers roller shutters or window blinds.
     """
@@ -52,13 +52,13 @@ class KeyBlind(GenericBlind, HelperWorking, HelperActionPress):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ACTIONNODE.update({"STOP": self.ELEMENT})
-        self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT,
-                               "PRESS_LONG_RELEASE": self.ELEMENT})
+        self.WRITENODE.update({"LEVEL": self.ELEMENT})
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG_RELEASE": [1, 2]})
 
     @property
     def ELEMENT(self):
-        return [1, 2]
+        return [3]
 
 
 class GenericDimmer(HMActor, HelperActorLevel):
