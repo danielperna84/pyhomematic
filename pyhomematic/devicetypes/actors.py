@@ -3,7 +3,7 @@ from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.helper import (
     HelperWorking, HelperActorState, HelperActorLevel, HelperActionOnTime,
-    HelperActionPress, HelperEventRemote)
+    HelperActionPress, HelperEventRemote, HelperWired)
 
 LOG = logging.getLogger(__name__)
 
@@ -44,7 +44,7 @@ class Blind(GenericBlind, HelperWorking):
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
 
 
-class KeyBlind(GenericBlind, HelperWorking, HelperActionPress):
+class KeyBlind(Blind, HelperActionPress, HelperWired):
     """
     Blind switch that raises and lowers roller shutters or window blinds.
     """
@@ -52,13 +52,13 @@ class KeyBlind(GenericBlind, HelperWorking, HelperActionPress):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ACTIONNODE.update({"STOP": self.ELEMENT})
-        self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT,
-                               "PRESS_LONG_RELEASE": self.ELEMENT})
+        self.WRITENODE.update({"LEVEL": self.ELEMENT})
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG": [1, 2]})
 
     @property
     def ELEMENT(self):
-        return [1, 2]
+        return [3]
 
 
 class GenericDimmer(HMActor, HelperActorLevel):
@@ -144,7 +144,7 @@ class Switch(GenericSwitch, HelperWorking):
         return [1]
 
 
-class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote):
+class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote, HelperWired):
     """
     Switch turning attached device on or off.
     """
@@ -156,6 +156,65 @@ class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote):
         if "HMW-LC-Sw2-DR" in self.TYPE:
             return [3, 4]
         return [1]
+
+
+class HMWIOSwitch(GenericSwitch, HelperWired):
+    """
+    Wired IO module controlling and sensing attached devices.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        # Output channels (digital)
+        self._doc = [1, 2, 3, 4, 5, 6]
+        # Output channels (digital/analog)
+        self._daoc = [7, 8, 9, 10, 11, 12, 13, 14]
+        # Output channels (analog), how do we expose these?
+        self._aoc = []
+        # Input channels (digital/frequency)
+        self._dfic = [15, 16, 17, 18, 19, 20]
+        # Input channels (digital/analog)
+        self._daic = [21, 22, 23, 24, 25, 26]
+        # Input channels (digital)
+        self._dic = []
+        # Input channels (frequency)
+        self._fic = []
+        # Input channels (analog)
+        self._aic = []
+
+        super().__init__(device_description, proxy, resolveparamsets)
+        # Need to know the operational mode to return digital switch channels with ELEMENT-property
+        for chan in self._daoc:
+            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER", "BEHAVIOUR") == 1:
+                # We add the digital channels to self._doc
+                self._doc.append(chan)
+            else:
+                # We add the analog channels to self._aoc
+                self._aoc.append(chan)
+
+        # We also want to know how the inputs are configured
+        for chan in self._dfic:
+            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER", "BEHAVIOUR") == 1:
+                # We add the digital channels to self._dic
+                self._dic.append(chan)
+            else:
+                # We add the frequency channels to self._fic
+                self._fic.append(chan)
+
+        for chan in self._daic:
+            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER", "BEHAVIOUR") == 1:
+                # We add the digital channels to self._dic
+                self._dic.append(chan)
+            else:
+                # We add the analog channels to self._aic
+                self._aic.append(chan)
+
+        # init metadata
+        self.BINARYNODE.update({"STATE": self._dic})
+        self.SENSORNODE.update({"FREQUENCY": self._fic, # mHz, from 0.0 to 350000.0
+                                "VALUE": self._aic}) # No specific unit, float from 0.0 to 1000.0
+
+    @property
+    def ELEMENT(self):
+        return self._doc
 
 
 class KeyMatic(GenericSwitch):
@@ -309,6 +368,7 @@ DEVICETYPES = {
     "HM-ES-PMSw1-SM": SwitchPowermeter,
     "HM-ES-PMSwX": SwitchPowermeter,
     "HMW-IO-12-Sw7-DR": IOSwitch,
+    "HMW-IO-12-Sw14-DR": HMWIOSwitch,
     "HMW-LC-Sw2-DR": IOSwitch,
     "HMW-LC-Bl1-DR": KeyBlind,
     "HMW-LC-Bl1-DR-2": KeyBlind,

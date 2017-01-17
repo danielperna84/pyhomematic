@@ -185,3 +185,10 @@ class HelperEventRemote(HMDevice):
                                "PRESS_LONG": self.ELEMENT,
                                "PRESS_CONT": self.ELEMENT,
                                "PRESS_LONG_RELEASE": self.ELEMENT})
+
+class HelperWired(HMDevice):
+    """Remove the RSSI_DEVICE attribute"""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.ATTRIBUTENODE.pop("RSSI_DEVICE", None)

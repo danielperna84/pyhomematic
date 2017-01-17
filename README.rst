@@ -1,5 +1,7 @@
 pyhomematic
 ===========
+.. image:: https://travis-ci.org/danielperna84/pyhomematic.svg?branch=master
+    :target: https://travis-ci.org/danielperna84/pyhomematic
 
 Python 3 Interface to interact with Homematic devices.
 

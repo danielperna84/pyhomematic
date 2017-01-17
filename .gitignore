@@ -9,3 +9,7 @@ MANIFEST
 
 # Python egg metadata, regenerated from source files by setuptools.
 /*.egg-info
+
+# Tox stuff, lint
+/.tox/
+/.pylint.d/

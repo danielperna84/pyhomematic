@@ -12,6 +12,7 @@ PARAMSET_VALUES = 'VALUES'
 
 
 class HMGeneric(object):
+    # pylint: disable=unused-argument
     def __init__(self, device_description, proxy, resolveparamsets):
         # These properties are available for every device and its channels
         self._ADDRESS = device_description.get('ADDRESS')
@@ -245,7 +246,7 @@ class HMDevice(HMGeneric):
         if self._unreach:
             return True
         else:
-            for channel, device in self._hmchannels.items():
+            for device in self._hmchannels.values():
                 if device.UNREACH:
                     return True
         return False
@@ -302,6 +303,9 @@ class HMDevice(HMGeneric):
                 nodeChannel = channel if channel is not None else nodeChannelList[0]
             elif len(nodeChannelList) == 1:
                 nodeChannel = nodeChannelList[0]
+            else:
+                LOG.warning("HMDevice._getNodeData: %s not found in %s, empty nodeChannelList" % (name, metadata))
+                return None
             if nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].getValue(name)
 

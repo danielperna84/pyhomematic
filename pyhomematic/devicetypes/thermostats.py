@@ -71,20 +71,20 @@ class HMThermostat(HMDevice):
         """ Return auto mode state. """
         return self.mode == self.AUTO_MODE
 
-    @AUTOMODE.setter
-    def AUTOMODE(self, setauto):
-        """ Turn on auto mode. """
-        self.mode = self.AUTO_MODE
+    # @AUTOMODE.setter
+    # def AUTOMODE(self, setauto):
+    #     """ Turn on auto mode. """
+    #     self.mode = self.AUTO_MODE
 
     @property
     def MANUMODE(self):
         """ Return manual mode state. """
         return self.mode == self.MANU_MODE
 
-    @MANUMODE.setter
-    def MANUMODE(self, setmanu):
-        """ Turn on manual mode. """
-        self.mode = self.MANU_MODE
+    # @MANUMODE.setter
+    # def MANUMODE(self, setmanu):
+    #     """ Turn on manual mode. """
+    #     self.mode = self.MANU_MODE
 
     @property
     def PARTYMODE(self):
@@ -96,16 +96,16 @@ class HMThermostat(HMDevice):
         """ Return boost state. """
         return self.mode == self.BOOST_MODE
 
-    @BOOSTMODE.setter
-    def BOOSTMODE(self, setboost):
-        """ Turn on boost mode. """
-        self.mode = self.BOOST_MODE
+    # @BOOSTMODE.setter
+    # def BOOSTMODE(self, setboost):
+    #     """ Turn on boost mode. """
+    #     self.mode = self.BOOST_MODE
 
 
 class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
     """
     HM-CC-RT-DN, HM-CC-RT-DN-BoM
-    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    ClimateControl-Radiator Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -124,7 +124,7 @@ class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
 class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
     """
     HM-TC-IT-WM-W-EU
-    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -142,7 +142,7 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
 class ThermostatWall2(HMThermostat, AreaThermostat, HelperBatteryState):
     """
     HM-CC-TC
-    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -153,10 +153,28 @@ class ThermostatWall2(HMThermostat, AreaThermostat, HelperBatteryState):
         self.WRITENODE.update({"SETPOINT": [2]})
 
 
-class MAXThermostat(HMThermostat, HelperLowBat):
+class MAXThermostat(HMThermostat, HelperLowBat, HelperValveState):
     """
     BC-RT-TRX-CyG, BC-RT-TRX-CyG-2, BC-RT-TRX-CyG-3, BC-RT-TRX-CyG-4
-    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    ClimateControl-Radiator Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1]})
+        self.WRITENODE.update({"SET_TEMPERATURE": [1]})
+        self.ACTIONNODE.update({"AUTO_MODE": [1],
+                                "MANU_MODE": [1],
+                                "BOOST_MODE": [1]})
+        self.ATTRIBUTENODE.update({"LOWBAT": [0],
+                                   "CONTROL_MODE": [1],
+                                   "VALVE_STATE": [1]})
+
+class MAXWallThermostat(HMThermostat, HelperLowBat):
+    """
+    BC-TC-C-WM-4
+    ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -169,7 +187,6 @@ class MAXThermostat(HMThermostat, HelperLowBat):
                                 "BOOST_MODE": [1]})
         self.ATTRIBUTENODE.update({"LOWBAT": [0], "CONTROL_MODE": [1]})
 
-
 DEVICETYPES = {
     "HM-CC-RT-DN": Thermostat,
     "HM-CC-RT-DN-BoM": Thermostat,
@@ -180,5 +197,5 @@ DEVICETYPES = {
     "BC-RT-TRX-CyG-2": MAXThermostat,
     "BC-RT-TRX-CyG-3": MAXThermostat,
     "BC-RT-TRX-CyG-4": MAXThermostat,
-    "BC-TC-C-WM-4": MAXThermostat
+    "BC-TC-C-WM-4": MAXWallThermostat
 }
