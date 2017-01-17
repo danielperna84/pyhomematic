@@ -54,7 +54,7 @@ class KeyBlind(Blind, HelperActionPress, HelperWired):
         # init metadata
         self.WRITENODE.update({"LEVEL": self.ELEMENT})
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
-                               "PRESS_LONG_RELEASE": [1, 2]})
+                               "PRESS_LONG": [1, 2]})
 
     @property
     def ELEMENT(self):
