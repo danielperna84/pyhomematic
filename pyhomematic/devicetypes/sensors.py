@@ -38,6 +38,15 @@ class ShutterContact(IPShutterContact, HelperSabotage):
     pass
 
 
+class MaxShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
+    """Door / Window contact that emits its open/closed state."""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
+
+
 class TiltSensor(HMBinarySensor, HelperBinaryState, HelperLowBat):
     """Sensor that emits its tilted state."""
     def is_tilted(self, channel=None):
@@ -378,7 +387,7 @@ DEVICETYPES = {
     "HM-Sec-SC-2": ShutterContact,
     "HM-Sec-SCo": ShutterContact,
     "ZEL STG RM FFK": ShutterContact,
-    "BC-SC-Rd-WM-2": ShutterContact,
+    "BC-SC-Rd-WM-2": MaxShutterContact,
     "HM-SCI-3-FM": IPShutterContact,
     "HMIP-SWDO": IPShutterContact,
     "HM-Sec-RHS": RotaryHandleSensor,
