@@ -1,4 +1,4 @@
-Version 0.1.20 (2017-01-)
+Version 0.1.20 (2017-01-22)
 - Fix for HMW-IO-12-Sw14-DR @danielperna84
 - Better handling of empty nodeLists @danielperna84
 - RSSI_DEVICE helper for wired devices @danielperna84
