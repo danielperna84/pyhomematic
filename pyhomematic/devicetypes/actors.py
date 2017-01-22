@@ -183,7 +183,7 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
         super().__init__(device_description, proxy, resolveparamsets)
         # Need to know the operational mode to return digital switch channels with ELEMENT-property
         for chan in self._daoc:
-            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER", "BEHAVIOUR") == 1:
+            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER").get("BEHAVIOUR", None) == 1:
                 # We add the digital channels to self._doc
                 self._doc.append(chan)
             else:
@@ -192,7 +192,7 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
 
         # We also want to know how the inputs are configured
         for chan in self._dfic:
-            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER", "BEHAVIOUR") == 1:
+            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER").get("BEHAVIOUR", None) == 1:
                 # We add the digital channels to self._dic
                 self._dic.append(chan)
             else:
@@ -200,7 +200,7 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
                 self._fic.append(chan)
 
         for chan in self._daic:
-            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER", "BEHAVIOUR") == 1:
+            if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER").get("BEHAVIOUR", None) == 1:
                 # We add the digital channels to self._dic
                 self._dic.append(chan)
             else:

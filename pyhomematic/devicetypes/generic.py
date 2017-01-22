@@ -177,7 +177,7 @@ class HMChannel(HMGeneric):
         """
         Some devices allow to directly set values to perform a specific task.
         """
-        LOG.debug("HMGeneric.setValue: key = '%s' value = '%s'" % (key, value))
+        LOG.debug("HMGeneric.setValue: address = '%s', key = '%s' value = '%s'" % (self._ADDRESS, key, value))
         try:
             self._proxy.setValue(self._ADDRESS, key, value)
             return True
@@ -190,7 +190,7 @@ class HMChannel(HMGeneric):
         """
         Some devices allow to directly get values for specific parameters.
         """
-        LOG.debug("HMGeneric.getValue: key = '%s'" % key)
+        LOG.debug("HMGeneric.getValue: address = '%s', key = '%s'" % (self._ADDRESS, key))
         try:
             returnvalue = self._proxy.getValue(self._ADDRESS, key)
             return returnvalue
