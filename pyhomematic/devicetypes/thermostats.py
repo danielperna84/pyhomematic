@@ -1,7 +1,7 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import AreaThermostat
-from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState, HelperLowBat
+from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState, HelperLowBat, HelperLowBatIP
 
 LOG = logging.getLogger(__name__)
 
@@ -187,7 +187,7 @@ class MAXWallThermostat(HMThermostat, HelperLowBat):
                                 "BOOST_MODE": [1]})
         self.ATTRIBUTENODE.update({"LOWBAT": [0], "CONTROL_MODE": [1]})
 
-class IPThermostat(HMThermostat, HelperValveState):
+class IPThermostat(HMThermostat, HelperLowBatIP, HelperValveState):
     """
     HPIM-eTRV
     ClimateControl-Radiator Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
