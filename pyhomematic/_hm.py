@@ -590,6 +590,7 @@ class ServerThread(threading.Thread):
             try:
                 params = {"_session_id_": session, "name": name, "value": value}
                 if value is True or value is False:
+                    params['value'] = int(value)
                     response = self._rpcfunctions.jsonRpcPost(self.remotes[remote]['ip'], "SysVar.setBool", params)
                 else:
                     response = self._rpcfunctions.jsonRpcPost(self.remotes[remote]['ip'], "SysVar.setFloat", params)
