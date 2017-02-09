@@ -416,7 +416,7 @@ class ServerThread(threading.Thread):
 
         # Setup server to handle requests from CCU / Homegear
         LOG.debug("ServerThread.__init__: Setting up server")
-        self.server = SimpleXMLRPCServer((self._local, self._localport),
+        self.server = SimpleXMLRPCServer((LOCAL, self._localport),
                                          requestHandler=RequestHandler,
                                          logRequests=False)
         self._localport = self.server.socket.getsockname()[1]
@@ -437,7 +437,7 @@ class ServerThread(threading.Thread):
         for interface_id, proxy in self.proxies.items():
             LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" % (proxy._localip, self._localport, interface_id))
             try:
-                proxy.init("http://%s:%i" % (proxy._localip, self._localport), interface_id)
+                proxy.init("http://%s:%i" % (self._local, self._localport), interface_id)
                 LOG.info("Proxy initialized")
             except Exception as err:
                 LOG.debug("proxyInit: Exception: %s" % str(err))
