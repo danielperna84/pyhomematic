@@ -1,3 +1,6 @@
+Version 0.1.22 (2017-02-nn)
+- Add basic support for HMIP-eTRV (Homematic IP Thermostat) @braindump
+
 Version 0.1.21 (2017-02-01)
 - Fixed setting bool-variable values via JSON-RPC @danielperna84
 
