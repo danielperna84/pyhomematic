@@ -28,6 +28,18 @@ class HelperLowBat(HMDevice):
         """ Returns if the battery is low. """
         return self.getAttributeData("LOWBAT", channel)
 
+class HelperLowBatIP(HMDevice):
+    """This Helper adds easy access to read the LOWBAT state"""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"LOW_BAT": self.ELEMENT})
+
+    def low_batt(self, channel=None):
+        """ Returns if the battery is low. """
+        return self.getAttributeData("LOW_BAT", channel)
+
 
 class HelperWorking(HMDevice):
     """This helper provides access to the WORKING state of some devices."""
