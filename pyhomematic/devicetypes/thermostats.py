@@ -46,12 +46,10 @@ class HMThermostat(HMDevice):
 
     def actual_temperature(self):
         """ Returns the current temperature. """
-        #return self.getSensorData("ACTUAL_TEMPERATURE")
         return self.getSensorData(self._get_temp)
 
     def get_set_temperature(self):
         """ Returns the current target temperature. """
-        #return self.getWriteData("SET_TEMPERATURE")
         return self.getWriteData(self._set_temp)
 
     def set_temperature(self, target_temperature):
@@ -61,18 +59,15 @@ class HMThermostat(HMDevice):
         except Exception as err:
             LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
             return False
-        #self.writeNodeData("SET_TEMPERATURE", target_temperature)
         self.writeNodeData(self._set_temp, target_temperature)
 
     def turnoff(self):
         """ Turn off Thermostat. """
-        #self.writeNodeData("SET_TEMPERATURE", self.OFF_VALUE)
         self.writeNodeData(self._set_temp, self.OFF_VALUE)
 
     @property
     def MODE(self):
         """ Return mode. """
-        #return self.getAttributeData("CONTROL_MODE")
         return self.getAttributeData(self._ctrl_mode)
 
     @MODE.setter
