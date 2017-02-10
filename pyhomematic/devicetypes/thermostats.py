@@ -23,13 +23,36 @@ class HMThermostat(HMDevice):
 
         self.mode = None
 
+        self._NODEVARIATIONS = {
+            "default": {
+                "set_temp": "SET_TEMPERATURE",
+                "get_temp": "ACTUAL_TEMPERATURE",
+                "ctrl_mode": "CONTROL_MODE"
+            },
+            "HM-CC-TC": {
+                "set_temp": "SETPOINT",
+                "get_temp": "TEMPERATURE",
+                "ctrl_mode": "CONTROL_MODE"
+            },
+            "ZEL STG RM FWT": {
+                "set_temp": "SETPOINT",
+                "get_temp": "TEMPERATURE",
+                "ctrl_mode": "CONTROL_MODE"
+            }
+        }
+        self._get_temp = self._NODEVARIATIONS.get(self._TYPE, self._NODEVARIATIONS['default']).get('get_temp')
+        self._set_temp = self._NODEVARIATIONS.get(self._TYPE, self._NODEVARIATIONS['default']).get('set_temp')
+        self._ctrl_mode = self._NODEVARIATIONS.get(self._TYPE, self._NODEVARIATIONS['default']).get('ctrl_mode')
+
     def actual_temperature(self):
         """ Returns the current temperature. """
-        return self.getSensorData("ACTUAL_TEMPERATURE")
+        #return self.getSensorData("ACTUAL_TEMPERATURE")
+        return self.getSensorData(self._get_temp)
 
     def get_set_temperature(self):
         """ Returns the current target temperature. """
-        return self.getWriteData("SET_TEMPERATURE")
+        #return self.getWriteData("SET_TEMPERATURE")
+        return self.getWriteData(self._set_temp)
 
     def set_temperature(self, target_temperature):
         """ Set the target temperature. """
@@ -38,16 +61,19 @@ class HMThermostat(HMDevice):
         except Exception as err:
             LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
             return False
-        self.writeNodeData("SET_TEMPERATURE", target_temperature)
+        #self.writeNodeData("SET_TEMPERATURE", target_temperature)
+        self.writeNodeData(self._set_temp, target_temperature)
 
     def turnoff(self):
         """ Turn off Thermostat. """
-        self.writeNodeData("SET_TEMPERATURE", self.OFF_VALUE)
+        #self.writeNodeData("SET_TEMPERATURE", self.OFF_VALUE)
+        self.writeNodeData(self._set_temp, self.OFF_VALUE)
 
     @property
     def MODE(self):
         """ Return mode. """
-        return self.getAttributeData("CONTROL_MODE")
+        #return self.getAttributeData("CONTROL_MODE")
+        return self.getAttributeData(self._ctrl_mode)
 
     @MODE.setter
     def MODE(self, setmode):
@@ -151,6 +177,12 @@ class ThermostatWall2(HMThermostat, AreaThermostat, HelperBatteryState):
         self.SENSORNODE.update({"TEMPERATURE": [1],
                                 "HUMIDITY": [1]})
         self.WRITENODE.update({"SETPOINT": [2]})
+        # Remove invalid parameters
+        self.ATTRIBUTENODE.pop("BATTERY_STATE", None)
+        self.ATTRIBUTENODE.pop("CONTROL_MODE", None)
+        self.SENSORNODE.pop("ACTUAL_TEMPERATURE", None)
+        self.SENSORNODE.pop("ACTUAL_HUMIDITY", None)
+        self.WRITENODE.pop("SET_TEMPERATURE", None)
 
 
 class MAXThermostat(HMThermostat, HelperLowBat, HelperValveState):
