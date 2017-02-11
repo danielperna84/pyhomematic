@@ -32,11 +32,16 @@ class HMThermostat(HMDevice):
             "HM-CC-TC": {
                 "set_temp": "SETPOINT",
                 "get_temp": "TEMPERATURE",
-                "ctrl_mode": "CONTROL_MODE"
+                "ctrl_mode": "MODE_TEMPERATUR_REGULATOR"
             },
             "ZEL STG RM FWT": {
                 "set_temp": "SETPOINT",
                 "get_temp": "TEMPERATURE",
+                "ctrl_mode": "MODE_TEMPERATUR_REGULATOR"
+            },
+            "HMIP-eTRV": {
+                "set_temp": "SET_POINT_TEMPERATURE",
+                "get_temp": "ACTUAL_TEMPERATURE",
                 "ctrl_mode": "CONTROL_MODE"
             }
         }
