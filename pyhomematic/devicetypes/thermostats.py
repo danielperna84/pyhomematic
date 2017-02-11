@@ -235,23 +235,6 @@ class IPThermostat(HMThermostat, HelperLowBatIP, HelperValveState):
                                    "CONTROL_MODE": [1],
                                    "VALVE_STATE": [1]})
 
-    def get_set_temperature(self):
-        """ Returns the current target temperature. """
-        return self.getWriteData("SET_POINT_TEMPERATURE")
-
-    def set_temperature(self, target_temperature):
-        """ Set the target temperature. """
-        try:
-            target_temperature = float(target_temperature)
-        except Exception as err:
-            LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
-            return False
-        self.writeNodeData("SET_POINT_TEMPERATURE", target_temperature)
-
-    def turnoff(self):
-        """ Turn off Thermostat. """
-        self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
-
 
 DEVICETYPES = {
     "HM-CC-RT-DN": Thermostat,
