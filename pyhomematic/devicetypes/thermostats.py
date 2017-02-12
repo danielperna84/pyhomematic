@@ -231,6 +231,7 @@ DEVICETYPES = {
     "BC-RT-TRX-CyG-2": MAXThermostat,
     "BC-RT-TRX-CyG-3": MAXThermostat,
     "BC-RT-TRX-CyG-4": MAXThermostat,
+    "BC-RT-TRX-CyN": MAXThermostat,
     "BC-TC-C-WM-4": MAXWallThermostat,
     "HMIP-eTRV": IPThermostat
 }
