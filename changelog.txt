@@ -1,6 +1,7 @@
 Version 0.1.22 (2017-02-nn)
 - Added basic support for HMIP-eTRV (Homematic IP Thermostat) @braindump
 - Added support for per-remote-callback-definitions @danielperna84
+- Added support for BC-RT-TRX-CyN @ch-world
 
 Version 0.1.21 (2017-02-01)
 - Fixed setting bool-variable values via JSON-RPC @danielperna84
