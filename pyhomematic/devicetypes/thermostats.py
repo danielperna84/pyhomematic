@@ -25,37 +25,37 @@ class HMThermostat(HMDevice):
 
         self._NODEVARIATIONS = {
             "default": {
-                "set_temp": "SET_TEMPERATURE",
-                "get_temp": "ACTUAL_TEMPERATURE",
-                "ctrl_mode": "CONTROL_MODE"
+                "datapoint_set_temperature": "SET_TEMPERATURE",
+                "datapoint_temperature": "ACTUAL_TEMPERATURE",
+                "datapoint_control_mode": "CONTROL_MODE"
             },
             "HM-CC-TC": {
-                "set_temp": "SETPOINT",
-                "get_temp": "TEMPERATURE",
-                "ctrl_mode": "MODE_TEMPERATUR_REGULATOR"
+                "datapoint_set_temperature": "SETPOINT",
+                "datapoint_temperature": "TEMPERATURE",
+                "datapoint_control_mode": "MODE_TEMPERATUR_REGULATOR"
             },
             "ZEL STG RM FWT": {
-                "set_temp": "SETPOINT",
-                "get_temp": "TEMPERATURE",
-                "ctrl_mode": "MODE_TEMPERATUR_REGULATOR"
+                "datapoint_set_temperature": "SETPOINT",
+                "datapoint_temperature": "TEMPERATURE",
+                "datapoint_control_mode": "MODE_TEMPERATUR_REGULATOR"
             },
             "HMIP-eTRV": {
-                "set_temp": "SET_POINT_TEMPERATURE",
-                "get_temp": "ACTUAL_TEMPERATURE",
-                "ctrl_mode": "CONTROL_MODE"
+                "datapoint_set_temperature": "SET_POINT_TEMPERATURE",
+                "datapoint_temperature": "ACTUAL_TEMPERATURE",
+                "datapoint_control_mode": "CONTROL_MODE"
             }
         }
-        self._get_temp = self._NODEVARIATIONS.get(self._TYPE, self._NODEVARIATIONS['default']).get('get_temp')
-        self._set_temp = self._NODEVARIATIONS.get(self._TYPE, self._NODEVARIATIONS['default']).get('set_temp')
-        self._ctrl_mode = self._NODEVARIATIONS.get(self._TYPE, self._NODEVARIATIONS['default']).get('ctrl_mode')
+        self.datapoint_temperature = self._NODEVARIATIONS.get(self._TYPE, self._NODEVARIATIONS['default']).get('datapoint_temperature')
+        self.datapoint_set_temperature = self._NODEVARIATIONS.get(self._TYPE, self._NODEVARIATIONS['default']).get('datapoint_set_temperature')
+        self.datapoint_control_mode = self._NODEVARIATIONS.get(self._TYPE, self._NODEVARIATIONS['default']).get('datapoint_control_mode')
 
     def actual_temperature(self):
         """ Returns the current temperature. """
-        return self.getSensorData(self._get_temp)
+        return self.getSensorData(self.datapoint_temperature)
 
     def get_set_temperature(self):
         """ Returns the current target temperature. """
-        return self.getWriteData(self._set_temp)
+        return self.getWriteData(self.datapoint_set_temperature)
 
     def set_temperature(self, target_temperature):
         """ Set the target temperature. """
@@ -64,16 +64,16 @@ class HMThermostat(HMDevice):
         except Exception as err:
             LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
             return False
-        self.writeNodeData(self._set_temp, target_temperature)
+        self.writeNodeData(self.datapoint_set_temperature, target_temperature)
 
     def turnoff(self):
         """ Turn off Thermostat. """
-        self.writeNodeData(self._set_temp, self.OFF_VALUE)
+        self.writeNodeData(self.datapoint_set_temperature, self.OFF_VALUE)
 
     @property
     def MODE(self):
         """ Return mode. """
-        return self.getAttributeData(self._ctrl_mode)
+        return self.getAttributeData(self.datapoint_control_mode)
 
     @MODE.setter
     def MODE(self, setmode):
