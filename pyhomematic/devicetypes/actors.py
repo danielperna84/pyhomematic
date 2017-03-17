@@ -94,11 +94,11 @@ class KeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT,
-                               "PRESS_LONG_RELEASE": self.ELEMENT})
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG_RELEASE": [1, 2]})
     @property
     def ELEMENT(self):
-        return [1, 2]
+        return [3]
 
 
 class GenericSwitch(HMActor, HelperActorState):
