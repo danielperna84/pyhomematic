@@ -19,6 +19,8 @@ class HMThermostat(HMDevice):
         self.MANU_MODE = 1
         self.PARTY_MODE = 2
         self.BOOST_MODE = 3
+        self.COMFORT_MODE = 4
+        self.LOWERING_MODE = 5
         self.OFF_VALUE = 4.5
 
         self.mode = None
@@ -61,6 +63,10 @@ class HMThermostat(HMDevice):
             set_data = self.get_set_temperature()
         elif setmode == self.BOOST_MODE:
             mode = 'BOOST_MODE'
+        elif setmode == self.COMFORT_MODE:
+            mode = 'COMFORT_MODE'
+        elif setmode == self.LOWERING_MODE:
+            mode = 'LOWERING_MODE'
         else:
             LOG.warning("Thermostat.MODE.setter: Invalid mode: %s" % str(setmode))
         if mode:
@@ -71,20 +77,10 @@ class HMThermostat(HMDevice):
         """ Return auto mode state. """
         return self.mode == self.AUTO_MODE
 
-    # @AUTOMODE.setter
-    # def AUTOMODE(self, setauto):
-    #     """ Turn on auto mode. """
-    #     self.mode = self.AUTO_MODE
-
     @property
     def MANUMODE(self):
         """ Return manual mode state. """
         return self.mode == self.MANU_MODE
-
-    # @MANUMODE.setter
-    # def MANUMODE(self, setmanu):
-    #     """ Turn on manual mode. """
-    #     self.mode = self.MANU_MODE
 
     @property
     def PARTYMODE(self):
@@ -96,10 +92,15 @@ class HMThermostat(HMDevice):
         """ Return boost state. """
         return self.mode == self.BOOST_MODE
 
-    # @BOOSTMODE.setter
-    # def BOOSTMODE(self, setboost):
-    #     """ Turn on boost mode. """
-    #     self.mode = self.BOOST_MODE
+    @property
+    def COMFORTMODE(self):
+        """ Return comfort state. """
+        return self.mode == self.COMFORT_MODE
+
+    @property
+    def LOWERINGMODE(self):
+        """ Return lowering state. """
+        return self.mode == self.LOWERING_MODE
 
 
 class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
@@ -115,7 +116,9 @@ class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
         self.WRITENODE.update({"SET_TEMPERATURE": [4]})
         self.ACTIONNODE.update({"AUTO_MODE": [4],
                                 "MANU_MODE": [4],
-                                "BOOST_MODE": [4]})
+                                "BOOST_MODE": [4],
+                                "COMFORT_MODE": [4],
+                                "LOWERING_MODE": [4]})
         self.ATTRIBUTENODE.update({"VALVE_STATE": [4],
                                    "BATTERY_STATE": [4],
                                    "CONTROL_MODE": [4]})
@@ -135,7 +138,9 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
         self.WRITENODE.update({"SET_TEMPERATURE": [2]})
         self.ACTIONNODE.update({"AUTO_MODE": [2],
                                 "MANU_MODE": [2],
-                                "BOOST_MODE": [2]})
+                                "BOOST_MODE": [2],
+                                "COMFORT_MODE": [4],
+                                "LOWERING_MODE": [4]})
         self.ATTRIBUTENODE.update({"CONTROL_MODE": [2], "BATTERY_STATE": [2]})
 
 
