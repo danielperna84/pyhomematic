@@ -1,5 +1,6 @@
 Version 0.1.23 (2017-03-nn)
 - Added missing thermostat control modes @danielperna84
+- Fix for HMW-LC-Dim1L-DR @danielperna84
 
 Version 0.1.22 (2017-02-14)
 - Added support for HMIP-eTRV (Homematic IP Thermostat) @braindump
