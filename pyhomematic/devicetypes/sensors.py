@@ -176,6 +176,24 @@ class WiredSensor(HMEvent):
         return bool(self.getBinaryData("SENSOR", channel))
 
 
+class FillingLevel(HMSensor):
+    """Filling level sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"FILLING_LEVEL": self.ELEMENT})
+
+    def get_level(self, channel=None):
+        """ Return filling level from 0 to 100 % """
+        return int(self.getSensorData("FILLING_LEVEL", channel))
+
+    @property
+    def ELEMENT(self):
+        return [1]
+
+
 class Motion(HMBinarySensor, HMSensor):
     """Motion detection."""
 
@@ -444,5 +462,6 @@ DEVICETYPES = {
     "HM-WDS30-OT2-SM": TemperatureDiffSensor,
     "HM-WDS30-OT2-SM-2": TemperatureDiffSensor,
     "HM-WDS30-T-O": TemperatureSensor,
-    "S550IA": TemperatureSensor
+    "S550IA": TemperatureSensor,
+    "HM-Sen-Wa-Od": FillingLevel
 }
