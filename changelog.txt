@@ -1,4 +1,4 @@
-Version 0.1.23 (2017-03-nn)
+Version 0.1.23 (2017-03-24)
 - Added missing thermostat control modes @danielperna84
 - Fix for HMW-LC-Dim1L-DR @danielperna84
 
