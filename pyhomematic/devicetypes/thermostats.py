@@ -139,8 +139,8 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
         self.ACTIONNODE.update({"AUTO_MODE": [2],
                                 "MANU_MODE": [2],
                                 "BOOST_MODE": [2],
-                                "COMFORT_MODE": [4],
-                                "LOWERING_MODE": [4]})
+                                "COMFORT_MODE": [2],
+                                "LOWERING_MODE": [2]})
         self.ATTRIBUTENODE.update({"CONTROL_MODE": [2], "BATTERY_STATE": [2]})
 
 
