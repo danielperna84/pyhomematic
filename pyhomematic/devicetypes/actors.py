@@ -123,6 +123,22 @@ class GenericSwitch(HMActor, HelperActorState):
         self.set_state(False, channel)
 
 
+class Rain(GenericSwitch, HelperWorking):
+    """Rain / Heat sensor with heating switch"""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        # init metadata
+        self.BINARYNODE.update({"STATE": [1]})
+
+    def is_rain(self, channel=None):
+        """ Returns True when raining. """
+        return self.get_state(channel)
+
+    @property
+    def ELEMENT(self):
+        return [2]
+
+
 class Switch(GenericSwitch, HelperWorking):
     """
     Switch turning plugged in device on or off.
@@ -379,4 +395,5 @@ DEVICETYPES = {
     "HM-Sec-Key-S": KeyMatic,
     "HM-Sec-Key-O": KeyMatic,
     "HM-Sec-Key-Generic": KeyMatic,
+    "HM-Sen-RD-O": Rain
 }
