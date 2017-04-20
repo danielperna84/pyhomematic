@@ -24,4 +24,9 @@ disable=
   locally-disabled,
   fixme,
   redefined-variable-type,
-  no-self-use
+  no-self-use,
+  no-else-return,
+  redefined-outer-name,
+  redefined-argument-from-local,
+  arguments-differ,
+  not-context-manager,
