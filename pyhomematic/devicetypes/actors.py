@@ -272,6 +272,22 @@ class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
         return [1]
 
 
+class EcoLogic(Switch, HelperActionOnTime, HelperActionPress, HMSensor):
+    """
+    Switching device and humidity sensor for automatic watering
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"SENSOR": [3, 4]})
+        self.EVENTNODE.update({"PRESS_SHORT": [5, 6, 7, 8, 9]})
+
+    @property
+    def ELEMENT(self):
+        return [1, 2]
+
+
 class IPSwitchPowermeter(IPSwitch, HMSensor):
     """
     Switch turning plugged in device on or off and measuring energy consumption.
@@ -396,5 +412,6 @@ DEVICETYPES = {
     "HM-Sec-Key-S": KeyMatic,
     "HM-Sec-Key-O": KeyMatic,
     "HM-Sec-Key-Generic": KeyMatic,
-    "HM-Sen-RD-O": Rain
+    "HM-Sen-RD-O": Rain,
+    "ST6-SH": EcoLogic,
 }
