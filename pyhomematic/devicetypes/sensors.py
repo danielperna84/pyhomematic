@@ -486,4 +486,5 @@ DEVICETYPES = {
     "HMW-Sen-SC-12-DR": WiredSensor,
     "HMW-Sen-SC-12-FM": WiredSensor,
     "HM-CC-VD": ValveDrive,
+    "ZEL STG RM FSA": ValveDrive,
 }
