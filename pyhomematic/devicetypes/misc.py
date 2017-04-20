@@ -48,7 +48,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress):
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         if "HM-OU-LED16" in self.TYPE:
             return [c for c in range(1, 16)]
-        if "RC-19" in self.TYPE:
+        if "RC-19" in self.TYPE or "HM-PB-4Dis-WM" in self.TYPE:
             return [c for c in range(1, 20)]
         if "HMW-IO-4-FM" in self.TYPE:
             return [1, 2, 3, 4]
@@ -112,6 +112,7 @@ DEVICETYPES = {
     "263 145": Remote,
     "263 135": Remote,
     "HM-OU-LED16": Remote,
+    "HM-PB-4Dis-WM": Remote,
     "HMW-IO-4-FM": Remote,
     "HMW-IO-12-FM": Remote,
     "HM-SwI-3-FM": RemotePress,
