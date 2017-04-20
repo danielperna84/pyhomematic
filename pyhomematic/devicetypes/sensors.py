@@ -195,6 +195,24 @@ class FillingLevel(HMSensor):
         return [1]
 
 
+class ValveDrive(HMSensor):
+    """Valve drive HM-CC-VD."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"VALVE_STATE": self.ELEMENT})
+
+    def get_level(self, channel=None):
+        """ Return valve state from 0% to 99% """
+        return int(self.getSensorData("VALVE_STATE", channel))
+
+    @property
+    def ELEMENT(self):
+        return [1]
+
+
 class Motion(HMBinarySensor, HMSensor):
     """Motion detection."""
 
@@ -467,4 +485,5 @@ DEVICETYPES = {
     "HM-Sen-Wa-Od": FillingLevel,
     "HMW-Sen-SC-12-DR": WiredSensor,
     "HMW-Sen-SC-12-FM": WiredSensor,
+    "HM-CC-VD": ValveDrive,
 }

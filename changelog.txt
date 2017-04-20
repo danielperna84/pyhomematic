@@ -3,6 +3,7 @@ Version 0.1.25 (2017-04-nn)
 - Fixed HMW-IO-* events, added HM-OU-LED16 events @danielperna84
 - Added HM-Sec-Win as blind @danielperna84
 - Added HMW-Sen-SC-12-FM & HMW-Sen-SC-12-DR @danielperna84
+- Added HM-CC-VD as sensor @danielperna84
 
 Version 0.1.24 (2017-03-25)
 - Fix Eco- and Comfort mode for HM-TC-IT-WM-W-EU (Issue #65) @danielperna84
