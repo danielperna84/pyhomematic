@@ -3,7 +3,8 @@ from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.misc import HMEvent, Remote
 from pyhomematic.devicetypes.helper import (HelperLowBat, HelperSabotage,
                                             HelperBinaryState,
-                                            HelperSensorState)
+                                            HelperSensorState,
+                                            HelperWired)
 
 LOG = logging.getLogger(__name__)
 
@@ -159,7 +160,7 @@ class GongSensor(HMEvent):
         self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT})
 
 
-class WiredSensor(HMEvent):
+class WiredSensor(HMEvent, HelperWired):
     """Wired binary Sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -463,5 +464,7 @@ DEVICETYPES = {
     "HM-WDS30-OT2-SM-2": TemperatureDiffSensor,
     "HM-WDS30-T-O": TemperatureSensor,
     "S550IA": TemperatureSensor,
-    "HM-Sen-Wa-Od": FillingLevel
+    "HM-Sen-Wa-Od": FillingLevel,
+    "HMW-Sen-SC-12-DR": WiredSensor,
+    "HMW-Sen-SC-12-FM": WiredSensor,
 }
