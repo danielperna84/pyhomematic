@@ -298,6 +298,7 @@ DEVICETYPES = {
     "263 146": Blind,
     "263 147": Blind,
     "HM-LC-BlX": Blind,
+    "HM-Sec-Win": Blind,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-2": Dimmer,
     "HM-LC-Dim1L-Pl-3": Dimmer,
