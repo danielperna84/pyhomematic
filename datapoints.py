@@ -46,10 +46,10 @@ proxy = xmlrpc.client.ServerProxy(ccu)
 devices = proxy.listDevices()
 
 for device in devices:
+    paramsets = {}
     for i in range(len(device['PARAMSETS'])):
-        ps = device['PARAMSETS'][i]
         try:
-            device['PARAMSETS'][i] = proxy.getParamsetDescription(device['ADDRESS'], ps)
+            paramsets[device['PARAMSETS'][i]] = proxy.getParamsetDescription(device['ADDRESS'], device['PARAMSETS'][i])
         except Exception:
             pass
     if 'CHILDREN' in device:
@@ -63,6 +63,7 @@ for device in devices:
         device['PHYSICAL_ADDRESS'] = device['PHYSICAL_ADDRESS'] + r
     if 'RF_ADDRESS' in device:
         device['RF_ADDRESS'] = device['RF_ADDRESS'] + r
+    device['PARAMSETS'] = paramsets
 
 if not outfile:
     pprint.pprint(devices)
