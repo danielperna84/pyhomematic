@@ -5,6 +5,7 @@ Version 0.1.25 (2017-04-nn)
 - Added HMW-Sen-SC-12-FM & HMW-Sen-SC-12-DR @danielperna84
 - Added HM-CC-VD as sensor @danielperna84
 - Added ST6-SH @danielperna84
+- Added HMIP-BDT @danielperna84
 
 Version 0.1.24 (2017-03-25)
 - Fix Eco- and Comfort mode for HM-TC-IT-WM-W-EU (Issue #65) @danielperna84

@@ -101,6 +101,21 @@ class KeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
         return [3]
 
 
+class IPKeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
+    """
+    IP Dimmer switch that controls level of light brightness.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG_RELEASE": [1, 2]})
+    @property
+    def ELEMENT(self):
+        return [4]
+
+
 class GenericSwitch(HMActor, HelperActorState):
     """
     Switch turning plugged in device on or off.
@@ -408,6 +423,7 @@ DEVICETYPES = {
     "HMW-LC-Dim1L-DR": KeyDimmer,
     "HMIP-PS": IPSwitch,
     "HMIP-PSM": IPSwitchPowermeter,
+    "HMIP-BDT": IPKeyDimmer,
     "HM-Sec-Key": KeyMatic,
     "HM-Sec-Key-S": KeyMatic,
     "HM-Sec-Key-O": KeyMatic,
