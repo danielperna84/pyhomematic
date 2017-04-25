@@ -1,4 +1,4 @@
-Version 0.1.25 (2017-04-nn)
+Version 0.1.25 (2017-04-25)
 - Added HM-Sen-RD-O + HM-Sen-Wa-Od @danielperna84
 - Fixed HMW-IO-* events, added HM-OU-LED16 & HM-PB-4Dis-WM events @danielperna84
 - Added HM-Sec-Win as blind @danielperna84
