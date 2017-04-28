@@ -257,6 +257,8 @@ class KeyMatic(GenericSwitch):
 
         # init metadata
         self.ACTIONNODE.update({"OPEN": self.ELEMENT})
+        self.BINARYNODE.update({"STATE_UNCERTAIN": self.ELEMENT})
+        self.SENSORNODE.update({"ERROR": self.ELEMENT})
 
     @property
     def ELEMENT(self):
