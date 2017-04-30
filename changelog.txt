@@ -1,5 +1,7 @@
 Version 0.1.26 (2017-05-nn)
 - KeyMatic fixes @danielperna84
+- Detecting CCU or Homegear backend @danielperna84
+- Fixed de-init on server stop @danielperna84
 
 Version 0.1.25 (2017-04-25)
 - Added HM-Sen-RD-O + HM-Sen-Wa-Od @danielperna84
