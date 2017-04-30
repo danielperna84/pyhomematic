@@ -26,6 +26,8 @@ DEVICEFILE = False  # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
 XML_API_URL = '/config/xmlapi/devicelist.cgi'
 JSONRPC_URL = '/api/homematic.cgi'
+BACKEND_CCU = 0
+BACKEND_HOMEGEAR = 1
 
 
 # Device-storage
@@ -292,7 +294,10 @@ class RPCFunctions(object):
                         "RPCFunctions.addDeviceNames: Unable to get name for %s from metadata." % str(address))
 
         # Then try to get names via JSON-RPC
-        elif self.remotes[remote]['resolvenames'] == 'json' and self.remotes[remote]['username'] and self.remotes[remote]['password']:
+        elif (self.remotes[remote]['resolvenames'] == 'json' and
+              self.remotes[remote]['username'] and
+              self.remotes[remote]['password'] and
+              self.remotes[remote]['type'] == BACKEND_CCU):
             LOG.debug("RPCFunctions.addDeviceNames: Getting names via JSON-RPC")
             try:
                 session = False
@@ -352,7 +357,8 @@ class RPCFunctions(object):
                     "RPCFunctions.addDeviceNames: Exception: %s" % str(err))
 
         # Then try to get names from XML-API
-        elif self.remotes[remote]['resolvenames'] == 'xml':
+        elif (self.remotes[remote]['resolvenames'] == 'xml' and
+              self.remotes[remote]['type'] == BACKEND_CCU):
             try:
                 response = urllib.request.urlopen(
                     "http://%s%s" % (self.remotes[remote]['ip'], XML_API_URL), timeout=5)
@@ -456,15 +462,25 @@ class ServerThread(threading.Thread):
                 continue
             LOG.info("Creating proxy %s. Connecting to http://%s:%i" %
                      (remote, host['ip'], host['port']))
+            host['id'] = "%s-%s" % (self._interface_id, remote)
             try:
-                self.proxies["%s-%s" % (self._interface_id, remote)] = LockingServerProxy("http://%s:%i" % (host['ip'], host['port']),
-                                                                                          callbackip=host.get('callbackip', None),
-                                                                                          callbackport=host.get('callbackport', None))
+                self.proxies[host['id']] = LockingServerProxy("http://%s:%i" % (host['ip'], host['port']),
+                                                              callbackip=host.get('callbackip', None),
+                                                              callbackport=host.get('callbackport', None))
             except Exception as err:
                 LOG.warning("Failed connecting to proxy at http://%s:%i" %
                             (host['ip'], host['port']))
                 LOG.debug("__init__: Exception: %s" % str(err))
                 raise Exception
+            try:
+                if "Homegear" in self.proxies[host['id']].getVersion():
+                    LOG.debug("__init__: Host is Homegear")
+                    host['type'] = BACKEND_HOMEGEAR
+                else:
+                    LOG.debug("__init__: Host is CCU")
+                    host['type'] = BACKEND_CCU
+            except Exception as err:
+                LOG.warning("__init__: Failed to detect backend type: %s" % str(err))
 
         if not self.proxies:
             LOG.warning("No proxies available. Aborting.")
@@ -521,22 +537,24 @@ class ServerThread(threading.Thread):
     def stop(self):
         """To stop the server we de-init from the CCU / Homegear, then shut down our XML-RPC server."""
         stopped = []
-        for interface_id in self.proxies:
-            if self.proxies[interface_id]._callbackip and self.proxies[interface_id]._callbackport:
-                callbackip = self.proxies[interface_id]._callbackip
-                callbackport = self.proxies[interface_id]._callbackport
+        for interface_id, proxy in self.proxies.items():
+            if proxy._callbackip and proxy._callbackport:
+                callbackip = proxy._callbackip
+                callbackport = proxy._callbackport
             else:
-                callbackip = self.proxies[interface_id]._localip
-                callbackport = self.proxies[interface_id]._localport
+                callbackip = proxy._localip
+                callbackport = self._localport
+            remote = "http://%s:%i" % (callbackip, callbackport)
+            LOG.debug("ServerThread.stop: init('%s')" % remote)
             if not callbackip in stopped:
-                LOG.debug("ServerThread.stop: Deregistering proxy for server %s" % callbackip)
                 try:
-                    self.proxies[interface_id].init(
-                        "http://%s:%i" % (callbackip, callbackport))
+                    proxy.init(remote)
                     stopped.append(callbackip)
+                    LOG.info("Proxy de-initialized: %s" % remote)
                 except Exception as err:
-                    LOG.warning("Failed to deregister proxy")
-                    LOG.debug("stop: Exception: %s" % str(err))
+                    LOG.debug("proxyInit: Exception: %s" % str(err))
+                    LOG.warning("Failed to de-initialize proxy")
+                    raise Exception
         self.proxies.clear()
         LOG.info("Shutting down server")
         self.server.shutdown()
