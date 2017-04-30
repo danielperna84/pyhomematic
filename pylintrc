@@ -30,3 +30,4 @@ disable=
   redefined-argument-from-local,
   arguments-differ,
   not-context-manager,
+  unused-variable,
