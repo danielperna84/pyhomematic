@@ -810,3 +810,18 @@ class ServerThread(threading.Thread):
         except Exception as err:
             LOG.debug(
                 "ServerThread.listBidcosInterfaces: Exception: %s" % str(err))
+
+    def homegearCheckInit(self, remote):
+        """Check if proxy is still initialized"""
+        rdict = self.remotes.get(remote)
+        if not rdict:
+            return False
+        if rdict.get('type') != BACKEND_HOMEGEAR:
+            return False
+        try:
+            interface_id = "%s-%s" % (self._interface_id, remote)
+            return self.proxies[interface_id].clientServerInitialized(interface_id)
+        except Exception as err:
+            LOG.debug(
+                "ServerThread.homegearCheckInit: Exception: %s" % str(err))
+            return False

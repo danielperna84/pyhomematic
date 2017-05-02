@@ -175,3 +175,8 @@ class HMConnection(object):
         """Return all available BidCos Interfaces"""
         if self._server is not None:
             return self._server.listBidcosInterfaces(remote)
+
+    def homegearCheckInit(self, remote):
+        """Check if proxy is still initialized"""
+        if self._server is not None:
+            return self._server.homegearCheckInit(remote)
