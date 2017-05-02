@@ -537,7 +537,7 @@ class ServerThread(threading.Thread):
     def stop(self):
         """To stop the server we de-init from the CCU / Homegear, then shut down our XML-RPC server."""
         stopped = []
-        for interface_id, proxy in self.proxies.items():
+        for _, proxy in self.proxies.items():
             if proxy._callbackip and proxy._callbackport:
                 callbackip = proxy._callbackip
                 callbackport = proxy._callbackport
