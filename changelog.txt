@@ -1,3 +1,6 @@
+Version 0.1.27 (2017-05-22)
+- Setting backend to unkonwn in case of exception
+
 Version 0.1.26 (2017-05-17)
 - KeyMatic fixes @danielperna84
 - Detecting CCU or Homegear backend @danielperna84

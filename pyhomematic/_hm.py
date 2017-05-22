@@ -26,8 +26,9 @@ DEVICEFILE = False  # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
 XML_API_URL = '/config/xmlapi/devicelist.cgi'
 JSONRPC_URL = '/api/homematic.cgi'
-BACKEND_CCU = 0
-BACKEND_HOMEGEAR = 1
+BACKEND_UNKNOWN = 0
+BACKEND_CCU = 1
+BACKEND_HOMEGEAR = 2
 
 
 # Device-storage
@@ -481,6 +482,7 @@ class ServerThread(threading.Thread):
                     host['type'] = BACKEND_CCU
             except Exception as err:
                 LOG.warning("__init__: Failed to detect backend type: %s" % str(err))
+                host['type'] = BACKEND_UNKNOWN
 
         if not self.proxies:
             LOG.warning("No proxies available. Aborting.")
