@@ -297,8 +297,7 @@ class RPCFunctions(object):
         # Then try to get names via JSON-RPC
         elif (self.remotes[remote]['resolvenames'] == 'json' and
               self.remotes[remote]['username'] and
-              self.remotes[remote]['password'] and
-              self.remotes[remote]['type'] == BACKEND_CCU):
+              self.remotes[remote]['password']):
             LOG.debug("RPCFunctions.addDeviceNames: Getting names via JSON-RPC")
             try:
                 session = False
@@ -358,8 +357,7 @@ class RPCFunctions(object):
                     "RPCFunctions.addDeviceNames: Exception: %s" % str(err))
 
         # Then try to get names from XML-API
-        elif (self.remotes[remote]['resolvenames'] == 'xml' and
-              self.remotes[remote]['type'] == BACKEND_CCU):
+        elif self.remotes[remote]['resolvenames'] == 'xml':
             try:
                 response = urllib.request.urlopen(
                     "http://%s%s" % (self.remotes[remote]['ip'], XML_API_URL), timeout=5)

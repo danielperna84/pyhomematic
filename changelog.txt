@@ -1,5 +1,6 @@
-Version 0.1.27 (2017-05-22)
+Version 0.1.27 (2017-05-26)
 - Setting backend to unkonwn in case of exception
+- Removed usage of detected backend while resolving names
 
 Version 0.1.26 (2017-05-17)
 - KeyMatic fixes @danielperna84
