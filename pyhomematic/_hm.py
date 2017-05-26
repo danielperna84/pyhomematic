@@ -472,12 +472,13 @@ class ServerThread(threading.Thread):
                 LOG.debug("__init__: Exception: %s" % str(err))
                 raise Exception
             try:
-                if "Homegear" in self.proxies[host['id']].getVersion():
-                    LOG.debug("__init__: Host is Homegear")
-                    host['type'] = BACKEND_HOMEGEAR
-                else:
-                    LOG.debug("__init__: Host is CCU")
-                    host['type'] = BACKEND_CCU
+                host['type'] = BACKEND_UNKNOWN
+                #if "Homegear" in self.proxies[host['id']].getVersion():
+                #    LOG.debug("__init__: Host is Homegear")
+                #    host['type'] = BACKEND_HOMEGEAR
+                #else:
+                #    LOG.debug("__init__: Host is CCU")
+                #    host['type'] = BACKEND_CCU
             except Exception as err:
                 LOG.warning("__init__: Failed to detect backend type: %s" % str(err))
                 host['type'] = BACKEND_UNKNOWN
