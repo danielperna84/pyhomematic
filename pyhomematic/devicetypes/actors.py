@@ -430,6 +430,7 @@ DEVICETYPES = {
     "HMIP-PS": IPSwitch,
     "HMIP-PSM": IPSwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
+    "HmIP-BDT": IPKeyDimmer, # Version above did not work, keeping it though, just in case
     "HM-Sec-Key": KeyMatic,
     "HM-Sec-Key-S": KeyMatic,
     "HM-Sec-Key-O": KeyMatic,
