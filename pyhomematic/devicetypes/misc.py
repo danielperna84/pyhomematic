@@ -94,7 +94,7 @@ DEVICETYPES = {
     "HM-RC-X": Remote,
     "HM-PB-2-FM": Remote,
     "HM-PB-2-WM": Remote,
-    "BC-PB-2-WM": Remote,
+    "BC-PB-2-WM": RemotePress,
     "HM-PB-4-WM": Remote,
     "HM-PB-6-WM55": Remote,
     "HM-PB-2-WM55-2": Remote,
