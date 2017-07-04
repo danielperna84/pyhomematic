@@ -331,6 +331,7 @@ DEVICETYPES = {
     "HM-LC-Bl1-FM-2": Blind,
     "HM-LC-Bl1PBU-FM": Blind,
     "HM-LC-Bl1-PB-FM": Blind,
+    "HM-LC-Ja1PBU-FM": Blind,
     "ZEL STG RM FEP 230V": Blind,
     "263 146": Blind,
     "263 147": Blind,
