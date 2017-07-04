@@ -1,6 +1,7 @@
 Version 0.1.29 (2017-nn-nn)
 - Fixed BC-PB-2-WM @tseel
 - Added HMIP-STHD @ch-world
+- Added HM-LC-Ja1PBU-FM @danielperna84
 
 Version 0.1.28 (2017-06-07)
 - Fixed HMIP-BDT @danielperna84
