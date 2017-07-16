@@ -367,6 +367,7 @@ DEVICETYPES = {
     "HM-OU-CM-PCB": Switch,
     "HM-OU-CFM-Pl": Switch,
     "HM-OU-CFM-TW": Switch,
+    "HM-LC-Sw1-PCB": Switch,
     "HM-LC-Sw1-Pl": Switch,
     "HM-LC-Sw1-Pl-2": Switch,
     "HM-LC-Sw1-Pl-3": Switch,
