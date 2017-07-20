@@ -272,7 +272,12 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
 
     @property
     def ELEMENT(self):
-        return [3]
+        if "HmIP-BSM" in self.TYPE:
+            return [4]
+        elif "HmIP-FSM" in self.TYPE:
+            return [2]
+        else:
+            return [3]
 
 
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
@@ -317,11 +322,20 @@ class IPSwitchPowermeter(IPSwitch, HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"POWER": [6],
-                                "CURRENT": [6],
-                                "VOLTAGE": [6],
-                                "FREQUENCY": [6],
-                                "ENERGY_COUNTER": [6]})
+        sensorIndex = None
+        if "HmIP-FSM" in self.TYPE:
+            sensorIndex = 5
+        elif "HMIP-PSM" in self.TYPE:
+            sensorIndex = 6
+        elif "HmIP-BSM" in self.TYPE:
+            sensorIndex = 7
+
+        if sensorIndex is not None:
+            self.SENSORNODE.update({"POWER": [sensorIndex],
+                                    "CURRENT": [sensorIndex],
+                                    "VOLTAGE": [sensorIndex],
+                                    "FREQUENCY": [sensorIndex],
+                                    "ENERGY_COUNTER": [sensorIndex]})
 
 
 DEVICETYPES = {
@@ -431,6 +445,8 @@ DEVICETYPES = {
     "HMW-LC-Dim1L-DR": KeyDimmer,
     "HMIP-PS": IPSwitch,
     "HMIP-PSM": IPSwitchPowermeter,
+    "HmIP-FSM": IPSwitchPowermeter,
+    "HmIP-BSM": IPSwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
     "HmIP-BDT": IPKeyDimmer, # Version above did not work, keeping it though, just in case
     "HM-Sec-Key": KeyMatic,
