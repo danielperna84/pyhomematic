@@ -317,11 +317,18 @@ class IPSwitchPowermeter(IPSwitch, HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"POWER": [6],
-                                "CURRENT": [6],
-                                "VOLTAGE": [6],
-                                "FREQUENCY": [6],
-                                "ENERGY_COUNTER": [6]})
+        if "HmIP-FSM" in self.TYPE:
+            self.SENSORNODE.update({"POWER": [5],
+                                    "CURRENT": [5],
+                                    "VOLTAGE": [5],
+                                    "FREQUENCY": [5],
+                                    "ENERGY_COUNTER": [5]})
+        elif "HMIP-PSM" in self.TYPE:
+            self.SENSORNODE.update({"POWER": [6],
+                                    "CURRENT": [6],
+                                    "VOLTAGE": [6],
+                                    "FREQUENCY": [6],
+                                    "ENERGY_COUNTER": [6]})
 
 
 DEVICETYPES = {
@@ -431,6 +438,7 @@ DEVICETYPES = {
     "HMW-LC-Dim1L-DR": KeyDimmer,
     "HMIP-PS": IPSwitch,
     "HMIP-PSM": IPSwitchPowermeter,
+    "HmIP-FSM": IPSwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
     "HmIP-BDT": IPKeyDimmer, # Version above did not work, keeping it though, just in case
     "HM-Sec-Key": KeyMatic,
