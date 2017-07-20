@@ -327,8 +327,7 @@ class IPSwitchPowermeter(IPSwitch, HMSensor):
             sensorIndex = 6
         elif "HmIP-BSM" in self.TYPE:
             sensorIndex = 7
-            
-            
+
         if sensorIndex is not None:
             self.SENSORNODE.update({"POWER": [sensorIndex],
                                     "CURRENT": [sensorIndex],
