@@ -274,6 +274,8 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
     def ELEMENT(self):
         if "HmIP-BSM" in self.TYPE:
             return [4]
+        elif "HmIP-FSM" in self.TYPE:
+            return [2]
         else:
             return [3]
 
