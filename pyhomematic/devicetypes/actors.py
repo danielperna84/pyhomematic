@@ -291,6 +291,7 @@ class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
         self.SENSORNODE.update({"POWER": [2],
                                 "CURRENT": [2],
                                 "VOLTAGE": [2],
+                                "FREQUENCY": [2],
                                 "ENERGY_COUNTER": [2]})
 
     @property
