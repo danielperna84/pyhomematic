@@ -1,4 +1,4 @@
-Version 0.1.30 (2017-07-nn)
+Version 0.1.30 (2017-07-27)
 - Added HM-LC-Sw1-PCB @cgeidt
 - Added support for HmIP-FSM and HmIP-BSM @Munsio
 - Added FRQUENCY parameter for some pwermeters @buxit
