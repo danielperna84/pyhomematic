@@ -151,6 +151,20 @@ class SmokeV2(Smoke, HelperLowBat):
                                    "ERROR_SMOKE_CHAMBER": self.ELEMENT})
 
 
+class IPSmoke(HMSensor):
+    """HomeMatic IP Smoke sensor"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"SMOKE_DETECTOR_ALARM_STATUS": self.ELEMENT})
+
+
+    @property
+    def ELEMENT(self):
+        return [1]
+
 class GongSensor(HMEvent):
     """Wireless Gong Sensor."""
 
@@ -440,6 +454,7 @@ DEVICETYPES = {
     "HM-Sec-SD-Generic": Smoke,
     "HM-Sec-SD-2": SmokeV2,
     "HM-Sec-SD-2-Generic": SmokeV2,
+    "HmIP-SWSD": IPSmoke,
     "HM-Sen-MDIR-WM55": RemoteMotion,
     "HM-Sen-MDIR-SM": Motion,
     "HM-Sen-MDIR-O": Motion,
