@@ -1,4 +1,4 @@
-Version 0.1.31 (2017-09-)
+Version 0.1.31 (2017-09-19)
 - HmIP-PSM-CH @peterrothert
 - Added HmIP-eTRV-2, HmIP-STHD, HmIP-SWSD @danielperna84
 
