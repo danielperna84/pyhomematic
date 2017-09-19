@@ -1,3 +1,6 @@
+Versuin 0.1.32 (2017-09-19)
+- Added HMIP-WRC2 @danielperna84
+
 Version 0.1.31 (2017-09-19)
 - HmIP-PSM-CH @peterrothert
 - Added HmIP-eTRV-2, HmIP-STHD, HmIP-SWSD @danielperna84
