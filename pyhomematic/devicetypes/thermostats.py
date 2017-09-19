@@ -274,5 +274,6 @@ DEVICETYPES = {
     "BC-TC-C-WM-4": MAXWallThermostat,
     "HMIP-eTRV": IPThermostat,
     "HmIP-eTRV-2": IPThermostat,
-    "HmIP-STHD": IPThermostatWall
+    "HmIP-STHD": IPThermostatWall,
+    "HmIP-WTH-2": IPThermostatWall,
 }
