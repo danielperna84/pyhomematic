@@ -1,4 +1,8 @@
-Versuin 0.1.32 (2017-09-19)
+
+Version 0.1.33 (xxxxx)
+- Added HM-PB-4Dis-WM-2 @gomez
+
+Version 0.1.32 (2017-09-19)
 - Added HMIP-WRC2 @danielperna84
 
 Version 0.1.31 (2017-09-19)

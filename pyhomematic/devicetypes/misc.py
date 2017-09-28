@@ -113,6 +113,7 @@ DEVICETYPES = {
     "263 135": Remote,
     "HM-OU-LED16": Remote,
     "HM-PB-4Dis-WM": Remote,
+    "HM-PB-4Dis-WM-2": Remote,
     "HMW-IO-4-FM": Remote,
     "HMW-IO-12-FM": Remote,
     "HMIP-WRC2": Remote,
