@@ -103,6 +103,26 @@ class HMThermostat(HMDevice):
         return self.mode == self.LOWERING_MODE
 
 
+class ThermostatGroup(HMThermostat):
+    """
+    HM-CC-VG-1
+    Thermostatgroups made up out of multiple supported thermostats
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1]})
+        self.WRITENODE.update({"SET_TEMPERATURE": [1]})
+        self.ACTIONNODE.update({"AUTO_MODE": [1],
+                                "MANU_MODE": [1],
+                                "BOOST_MODE": [1],
+                                "COMFORT_MODE": [1],
+                                "LOWERING_MODE": [1]})
+        self.ATTRIBUTENODE.update({"VALVE_STATE": [1],
+                                   "CONTROL_MODE": [1]})
+
+
 class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
     """
     HM-CC-RT-DN, HM-CC-RT-DN-BoM
@@ -260,6 +280,7 @@ class IPThermostatWall(HMThermostat, HelperLowBatIP):
 
 
 DEVICETYPES = {
+    "HM-CC-VG-1": ThermostatGroup,
     "HM-CC-RT-DN": Thermostat,
     "HM-CC-RT-DN-BoM": Thermostat,
     "HM-TC-IT-WM-W-EU": ThermostatWall,

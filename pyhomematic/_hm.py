@@ -19,6 +19,7 @@ LOCALPORT = 0
 REMOTES = {'default':
            {'ip': '127.0.0.1',
             'port': 2001,
+            'path': '',
             'username': 'Admin',
             'password': '',
             'resolvenames': False}}
@@ -459,16 +460,18 @@ class ServerThread(threading.Thread):
             except Exception as err:
                 LOG.warning("Skipping proxy: %s" % str(err))
                 continue
-            LOG.info("Creating proxy %s. Connecting to http://%s:%i" %
-                     (remote, host['ip'], host['port']))
+            if 'path' not in host:
+                host['path'] = ""
+            LOG.info("Creating proxy %s. Connecting to http://%s:%i%s" %
+                     (remote, host['ip'], host['port'], host['path']))
             host['id'] = "%s-%s" % (self._interface_id, remote)
             try:
-                self.proxies[host['id']] = LockingServerProxy("http://%s:%i" % (host['ip'], host['port']),
+                self.proxies[host['id']] = LockingServerProxy("http://%s:%i%s" % (host['ip'], host['port'], host['path']),
                                                               callbackip=host.get('callbackip', None),
                                                               callbackport=host.get('callbackport', None))
             except Exception as err:
-                LOG.warning("Failed connecting to proxy at http://%s:%i" %
-                            (host['ip'], host['port']))
+                LOG.warning("Failed connecting to proxy at http://%s:%i%s" %
+                            (host['ip'], host['port'], host['path']))
                 LOG.debug("__init__: Exception: %s" % str(err))
                 raise Exception
             try:
