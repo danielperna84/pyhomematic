@@ -1,6 +1,8 @@
-Version 0.1.33 (2017-10-)
+Version 0.1.33 (2017-10-05)
 - Added HM-PB-4Dis-WM-2 @gomez
 - Added support for HM-CC-VG-1 Groups @danielperna84
+- Added HM-LC-Dim1T-DR @LeonVos
+- Added IT-Switch (1 Channel Intertechno Switch via Homegear) @danielperna84
 
 Version 0.1.32 (2017-09-19)
 - Added HMIP-WRC2 @danielperna84
