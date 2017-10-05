@@ -430,6 +430,7 @@ DEVICETYPES = {
     "ZEL STG RM FZS-2": Switch,
     "HM-LC-SwX": Switch,
     "HM-MOD-Re-8": Switch,
+    "IT-Switch": Switch,
     "HM-ES-PMSw1-Pl": SwitchPowermeter,
     "HM-ES-PMSw1-Pl-DN-R1": SwitchPowermeter,
     "HM-ES-PMSw1-Pl-DN-R2": SwitchPowermeter,
