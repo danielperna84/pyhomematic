@@ -1,3 +1,6 @@
+Version 0.1.34 (2017-10-)
+- Fixed HMIP-PSM @Munsio
+
 Version 0.1.33 (2017-10-05)
 - Added HM-PB-4Dis-WM-2 @gomez
 - Added support for HM-CC-VG-1 Groups @danielperna84
