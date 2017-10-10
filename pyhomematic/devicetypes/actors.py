@@ -326,7 +326,7 @@ class IPSwitchPowermeter(IPSwitch, HMSensor):
         sensorIndex = None
         if "HmIP-FSM" in self.TYPE:
             sensorIndex = 5
-        elif "HMIP-PSM" or "HmIP-PSM-CH" in self.TYPE:
+        elif "HMIP-PSM" in self.TYPE or "HmIP-PSM-CH" in self.TYPE:
             sensorIndex = 6
         elif "HmIP-BSM" in self.TYPE:
             sensorIndex = 7
