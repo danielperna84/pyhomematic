@@ -1,5 +1,6 @@
-Version 0.1.34 (2017-10-)
+Version 0.1.34 (2017-10-19)
 - Fixed HMIP-PSM @Munsio
+- Added HmIP-RC8 @gesslein
 
 Version 0.1.33 (2017-10-05)
 - Added HM-PB-4Dis-WM-2 @gomez
