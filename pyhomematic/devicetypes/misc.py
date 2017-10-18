@@ -54,6 +54,8 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress):
             return [1, 2, 3, 4]
         if "HMW-IO-12-FM" in self.TYPE:
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        if "HmIP-RC8" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6, 7, 8]
         return [1]
 
 
@@ -122,4 +124,5 @@ DEVICETYPES = {
     "263 144": RemotePress,
     "HM-SwI-X": RemotePress,
     "HMW-RCV-50": RemoteVirtual,
+    "HmIP-RC8": Remote,
 }
