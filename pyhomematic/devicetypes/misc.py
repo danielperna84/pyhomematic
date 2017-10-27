@@ -28,7 +28,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress):
     def ELEMENT(self):
         if "RC-2" in self.TYPE or "PB-2" in self.TYPE or "WRC2" in self.TYPE:
             return [1, 2]
-        if "HM-Dis-WM55" in self.TYPE:
+        if "HM-Dis-WM55" in self.TYPE or "HM-Dis-EP-WM55" in self.TYPE:
             return [1, 2]
         if "HM-RC-Dis-H-x-EU" in self.TYPE:
             return [c for c in range(1, 21)]
@@ -104,6 +104,7 @@ DEVICETYPES = {
     "HM-PBI-4-FM": Remote,
     "HM-PBI-X": Remote,
     "HM-Dis-WM55": Remote,
+    "HM-Dis-EP-WM55": Remote,
     "HM-MOD-EM-8": Remote,
     "RC-H": Remote,
     "BRC-H": Remote,
