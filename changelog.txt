@@ -1,3 +1,6 @@
+Version 0.1.35 (2017-11-nn)
+- Added HM-Dis-EP-WM55 @marconfus
+
 Version 0.1.34 (2017-10-19)
 - Fixed HMIP-PSM @Munsio
 - Added HmIP-RC8 @gesslein
