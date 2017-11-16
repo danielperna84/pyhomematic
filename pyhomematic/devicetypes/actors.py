@@ -248,6 +248,24 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
         return self._doc
 
 
+class RFSiren(GenericSwitch, HelperWorking):
+    """
+    HM-Sec-Sir-WM Siren
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"ERROR_SABOTAGE": self.ELEMENT,
+                                   "LOWBAT": self.ELEMENT})
+        self.SENSORNODE.update({"ARMSTATE": [4]})
+        self.WRITENODE.update({"ARMSTATE": [4]})
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3]
+
+
 class KeyMatic(GenericSwitch):
     """
     Open or close KeyMatic.
@@ -459,4 +477,5 @@ DEVICETYPES = {
     "HM-Sec-Key-Generic": KeyMatic,
     "HM-Sen-RD-O": Rain,
     "ST6-SH": EcoLogic,
+    "HM-Sec-Sir-WM": RFSiren,
 }
