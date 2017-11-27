@@ -1,4 +1,4 @@
-Version 0.1.35 (2017-11-nn)
+Version 0.1.35 (2017-11-27)
 - Added HM-Dis-EP-WM55 @marconfus
 - Added HM-Sec-Sir-WM @danielperna84
 - Added HmIP-SPI @danielperna84
