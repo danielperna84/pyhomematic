@@ -1,5 +1,6 @@
 Version 0.1.36 ()
 - Added HMIP-WTH @ch-world
+- Added HmIP-BWTH @gethash
 
 Version 0.1.35 (2017-11-27)
 - Added HM-Dis-EP-WM55 @marconfus
