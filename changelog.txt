@@ -1,4 +1,4 @@
-Version 0.1.36 ()
+Version 0.1.36 (2017-12-15)
 - Added HMIP-WTH @ch-world
 - Added HmIP-BWTH @gethash
 
