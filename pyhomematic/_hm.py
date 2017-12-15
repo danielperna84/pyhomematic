@@ -16,13 +16,16 @@ LOG = logging.getLogger(__name__)
 # Constants
 LOCAL = '0.0.0.0'
 LOCALPORT = 0
-REMOTES = {'default':
-           {'ip': '127.0.0.1',
-            'port': 2001,
-            'path': '',
-            'username': 'Admin',
-            'password': '',
-            'resolvenames': False}}
+REMOTES = {
+    'default': {
+        'ip': '127.0.0.1',
+        'port': 2001,
+        'path': '',
+        'username': 'Admin',
+        'password': '',
+        'resolvenames': False,
+        'connect': True,
+    }}
 DEVICEFILE = False  # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
 XML_API_URL = '/config/xmlapi/devicelist.cgi'
@@ -455,6 +458,10 @@ class ServerThread(threading.Thread):
         # Create proxies to interact with CCU / Homegear
         LOG.debug("__init__: Creating proxies")
         for remote, host in self.remotes.items():
+            if not host.get('connect'):
+                continue
+
+            # Initialize XML-RPC
             try:
                 socket.inet_pton(socket.AF_INET, host['ip'])
             except Exception as err:
