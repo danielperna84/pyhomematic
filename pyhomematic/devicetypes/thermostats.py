@@ -223,9 +223,14 @@ class IPThermostat(HMThermostat, HelperLowBatIP, HelperValveState):
         # init metadata
         self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1]})
         self.WRITENODE.update({"SET_POINT_TEMPERATURE": [1]})
-        self.ACTIONNODE.update({"BOOST_MODE": [1]})
+        self.ACTIONNODE.update({"AUTO_MODE": [1],
+                                "MANU_MODE": [1],
+                                "CONTROL_MODE": [1],
+                                "BOOST_MODE": [1]})
         self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "CONTROL_MODE": [1],
+                                   "OPERATING_VOLTAGE": [0],
+                                   "SET_POINT_MODE": [1],
+                                   "BOOST_MODE": [1],
                                    "VALVE_STATE": [1]})
 
     def get_set_temperature(self):
@@ -240,6 +245,24 @@ class IPThermostat(HMThermostat, HelperLowBatIP, HelperValveState):
             LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
             return False
         self.writeNodeData("SET_POINT_TEMPERATURE", target_temperature)
+
+    @property
+    def MODE(self):
+        """ Return mode. """
+        if self.getAttributeData("BOOST_MODE"):
+            return self.BOOST_MODE
+        else:
+            return self.getAttributeData("SET_POINT_MODE")
+
+    @MODE.setter
+    def MODE(self, setmode):
+        """ Set mode. """
+        if setmode == self.BOOST_MODE:
+            self.actionNodeData('BOOST_MODE', True)
+        elif setmode in [self.AUTO_MODE, self.MANU_MODE]:
+            if self.getAttributeData("BOOST_MODE"):
+                self.actionNodeData('BOOST_MODE', False)
+            self.actionNodeData('CONTROL_MODE', setmode)
 
     def turnoff(self):
         """ Turn off Thermostat. """
