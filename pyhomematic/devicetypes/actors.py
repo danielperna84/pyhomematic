@@ -58,6 +58,8 @@ class KeyBlind(Blind, HelperActionPress, HelperWired):
 
     @property
     def ELEMENT(self):
+        if "HmIP-BBL" in self.TYPE:
+            return [4]
         return [3]
 
 
@@ -370,6 +372,7 @@ DEVICETYPES = {
     "263 147": Blind,
     "HM-LC-BlX": Blind,
     "HM-Sec-Win": Blind,
+    "HmIP-BBL": KeyBlind,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-2": Dimmer,
     "HM-LC-Dim1L-Pl-3": Dimmer,
