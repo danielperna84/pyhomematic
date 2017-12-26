@@ -40,7 +40,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress):
             return [1, 2, 3, 4]
         if "Sec4" in self.TYPE or "Key4" in self.TYPE:
             return [1, 2, 3, 4]
-        if "PB-6" in self.TYPE:
+        if "PB-6" in self.TYPE or "WRC6" in self.TYPE:
             return [1, 2, 3, 4, 5, 6]
         if "RC-8" in self.TYPE or "HM-MOD-EM-8" in self.TYPE:
             return [1, 2, 3, 4, 5, 6, 7, 8]
@@ -120,6 +120,7 @@ DEVICETYPES = {
     "HMW-IO-4-FM": Remote,
     "HMW-IO-12-FM": Remote,
     "HMIP-WRC2": Remote,
+    "HmIP-WRC6": Remote,
     "HM-SwI-3-FM": RemotePress,
     "ZEL STG RM FSS UP3": RemotePress,
     "263 144": RemotePress,
