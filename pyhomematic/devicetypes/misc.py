@@ -120,7 +120,7 @@ DEVICETYPES = {
     "HMW-IO-4-FM": Remote,
     "HMW-IO-12-FM": Remote,
     "HMIP-WRC2": Remote,
-    "HMIP-WRC6": Remote,
+    "HmIP-WRC6": Remote,
     "HM-SwI-3-FM": RemotePress,
     "ZEL STG RM FSS UP3": RemotePress,
     "263 144": RemotePress,
