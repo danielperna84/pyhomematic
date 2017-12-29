@@ -449,6 +449,7 @@ DEVICETYPES = {
     "HM-LC-SwX": Switch,
     "HM-MOD-Re-8": Switch,
     "IT-Switch": Switch,
+    "REV-Ritter-Switch": Switch,
     "HM-ES-PMSw1-Pl": SwitchPowermeter,
     "HM-ES-PMSw1-Pl-DN-R1": SwitchPowermeter,
     "HM-ES-PMSw1-Pl-DN-R2": SwitchPowermeter,
