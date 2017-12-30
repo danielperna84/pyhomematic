@@ -374,7 +374,7 @@ DEVICETYPES = {
     "263 147": Blind,
     "HM-LC-BlX": Blind,
     "HM-Sec-Win": Blind,
-    "HmIP-BROLL": Blind,
+    "HmIP-BROLL": KeyBlind,
     "HmIP-BBL": KeyBlind,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-2": Dimmer,
