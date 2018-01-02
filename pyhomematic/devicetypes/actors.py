@@ -2,7 +2,7 @@ import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.helper import (
-    HelperWorking, HelperActorState, HelperActorLevel, HelperActionOnTime,
+    HelperWorking, HelperActorState, HelperActorLevel, HelperActorBlindTilt, HelperActionOnTime,
     HelperActionPress, HelperEventRemote, HelperWired)
 
 LOG = logging.getLogger(__name__)
@@ -58,11 +58,26 @@ class KeyBlind(Blind, HelperActionPress, HelperWired):
 
     @property
     def ELEMENT(self):
-        if "HmIP-BBL" in self.TYPE:
-            return [4]
-        elif "HmIP-BROLL" in self.TYPE:
-            return [4]
         return [3]
+
+class IPKeyBlind(KeyBlind):
+    """
+    Blind switch that raises and lowers homematic ip roller shutters or window blinds.
+    """
+
+    @property
+    def ELEMENT(self):
+        return [4]
+
+class IPKeyBlindTilt(IPKeyBlind, HelperActorBlindTilt):
+
+    def close_slats(self, channel=None):
+        """Move the shutter up all the way."""
+        self.set_cover_tilt_position(0.0, channel)
+
+    def open_slats(self, channel=None):
+        """Move the shutter down all the way."""
+        self.set_cover_tilt_position(1.0, channel)
 
 
 class GenericDimmer(HMActor, HelperActorLevel):
@@ -374,8 +389,8 @@ DEVICETYPES = {
     "263 147": Blind,
     "HM-LC-BlX": Blind,
     "HM-Sec-Win": Blind,
-    "HmIP-BROLL": KeyBlind,
-    "HmIP-BBL": KeyBlind,
+    "HmIP-BROLL": IPKeyBlind,
+    "HmIP-BBL": IPKeyBlindTilt,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-2": Dimmer,
     "HM-LC-Dim1L-Pl-3": Dimmer,

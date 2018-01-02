@@ -143,6 +143,36 @@ class HelperActorLevel(HMDevice):
 
         self.writeNodeData("LEVEL", position, channel)
 
+class HelperActorBlindTilt(HMDevice):
+    """
+    Generic shutter level functions
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"LEVEL_2": self.ELEMENT,
+                               "LEVEL": self.ELEMENT})
+
+    def get_cover_tilt_position(self, channel=None):
+        """Return current level. Return value is float() from 0.0 to 1.0."""
+        return self.getWriteData("LEVEL_2", channel)
+
+    def set_cover_tilt_position(self, position, channel=None):
+        """Seek a specific value by specifying a float() from 0.0 to 1.0."""
+        try:
+            position = float(position)
+        except Exception as err:
+            LOG.debug("HelperActorBlindTilt.set_level_2: Exception %s" % (err,))
+            return False
+
+        level = self.getWriteData("LEVEL", channel)
+
+        self.writeNodeData("LEVEL_2", position, channel)
+
+        # set level after level_2 to have level_2 updated
+        self.writeNodeData("LEVEL", level, channel)
+
 
 class HelperActionOnTime(HMDevice):
     def __init__(self, device_description, proxy, resolveparamsets=False):
