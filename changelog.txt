@@ -1,10 +1,11 @@
-Version 0.1.37 ()
+Version 0.1.37 (2018-01-)
 - Allow skipping remotes @pvizeli
 - Fix HmIP-dTRV-2 @daenny
 - Added HMIP-WC6 @rexyiy
 - Added HmIP-BBL @steffenslavetinsky
 - Added REV-Ritter-Switch @widder
 - Added HmIP-BROLL @steffenslavetinsky
+- Added HmIP-SMO @mcdeck
 
 Version 0.1.36 (2017-12-15)
 - Added HMIP-WTH @ch-world
