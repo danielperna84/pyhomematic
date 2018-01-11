@@ -270,9 +270,9 @@ class RFSiren(GenericSwitch, HelperWorking):
         return [1, 2, 3]
 
 
-class KeyMatic(GenericSwitch):
+class KeyMatic(HMActor, HelperActorState):
     """
-    Open or close KeyMatic.
+    Lock, Unlock or Open KeyMatic.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -281,6 +281,30 @@ class KeyMatic(GenericSwitch):
         self.ACTIONNODE.update({"OPEN": self.ELEMENT})
         self.BINARYNODE.update({"STATE_UNCERTAIN": self.ELEMENT})
         self.SENSORNODE.update({"ERROR": self.ELEMENT})
+
+    def is_unlocked(self, channel=None):
+        """ Returns True if KeyMatic is unlocked. """
+        return self.get_state(channel)
+
+    def is_locked(self, channel=None):
+        """ Returns True if KeyMatic is locked. """
+        return not self.get_state(channel)
+
+    def unlock(self, channel=None):
+        """Unlocks the door lock."""
+        return self.set_state(True, channel)
+
+    def lock(self, channel=None):
+        """Locks the door lock"""
+        return self.set_state(False, channel)
+
+    def open(self):
+        """Opens the door.
+           Keep in mind that in most cases the door can only be closed physically.
+           If the KeyMatic is in locked state it will unlock first.
+           After opening the door the state of KeyMatic is unlocked.
+        """
+        return self.setValue("OPEN", True)
 
     @property
     def ELEMENT(self):
