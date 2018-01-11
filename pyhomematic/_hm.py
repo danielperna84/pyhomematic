@@ -458,7 +458,7 @@ class ServerThread(threading.Thread):
         # Create proxies to interact with CCU / Homegear
         LOG.debug("__init__: Creating proxies")
         for remote, host in self.remotes.items():
-            if not host.get('connect'):
+            if not host.get('connect', True):
                 continue
 
             # Initialize XML-RPC
