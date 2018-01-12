@@ -95,9 +95,7 @@ class HelperSensorState(HMDevice):
 
 
 class HelperActorState(HMDevice):
-    """
-    Generic HM Switch Object
-    """
+    """Return the binary state of an actor."""
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
@@ -105,15 +103,15 @@ class HelperActorState(HMDevice):
         self.WRITENODE.update({"STATE": self.ELEMENT})
 
     def get_state(self, channel=None):
-        """ Returns if switch is 'on' or 'off'. """
+        """ Returns if state is 'on' or 'off'. """
         return bool(self.getWriteData("STATE", channel))
 
     def set_state(self, onoff, channel=None):
-        """Turn switch on/off"""
+        """Turn state on/off"""
         try:
             onoff = bool(onoff)
         except Exception as err:
-            LOG.debug("HelperSwitch.set_state: Exception %s" % (err,))
+            LOG.debug("HelperActorState.set_state: Exception %s" % (err,))
             return False
 
         self.writeNodeData("STATE", onoff, channel)
