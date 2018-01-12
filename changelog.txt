@@ -1,5 +1,5 @@
 Version 0.1.38 (2018-01-)
- - KeyMatc improvements @PH89
+ - KeyMatic improvements @PH89
 
 Version 0.1.37 (2018-01-11)
 - Allow skipping remotes @pvizeli
