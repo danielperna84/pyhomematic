@@ -387,7 +387,7 @@ class IPSwitchPowermeter(IPSwitch, HMSensor):
         sensorIndex = None
         if "HmIP-FSM" in self.TYPE:
             sensorIndex = 5
-        elif "HMIP-PSM" in self.TYPE or "HmIP-PSM-CH" in self.TYPE:
+        elif "HMIP-PSM" in self.TYPE or "HmIP-PSM" in self.TYPE or "HmIP-PSM-CH" in self.TYPE:
             sensorIndex = 6
         elif "HmIP-BSM" in self.TYPE:
             sensorIndex = 7
@@ -511,12 +511,14 @@ DEVICETYPES = {
     "HMW-LC-Bl1-DR-2": KeyBlind,
     "HMW-LC-Dim1L-DR": KeyDimmer,
     "HMIP-PS": IPSwitch,
+    "HmIP-PS": IPSwitch,
     "HMIP-PSM": IPSwitchPowermeter,
+    "HmIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM-CH": IPSwitchPowermeter,
     "HmIP-FSM": IPSwitchPowermeter,
     "HmIP-BSM": IPSwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
-    "HmIP-BDT": IPKeyDimmer, # Version above did not work, keeping it though, just in case
+    "HmIP-BDT": IPKeyDimmer,
     "HM-Sec-Key": KeyMatic,
     "HM-Sec-Key-S": KeyMatic,
     "HM-Sec-Key-O": KeyMatic,

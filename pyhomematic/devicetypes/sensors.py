@@ -478,6 +478,7 @@ DEVICETYPES = {
     "BC-SC-Rd-WM": MaxShutterContact,
     "HM-SCI-3-FM": IPShutterContact,
     "HMIP-SWDO": IPShutterContact,
+    "HmIP-SWDO": IPShutterContact,
     "HM-Sec-RHS": RotaryHandleSensor,
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,
