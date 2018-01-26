@@ -390,6 +390,7 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         """
         Initialize new proxy for server and get local ip
         """
+        self._skipinit = kwargs.pop("skipinit", False)
         self._callbackip = kwargs.pop("callbackip", None)
         self._callbackport = kwargs.pop("callbackport", None)
         self.lock = threading.Lock()
@@ -458,9 +459,6 @@ class ServerThread(threading.Thread):
         # Create proxies to interact with CCU / Homegear
         LOG.debug("__init__: Creating proxies")
         for remote, host in self.remotes.items():
-            if not host.get('connect', True):
-                continue
-
             # Initialize XML-RPC
             try:
                 socket.inet_pton(socket.AF_INET, host['ip'])
@@ -475,7 +473,8 @@ class ServerThread(threading.Thread):
             try:
                 self.proxies[host['id']] = LockingServerProxy("http://%s:%i%s" % (host['ip'], host['port'], host['path']),
                                                               callbackip=host.get('callbackip', None),
-                                                              callbackport=host.get('callbackport', None))
+                                                              callbackport=host.get('callbackport', None),
+                                                              skipinit=not host.get('connect', True))
             except Exception as err:
                 LOG.warning("Failed connecting to proxy at http://%s:%i%s" %
                             (host['ip'], host['port'], host['path']))
@@ -528,6 +527,8 @@ class ServerThread(threading.Thread):
         # Call init() with local XML RPC config and interface_id (the name of
         # the receiver) to receive events. XML RPC server has to be running.
         for interface_id, proxy in self.proxies.items():
+            if proxy._skipinit:
+                continue
             if proxy._callbackip and proxy._callbackport:
                 callbackip = proxy._callbackip
                 callbackport = proxy._callbackport
