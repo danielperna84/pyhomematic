@@ -149,7 +149,7 @@ class RPCFunctions(object):
                 except Exception as err:
                     LOG.critical(
                         "RPCFunctions.createDeviceObjects: Child: %s", str(err))
-        if self.devices_all[remote] and self.remotes[remote]['resolvenames']:
+        if self.devices_all[remote] and self.remotes[remote].get('resolvenames', False):
             self.addDeviceNames(remote)
         working = False
         if self.systemcallback:
