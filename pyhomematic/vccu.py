@@ -11,52 +11,6 @@ LOG = logging.getLogger(__name__)
 LOCAL = "127.0.0.1"
 LOCALPORT = 2001
 
-class CCUHMGeneric(object):
-    # pylint: disable=unused-argument
-    def __init__(self, device_description, paramsets={}):
-        # These properties are available for every device and its channels
-        self._ADDRESS = device_description.get('ADDRESS', 'VCU000001')
-        LOG.debug("HMGeneric.__init__: device_description: " + str(self._ADDRESS) + " : " + str(device_description))
-        self._FLAGS = device_description.get('FLAGS', 1)
-        self._PARAMSETS = device_description.get('PARAMSETS', ['MASTER'])
-        self._PARAMSET_DESCRIPTIONS = {}
-        self._TYPE = device_description.get('TYPE', 'VCCU')
-        self._VERSION = device_description.get('VERSION', 16)
-        self._paramsets = paramsets
-
-class CCUHMDevice(CCUHMGeneric):
-    def __init__(self, device_description, paramsets={}):
-        super().__init__(device_description, paramsets)
-        self._FIRMWARE = device_description.get('FIRMWARE', '2.2')
-        self._CHILDREN = device_description.get('CHILDREN', ['VCU000001:0', 'VCU000001:1'])
-        self._RX_MODE = device_description.get('RX_MODE', 12)
-        self._RF_ADDRESS = device_description.get('RF_ADDRESS', 1234567)
-        self._ROAMING = device_description.get('ROAMING', 0)
-        self._UPDATABLE = device_description.get('UPDATABLE', 0)
-        self._INTERFACE = device_description.get('INTERFACE', 'VCU000000')
-
-
-class CCUHMChannel(CCUHMGeneric):
-    def __init__(self, device_description, paramsets={}):
-        super().__init__(device_description, paramsets)
-        # These properties only exist for device-channels
-        self._PARENT = device_description.get('PARENT', 'VCU000001')
-        self._AES_ACTIVE = device_description.get('AES_ACTIVE', 0)
-        self._DIRECTION = device_description.get('DIRECTION', 0)
-        self._INDEX = device_description.get('INDEX', 0)
-        self._LINK_SOURCE_ROLES = device_description.get('LINK_SOURCE_ROLES', '')
-        self._LINK_TARGET_ROLES = device_description.get('LINK_TARGET_ROLES', '')
-        self._PARENT_TYPE = device_description.get('PARENT_TYPE', 'VCCU')
-
-        # Optional properties of device-channels
-        self._GROUP = device_description.get('GROUP', '')
-        self._TEAM = device_description.get('TEAM', '')
-        self._TEAM_TAG = device_description.get('TEAM_TAG', '')
-        self._TEAM_CHANNELS = device_description.get('TEAM_CHANNELS', '')
-
-        # Not in specification, but often present
-        self._CHANNEL = device_description.get('CHANNEL', '')
-
 class LockingServerProxy(xmlrpc.client.ServerProxy):
     """
     ServerProxy implementation with lock when request is executing
