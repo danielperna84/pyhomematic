@@ -272,7 +272,11 @@ class RPCFunctions(object):
             req = urllib.request.Request(apiendpoint, payload, headers)
             resp = urllib.request.urlopen(req)
             if resp.status == 200:
-                return json.loads(resp.read().decode('utf-8'))
+                try:
+                    return json.loads(resp.read().decode('utf-8'))
+                except ValueError as err:
+                    # Workaround for bug in CCU
+                    return json.loads(resp.read().decode('utf-8').replace("\\", ""))
             else:
                 LOG.error("RPCFunctions.jsonRpcPost: Status: %i" % resp.status)
                 return {'error': resp.status, 'result': {}}
