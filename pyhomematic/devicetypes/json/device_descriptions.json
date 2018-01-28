@@ -1,0 +1,7498 @@
+[
+    {
+        "ADDRESS": "BidCoS-RF",
+        "CHILDREN": [
+            "BidCoS-RF:0",
+            "BidCoS-RF:1",
+            "BidCoS-RF:2"
+        ],
+        "FIRMWARE": "2.31.25",
+        "FLAGS": 9,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234567,
+        "ROAMING": 0,
+        "RX_MODE": 1,
+        "TYPE": "HM-RCV-50",
+        "UPDATABLE": 0,
+        "VERSION": 6
+    },
+    {
+        "ADDRESS": "BidCoS-RF:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "BidCoS-RF",
+        "PARENT_TYPE": "HM-RCV-50",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 6
+    },
+    {
+        "ADDRESS": "BidCoS-RF:1",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "BidCoS-RF",
+        "PARENT_TYPE": "HM-RCV-50",
+        "TYPE": "VIRTUAL_KEY",
+        "VERSION": 6
+    },
+    {
+        "ADDRESS": "BidCoS-RF:2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 2,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "BidCoS-RF",
+        "PARENT_TYPE": "HM-RCV-50",
+        "TYPE": "VIRTUAL_KEY",
+        "VERSION": 6
+    },
+    {
+        "ADDRESS": "VCU0000001",
+        "CHILDREN": [
+            "VCU0000001:0",
+            "VCU0000001:1"
+        ],
+        "FIRMWARE": "1.5",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234567,
+        "ROAMING": 0,
+        "RX_MODE": 1,
+        "TYPE": "HM-LC-Bl1-FM",
+        "UPDATABLE": 0,
+        "VERSION": 1
+    },
+    {
+        "ADDRESS": "VCU0000001:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000001",
+        "PARENT_TYPE": "HM-LC-Bl1-FM",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 1
+    },
+    {
+        "ADDRESS": "VCU0000001:1",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WEATHER_CS",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000001",
+        "PARENT_TYPE": "HM-LC-Bl1-FM",
+        "TYPE": "BLIND",
+        "VERSION": 1
+    },
+    {
+        "ADDRESS": "VCU0000002",
+        "CHILDREN": [
+            "VCU0000002:0",
+            "VCU0000002:1"
+        ],
+        "FIRMWARE": "2.2",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234567,
+        "ROAMING": 0,
+        "RX_MODE": 12,
+        "TYPE": "HM-Sec-SC-2",
+        "UPDATABLE": 0,
+        "VERSION": 16
+    },
+    {
+        "ADDRESS": "VCU0000002:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000002",
+        "PARENT_TYPE": "HM-Sec-SC-2",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 16
+    },
+    {
+        "ADDRESS": "VCU0000002:1",
+        "AES_ACTIVE": 1,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000002",
+        "PARENT_TYPE": "HM-Sec-SC-2",
+        "TYPE": "SHUTTER_CONTACT",
+        "VERSION": 16
+    },
+    {
+        "ADDRESS": "VCU0000003",
+        "CHILDREN": [
+            "VCU0000003:0",
+            "VCU0000003:1",
+            "VCU0000003:2",
+            "VCU0000003:3",
+            "VCU0000003:4",
+            "VCU0000003:5",
+            "VCU0000003:6"
+        ],
+        "FIRMWARE": "1.4",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234657,
+        "ROAMING": 0,
+        "RX_MODE": 14,
+        "TYPE": "HM-CC-RT-DN",
+        "UPDATABLE": 1,
+        "VERSION": 29
+    },
+    {
+        "ADDRESS": "VCU0000003:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000003",
+        "PARENT_TYPE": "HM-CC-RT-DN",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 29
+    },
+    {
+        "ADDRESS": "VCU0000003:1",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "WEATHER_T WEATHER_TH",
+        "PARAMSETS": [
+            "LINK",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000003",
+        "PARENT_TYPE": "HM-CC-RT-DN",
+        "TYPE": "WEATHER_RECEIVER",
+        "VERSION": 29
+    },
+    {
+        "ADDRESS": "VCU0000003:2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 2,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "THERMALCONTROL_TC",
+        "PARAMSETS": [
+            "LINK",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000003",
+        "PARENT_TYPE": "HM-CC-RT-DN",
+        "TYPE": "CLIMATECONTROL_RECEIVER",
+        "VERSION": 29
+    },
+    {
+        "ADDRESS": "VCU0000003:3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 3,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "WCS_TIPTRONIC_SENSOR WINDOW_SWITCH_RECEIVER WINDOW_SWITCH_RECEIVER_V2",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000003",
+        "PARENT_TYPE": "HM-CC-RT-DN",
+        "TYPE": "WINDOW_SWITCH_RECEIVER",
+        "VERSION": 29
+    },
+    {
+        "ADDRESS": "VCU0000003:4",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 4,
+        "LINK_SOURCE_ROLES": "CLIMATECONTROL_RT",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000003",
+        "PARENT_TYPE": "HM-CC-RT-DN",
+        "TYPE": "CLIMATECONTROL_RT_TRANSCEIVER",
+        "VERSION": 29
+    },
+    {
+        "ADDRESS": "VCU0000003:5",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 5,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "CLIMATECONTROL_RT",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000003",
+        "PARENT_TYPE": "HM-CC-RT-DN",
+        "TYPE": "CLIMATECONTROL_RT_RECEIVER",
+        "VERSION": 29
+    },
+    {
+        "ADDRESS": "VCU0000003:6",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 6,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "REMOTECONTROL_RECEIVER",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000003",
+        "PARENT_TYPE": "HM-CC-RT-DN",
+        "TYPE": "REMOTECONTROL_RECEIVER",
+        "VERSION": 29
+    },
+    {
+        "ADDRESS": "VCU0000004",
+        "CHILDREN": [
+            "VCU0000004:0",
+            "VCU0000004:1",
+            "VCU0000004:2",
+            "VCU0000004:3",
+            "VCU0000004:6",
+            "VCU0000004:7"
+        ],
+        "FIRMWARE": "1.3",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234567,
+        "ROAMING": 0,
+        "RX_MODE": 6,
+        "TYPE": "HM-TC-IT-WM-W-EU",
+        "UPDATABLE": 1,
+        "VERSION": 22
+    },
+    {
+        "ADDRESS": "VCU0000004:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000004",
+        "PARENT_TYPE": "HM-TC-IT-WM-W-EU",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 22
+    },
+    {
+        "ADDRESS": "VCU0000004:1",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "WEATHER_TH",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000004",
+        "PARENT_TYPE": "HM-TC-IT-WM-W-EU",
+        "TYPE": "WEATHER_TRANSMIT",
+        "VERSION": 22
+    },
+    {
+        "ADDRESS": "VCU0000004:2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 2,
+        "LINK_SOURCE_ROLES": "THERMALCONTROL_TC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000004",
+        "PARENT_TYPE": "HM-TC-IT-WM-W-EU",
+        "TYPE": "THERMALCONTROL_TRANSMIT",
+        "VERSION": 22
+    },
+    {
+        "ADDRESS": "VCU0000004:3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 3,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "WINDOW_SWITCH_RECEIVER WINDOW_SWITCH_RECEIVER_V2",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000004",
+        "PARENT_TYPE": "HM-TC-IT-WM-W-EU",
+        "TYPE": "WINDOW_SWITCH_RECEIVER",
+        "VERSION": 22
+    },
+    {
+        "ADDRESS": "VCU0000004:6",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 6,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "REMOTECONTROL_RECEIVER",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000004",
+        "PARENT_TYPE": "HM-TC-IT-WM-W-EU",
+        "TYPE": "REMOTECONTROL_RECEIVER",
+        "VERSION": 22
+    },
+    {
+        "ADDRESS": "VCU0000004:7",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 7,
+        "LINK_SOURCE_ROLES": "SWITCH",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000004",
+        "PARENT_TYPE": "HM-TC-IT-WM-W-EU",
+        "TYPE": "SWITCH_TRANSMIT",
+        "VERSION": 22
+    },
+    {
+        "ADDRESS": "VCU0000005",
+        "CHILDREN": [
+            "VCU0000005:0",
+            "VCU0000005:1"
+        ],
+        "FIRMWARE": "2.8",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234567,
+        "ROAMING": 0,
+        "RX_MODE": 1,
+        "TYPE": "HM-LC-Sw1-FM",
+        "UPDATABLE": 0,
+        "VERSION": 26
+    },
+    {
+        "ADDRESS": "VCU0000005:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000005",
+        "PARENT_TYPE": "HM-LC-Sw1-FM",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 26
+    },
+    {
+        "ADDRESS": "VCU0000005:1",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000005",
+        "PARENT_TYPE": "HM-LC-Sw1-FM",
+        "TYPE": "SWITCH",
+        "VERSION": 26
+    },
+    {
+        "ADDRESS": "VCU0000006",
+        "CHILDREN": [
+            "VCU0000006:0",
+            "VCU0000006:1"
+        ],
+        "FIRMWARE": "2.8",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234567,
+        "ROAMING": 0,
+        "RX_MODE": 1,
+        "TYPE": "HM-LC-Sw1-DR",
+        "UPDATABLE": 1,
+        "VERSION": 8
+    },
+    {
+        "ADDRESS": "VCU0000006:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000006",
+        "PARENT_TYPE": "HM-LC-Sw1-DR",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 8
+    },
+    {
+        "ADDRESS": "VCU0000006:1",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "FLAGS": 1,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000006",
+        "PARENT_TYPE": "HM-LC-Sw1-DR",
+        "TYPE": "SWITCH",
+        "VERSION": 8
+    },
+    {
+        "ADDRESS": "VCU0000007",
+        "AVAILABLE_FIRMWARE": "1.2",
+        "CHILDREN": [
+            "VCU0000007:0",
+            "VCU0000007:1",
+            "VCU0000007:2",
+            "VCU0000007:3"
+        ],
+        "FIRMWARE": "1.2",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234567,
+        "ROAMING": 0,
+        "RX_MODE": 28,
+        "TYPE": "HM-Sen-MDIR-WM55",
+        "UPDATABLE": 1,
+        "VERSION": 5
+    },
+    {
+        "ADDRESS": "VCU0000007:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000007",
+        "PARENT_TYPE": "HM-Sen-MDIR-WM55",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 5
+    },
+    {
+        "ADDRESS": "VCU0000007:1",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "GROUP": "VCU0000007:2",
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000007",
+        "PARENT_TYPE": "HM-Sen-MDIR-WM55",
+        "TYPE": "KEY",
+        "VERSION": 5
+    },
+    {
+        "ADDRESS": "VCU0000007:2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "GROUP": "VCU0000007:1",
+        "INDEX": 2,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000007",
+        "PARENT_TYPE": "HM-Sen-MDIR-WM55",
+        "TYPE": "KEY",
+        "VERSION": 5
+    },
+    {
+        "ADDRESS": "VCU0000007:3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 3,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000007",
+        "PARENT_TYPE": "HM-Sen-MDIR-WM55",
+        "TYPE": "MOTION_DETECTOR",
+        "VERSION": 5
+    },
+    {
+        "ADDRESS": "VCU0000008",
+        "CHILDREN": [
+            "VCU0000008:0",
+            "VCU0000008:1"
+        ],
+        "FIRMWARE": "1.0",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234567,
+        "ROAMING": 0,
+        "RX_MODE": 12,
+        "TYPE": "HM-ES-TX-WM",
+        "UPDATABLE": 1,
+        "VERSION": 1
+    },
+    {
+        "ADDRESS": "VCU0000008:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000008",
+        "PARENT_TYPE": "HM-ES-TX-WM",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 1
+    },
+    {
+        "ADDRESS": "VCU0000008:1",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 1,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000008",
+        "PARENT_TYPE": "HM-ES-TX-WM",
+        "TYPE": "POWERMETER_IGL",
+        "VERSION": 1
+    },
+    {
+        "ADDRESS": "VCU0000009",
+        "CHILDREN": [
+            "VCU0000009:0",
+            "VCU0000009:1"
+        ],
+        "FIRMWARE": "1.0",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234657,
+        "ROAMING": 0,
+        "RX_MODE": 28,
+        "TYPE": "HM-Sen-DB-PCB",
+        "UPDATABLE": 1,
+        "VERSION": 5
+    },
+    {
+        "ADDRESS": "VCU0000009:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000009",
+        "PARENT_TYPE": "HM-Sen-DB-PCB",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 5
+    },
+    {
+        "ADDRESS": "VCU0000009:1",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000009",
+        "PARENT_TYPE": "HM-Sen-DB-PCB",
+        "TYPE": "KEY",
+        "VERSION": 5
+    },
+    {
+        "ADDRESS": "VCU0000010",
+        "CHILDREN": [
+            "VCU0000010:0",
+            "VCU0000010:1",
+            "VCU0000010:2",
+            "VCU0000010:3",
+            "VCU0000010:4"
+        ],
+        "FIRMWARE": "1.1",
+        "FLAGS": 1,
+        "INTERFACE": "VCU0000000",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "RF_ADDRESS": 1234567,
+        "ROAMING": 0,
+        "RX_MODE": 28,
+        "TYPE": "HM-RC-Sec4-3",
+        "UPDATABLE": 1,
+        "VERSION": 4
+    },
+    {
+        "ADDRESS": "VCU0000010:0",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "FLAGS": 3,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000010",
+        "PARENT_TYPE": "HM-RC-Sec4-3",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 4
+    },
+    {
+        "ADDRESS": "VCU0000010:1",
+        "AES_ACTIVE": 1,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "GROUP": "VCU0000010:2",
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000010",
+        "PARENT_TYPE": "HM-RC-Sec4-3",
+        "TYPE": "KEY",
+        "VERSION": 4
+    },
+    {
+        "ADDRESS": "VCU0000010:2",
+        "AES_ACTIVE": 1,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "GROUP": "VCU0000010:1",
+        "INDEX": 2,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000010",
+        "PARENT_TYPE": "HM-RC-Sec4-3",
+        "TYPE": "KEY",
+        "VERSION": 4
+    },
+    {
+        "ADDRESS": "VCU0000010:3",
+        "AES_ACTIVE": 1,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 3,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000010",
+        "PARENT_TYPE": "HM-RC-Sec4-3",
+        "TYPE": "KEY",
+        "VERSION": 4
+    },
+    {
+        "ADDRESS": "VCU0000010:4",
+        "AES_ACTIVE": 1,
+        "DIRECTION": 1,
+        "FLAGS": 1,
+        "INDEX": 4,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000010",
+        "PARENT_TYPE": "HM-RC-Sec4-3",
+        "TYPE": "KEY",
+        "VERSION": 4
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 26,
+        "CHILDREN": [
+            "VCU0000011:0",
+            "VCU0000011:1"
+        ],
+        "UPDATABLE": 0,
+        "ADDRESS": "VCU0000011",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "2.4",
+        "RX_MODE": 1,
+        "PARENT": "",
+        "TYPE": "HM-LC-Sw1-Pl-2"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 26,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000011:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-Sw1-Pl-2",
+        "PARENT": "VCU0000011",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 26,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000011:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-Sw1-Pl-2",
+        "PARENT": "VCU0000011",
+        "TYPE": "SWITCH",
+        "DIRECTION": 2
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 16,
+        "CHILDREN": [
+            "VCU0000012:0",
+            "VCU0000012:1",
+            "VCU0000012:2",
+            "VCU0000012:3",
+            "VCU0000012:4",
+            "VCU0000012:5",
+            "VCU0000012:6"
+        ],
+        "UPDATABLE": 1,
+        "ADDRESS": "VCU0000012",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "2.5",
+        "RX_MODE": 1,
+        "PARENT": "",
+        "TYPE": "HM-ES-PMSw1-Pl"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 16,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000012:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-ES-PMSw1-Pl",
+        "PARENT": "VCU0000012",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 16,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000012:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-ES-PMSw1-Pl",
+        "PARENT": "VCU0000012",
+        "TYPE": "SWITCH",
+        "DIRECTION": 2
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 16,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000012:2",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 2,
+        "PARENT_TYPE": "HM-ES-PMSw1-Pl",
+        "PARENT": "VCU0000012",
+        "TYPE": "POWERMETER",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 16,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000012:3",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 3,
+        "PARENT_TYPE": "HM-ES-PMSw1-Pl",
+        "PARENT": "VCU0000012",
+        "TYPE": "CONDITION_POWER",
+        "DIRECTION": 1
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 16,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000012:4",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 4,
+        "PARENT_TYPE": "HM-ES-PMSw1-Pl",
+        "PARENT": "VCU0000012",
+        "TYPE": "CONDITION_CURRENT",
+        "DIRECTION": 1
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 16,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000012:5",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 5,
+        "PARENT_TYPE": "HM-ES-PMSw1-Pl",
+        "PARENT": "VCU0000012",
+        "TYPE": "CONDITION_VOLTAGE",
+        "DIRECTION": 1
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 16,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000012:6",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 6,
+        "PARENT_TYPE": "HM-ES-PMSw1-Pl",
+        "PARENT": "VCU0000012",
+        "TYPE": "CONDITION_FREQUENCY",
+        "DIRECTION": 1
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 9,
+        "CHILDREN": [
+            "VCU0000013:0",
+            "VCU0000013:1",
+            "VCU0000013:2",
+            "VCU0000013:3",
+            "VCU0000013:4"
+        ],
+        "UPDATABLE": 0,
+        "ADDRESS": "VCU0000013",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "1.5",
+        "RX_MODE": 4,
+        "PARENT": "",
+        "TYPE": "HM-PBI-4-FM"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 9,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000013:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-PBI-4-FM",
+        "PARENT": "VCU0000013",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 9,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000013:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-PBI-4-FM",
+        "PARENT": "VCU0000013",
+        "TYPE": "KEY",
+        "DIRECTION": 1
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 9,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000013:2",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 2,
+        "PARENT_TYPE": "HM-PBI-4-FM",
+        "PARENT": "VCU0000013",
+        "TYPE": "KEY",
+        "DIRECTION": 1
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 9,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000013:3",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 3,
+        "PARENT_TYPE": "HM-PBI-4-FM",
+        "PARENT": "VCU0000013",
+        "TYPE": "KEY",
+        "DIRECTION": 1
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 9,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000013:4",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 4,
+        "PARENT_TYPE": "HM-PBI-4-FM",
+        "PARENT": "VCU0000013",
+        "TYPE": "KEY",
+        "DIRECTION": 1
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 8,
+        "CHILDREN": [
+            "VCU0000014:0",
+            "VCU0000014:1"
+        ],
+        "UPDATABLE": 1,
+        "ADDRESS": "VCU0000014",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "2.5",
+        "RX_MODE": 1,
+        "PARENT": "",
+        "TYPE": "HM-LC-Sw1-Pl-DN-R1"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 8,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000014:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-Sw1-Pl-DN-R1",
+        "PARENT": "VCU0000014",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 8,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000014:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-Sw1-Pl-DN-R1",
+        "PARENT": "VCU0000014",
+        "TYPE": "SWITCH",
+        "DIRECTION": 2
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 5,
+        "CHILDREN": [
+            "VCU0000015:0",
+            "VCU0000015:1"
+        ],
+        "UPDATABLE": 0,
+        "ADDRESS": "VCU0000015",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "1.3",
+        "RX_MODE": 12,
+        "PARENT": "",
+        "TYPE": "HM-WDS10-TH-O"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 5,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000015:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-WDS10-TH-O",
+        "PARENT": "VCU0000015",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 5,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "WEATHER_TH",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000015:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-WDS10-TH-O",
+        "PARENT": "VCU0000015",
+        "TYPE": "WEATHER",
+        "DIRECTION": 1
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 13,
+        "CHILDREN": [
+            "VCU0000016:0",
+            "VCU0000016:1",
+            "VCU0000016:2",
+            "VCU0000016:3"
+        ],
+        "UPDATABLE": 1,
+        "ADDRESS": "VCU0000016",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "2.9",
+        "RX_MODE": 1,
+        "PARENT": "",
+        "TYPE": "HM-LC-Dim1TPBU-FM"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 13,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000016:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-Dim1TPBU-FM",
+        "PARENT": "VCU0000016",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 13,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000016:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-Dim1TPBU-FM",
+        "PARENT": "VCU0000016",
+        "TYPE": "DIMMER",
+        "DIRECTION": 2
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 13,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000016:2",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 2,
+        "PARENT_TYPE": "HM-LC-Dim1TPBU-FM",
+        "PARENT": "VCU0000016",
+        "TYPE": "VIRTUAL_DIMMER",
+        "DIRECTION": 2
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 13,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000016:3",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 3,
+        "PARENT_TYPE": "HM-LC-Dim1TPBU-FM",
+        "PARENT": "VCU0000016",
+        "TYPE": "VIRTUAL_DIMMER",
+        "DIRECTION": 2
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 9,
+        "CHILDREN": [
+            "VCU0000017:0",
+            "VCU0000017:1"
+        ],
+        "UPDATABLE": 1,
+        "ADDRESS": "VCU0000017",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "2.8",
+        "RX_MODE": 1,
+        "PARENT": "",
+        "TYPE": "HM-LC-Sw1PBU-FM"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 9,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000017:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-Sw1PBU-FM",
+        "PARENT": "VCU0000017",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 9,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000017:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-Sw1PBU-FM",
+        "PARENT": "VCU0000017",
+        "TYPE": "SWITCH",
+        "DIRECTION": 2
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 3,
+        "CHILDREN": [
+            "VCU0000018:0",
+            "VCU0000018:1"
+        ],
+        "UPDATABLE": 1,
+        "ADDRESS": "VCU0000018",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "1.0",
+        "RX_MODE": 28,
+        "PARENT": "",
+        "TYPE": "HM-Sec-SCo"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 3,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000018:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-Sec-SCo",
+        "PARENT": "VCU0000018",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 3,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000018:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-Sec-SCo",
+        "PARENT": "VCU0000018",
+        "TYPE": "SHUTTER_CONTACT",
+        "DIRECTION": 1
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 21,
+        "CHILDREN": [
+            "VCU0000019:0",
+            "VCU0000019:1"
+        ],
+        "UPDATABLE": 0,
+        "ADDRESS": "VCU0000019",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "2.6",
+        "RX_MODE": 1,
+        "PARENT": "",
+        "TYPE": "HM-LC-Dim1T-FM"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 21,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000019:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-Dim1T-FM",
+        "PARENT": "VCU0000019",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 21,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000019:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-Dim1T-FM",
+        "PARENT": "VCU0000019",
+        "TYPE": "DIMMER",
+        "DIRECTION": 2
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 41,
+        "CHILDREN": [
+            "VCU0000020:0",
+            "VCU0000020:1",
+            "VCU0000020:2",
+            "VCU0000020:3"
+        ],
+        "UPDATABLE": 1,
+        "ADDRESS": "VCU0000020",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "1.0",
+        "RX_MODE": 1,
+        "PARENT": "",
+        "TYPE": "HM-LC-RGBW-WM"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 41,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000020:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-RGBW-WM",
+        "PARENT": "VCU0000020",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 41,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000020:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-RGBW-WM",
+        "PARENT": "VCU0000020",
+        "TYPE": "DIMMER",
+        "DIRECTION": 2
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 41,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000020:2",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 2,
+        "PARENT_TYPE": "HM-LC-RGBW-WM",
+        "PARENT": "VCU0000020",
+        "TYPE": "RGBW_COLOR",
+        "DIRECTION": 2
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 41,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "ADDRESS": "VCU0000020:3",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 3,
+        "PARENT_TYPE": "HM-LC-RGBW-WM",
+        "PARENT": "VCU0000020",
+        "TYPE": "RGBW_AUTOMATIC",
+        "DIRECTION": 2
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 8,
+        "CHILDREN": [
+            "VCU0000021:0",
+            "VCU0000021:1",
+            "VCU0000021:2"
+        ],
+        "UPDATABLE": 0,
+        "ADDRESS": "VCU0000021",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "1.4",
+        "RX_MODE": 28,
+        "PARENT": "",
+        "TYPE": "HM-PB-2-WM55"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 8,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000021:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-PB-2-WM55",
+        "PARENT": "VCU0000021",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "GROUP": "NAA0001940:2",
+        "FLAGS": 1,
+        "VERSION": 8,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000021:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-PB-2-WM55",
+        "PARENT": "VCU0000021",
+        "TYPE": "KEY",
+        "DIRECTION": 1
+    },
+    {
+        "GROUP": "NAA0001940:1",
+        "FLAGS": 1,
+        "VERSION": 8,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000021:2",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 2,
+        "PARENT_TYPE": "HM-PB-2-WM55",
+        "PARENT": "VCU0000021",
+        "TYPE": "KEY",
+        "DIRECTION": 1
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 5,
+        "CHILDREN": [
+            "VCU0000022:0",
+            "VCU0000022:1"
+        ],
+        "UPDATABLE": 0,
+        "ADDRESS": "VCU0000022",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "1.0",
+        "RX_MODE": 2,
+        "PARENT": "",
+        "TYPE": "HM-Sec-SD-2"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 5,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000022:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-Sec-SD-2",
+        "PARENT": "VCU0000022",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 5,
+        "AES_ACTIVE": 1,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000022:1",
+        "TEAM": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "TEAM_TAG": "smoke_detector",
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-Sec-SD-2",
+        "PARENT": "VCU0000022",
+        "TYPE": "SMOKE_DETECTOR",
+        "DIRECTION": 1
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 17,
+        "CHILDREN": [
+            "VCU0000023:0",
+            "VCU0000023:1",
+            "VCU0000023:2",
+            "VCU0000023:3",
+            "VCU0000023:4",
+            "VCU0000023:5",
+            "VCU0000023:6",
+            "VCU0000023:7",
+            "VCU0000023:8",
+            "VCU0000023:9",
+            "VCU0000023:10"
+        ],
+        "UPDATABLE": 1,
+        "ADDRESS": "VCU0000023",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "VCU0000000",
+        "FIRMWARE": "1.0",
+        "RX_MODE": 4,
+        "PARENT": "",
+        "TYPE": "HM-Dis-WM55"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:1",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:2",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 2,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:3",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INDEX": 3,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:4",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INDEX": 4,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:5",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INDEX": 5,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:6",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INDEX": 6,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:7",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INDEX": 7,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:8",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INDEX": 8,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:9",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INDEX": 9,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 17,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000023:10",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INDEX": 10,
+        "PARENT_TYPE": "HM-Dis-WM55",
+        "PARENT": "VCU0000023",
+        "TYPE": "KEY",
+        "DIRECTION": 0
+    },
+    {
+        "RF_ADDRESS": 1234567,
+        "FLAGS": 1,
+        "VERSION": 3,
+        "CHILDREN": [
+            "VCU0000024:0",
+            "VCU0000024:1"
+        ],
+        "UPDATABLE": 0,
+        "ADDRESS": "VCU0000024",
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "INTERFACE": "",
+        "FIRMWARE": "?",
+        "RX_MODE": 1,
+        "PARENT": "",
+        "TYPE": "HM-Sec-SD-2-Team"
+    },
+    {
+        "FLAGS": 3,
+        "VERSION": 3,
+        "AES_ACTIVE": 0,
+        "LINK_SOURCE_ROLES": "",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000024:0",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-Sec-SD-2-Team",
+        "PARENT": "VCU0000024",
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0
+    },
+    {
+        "FLAGS": 1,
+        "VERSION": 3,
+        "AES_ACTIVE": 1,
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "TEAM_TAG": "smoke_detector",
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000024:1",
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "TEAM_CHANNELS": [],
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-Sec-SD-2-Team",
+        "PARENT": "VCU0000024",
+        "TYPE": "SMOKE_DETECTOR_TEAM_V2",
+        "DIRECTION": 1
+    },
+    {
+        "VERSION": 2,
+        "UPDATABLE": true,
+        "FIRMWARE": "1.6.2",
+        "SUBTYPE": "FSM",
+        "INDEX": 0,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [
+            "VCU0000025:0",
+            "VCU0000025:1",
+            "VCU0000025:2",
+            "VCU0000025:3",
+            "VCU0000025:4",
+            "VCU0000025:5",
+            "VCU0000025:6",
+            "VCU0000025:7"
+        ],
+        "PARENT_TYPE": "",
+        "PARENT": "",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "1.6.2",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "HmIP-FSM16",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "SERVICE"
+        ],
+        "DIRECTION": 0,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "",
+        "FIRMWARE_UPDATE_STATE": "UP_TO_DATE",
+        "TEAM": "",
+        "ADDRESS": "VCU0000025",
+        "RF_ADDRESS": 1234567
+    },
+    {
+        "VERSION": 2,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 0,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-FSM16",
+        "PARENT": "VCU0000025",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "SERVICE"
+        ],
+        "DIRECTION": 0,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000025:0",
+        "RF_ADDRESS": 0
+    },
+    {
+        "VERSION": 2,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 1,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-FSM16",
+        "PARENT": "VCU0000025",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "SWITCH_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "SERVICE"
+        ],
+        "DIRECTION": 0,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000025:1",
+        "RF_ADDRESS": 0
+    },
+    {
+        "VERSION": 2,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 2,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-FSM16",
+        "PARENT": "VCU0000025",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "SWITCH_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "LINK",
+            "SERVICE"
+        ],
+        "DIRECTION": 2,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000025:2",
+        "RF_ADDRESS": 0
+    },
+    {
+        "VERSION": 2,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 3,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-FSM16",
+        "PARENT": "VCU0000025",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "SWITCH_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "LINK",
+            "SERVICE"
+        ],
+        "DIRECTION": 2,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000025:3",
+        "RF_ADDRESS": 0
+    },
+    {
+        "VERSION": 2,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 4,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-FSM16",
+        "PARENT": "VCU0000025",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "SWITCH_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "LINK",
+            "SERVICE"
+        ],
+        "DIRECTION": 2,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000025:4",
+        "RF_ADDRESS": 0
+    },
+    {
+        "VERSION": 2,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 5,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-FSM16",
+        "PARENT": "VCU0000025",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "ENERGIE_METER_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "SERVICE"
+        ],
+        "DIRECTION": 0,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000025:5",
+        "RF_ADDRESS": 0
+    },
+    {
+        "VERSION": 2,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 6,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-FSM16",
+        "PARENT": "VCU0000025",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "CONDITIONAL_SWITCH",
+        "TYPE": "COND_SWITCH_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "LINK",
+            "SERVICE"
+        ],
+        "DIRECTION": 1,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000025:6",
+        "RF_ADDRESS": 0
+    },
+    {
+        "VERSION": 2,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 7,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-FSM16",
+        "PARENT": "VCU0000025",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "SWITCH_WEEK_PROFILE",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "SERVICE"
+        ],
+        "DIRECTION": 0,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000025:7",
+        "RF_ADDRESS": 0
+    },
+    {
+        "VERSION": 1,
+        "UPDATABLE": true,
+        "FIRMWARE": "1.0.11",
+        "SUBTYPE": "SD",
+        "INDEX": 0,
+        "GROUP": "",
+        "RX_MODE": 3,
+        "CHILDREN": [
+            "VCU0000026:0",
+            "VCU0000026:1"
+        ],
+        "PARENT_TYPE": "",
+        "PARENT": "",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "0.0.0",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "HmIP-SWSD",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "SERVICE"
+        ],
+        "DIRECTION": 0,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "",
+        "FIRMWARE_UPDATE_STATE": "UP_TO_DATE",
+        "TEAM": "",
+        "ADDRESS": "VCU0000026",
+        "RF_ADDRESS": 1234567
+    },
+    {
+        "VERSION": 1,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 0,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-SWSD",
+        "PARENT": "VCU0000026",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "SERVICE"
+        ],
+        "DIRECTION": 0,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000026:0",
+        "RF_ADDRESS": 0
+    },
+    {
+        "VERSION": 1,
+        "UPDATABLE": true,
+        "FIRMWARE": "",
+        "SUBTYPE": "",
+        "INDEX": 1,
+        "GROUP": "",
+        "RX_MODE": 0,
+        "CHILDREN": [],
+        "PARENT_TYPE": "HmIP-SWSD",
+        "PARENT": "VCU0000026",
+        "INTERFACE": "",
+        "AVAILABLE_FIRMWARE": "",
+        "TEAM_TAG": "",
+        "LINK_SOURCE_ROLES": "",
+        "TYPE": "SMOKE_DETECTOR",
+        "AES_ACTIVE": 1,
+        "ROAMING": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "SERVICE"
+        ],
+        "DIRECTION": 0,
+        "TEAM_CHANNELS": [],
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "TEAM": "",
+        "ADDRESS": "VCU0000026:1",
+        "RF_ADDRESS": 0
+    },
+    {
+        "ROAMING": 0,
+        "PARENT": "",
+        "CHILDREN": [
+            "VCU0000027:0",
+            "VCU0000027:1",
+            "VCU0000027:2",
+            "VCU0000027:3",
+            "VCU0000027:4",
+            "VCU0000027:5",
+            "VCU0000027:6",
+            "VCU0000027:7"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000027",
+        "AVAILABLE_FIRMWARE": "0.0.0",
+        "RX_MODE": 3,
+        "AES_ACTIVE": 1,
+        "FIRMWARE": "1.6.0",
+        "PARENT_TYPE": "",
+        "FLAGS": 1,
+        "UPDATABLE": true,
+        "PARAMSETS": [
+            "MASTER",
+            "SERVICE"
+        ],
+        "SUBTYPE": "STHD",
+        "TYPE": "HmIP-STHD",
+        "VERSION": 1,
+        "RF_ADDRESS": 1234567,
+        "GROUP": "",
+        "TEAM": "",
+        "INTERFACE": "",
+        "TEAM_CHANNELS": [],
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "FIRMWARE_UPDATE_STATE": "UP_TO_DATE",
+        "INDEX": 0,
+        "TEAM_TAG": ""
+    },
+    {
+        "ROAMING": 0,
+        "PARENT": "VCU0000027",
+        "CHILDREN": [],
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000027:0",
+        "AVAILABLE_FIRMWARE": "",
+        "RX_MODE": 0,
+        "AES_ACTIVE": 1,
+        "FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-STHD",
+        "FLAGS": 1,
+        "UPDATABLE": true,
+        "PARAMSETS": [
+            "VALUES",
+            "MASTER",
+            "SERVICE"
+        ],
+        "SUBTYPE": "",
+        "TYPE": "MAINTENANCE",
+        "VERSION": 1,
+        "RF_ADDRESS": 1234567,
+        "GROUP": "",
+        "TEAM": "",
+        "INTERFACE": "",
+        "TEAM_CHANNELS": [],
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "FIRMWARE_UPDATE_STATE": "",
+        "INDEX": 0,
+        "TEAM_TAG": ""
+    },
+    {
+        "ROAMING": 0,
+        "PARENT": "VCU0000027",
+        "CHILDREN": [],
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000027:1",
+        "AVAILABLE_FIRMWARE": "",
+        "RX_MODE": 0,
+        "AES_ACTIVE": 1,
+        "FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-STHD",
+        "FLAGS": 1,
+        "UPDATABLE": true,
+        "PARAMSETS": [
+            "VALUES",
+            "LINK",
+            "MASTER"
+        ],
+        "SUBTYPE": "",
+        "TYPE": "HEATING_CLIMATECONTROL_TRANSCEIVER",
+        "VERSION": 1,
+        "RF_ADDRESS": 1234567,
+        "GROUP": "",
+        "TEAM": "",
+        "INTERFACE": "",
+        "TEAM_CHANNELS": [],
+        "LINK_SOURCE_ROLES": "CLIMATE_CONTROL_WTH_TRV",
+        "DIRECTION": 1,
+        "FIRMWARE_UPDATE_STATE": "",
+        "INDEX": 1,
+        "TEAM_TAG": ""
+    },
+    {
+        "ROAMING": 0,
+        "PARENT": "VCU0000027",
+        "CHILDREN": [],
+        "LINK_TARGET_ROLES": "CLIMATE_CONTROL_TRV_WTH",
+        "ADDRESS": "VCU0000027:2",
+        "AVAILABLE_FIRMWARE": "",
+        "RX_MODE": 0,
+        "AES_ACTIVE": 1,
+        "FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-STHD",
+        "FLAGS": 1,
+        "UPDATABLE": true,
+        "PARAMSETS": [
+            "VALUES",
+            "LINK",
+            "MASTER",
+            "SERVICE"
+        ],
+        "SUBTYPE": "",
+        "TYPE": "HEATING_CLIMATECONTROL_RECEIVER",
+        "VERSION": 1,
+        "RF_ADDRESS": 1234567,
+        "GROUP": "",
+        "TEAM": "",
+        "INTERFACE": "",
+        "TEAM_CHANNELS": [],
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "FIRMWARE_UPDATE_STATE": "",
+        "INDEX": 2,
+        "TEAM_TAG": ""
+    },
+    {
+        "ROAMING": 0,
+        "PARENT": "VCU0000027",
+        "CHILDREN": [],
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000027:3",
+        "AVAILABLE_FIRMWARE": "",
+        "RX_MODE": 0,
+        "AES_ACTIVE": 1,
+        "FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-STHD",
+        "FLAGS": 1,
+        "UPDATABLE": true,
+        "PARAMSETS": [
+            "VALUES",
+            "LINK",
+            "MASTER",
+            "SERVICE"
+        ],
+        "SUBTYPE": "",
+        "TYPE": "HEATING_CLIMATECONTROL_CL_TRANSMITTER",
+        "VERSION": 1,
+        "RF_ADDRESS": 1234567,
+        "GROUP": "",
+        "TEAM": "",
+        "INTERFACE": "",
+        "TEAM_CHANNELS": [],
+        "LINK_SOURCE_ROLES": "CLIMATE_CONTROL_CL",
+        "DIRECTION": 1,
+        "FIRMWARE_UPDATE_STATE": "",
+        "INDEX": 3,
+        "TEAM_TAG": ""
+    },
+    {
+        "ROAMING": 0,
+        "PARENT": "VCU0000027",
+        "CHILDREN": [],
+        "LINK_TARGET_ROLES": "WINDOW_SWITCH",
+        "ADDRESS": "VCU0000027:4",
+        "AVAILABLE_FIRMWARE": "",
+        "RX_MODE": 0,
+        "AES_ACTIVE": 1,
+        "FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-STHD",
+        "FLAGS": 1,
+        "UPDATABLE": true,
+        "PARAMSETS": [
+            "VALUES",
+            "LINK",
+            "MASTER",
+            "SERVICE"
+        ],
+        "SUBTYPE": "",
+        "TYPE": "HEATING_SHUTTER_CONTACT_RECEIVER",
+        "VERSION": 1,
+        "RF_ADDRESS": 1234567,
+        "GROUP": "",
+        "TEAM": "",
+        "INTERFACE": "",
+        "TEAM_CHANNELS": [],
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "FIRMWARE_UPDATE_STATE": "",
+        "INDEX": 4,
+        "TEAM_TAG": ""
+    },
+    {
+        "ROAMING": 0,
+        "PARENT": "VCU0000027",
+        "CHILDREN": [],
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000027:5",
+        "AVAILABLE_FIRMWARE": "",
+        "RX_MODE": 0,
+        "AES_ACTIVE": 1,
+        "FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-STHD",
+        "FLAGS": 1,
+        "UPDATABLE": true,
+        "PARAMSETS": [
+            "VALUES",
+            "LINK",
+            "MASTER",
+            "SERVICE"
+        ],
+        "SUBTYPE": "",
+        "TYPE": "HEATING_CLIMATECONTROL_SWITCH_TRANSMITTER",
+        "VERSION": 1,
+        "RF_ADDRESS": 1234567,
+        "GROUP": "",
+        "TEAM": "",
+        "INTERFACE": "",
+        "TEAM_CHANNELS": [],
+        "LINK_SOURCE_ROLES": "SWITCH",
+        "DIRECTION": 1,
+        "FIRMWARE_UPDATE_STATE": "",
+        "INDEX": 5,
+        "TEAM_TAG": ""
+    },
+    {
+        "ROAMING": 0,
+        "PARENT": "VCU0000027",
+        "CHILDREN": [],
+        "LINK_TARGET_ROLES": "REMOTE_CONTROL",
+        "ADDRESS": "VCU0000027:6",
+        "AVAILABLE_FIRMWARE": "",
+        "RX_MODE": 0,
+        "AES_ACTIVE": 1,
+        "FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-STHD",
+        "FLAGS": 1,
+        "UPDATABLE": true,
+        "PARAMSETS": [
+            "VALUES",
+            "LINK",
+            "MASTER",
+            "SERVICE"
+        ],
+        "SUBTYPE": "",
+        "TYPE": "HEATING_KEY_RECEIVER",
+        "VERSION": 1,
+        "RF_ADDRESS": 1234567,
+        "GROUP": "",
+        "TEAM": "",
+        "INTERFACE": "",
+        "TEAM_CHANNELS": [],
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "FIRMWARE_UPDATE_STATE": "",
+        "INDEX": 6,
+        "TEAM_TAG": ""
+    },
+    {
+        "ROAMING": 0,
+        "PARENT": "VCU0000027",
+        "CHILDREN": [],
+        "LINK_TARGET_ROLES": "",
+        "ADDRESS": "VCU0000027:7",
+        "AVAILABLE_FIRMWARE": "",
+        "RX_MODE": 0,
+        "AES_ACTIVE": 1,
+        "FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-STHD",
+        "FLAGS": 1,
+        "UPDATABLE": true,
+        "PARAMSETS": [
+            "VALUES",
+            "LINK",
+            "MASTER",
+            "SERVICE"
+        ],
+        "SUBTYPE": "",
+        "TYPE": "CLIMATECONTROL_FLOOR_TRANSMITTER",
+        "VERSION": 1,
+        "RF_ADDRESS": 1234567,
+        "GROUP": "",
+        "TEAM": "",
+        "INTERFACE": "",
+        "TEAM_CHANNELS": [],
+        "LINK_SOURCE_ROLES": "CLIMATE_CONTROL_FLOOR",
+        "DIRECTION": 1,
+        "FIRMWARE_UPDATE_STATE": "",
+        "INDEX": 7,
+        "TEAM_TAG": ""
+    },
+    {
+        "UPDATABLE": 0,
+        "RF_ADDRESS": 1234567,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE": "HM-LC-Sw2-FM",
+        "FLAGS": 1,
+        "CHILDREN": [
+            "VCU0000028:0",
+            "VCU0000028:1",
+            "VCU0000028:2"
+        ],
+        "VERSION": 26,
+        "FIRMWARE": "2.8",
+        "RX_MODE": 1,
+        "ROAMING": 0,
+        "ADDRESS": "VCU0000028"
+    },
+    {
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000028",
+        "FLAGS": 3,
+        "LINK_TARGET_ROLES": "",
+        "VERSION": 26,
+        "AES_ACTIVE": 0,
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-Sw2-FM",
+        "ADDRESS": "VCU0000028:0",
+        "LINK_SOURCE_ROLES": ""
+    },
+    {
+        "TYPE": "SWITCH",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "LINK"
+        ],
+        "PARENT": "VCU0000028",
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "VERSION": 26,
+        "AES_ACTIVE": 0,
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-Sw2-FM",
+        "ADDRESS": "VCU0000028:1",
+        "LINK_SOURCE_ROLES": ""
+    },
+    {
+        "TYPE": "SWITCH",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "LINK"
+        ],
+        "PARENT": "VCU0000028",
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "VERSION": 26,
+        "AES_ACTIVE": 0,
+        "INDEX": 2,
+        "PARENT_TYPE": "HM-LC-Sw2-FM",
+        "ADDRESS": "VCU0000028:2",
+        "LINK_SOURCE_ROLES": ""
+    },
+    {
+        "UPDATABLE": 1,
+        "RF_ADDRESS": 1234567,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE": "HM-LC-Bl1PBU-FM",
+        "FLAGS": 1,
+        "AVAILABLE_FIRMWARE": "2.11",
+        "CHILDREN": [
+            "VCU0000029:0",
+            "VCU0000029:1"
+        ],
+        "VERSION": 8,
+        "FIRMWARE": "2.8",
+        "RX_MODE": 1,
+        "ROAMING": 0,
+        "ADDRESS": "VCU0000029"
+    },
+    {
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000029",
+        "FLAGS": 3,
+        "LINK_TARGET_ROLES": "",
+        "VERSION": 8,
+        "AES_ACTIVE": 0,
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-Bl1PBU-FM",
+        "ADDRESS": "VCU0000029:0",
+        "LINK_SOURCE_ROLES": ""
+    },
+    {
+        "TYPE": "BLIND",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "LINK"
+        ],
+        "PARENT": "VCU0000029",
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "SWITCH WEATHER_CS",
+        "VERSION": 8,
+        "AES_ACTIVE": 0,
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-Bl1PBU-FM",
+        "ADDRESS": "VCU0000029:1",
+        "LINK_SOURCE_ROLES": ""
+    },
+    {
+        "UPDATABLE": 1,
+        "RF_ADDRESS": 1234567,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE": "HM-LC-Sw1-Ba-PCB",
+        "FLAGS": 1,
+        "CHILDREN": [
+            "VCU0000030:0",
+            "VCU0000030:1"
+        ],
+        "VERSION": 12,
+        "FIRMWARE": "1.7",
+        "RX_MODE": 2,
+        "ROAMING": 0,
+        "ADDRESS": "VCU0000030"
+    },
+    {
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000030",
+        "FLAGS": 3,
+        "LINK_TARGET_ROLES": "",
+        "VERSION": 12,
+        "AES_ACTIVE": 0,
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-Sw1-Ba-PCB",
+        "ADDRESS": "VCU0000030:0",
+        "LINK_SOURCE_ROLES": ""
+    },
+    {
+        "TYPE": "SWITCH",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "LINK"
+        ],
+        "PARENT": "VCU0000030",
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "VERSION": 12,
+        "AES_ACTIVE": 0,
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-Sw1-Ba-PCB",
+        "ADDRESS": "VCU0000030:1",
+        "LINK_SOURCE_ROLES": ""
+    },
+    {
+        "UPDATABLE": 1,
+        "RF_ADDRESS": 1234567,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE": "HM-LC-Ja1PBU-FM",
+        "FLAGS": 1,
+        "CHILDREN": [
+            "VCU0000031:0",
+            "VCU0000031:1"
+        ],
+        "VERSION": 3,
+        "FIRMWARE": "2.10",
+        "RX_MODE": 1,
+        "ROAMING": 0,
+        "ADDRESS": "VCU0000031"
+    },
+    {
+        "TYPE": "MAINTENANCE",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT": "VCU0000031",
+        "FLAGS": 3,
+        "LINK_TARGET_ROLES": "",
+        "VERSION": 3,
+        "AES_ACTIVE": 0,
+        "INDEX": 0,
+        "PARENT_TYPE": "HM-LC-Ja1PBU-FM",
+        "ADDRESS": "VCU0000031:0",
+        "LINK_SOURCE_ROLES": ""
+    },
+    {
+        "TYPE": "JALOUSIE",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES",
+            "LINK"
+        ],
+        "PARENT": "VCU0000031",
+        "FLAGS": 1,
+        "LINK_TARGET_ROLES": "SWITCH WEATHER_CS",
+        "VERSION": 3,
+        "AES_ACTIVE": 0,
+        "INDEX": 1,
+        "PARENT_TYPE": "HM-LC-Ja1PBU-FM",
+        "ADDRESS": "VCU0000031:1",
+        "LINK_SOURCE_ROLES": ""
+    },
+    {
+        "CHILDREN": [
+            "VCU0000032:0",
+            "VCU0000032:1",
+            "VCU0000032:2",
+            "VCU0000032:3",
+            "VCU0000032:4",
+            "VCU0000032:5",
+            "VCU0000032:6",
+            "VCU0000032:7"
+        ],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "UP_TO_DATE",
+        "ROAMING": 0,
+        "SUBTYPE": "BDT",
+        "ADDRESS": "VCU0000032",
+        "FIRMWARE": "1.4.8",
+        "UPDATABLE": true,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "0.0.0",
+        "PARENT_TYPE": "",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HmIP-BDT",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000032",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000032:0",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-BDT",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "MAINTENANCE",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 1,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000032",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000032:1",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "REMOTE_CONTROL",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-BDT",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "KEY_TRANSCEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 1,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000032",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000032:2",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 2,
+        "LINK_SOURCE_ROLES": "REMOTE_CONTROL",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-BDT",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "KEY_TRANSCEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000032",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000032:3",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 3,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-BDT",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "DIMMER_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "PARENT": "VCU0000032",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000032:4",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 4,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-BDT",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "DIMMER_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "PARENT": "VCU0000032",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000032:5",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 5,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-BDT",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "DIMMER_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "PARENT": "VCU0000032",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000032:6",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 6,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-BDT",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "DIMMER_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000032",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000032:7",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 7,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-BDT",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "DIMMER_WEEK_PROFILE",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [
+            "VCU0000033:0",
+            "VCU0000033:1",
+            "VCU0000033:2",
+            "VCU0000033:3",
+            "VCU0000033:4",
+            "VCU0000033:5"
+        ],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "READY_FOR_UPDATE",
+        "ROAMING": 0,
+        "SUBTYPE": "PS",
+        "ADDRESS": "VCU0000033",
+        "FIRMWARE": "2.2.0",
+        "UPDATABLE": true,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "2.6.2",
+        "PARENT_TYPE": "",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HMIP-PS",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000033",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000033:0",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PS",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "MAINTENANCE",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 1,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000033",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000033:1",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "REMOTE_CONTROL",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PS",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "KEY_TRANSCEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000033",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000033:2",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 2,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PS",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "SWITCH_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "PARENT": "VCU0000033",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000033:3",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 3,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PS",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "SWITCH_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "PARENT": "VCU0000033",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000033:4",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 4,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PS",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "SWITCH_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "PARENT": "VCU0000033",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000033:5",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 5,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PS",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "SWITCH_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [
+            "VCU0000034:0",
+            "VCU0000034:1",
+            "VCU0000034:2",
+            "VCU0000034:3",
+            "VCU0000034:4",
+            "VCU0000034:5",
+            "VCU0000034:6",
+            "VCU0000034:7"
+        ],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "UP_TO_DATE",
+        "ROAMING": 0,
+        "SUBTYPE": "WTH-2",
+        "ADDRESS": "VCU0000034",
+        "FIRMWARE": "1.4.4",
+        "UPDATABLE": true,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "0.0.0",
+        "PARENT_TYPE": "",
+        "TEAM_TAG": "",
+        "RX_MODE": 3,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HmIP-WTH-2",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000034",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000034:0",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-WTH-2",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "MAINTENANCE",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 1,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000034",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000034:1",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "CLIMATE_CONTROL_WTH_TRV",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-WTH-2",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HEATING_CLIMATECONTROL_TRANSCEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CLIMATE_CONTROL_TRV_WTH",
+        "PARENT": "VCU0000034",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000034:2",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 2,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-WTH-2",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HEATING_CLIMATECONTROL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 1,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000034",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000034:3",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 3,
+        "LINK_SOURCE_ROLES": "CLIMATE_CONTROL_CL",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-WTH-2",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HEATING_CLIMATECONTROL_CL_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "WINDOW_SWITCH",
+        "PARENT": "VCU0000034",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000034:4",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 4,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-WTH-2",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HEATING_SHUTTER_CONTACT_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 1,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000034",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000034:5",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 5,
+        "LINK_SOURCE_ROLES": "SWITCH",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-WTH-2",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HEATING_CLIMATECONTROL_SWITCH_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "REMOTE_CONTROL",
+        "PARENT": "VCU0000034",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000034:6",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 6,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-WTH-2",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HEATING_KEY_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 1,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000034",
+        "VERSION": 2,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000034:7",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 7,
+        "LINK_SOURCE_ROLES": "CLIMATE_CONTROL_FLOOR",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HmIP-WTH-2",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "CLIMATECONTROL_FLOOR_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [
+            "VCU0000035:0",
+            "VCU0000035:1",
+            "VCU0000035:2",
+            "VCU0000035:3",
+            "VCU0000035:4",
+            "VCU0000035:5",
+            "VCU0000035:6",
+            "VCU0000035:7"
+        ],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "READY_FOR_UPDATE",
+        "ROAMING": 0,
+        "SUBTYPE": "PSM",
+        "ADDRESS": "VCU0000035",
+        "FIRMWARE": "2.2.2",
+        "UPDATABLE": true,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "2.6.2",
+        "PARENT_TYPE": "",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "HMIP-PSM",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000035",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000035:0",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 0,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PSM",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "MAINTENANCE",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 1,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000035",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000035:1",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 1,
+        "LINK_SOURCE_ROLES": "REMOTE_CONTROL",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PSM",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "KEY_TRANSCEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000035",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000035:2",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 2,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PSM",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "SWITCH_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "PARENT": "VCU0000035",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000035:3",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 3,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PSM",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "SWITCH_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "PARENT": "VCU0000035",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000035:4",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 4,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PSM",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "SWITCH_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 2,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "CONDITIONAL_SWITCH LEVEL SWITCH REMOTE_CONTROL",
+        "PARENT": "VCU0000035",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000035:5",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 5,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PSM",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "SWITCH_VIRTUAL_RECEIVER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 0,
+        "PARAMSETS": [
+            "SERVICE",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000035",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000035:6",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 6,
+        "LINK_SOURCE_ROLES": "",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PSM",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "ENERGIE_METER_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [],
+        "INTERFACE": "",
+        "DIRECTION": 1,
+        "PARAMSETS": [
+            "SERVICE",
+            "LINK",
+            "VALUES",
+            "MASTER"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "PARENT": "VCU0000035",
+        "VERSION": 3,
+        "TEAM": "",
+        "GROUP": "",
+        "FIRMWARE_UPDATE_STATE": "",
+        "ROAMING": 0,
+        "SUBTYPE": "",
+        "ADDRESS": "VCU0000035:7",
+        "FIRMWARE": "",
+        "UPDATABLE": true,
+        "INDEX": 7,
+        "LINK_SOURCE_ROLES": "CONDITIONAL_SWITCH",
+        "RF_ADDRESS": 1234567,
+        "AVAILABLE_FIRMWARE": "",
+        "PARENT_TYPE": "HMIP-PSM",
+        "TEAM_TAG": "",
+        "RX_MODE": 0,
+        "TEAM_CHANNELS": [],
+        "TYPE": "COND_SWITCH_TRANSMITTER",
+        "AES_ACTIVE": 1,
+        "FLAGS": 1
+    },
+    {
+        "CHILDREN": [
+            "VCU0000036:0",
+            "VCU0000036:1",
+            "VCU0000036:3",
+            "VCU0000036:4"
+        ],
+        "FIRMWARE": "1.5",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "FLAGS": 1,
+        "TYPE": "BC-RT-TRX-CyG",
+        "RF_ADDRESS": 1234567,
+        "VERSION": 1,
+        "RX_MODE": 2,
+        "CHANNELS": [
+            0,
+            1,
+            3,
+            4
+        ],
+        "ROAMING": 0,
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE_ID": 511,
+        "ADDRESS": "VCU0000036",
+        "ID": 1,
+        "FAMILY": 4,
+        "PHYSICAL_ADDRESS": 161452
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "CHANNEL": 0,
+        "PARENT": "VCU0000036",
+        "FLAGS": 3,
+        "ADDRESS": "VCU0000036:0",
+        "ID": 1,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 0
+    },
+    {
+        "LINK_SOURCE_ROLES": "THERMALCONTROL_VD",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 3,
+        "LINK_TARGET_ROLES": "THERMALCONTROL_VD",
+        "TYPE": "CLIMATECONTROL_TRANSCEIVER",
+        "CHANNEL": 1,
+        "PARENT": "VCU0000036",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000036:1",
+        "ID": 1,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 1
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "LINK_TARGET_ROLES": "THERMALCONTROL_TC",
+        "TYPE": "CLIMATECONTROL_RECEIVER",
+        "CHANNEL": 3,
+        "PARENT": "VCU0000036",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000036:3",
+        "ID": 1,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 3
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "LINK_TARGET_ROLES": "WINDOW_SWITCH_RECEIVER",
+        "TYPE": "WINDOW_SWITCH_RECEIVER",
+        "CHANNEL": 4,
+        "PARENT": "VCU0000036",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000036:4",
+        "ID": 1,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 4
+    },
+    {
+        "CHILDREN": [
+            "VCU0000037:0",
+            "VCU0000037:1",
+            "VCU0000037:2"
+        ],
+        "FIRMWARE": "1.2",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "FLAGS": 1,
+        "TYPE": "BC-PB-2-WM",
+        "RF_ADDRESS": 1234567,
+        "VERSION": 1,
+        "RX_MODE": 8,
+        "CHANNELS": [
+            0,
+            1,
+            2
+        ],
+        "ROAMING": 0,
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE_ID": 1295,
+        "ADDRESS": "VCU0000037",
+        "ID": 2,
+        "FAMILY": 4,
+        "PHYSICAL_ADDRESS": 154052
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-PB-2-WM",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "CHANNEL": 0,
+        "PARENT": "VCU0000037",
+        "FLAGS": 3,
+        "ADDRESS": "VCU0000037:0",
+        "ID": 2,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 0
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-PB-2-WM",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "KEY",
+        "CHANNEL": 1,
+        "PARENT": "VCU0000037",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000037:1",
+        "ID": 2,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 1
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-PB-2-WM",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "KEY",
+        "CHANNEL": 2,
+        "PARENT": "VCU0000037",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000037:2",
+        "ID": 2,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 2
+    },
+    {
+        "CHILDREN": [
+            "VCU0000038:0",
+            "VCU0000038:1",
+            "VCU0000038:4"
+        ],
+        "FIRMWARE": "1.2",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "FLAGS": 1,
+        "TYPE": "BC-TC-C-WM-2",
+        "RF_ADDRESS": 1234567,
+        "VERSION": 1,
+        "RX_MODE": 2,
+        "CHANNELS": [
+            0,
+            1,
+            4
+        ],
+        "ROAMING": 0,
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE_ID": 768,
+        "ADDRESS": "VCU0000038",
+        "ID": 3,
+        "FAMILY": 4,
+        "PHYSICAL_ADDRESS": 174207
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-TC-C-WM-2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "CHANNEL": 0,
+        "PARENT": "VCU0000038",
+        "FLAGS": 3,
+        "ADDRESS": "VCU0000038:0",
+        "ID": 3,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 0
+    },
+    {
+        "LINK_SOURCE_ROLES": "THERMALCONTROL_TC",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-TC-C-WM-2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "CLIMATECONTROL_TRANSCEIVER",
+        "CHANNEL": 1,
+        "PARENT": "VCU0000038",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000038:1",
+        "ID": 3,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 1
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT_TYPE": "BC-TC-C-WM-2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "LINK_TARGET_ROLES": "WINDOW_SWITCH_RECEIVER_2",
+        "TYPE": "WINDOW_SWITCH_RECEIVER",
+        "CHANNEL": 4,
+        "PARENT": "VCU0000038",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000038:4",
+        "ID": 3,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 4
+    },
+    {
+        "CHILDREN": [
+            "VCU0000039:0",
+            "VCU0000039:1",
+            "VCU0000039:3"
+        ],
+        "FIRMWARE": "1.0",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "FLAGS": 1,
+        "TYPE": "BC-SC-Rd-WM-2",
+        "RF_ADDRESS": 1234567,
+        "VERSION": 1,
+        "RX_MODE": 8,
+        "CHANNELS": [
+            0,
+            1,
+            3
+        ],
+        "ROAMING": 0,
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE_ID": 1024,
+        "ADDRESS": "VCU0000039",
+        "ID": 5,
+        "FAMILY": 4,
+        "PHYSICAL_ADDRESS": 1578812
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-SC-Rd-WM-2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "CHANNEL": 0,
+        "PARENT": "VCU0000039",
+        "FLAGS": 3,
+        "ADDRESS": "VCU0000039:0",
+        "ID": 5,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 0
+    },
+    {
+        "LINK_SOURCE_ROLES": "WINDOW_SWITCH_RECEIVER",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-SC-Rd-WM-2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "SHUTTER_CONTACT",
+        "CHANNEL": 1,
+        "PARENT": "VCU0000039",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000039:1",
+        "ID": 5,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 1
+    },
+    {
+        "LINK_SOURCE_ROLES": "WINDOW_SWITCH_RECEIVER_2",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT_TYPE": "BC-SC-Rd-WM-2",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "SHUTTER_CONTACT",
+        "CHANNEL": 3,
+        "PARENT": "VCU0000039",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000039:3",
+        "ID": 5,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 3
+    },
+    {
+        "CHILDREN": [
+            "VCU0000040:0",
+            "VCU0000040:1",
+            "VCU0000040:3",
+            "VCU0000040:4"
+        ],
+        "FIRMWARE": "1.0",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "FLAGS": 1,
+        "TYPE": "BC-RT-TRX-CyG-3",
+        "RF_ADDRESS": 1234567,
+        "VERSION": 1,
+        "RX_MODE": 2,
+        "CHANNELS": [
+            0,
+            1,
+            3,
+            4
+        ],
+        "ROAMING": 0,
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE_ID": 416,
+        "ADDRESS": "VCU0000040",
+        "ID": 6,
+        "FAMILY": 4,
+        "PHYSICAL_ADDRESS": 1429685
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG-3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "CHANNEL": 0,
+        "PARENT": "VCU0000040",
+        "FLAGS": 3,
+        "ADDRESS": "VCU0000040:0",
+        "ID": 6,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 0
+    },
+    {
+        "LINK_SOURCE_ROLES": "THERMALCONTROL_VD",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG-3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 3,
+        "LINK_TARGET_ROLES": "THERMALCONTROL_VD",
+        "TYPE": "CLIMATECONTROL_TRANSCEIVER",
+        "CHANNEL": 1,
+        "PARENT": "VCU0000040",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000040:1",
+        "ID": 6,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 1
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG-3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "LINK_TARGET_ROLES": "THERMALCONTROL_TC",
+        "TYPE": "CLIMATECONTROL_RECEIVER",
+        "CHANNEL": 3,
+        "PARENT": "VCU0000040",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000040:3",
+        "ID": 6,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 3
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG-3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "LINK_TARGET_ROLES": "WINDOW_SWITCH_RECEIVER",
+        "TYPE": "WINDOW_SWITCH_RECEIVER",
+        "CHANNEL": 4,
+        "PARENT": "VCU0000040",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000040:4",
+        "ID": 6,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 4
+    },
+    {
+        "CHILDREN": [
+            "VCU0000041:0",
+            "VCU0000041:1",
+            "VCU0000041:3"
+        ],
+        "FIRMWARE": "1.3",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "FLAGS": 1,
+        "TYPE": "BC-SC-Rd-WM",
+        "RF_ADDRESS": 1234567,
+        "VERSION": 1,
+        "RX_MODE": 8,
+        "CHANNELS": [
+            0,
+            1,
+            3
+        ],
+        "ROAMING": 0,
+        "PARENT": "",
+        "INTERFACE": "VCU0000000",
+        "TYPE_ID": 1039,
+        "ADDRESS": "VCU0000041",
+        "ID": 7,
+        "FAMILY": 4,
+        "PHYSICAL_ADDRESS": 157922
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-SC-Rd-WM",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "CHANNEL": 0,
+        "PARENT": "VCU0000041",
+        "FLAGS": 3,
+        "ADDRESS": "VCU0000041:0",
+        "ID": 7,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 0
+    },
+    {
+        "LINK_SOURCE_ROLES": "WINDOW_SWITCH_RECEIVER",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-SC-Rd-WM",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "SHUTTER_CONTACT",
+        "CHANNEL": 1,
+        "PARENT": "VCU0000041",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000041:1",
+        "ID": 7,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 1
+    },
+    {
+        "LINK_SOURCE_ROLES": "WINDOW_SWITCH_RECEIVER_2",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT_TYPE": "BC-SC-Rd-WM",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 1,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "SHUTTER_CONTACT",
+        "CHANNEL": 3,
+        "PARENT": "VCU0000041",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000041:3",
+        "ID": 7,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 3
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "CHANNEL": 0,
+        "PARENT": "VCU0000041",
+        "FLAGS": 3,
+        "ADDRESS": "VCU0000041:0",
+        "ID": 8,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 0
+    },
+    {
+        "LINK_SOURCE_ROLES": "THERMALCONTROL_VD",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 3,
+        "LINK_TARGET_ROLES": "THERMALCONTROL_VD",
+        "TYPE": "CLIMATECONTROL_TRANSCEIVER",
+        "CHANNEL": 1,
+        "PARENT": "VCU0000041",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000041:1",
+        "ID": 8,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 1
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "LINK_TARGET_ROLES": "THERMALCONTROL_TC",
+        "TYPE": "CLIMATECONTROL_RECEIVER",
+        "CHANNEL": 3,
+        "PARENT": "VCU0000041",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000041:3",
+        "ID": 8,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 3
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG-3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 0,
+        "LINK_TARGET_ROLES": "",
+        "TYPE": "MAINTENANCE",
+        "CHANNEL": 0,
+        "PARENT": "VCU0000041",
+        "FLAGS": 3,
+        "ADDRESS": "VCU0000041:0",
+        "ID": 11,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 0
+    },
+    {
+        "LINK_SOURCE_ROLES": "THERMALCONTROL_VD",
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG-3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 3,
+        "LINK_TARGET_ROLES": "THERMALCONTROL_VD",
+        "TYPE": "CLIMATECONTROL_TRANSCEIVER",
+        "CHANNEL": 1,
+        "PARENT": "VCU0000041",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000041:1",
+        "ID": 11,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 1
+    },
+    {
+        "LINK_SOURCE_ROLES": "",
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "PARENT_TYPE": "BC-RT-TRX-CyG-3",
+        "AES_ACTIVE": 0,
+        "DIRECTION": 2,
+        "LINK_TARGET_ROLES": "THERMALCONTROL_TC",
+        "TYPE": "CLIMATECONTROL_RECEIVER",
+        "CHANNEL": 3,
+        "PARENT": "VCU0000041",
+        "FLAGS": 1,
+        "ADDRESS": "VCU0000041:3",
+        "ID": 11,
+        "FAMILY": 4,
+        "VERSION": 1,
+        "INDEX": 3
+    },
+    {
+        "FIRMWARE": "1.5",
+        "CHILDREN": [
+            "VCU0000042:0",
+            "VCU0000042:1"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 12,
+        "TYPE": "HM-Sen-MDIR-O",
+        "UPDATABLE": 0,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 8,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000042",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000042",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-Sen-MDIR-O",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000042:0",
+        "FLAGS": 3,
+        "VERSION": 8,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000042",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-Sen-MDIR-O",
+        "AES_ACTIVE": 1,
+        "TYPE": "MOTION_DETECTOR",
+        "ADDRESS": "VCU0000042:1",
+        "FLAGS": 1,
+        "VERSION": 8,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "FIRMWARE": "1.5",
+        "CHILDREN": [
+            "VCU0000043:0",
+            "VCU0000043:1"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "ZEL STG RM FEP 230V",
+        "UPDATABLE": 0,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000043",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000043",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "ZEL STG RM FEP 230V",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000043:0",
+        "FLAGS": 3,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000043",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "ZEL STG RM FEP 230V",
+        "AES_ACTIVE": 0,
+        "TYPE": "BLIND",
+        "ADDRESS": "VCU0000043:1",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "FIRMWARE": "1.1",
+        "CHILDREN": [
+            "VCU0000044:0",
+            "VCU0000044:1",
+            "VCU0000044:2",
+            "VCU0000044:3",
+            "VCU0000044:4",
+            "VCU0000044:5",
+            "VCU0000044:6",
+            "VCU0000044:7",
+            "VCU0000044:8",
+            "VCU0000044:9",
+            "VCU0000044:10",
+            "VCU0000044:11",
+            "VCU0000044:12",
+            "VCU0000044:13",
+            "VCU0000044:14",
+            "VCU0000044:15",
+            "VCU0000044:16"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "HM-OU-LED16",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000044",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000044:0",
+        "FLAGS": 3,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:1",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:2",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:3",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:4",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 4
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:5",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 5
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:6",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 6
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:7",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 7
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:8",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 8
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:9",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 9
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:10",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 10
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:11",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 11
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:12",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 12
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:13",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 13
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:14",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 14
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:15",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 15
+    },
+    {
+        "PARENT": "VCU0000044",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-LED16",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000044:16",
+        "FLAGS": 1,
+        "VERSION": 11,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 16
+    },
+    {
+        "FIRMWARE": "2.1",
+        "CHILDREN": [
+            "VCU0000045:0",
+            "VCU0000045:1"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 12,
+        "TYPE": "HM-Sec-RHS",
+        "UPDATABLE": 0,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 14,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000045",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000045",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-Sec-RHS",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000045:0",
+        "FLAGS": 3,
+        "VERSION": 14,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000045",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-Sec-RHS",
+        "AES_ACTIVE": 1,
+        "TYPE": "ROTARY_HANDLE_SENSOR",
+        "ADDRESS": "VCU0000045:1",
+        "FLAGS": 1,
+        "VERSION": 14,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "FIRMWARE": "1.12",
+        "CHILDREN": [
+            "VCU0000046:0",
+            "VCU0000046:1",
+            "VCU0000046:2",
+            "VCU0000046:3",
+            "VCU0000046:4"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "HM-LC-Sw4-PCB",
+        "UPDATABLE": 0,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000046",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000046",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-LC-Sw4-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000046:0",
+        "FLAGS": 3,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000046",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000046:1",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000046",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000046:2",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000046",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000046:3",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000046",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000046:4",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 4
+    },
+    {
+        "FIRMWARE": "1.1",
+        "CHILDREN": [
+            "VCU0000047:0",
+            "VCU0000047:1",
+            "VCU0000047:2",
+            "VCU0000047:3",
+            "VCU0000047:4"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 28,
+        "TYPE": "HM-RC-Key4-2",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 4,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000047",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000047",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-RC-Key4-2",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000047:0",
+        "FLAGS": 3,
+        "VERSION": 4,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000047",
+        "GROUP": "KEQ0814778:2",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Key4-2",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000047:1",
+        "FLAGS": 1,
+        "VERSION": 4,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000047",
+        "GROUP": "KEQ0814778:1",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Key4-2",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000047:2",
+        "FLAGS": 1,
+        "VERSION": 4,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000047",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Key4-2",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000047:3",
+        "FLAGS": 1,
+        "VERSION": 4,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000047",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Key4-2",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000047:4",
+        "FLAGS": 1,
+        "VERSION": 4,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 4
+    },
+    {
+        "FIRMWARE": "1.3",
+        "CHILDREN": [
+            "VCU0000048:0",
+            "VCU0000048:1"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 12,
+        "TYPE": "HM-WDS40-TH-I-2",
+        "UPDATABLE": 0,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 0,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000048",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000048",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-WDS40-TH-I-2",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000048:0",
+        "FLAGS": 3,
+        "VERSION": 0,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000048",
+        "LINK_SOURCE_ROLES": "WEATHER_TH",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-WDS40-TH-I-2",
+        "AES_ACTIVE": 0,
+        "TYPE": "WEATHER",
+        "ADDRESS": "VCU0000048:1",
+        "FLAGS": 1,
+        "VERSION": 0,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "FIRMWARE": "2.4",
+        "CHILDREN": [
+            "VCU0000049:0",
+            "VCU0000049:1",
+            "VCU0000049:2",
+            "VCU0000049:3",
+            "VCU0000049:4"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "HM-LC-Sw4-DR",
+        "UPDATABLE": 0,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 26,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000049",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000049",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-LC-Sw4-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000049:0",
+        "FLAGS": 3,
+        "VERSION": 26,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000049",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000049:1",
+        "FLAGS": 1,
+        "VERSION": 26,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000049",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000049:2",
+        "FLAGS": 1,
+        "VERSION": 26,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000049",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000049:3",
+        "FLAGS": 1,
+        "VERSION": 26,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000049",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000049:4",
+        "FLAGS": 1,
+        "VERSION": 26,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 4
+    },
+    {
+        "FIRMWARE": "1.2",
+        "CHILDREN": [
+            "VCU0000050:0",
+            "VCU0000050:1",
+            "VCU0000050:2",
+            "VCU0000050:3",
+            "VCU0000050:4",
+            "VCU0000050:5",
+            "VCU0000050:6"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 28,
+        "TYPE": "HM-PB-6-WM55",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000050",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000050",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-PB-6-WM55",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000050:0",
+        "FLAGS": 3,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000050",
+        "GROUP": "LEQ0635892:2",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-PB-6-WM55",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000050:1",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000050",
+        "GROUP": "LEQ0635892:1",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-PB-6-WM55",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000050:2",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000050",
+        "GROUP": "LEQ0635892:4",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-PB-6-WM55",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000050:3",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000050",
+        "GROUP": "LEQ0635892:3",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-PB-6-WM55",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000050:4",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 4
+    },
+    {
+        "PARENT": "VCU0000050",
+        "GROUP": "LEQ0635892:6",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-PB-6-WM55",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000050:5",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 5
+    },
+    {
+        "PARENT": "VCU0000050",
+        "GROUP": "LEQ0635892:5",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-PB-6-WM55",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000050:6",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 6
+    },
+    {
+        "FIRMWARE": "1.1",
+        "CHILDREN": [
+            "VCU0000051:0",
+            "VCU0000051:1",
+            "VCU0000051:2",
+            "VCU0000051:3",
+            "VCU0000051:4",
+            "VCU0000051:5"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 12,
+        "TYPE": "HM-WDS30-OT2-SM",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 5,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000051",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000051",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-WDS30-OT2-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000051:0",
+        "FLAGS": 3,
+        "VERSION": 5,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000051",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-WDS30-OT2-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "WEATHER",
+        "ADDRESS": "VCU0000051:1",
+        "FLAGS": 1,
+        "VERSION": 5,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000051",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-WDS30-OT2-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "WEATHER",
+        "ADDRESS": "VCU0000051:2",
+        "FLAGS": 1,
+        "VERSION": 5,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000051",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-WDS30-OT2-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "WEATHER",
+        "ADDRESS": "VCU0000051:3",
+        "FLAGS": 1,
+        "VERSION": 5,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000051",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-WDS30-OT2-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "WEATHER",
+        "ADDRESS": "VCU0000051:4",
+        "FLAGS": 1,
+        "VERSION": 5,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 4
+    },
+    {
+        "PARENT": "VCU0000051",
+        "LINK_SOURCE_ROLES": "WEATHER_T",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-WDS30-OT2-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "WEATHER",
+        "ADDRESS": "VCU0000051:5",
+        "FLAGS": 1,
+        "VERSION": 5,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 5
+    },
+    {
+        "FIRMWARE": "1.0",
+        "CHILDREN": [
+            "VCU0000052:0",
+            "VCU0000052:1"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "HM-OU-CM-PCB",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 4,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000052",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000052",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-OU-CM-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000052:0",
+        "FLAGS": 3,
+        "VERSION": 4,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000052",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-OU-CM-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "SIGNAL_CHIME",
+        "ADDRESS": "VCU0000052:1",
+        "FLAGS": 1,
+        "VERSION": 4,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "FIRMWARE": "1.1",
+        "CHILDREN": [
+            "VCU0000053:0",
+            "VCU0000053:1",
+            "VCU0000053:2",
+            "VCU0000053:3",
+            "VCU0000053:4"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 2,
+        "TYPE": "HM-LC-Sw4-Ba-PCB",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 3,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000053",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000053",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-LC-Sw4-Ba-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000053:0",
+        "FLAGS": 3,
+        "VERSION": 3,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000053",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-Ba-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000053:1",
+        "FLAGS": 1,
+        "VERSION": 3,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000053",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-Ba-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000053:2",
+        "FLAGS": 1,
+        "VERSION": 3,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000053",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-Ba-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000053:3",
+        "FLAGS": 1,
+        "VERSION": 3,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000053",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw4-Ba-PCB",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000053:4",
+        "FLAGS": 1,
+        "VERSION": 3,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 4
+    },
+    {
+        "FIRMWARE": "1.0",
+        "CHILDREN": [
+            "VCU0000054:0",
+            "VCU0000054:1",
+            "VCU0000054:2",
+            "VCU0000054:3",
+            "VCU0000054:4",
+            "VCU0000054:5",
+            "VCU0000054:6",
+            "VCU0000054:7",
+            "VCU0000054:8"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 28,
+        "TYPE": "HM-MOD-EM-8",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000054",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000054",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-MOD-EM-8",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000054:0",
+        "FLAGS": 3,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000054",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-MOD-EM-8",
+        "AES_ACTIVE": 0,
+        "TYPE": "SHUTTER_CONTACT",
+        "ADDRESS": "VCU0000054:1",
+        "FLAGS": 1,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000054",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-MOD-EM-8",
+        "AES_ACTIVE": 0,
+        "TYPE": "SHUTTER_CONTACT",
+        "ADDRESS": "VCU0000054:2",
+        "FLAGS": 1,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000054",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-MOD-EM-8",
+        "AES_ACTIVE": 0,
+        "TYPE": "SHUTTER_CONTACT",
+        "ADDRESS": "VCU0000054:3",
+        "FLAGS": 1,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000054",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-MOD-EM-8",
+        "AES_ACTIVE": 0,
+        "TYPE": "SHUTTER_CONTACT",
+        "ADDRESS": "VCU0000054:4",
+        "FLAGS": 1,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 4
+    },
+    {
+        "PARENT": "VCU0000054",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-MOD-EM-8",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000054:5",
+        "FLAGS": 1,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 5
+    },
+    {
+        "PARENT": "VCU0000054",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-MOD-EM-8",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000054:6",
+        "FLAGS": 1,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 6
+    },
+    {
+        "PARENT": "VCU0000054",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-MOD-EM-8",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000054:7",
+        "FLAGS": 1,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 7
+    },
+    {
+        "PARENT": "VCU0000054",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-MOD-EM-8",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000054:8",
+        "FLAGS": 1,
+        "VERSION": 18,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 8
+    },
+    {
+        "FIRMWARE": "1.0",
+        "CHILDREN": [
+            "VCU0000055:0",
+            "VCU0000055:1",
+            "VCU0000055:2",
+            "VCU0000055:3",
+            "VCU0000055:4",
+            "VCU0000055:5",
+            "VCU0000055:6",
+            "VCU0000055:7",
+            "VCU0000055:8",
+            "VCU0000055:9",
+            "VCU0000055:10",
+            "VCU0000055:11",
+            "VCU0000055:12",
+            "VCU0000055:13",
+            "VCU0000055:14",
+            "VCU0000055:15",
+            "VCU0000055:16",
+            "VCU0000055:17",
+            "VCU0000055:18",
+            "VCU0000055:19",
+            "VCU0000055:20"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 28,
+        "TYPE": "HM-RC-Dis-H-x-EU",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000055",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000055:0",
+        "FLAGS": 3,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:1",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:2",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:3",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:4",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 4
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:5",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 5
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:6",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 6
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:7",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 7
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:8",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 8
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:9",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 9
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:10",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 10
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:11",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 11
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:12",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 12
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:13",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 13
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:14",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 14
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:15",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 15
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:16",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 16
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:17",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 17
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:18",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 18
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:19",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 19
+    },
+    {
+        "PARENT": "VCU0000055",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-Dis-H-x-EU",
+        "AES_ACTIVE": 0,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000055:20",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 20
+    },
+    {
+        "FIRMWARE": "2.5",
+        "CHILDREN": [
+            "VCU0000056:0",
+            "VCU0000056:1",
+            "VCU0000056:2",
+            "VCU0000056:3",
+            "VCU0000056:4",
+            "VCU0000056:5",
+            "VCU0000056:6"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "HM-ES-PMSw1-DR",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000056",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000056",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-ES-PMSw1-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000056:0",
+        "FLAGS": 3,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000056",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-ES-PMSw1-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000056:1",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000056",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-ES-PMSw1-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "POWERMETER",
+        "ADDRESS": "VCU0000056:2",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000056",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-ES-PMSw1-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "CONDITION_POWER",
+        "ADDRESS": "VCU0000056:3",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000056",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-ES-PMSw1-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "CONDITION_CURRENT",
+        "ADDRESS": "VCU0000056:4",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 4
+    },
+    {
+        "PARENT": "VCU0000056",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-ES-PMSw1-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "CONDITION_VOLTAGE",
+        "ADDRESS": "VCU0000056:5",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 5
+    },
+    {
+        "PARENT": "VCU0000056",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-ES-PMSw1-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "CONDITION_FREQUENCY",
+        "ADDRESS": "VCU0000056:6",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 6
+    },
+    {
+        "FIRMWARE": "2.6",
+        "CHILDREN": [
+            "VCU0000057:0",
+            "VCU0000057:1",
+            "VCU0000057:2",
+            "VCU0000057:3",
+            "VCU0000057:4",
+            "VCU0000057:5",
+            "VCU0000057:6"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "HM-ES-PMSw1-SM",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000057",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000057",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-ES-PMSw1-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000057:0",
+        "FLAGS": 3,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000057",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-ES-PMSw1-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000057:1",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000057",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-ES-PMSw1-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "POWERMETER",
+        "ADDRESS": "VCU0000057:2",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000057",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-ES-PMSw1-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "CONDITION_POWER",
+        "ADDRESS": "VCU0000057:3",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000057",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-ES-PMSw1-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "CONDITION_CURRENT",
+        "ADDRESS": "VCU0000057:4",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 4
+    },
+    {
+        "PARENT": "VCU0000057",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-ES-PMSw1-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "CONDITION_VOLTAGE",
+        "ADDRESS": "VCU0000057:5",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 5
+    },
+    {
+        "PARENT": "VCU0000057",
+        "LINK_SOURCE_ROLES": "KEYMATIC SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-ES-PMSw1-SM",
+        "AES_ACTIVE": 0,
+        "TYPE": "CONDITION_FREQUENCY",
+        "ADDRESS": "VCU0000057:6",
+        "FLAGS": 1,
+        "VERSION": 16,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 6
+    },
+    {
+        "FIRMWARE": "2.5",
+        "CHILDREN": [
+            "VCU0000058:0",
+            "VCU0000058:1"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "HM-LC-Sw1-Pl-CT-R1",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 8,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000058",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000058",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-LC-Sw1-Pl-CT-R1",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000058:0",
+        "FLAGS": 3,
+        "VERSION": 8,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000058",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw1-Pl-CT-R1",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000058:1",
+        "FLAGS": 1,
+        "VERSION": 8,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "FIRMWARE": "1.2",
+        "CHILDREN": [
+            "VCU0000059:0",
+            "VCU0000059:1",
+            "VCU0000059:2",
+            "VCU0000059:3"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 12,
+        "TYPE": "HM-SCI-3-FM",
+        "UPDATABLE": 0,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 10,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000059",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000059",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-SCI-3-FM",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000059:0",
+        "FLAGS": 3,
+        "VERSION": 10,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000059",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-SCI-3-FM",
+        "AES_ACTIVE": 1,
+        "TYPE": "SHUTTER_CONTACT",
+        "ADDRESS": "VCU0000059:1",
+        "FLAGS": 1,
+        "VERSION": 10,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000059",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-SCI-3-FM",
+        "AES_ACTIVE": 1,
+        "TYPE": "SHUTTER_CONTACT",
+        "ADDRESS": "VCU0000059:2",
+        "FLAGS": 1,
+        "VERSION": 10,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000059",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINDOW_SWITCH_RECEIVER WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-SCI-3-FM",
+        "AES_ACTIVE": 1,
+        "TYPE": "SHUTTER_CONTACT",
+        "ADDRESS": "VCU0000059:3",
+        "FLAGS": 1,
+        "VERSION": 10,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "FIRMWARE": "2.9",
+        "CHILDREN": [
+            "VCU0000060:0",
+            "VCU0000060:1",
+            "VCU0000060:2"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "HM-LC-Sw2PBU-FM",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000060",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000060",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-LC-Sw2PBU-FM",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000060:0",
+        "FLAGS": 3,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000060",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw2PBU-FM",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000060:1",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000060",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Sw2PBU-FM",
+        "AES_ACTIVE": 0,
+        "TYPE": "SWITCH",
+        "ADDRESS": "VCU0000060:2",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 2
+    },
+    {
+        "FIRMWARE": "1.0",
+        "CHILDREN": [
+            "VCU0000061:0",
+            "VCU0000061:1",
+            "VCU0000061:2",
+            "VCU0000061:3"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 1,
+        "TYPE": "HM-LC-Dim1T-DR",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000061",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000061",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-LC-Dim1T-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000061:0",
+        "FLAGS": 3,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000061",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Dim1T-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "DIMMER",
+        "ADDRESS": "VCU0000061:1",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000061",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Dim1T-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "VIRTUAL_DIMMER",
+        "ADDRESS": "VCU0000061:2",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000061",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 2,
+        "PARENT_TYPE": "HM-LC-Dim1T-DR",
+        "AES_ACTIVE": 0,
+        "TYPE": "VIRTUAL_DIMMER",
+        "ADDRESS": "VCU0000061:3",
+        "FLAGS": 1,
+        "VERSION": 1,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "SWITCH WCS_TIPTRONIC_SENSOR WEATHER_CS",
+        "INDEX": 3
+    },
+    {
+        "FIRMWARE": "1.1",
+        "CHILDREN": [
+            "VCU0000062:0",
+            "VCU0000062:1",
+            "VCU0000062:2",
+            "VCU0000062:3",
+            "VCU0000062:4"
+        ],
+        "RF_ADDRESS": 1234567,
+        "INTERFACE": "VCU0000000",
+        "RX_MODE": 28,
+        "TYPE": "HM-RC-4-3",
+        "UPDATABLE": 1,
+        "PARENT": "",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "MASTER"
+        ],
+        "ADDRESS": "VCU0000062",
+        "ROAMING": 0
+    },
+    {
+        "PARENT": "VCU0000062",
+        "LINK_SOURCE_ROLES": "",
+        "DIRECTION": 0,
+        "PARENT_TYPE": "HM-RC-4-3",
+        "AES_ACTIVE": 0,
+        "TYPE": "MAINTENANCE",
+        "ADDRESS": "VCU0000062:0",
+        "FLAGS": 3,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 0
+    },
+    {
+        "PARENT": "VCU0000062",
+        "GROUP": "OEQ0326787:2",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-4-3",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000062:1",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 1
+    },
+    {
+        "PARENT": "VCU0000062",
+        "GROUP": "OEQ0326787:1",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-4-3",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000062:2",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 2
+    },
+    {
+        "PARENT": "VCU0000062",
+        "GROUP": "OEQ0326787:4",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-4-3",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000062:3",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 3
+    },
+    {
+        "PARENT": "VCU0000062",
+        "GROUP": "OEQ0326787:3",
+        "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
+        "DIRECTION": 1,
+        "PARENT_TYPE": "HM-RC-4-3",
+        "AES_ACTIVE": 1,
+        "TYPE": "KEY",
+        "ADDRESS": "VCU0000062:4",
+        "FLAGS": 1,
+        "VERSION": 7,
+        "PARAMSETS": [
+            "LINK",
+            "MASTER",
+            "VALUES"
+        ],
+        "LINK_TARGET_ROLES": "",
+        "INDEX": 4
+    }
+]

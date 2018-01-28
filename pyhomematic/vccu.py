@@ -10,6 +10,7 @@ import json
 LOG = logging.getLogger(__name__)
 LOCAL = "127.0.0.1"
 LOCALPORT = 2001
+DEVICE_DESCRIPTIONS = "devicetypes/json/device_descriptions.json"
 
 class LockingServerProxy(xmlrpc.client.ServerProxy):
     """
@@ -47,7 +48,7 @@ class RPCFunctions(object):
         self.remotes = {}
         try:
             script_dir = os.path.dirname(__file__)
-            rel_path = "devicetypes/devicedescriptions.json"
+            rel_path = DEVICE_DESCRIPTIONS
             with open(os.path.join(script_dir, rel_path)) as fptr:
                 self.devices = json.load(fptr)
         except Exception as err:
