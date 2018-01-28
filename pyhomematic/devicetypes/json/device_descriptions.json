@@ -1704,7 +1704,7 @@
         "DIRECTION": 0
     },
     {
-        "GROUP": "NAA0001940:2",
+        "GROUP": "VCU0000021:2",
         "FLAGS": 1,
         "VERSION": 8,
         "AES_ACTIVE": 0,
@@ -1723,7 +1723,7 @@
         "DIRECTION": 1
     },
     {
-        "GROUP": "NAA0001940:1",
+        "GROUP": "VCU0000021:1",
         "FLAGS": 1,
         "VERSION": 8,
         "AES_ACTIVE": 0,
@@ -5473,7 +5473,7 @@
     },
     {
         "PARENT": "VCU0000047",
-        "GROUP": "KEQ0814778:2",
+        "GROUP": "VCU0000047:2",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-RC-Key4-2",
@@ -5492,7 +5492,7 @@
     },
     {
         "PARENT": "VCU0000047",
-        "GROUP": "KEQ0814778:1",
+        "GROUP": "VCU0000047:1",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-RC-Key4-2",
@@ -5756,7 +5756,7 @@
     },
     {
         "PARENT": "VCU0000050",
-        "GROUP": "LEQ0635892:2",
+        "GROUP": "VCU0000050:2",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-PB-6-WM55",
@@ -5775,7 +5775,7 @@
     },
     {
         "PARENT": "VCU0000050",
-        "GROUP": "LEQ0635892:1",
+        "GROUP": "VCU0000050:1",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-PB-6-WM55",
@@ -5794,7 +5794,7 @@
     },
     {
         "PARENT": "VCU0000050",
-        "GROUP": "LEQ0635892:4",
+        "GROUP": "VCU0000050:4",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-PB-6-WM55",
@@ -5813,7 +5813,7 @@
     },
     {
         "PARENT": "VCU0000050",
-        "GROUP": "LEQ0635892:3",
+        "GROUP": "VCU0000050:3",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-PB-6-WM55",
@@ -5832,7 +5832,7 @@
     },
     {
         "PARENT": "VCU0000050",
-        "GROUP": "LEQ0635892:6",
+        "GROUP": "VCU0000050:6",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-PB-6-WM55",
@@ -5851,7 +5851,7 @@
     },
     {
         "PARENT": "VCU0000050",
-        "GROUP": "LEQ0635892:5",
+        "GROUP": "VCU0000050:5",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-PB-6-WM55",
@@ -7421,7 +7421,7 @@
     },
     {
         "PARENT": "VCU0000062",
-        "GROUP": "OEQ0326787:2",
+        "GROUP": "VCU0000062:2",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-RC-4-3",
@@ -7440,7 +7440,7 @@
     },
     {
         "PARENT": "VCU0000062",
-        "GROUP": "OEQ0326787:1",
+        "GROUP": "VCU0000062:1",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-RC-4-3",
@@ -7459,7 +7459,7 @@
     },
     {
         "PARENT": "VCU0000062",
-        "GROUP": "OEQ0326787:4",
+        "GROUP": "VCU0000062:4",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-RC-4-3",
@@ -7478,7 +7478,7 @@
     },
     {
         "PARENT": "VCU0000062",
-        "GROUP": "OEQ0326787:3",
+        "GROUP": "VCU0000062:3",
         "LINK_SOURCE_ROLES": "KEYMATIC REMOTECONTROL_RECEIVER SWITCH WINMATIC",
         "DIRECTION": 1,
         "PARENT_TYPE": "HM-RC-4-3",
