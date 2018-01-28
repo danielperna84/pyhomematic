@@ -59,7 +59,7 @@
     "HM-LC-Sw2PBU-FM": {},
     "HM-LC-Dim1T-DR": {},
     "HM-RC-4-3": {},
-    "HM-Sec-SD-2-Team": {"supported": true},
+    "HM-Sec-SD-2-Team": {"supported": false},
     "HmIP-FSM16": {"supported": false},
     "HM-LC-RGBW-WM": {"supported": false}
 }
