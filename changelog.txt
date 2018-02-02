@@ -1,7 +1,9 @@
-Version 0.1.39 (2018-)
+Version 0.1.39 (2018-02-)
 - Fixed exception when "resolvenames" not set @danielperna84
 - Cleaning up JSON as workaround for CCU bug @danielperna84
 - Added virtual CCU and some tests @danielperna84
+- Added HmIP-SRH @pascalhahn
+- Added HM-LC-Dim1T-Pl-2 @krawadl
 
 Version 0.1.38 (2018-01-26)
 - KeyMatic improvements @PH89
