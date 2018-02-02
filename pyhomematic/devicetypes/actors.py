@@ -421,6 +421,7 @@ DEVICETYPES = {
     "HM-LC-Dim1L-CV": Dimmer,
     "HM-LC-Dim1L-CV-2": Dimmer,
     "HM-LC-Dim1T-Pl": Dimmer,
+    "HM-LC-Dim1T-Pl-2": Dimmer,
     "HM-LC-Dim1T-Pl-3": Dimmer,
     "HM-LC-Dim1T-CV": Dimmer,
     "HM-LC-Dim1T-CV-2": Dimmer,
