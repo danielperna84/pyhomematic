@@ -505,6 +505,7 @@ DEVICETYPES = {
     "HM-Sec-MD": MotionV2,
     "HmIP-SMI": MotionIP,
     "HmIP-SMO": MotionIP,
+    "HmIP-SMO-A": MotionIP,
     "HmIP-SPI": PresenceIP,
     "HM-Sen-LI-O": LuxSensor,
     "HM-Sen-EP": ImpulseSensor,
