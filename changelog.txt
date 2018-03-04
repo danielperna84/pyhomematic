@@ -1,3 +1,6 @@
+Version 0.1.40 (2018-03-)
+- Added HmIP-SMO-A @danielperna84
+
 Version 0.1.39 (2018-02-09)
 - Fixed exception when "resolvenames" not set @danielperna84
 - Cleaning up JSON as workaround for CCU bug @danielperna84
