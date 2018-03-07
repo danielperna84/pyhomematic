@@ -301,6 +301,18 @@ class IPThermostatWall(HMThermostat, HelperLowBatIP):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
 
+class IPThermostatArea(HMThermostat, HelperLowBatIP):
+    """
+    HmIP-STHO
+    ClimateControl-Area Thermostat that measures temperature and humidity
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
+                                "HUMIDITY": [1]})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0]})
 
 DEVICETYPES = {
     "HM-CC-VG-1": ThermostatGroup,
@@ -323,5 +335,7 @@ DEVICETYPES = {
     "HmIP-WTH-2": IPThermostatWall,
     "HMIP-WTH": IPThermostatWall,
     "HmIP-WTH": IPThermostatWall,
-    "HmIP-BWTH": IPThermostatWall
+    "HmIP-BWTH": IPThermostatWall,
+    "HmIP-STHO": IPThermostatArea,
+    "HmIP-STHO-A": IPThermostatArea,
 }

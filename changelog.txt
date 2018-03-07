@@ -1,5 +1,6 @@
 Version 0.1.40 (2018-03-)
 - Added HmIP-SMO-A @danielperna84
+- Added HmIP-STHO(-A) @danielperna84
 
 Version 0.1.39 (2018-02-09)
 - Fixed exception when "resolvenames" not set @danielperna84
