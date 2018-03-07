@@ -320,6 +320,30 @@ class PresenceIP(HMBinarySensor, HMSensor):
         return [0, 1]
 
 
+class TiltIP(HMBinarySensor, HMSensor):
+    """Tilt detection with HmIP-SAM"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION": [1]})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
+                                   "ERROR_CODE": [0]})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def low_batt(self, channel=None):
+        """ Returns if the battery is low. """
+        return self.getAttributeData("LOW_BAT", channel)
+
+    @property
+    def ELEMENT(self):
+        return [0, 1]
+
+
 class RemoteMotion(Remote, Motion):
     """Motion detection with buttons."""
 
@@ -543,4 +567,5 @@ DEVICETYPES = {
     "HMW-Sen-SC-12-FM": WiredSensor,
     "HM-CC-VD": ValveDrive,
     "ZEL STG RM FSA": ValveDrive,
+    "HmIP-SAM": TiltIP,
 }
