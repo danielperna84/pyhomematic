@@ -400,6 +400,24 @@ class AreaThermostat(HMSensor):
         return int(self.getSensorData("HUMIDITY", channel))
 
 
+class IPAreaThermostat(HMSensor):
+    """Wall mount thermostat."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
+                                "HUMIDITY": [1]})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0]})
+
+    def get_temperature(self, channel=None):
+        return float(self.getSensorData("ACTUAL_TEMPERATURE", channel))
+
+    def get_humidity(self, channel=None):
+        return int(self.getSensorData("HUMIDITY", channel))
+
+
 class TemperatureSensor(HMSensor):
     """Temperature Sensor."""
 
@@ -568,4 +586,6 @@ DEVICETYPES = {
     "HM-CC-VD": ValveDrive,
     "ZEL STG RM FSA": ValveDrive,
     "HmIP-SAM": TiltIP,
+    "HmIP-STHO": IPAreaThermostat,
+    "HmIP-STHO-A": IPAreaThermostat,
 }
