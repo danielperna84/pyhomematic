@@ -1,4 +1,4 @@
-Version 0.1.40 (2018-03-)
+Version 0.1.40 (2018-03-20)
 - Added HmIP-SMO-A @danielperna84
 - Added HmIP-STHO(-A) @danielperna84
 - Added HmIP-SAM @danielperna84
