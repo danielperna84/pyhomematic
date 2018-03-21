@@ -1,3 +1,6 @@
+Version 0.1.41 (2018-)
+- Added HmIP-SWDO-I @smoldaner
+
 Version 0.1.40 (2018-03-20)
 - Added HmIP-SMO-A @danielperna84
 - Added HmIP-STHO(-A) @danielperna84
