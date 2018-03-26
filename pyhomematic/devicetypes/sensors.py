@@ -490,6 +490,64 @@ class WeatherSensor(HMSensor, HMBinarySensor):
         return bool(self.getBinaryData("RAINING", channel))
 
 
+class IPWeatherSensor(HMSensor, HMBinarySensor):
+    """HomeMatic IP Weather sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
+                                "HUMIDITY": [1],
+                                "RAIN_COUNTER": [1],
+                                "WIND_SPEED": [1],
+                                "WIND_DIR": [1],
+                                "WIND_DIR_RANGE": [1],
+                                "SUNSHINEDURATION": [1],
+                                "ILLUMINATION": [1]})
+        self.BINARYNODE.update({"RAINING": [1]})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
+                                   "ERROR_CODE": [0],
+                                   "OPERATING_VOLTAGE": [0],
+                                   "TEMPERATURE_OUT_OF_RANGE": [0]})
+
+    def get_temperature(self, channel=None):
+        return float(self.getSensorData("ACTUAL_TEMPERATURE", channel))
+
+    def get_humidity(self, channel=None):
+        return int(self.getSensorData("HUMIDITY", channel))
+
+    def get_rain_counter(self, channel=None):
+        return float(self.getSensorData("RAIN_COUNTER", channel))
+
+    def get_wind_speed(self, channel=None):
+        return float(self.getSensorData("WIND_SPEED", channel))
+
+    def get_wind_direction(self, channel=None):
+        return int(self.getSensorData("WIND_DIR", channel))
+
+    def get_wind_direction_range(self, channel=None):
+        return int(self.getSensorData("WIND_DIR_RANGE", channel))
+
+    def get_sunshineduration(self, channel=None):
+        return int(self.getSensorData("SUNSHINEDURATION", channel))
+
+    def get_brightness(self, channel=None):
+        return int(self.getSensorData("ILLUMINATION", channel))
+
+    def get_operating_voltage(self, channel=None):
+        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
+
+    def is_raining(self, channel=None):
+        return bool(self.getBinaryData("RAINING", channel))
+
+    def is_low_batt(self, channel=None):
+        return bool(self.getAttributeData("LOW_BAT", channel))
+
+    def is_temperature_out_of_range(self, channel=None):
+        return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
+
+
 class WeatherStation(HMSensor):
     """Weather station."""
 
@@ -568,6 +626,7 @@ DEVICETYPES = {
     "KS888": WeatherSensor,
     "KS550Tech": WeatherSensor,
     "KS550LC": WeatherSensor,
+    "HmIP-SWO-PR": IPWeatherSensor,
     "WS550": WeatherStation,
     "WS888": WeatherStation,
     "WS550Tech": WeatherStation,
