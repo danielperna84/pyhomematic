@@ -1,4 +1,4 @@
-Version 0.1.41 (2018-)
+Version 0.1.41 (2018-04-10)
 - Added HmIP-SWDO-I @smoldaner
 - Added HmIP-SWO-PR @pascalhahn
 
