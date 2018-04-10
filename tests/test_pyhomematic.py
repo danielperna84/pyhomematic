@@ -11,6 +11,7 @@ from pyhomematic import devicetypes
 
 logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger(__name__)
+STARTUP_DELAY = 2
 DEFAULT_IP = "127.0.0.1"
 DEFAULT_PORT = 2001
 DEFAULT_INTERFACE_CLIENT = "test"
@@ -70,7 +71,7 @@ class Test_1_PyhomematicBase(unittest.TestCase):
             }
         )
         client.start()
-        time.sleep(2)
+        time.sleep(STARTUP_DELAY)
         servicemessages = client.getServiceMessages(DEFAULT_REMOTE)
         self.assertEqual(len(servicemessages), 1)
         self.assertEqual(servicemessages[0][0], 'VCU0000001:1')
@@ -90,7 +91,7 @@ class Test_1_PyhomematicBase(unittest.TestCase):
             }
         )
         client.start()
-        time.sleep(2)
+        time.sleep(STARTUP_DELAY)
         servicemessages = client.getServiceMessages(DEFAULT_REMOTE)
         self.assertEqual(len(servicemessages), 1)
         self.assertEqual(servicemessages[0][0], 'VCU0000001:1')
@@ -123,7 +124,7 @@ class Test_2_PyhomematicDevices(unittest.TestCase):
             }
         )
         self.client.start()
-        time.sleep(2)
+        time.sleep(STARTUP_DELAY)
 
     def tearDown(self):
         LOG.debug("TestPyhomematicDevices.tearDown")
