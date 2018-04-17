@@ -335,7 +335,7 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
     def ELEMENT(self):
         if "HmIP-BSM" in self.TYPE:
             return [4]
-        elif "HmIP-FSM" in self.TYPE:
+        elif "HmIP-FSM" in self.TYPE or "HmIP-FSM16" in self.TYPE:
             return [2]
         else:
             return [3]
@@ -385,7 +385,7 @@ class IPSwitchPowermeter(IPSwitch, HMSensor):
 
         # init metadata
         sensorIndex = None
-        if "HmIP-FSM" in self.TYPE:
+        if "HmIP-FSM" in self.TYPE or "HmIP-FSM16" in self.TYPE:
             sensorIndex = 5
         elif "HMIP-PSM" in self.TYPE or "HmIP-PSM" in self.TYPE or "HmIP-PSM-CH" in self.TYPE:
             sensorIndex = 6
@@ -517,6 +517,7 @@ DEVICETYPES = {
     "HmIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM-CH": IPSwitchPowermeter,
     "HmIP-FSM": IPSwitchPowermeter,
+    "HmIP-FSM16": IPSwitchPowermeter,
     "HmIP-BSM": IPSwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
     "HmIP-BDT": IPKeyDimmer,
