@@ -7,7 +7,7 @@ def readme():
 
 PACKAGE_NAME = 'pyhomematic'
 HERE = os.path.abspath(os.path.dirname(__file__))
-VERSION = '0.1.41'
+VERSION = '0.1.42'
 
 PACKAGES = find_packages(exclude=['tests', 'tests.*', 'dist', 'build'])
 
@@ -32,7 +32,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Home Automation'
     ],
 )
