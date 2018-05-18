@@ -1,4 +1,5 @@
-Version 0.1.43 ()
+Version 0.1.43 (2018-05)
+- Improved HmIP-SRH implementation @hanzoh
 
 Version 0.1.42 (2018-04-26)
 - Added HmIP-FSM16 @emkay82
