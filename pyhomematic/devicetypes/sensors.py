@@ -2,6 +2,7 @@ import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.misc import HMEvent, Remote
 from pyhomematic.devicetypes.helper import (HelperLowBat, HelperSabotage,
+                                            HelperLowBatIP, HelperSabotageIP,
                                             HelperBinaryState,
                                             HelperSensorState,
                                             HelperWired)
