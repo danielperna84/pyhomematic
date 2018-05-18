@@ -74,6 +74,21 @@ class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabota
         return self.get_state(channel) == 1
 
 
+class RotaryHandleSensorIP(HMSensor, HelperSensorState, HelperLowBatIP, HelperSabotageIP):
+    """Window handle contact."""
+    def is_open(self, channel=None):
+        """ Returns True if the handle is set to open. """
+        return self.get_state(channel) == 2
+
+    def is_closed(self, channel=None):
+        """ Returns True if the handle is set to closed. """
+        return self.get_state(channel) == 0
+
+    def is_tilted(self, channel=None):
+        """ Returns True if the handle is set to tilted. """
+        return self.get_state(channel) == 1
+
+
 class CO2Sensor(HMSensor, HelperSensorState):
     """CO2 Sensor"""
     def is_normal(self, channel=None):
@@ -580,7 +595,7 @@ DEVICETYPES = {
     "HMIP-SWDO": IPShutterContact,
     "HmIP-SWDO": IPShutterContact,
     "HmIP-SWDO-I": IPShutterContact,
-    "HmIP-SRH": RotaryHandleSensor,
+    "HmIP-SRH": RotaryHandleSensorIP,
     "HM-Sec-RHS": RotaryHandleSensor,
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,
