@@ -2,6 +2,7 @@ import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.misc import HMEvent, Remote
 from pyhomematic.devicetypes.helper import (HelperLowBat, HelperSabotage,
+                                            HelperLowBatIP, HelperSabotageIP,
                                             HelperBinaryState,
                                             HelperSensorState,
                                             HelperWired)
@@ -60,6 +61,21 @@ class TiltSensor(HMBinarySensor, HelperBinaryState, HelperLowBat):
 
 
 class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabotage):
+    """Window handle contact."""
+    def is_open(self, channel=None):
+        """ Returns True if the handle is set to open. """
+        return self.get_state(channel) == 2
+
+    def is_closed(self, channel=None):
+        """ Returns True if the handle is set to closed. """
+        return self.get_state(channel) == 0
+
+    def is_tilted(self, channel=None):
+        """ Returns True if the handle is set to tilted. """
+        return self.get_state(channel) == 1
+
+
+class RotaryHandleSensorIP(HMSensor, HelperSensorState, HelperLowBatIP, HelperSabotageIP):
     """Window handle contact."""
     def is_open(self, channel=None):
         """ Returns True if the handle is set to open. """
@@ -580,7 +596,7 @@ DEVICETYPES = {
     "HMIP-SWDO": IPShutterContact,
     "HmIP-SWDO": IPShutterContact,
     "HmIP-SWDO-I": IPShutterContact,
-    "HmIP-SRH": RotaryHandleSensor,
+    "HmIP-SRH": RotaryHandleSensorIP,
     "HM-Sec-RHS": RotaryHandleSensor,
     "ZEL STG RM FDK": RotaryHandleSensor,
     "HM-Sec-RHS-2": RotaryHandleSensor,

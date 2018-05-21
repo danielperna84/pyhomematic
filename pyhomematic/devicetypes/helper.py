@@ -15,6 +15,17 @@ class HelperSabotage(HMDevice):
         """Returns True if the devicecase has been opened."""
         return bool(self.getAttributeData("ERROR", channel))
 
+class HelperSabotageIP(HMDevice):
+    """This helper adds sabotage detection."""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"SABOTAGE": self.ELEMENT})
+
+    def sabotage(self, channel=None):
+        """Returns True if the devicecase has been opened."""
+        return bool(self.getAttributeData("SABOTAGE", channel))
 
 class HelperLowBat(HMDevice):
     """This Helper adds easy access to read the LOWBAT state"""
