@@ -1,5 +1,5 @@
-Version 0.1.44 ()
-- 
+Version 0.1.44 (2018-)
+- Added HM-Sen-MDIR-O-3 @danielperna84
 
 Version 0.1.43 (2018-05-22)
 - Improved HmIP-SRH implementation @hanzoh

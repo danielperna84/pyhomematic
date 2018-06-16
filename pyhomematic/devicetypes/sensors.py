@@ -615,6 +615,7 @@ DEVICETYPES = {
     "HM-Sen-MDIR-O": Motion,
     "HM-MD": Motion,
     "HM-Sen-MDIR-O-2": Motion,
+    "HM-Sen-MDIR-O-3": Motion,
     "HM-Sec-MDIR-3": MotionV2,
     "HM-Sec-MDIR-2": MotionV2,
     "HM-Sec-MDIR": MotionV2,
