@@ -267,8 +267,9 @@ class RPCFunctions(object):
             headers = {"Content-Type": 'application/json',
                        "Content-Length": len(payload)}
             if jsonport:
-                jsonport = ":"+jsonport
-            apiendpoint = "http://%s%s%s" % (host, jsonport, JSONRPC_URL)
+                apiendpoint = "http://%s:%s%s" % (host, jsonport, JSONRPC_URL)
+            else:
+                apiendpoint = "http://%s%s" % (host, JSONRPC_URL)
             LOG.debug("RPCFunctions.jsonRpcPost: API-Endpoint: %s" %
                       apiendpoint)
             req = urllib.request.Request(apiendpoint, payload, headers)
