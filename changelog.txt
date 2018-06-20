@@ -1,3 +1,6 @@
+Version 0.1.45 ()
+- 
+
 Version 0.1.44 (2018-06-20)
 - Added HM-Sen-MDIR-O-3 @danielperna84
 - Allow custom port for JSON-RPC @hanzoh
