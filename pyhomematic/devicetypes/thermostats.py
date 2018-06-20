@@ -164,7 +164,7 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
         self.ATTRIBUTENODE.update({"CONTROL_MODE": [2], "BATTERY_STATE": [2]})
 
 
-class ThermostatWall2(HMThermostat, AreaThermostat, HelperBatteryState):
+class ThermostatWall2(HMThermostat, AreaThermostat, HelperLowBat):
     """
     HM-CC-TC
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
