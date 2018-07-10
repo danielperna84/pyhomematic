@@ -34,7 +34,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress):
             return [c for c in range(1, 21)]
         if "Sec3" in self.TYPE or "Key3" in self.TYPE:
             return [1, 2, 3]
-        if "RC-4" in self.TYPE or "PB-4" in self.TYPE:
+        if "RC-4" in self.TYPE or "PB-4" in self.TYPE or "SPDR" in self.TYPE:
             return [1, 2, 3, 4]
         if "HM-PBI-4-FM" in self.TYPE or "ZEL STG RM FST UP4" in self.TYPE or "263 145" in self.TYPE or "HM-PBI-X" in self.TYPE:
             return [1, 2, 3, 4]
@@ -128,4 +128,5 @@ DEVICETYPES = {
     "HM-SwI-X": RemotePress,
     "HMW-RCV-50": RemoteVirtual,
     "HmIP-RC8": Remote,
+    "HmIP-SPDR": Remote,
 }
