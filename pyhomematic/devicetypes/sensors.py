@@ -683,4 +683,5 @@ DEVICETYPES = {
     "HmIP-SAM": TiltIP,
     "HmIP-STHO": IPAreaThermostat,
     "HmIP-STHO-A": IPAreaThermostat,
+    "HmIP-SPDR": IPPassageSensor,
 }
