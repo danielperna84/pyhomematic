@@ -5,7 +5,7 @@ from pyhomematic.devicetypes.helper import (HelperLowBat, HelperSabotage,
                                             HelperLowBatIP, HelperSabotageIP,
                                             HelperBinaryState,
                                             HelperSensorState,
-                                            HelperWired)
+                                            HelperWired, HelperEventRemote)
 
 LOG = logging.getLogger(__name__)
 
@@ -504,6 +504,24 @@ class WeatherSensor(HMSensor, HMBinarySensor):
     def is_raining(self, channel=None):
         """ Return True if motion is detected """
         return bool(self.getBinaryData("RAINING", channel))
+
+
+class IPPassageSensor(HMSensor, HMBinarySensor, HelperEventRemote, HelperLowBatIP):
+    """HomeMatic IP Passage Sensor. #2 = right to left, #3 = left to right"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"PASSAGE_COUNTER_VALUE": self.ELEMENT})
+        self.BINARYNODE.update({"PASSAGE_COUNTER_OVERFLOW": self.ELEMENT,
+                                "LAST_PASSAGE_DIRECTION": [2],
+                                "CURRENT_PASSAGE_DIRECTION": [2]})
+        self.ATTRIBUTENODE.update({"RSSI_DEVICE": [0]})
+
+    @property
+    def ELEMENT(self):
+        return [2, 3]
 
 
 class IPWeatherSensor(HMSensor, HMBinarySensor):
