@@ -16,6 +16,7 @@ LOG = logging.getLogger(__name__)
 # Constants
 LOCAL = '0.0.0.0'
 LOCALPORT = 0
+DEFAULT_JSONPORT = 80
 REMOTES = {
     'default': {
         'ip': '127.0.0.1',
@@ -23,7 +24,7 @@ REMOTES = {
         'path': '',
         'username': 'Admin',
         'password': '',
-        'jsonport': 80,
+        'jsonport': DEFAULT_JSONPORT,
         'resolvenames': False,
         'connect': True,
     }}
@@ -313,7 +314,7 @@ class RPCFunctions(object):
                 params = {"username": self.remotes[remote][
                     'username'], "password": self.remotes[remote]['password']}
                 response = self.jsonRpcPost(
-                    self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "Session.login", params)
+                    self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "Session.login", params)
                 if response['error'] is None and response['result']:
                     session = response['result']
 
@@ -324,7 +325,7 @@ class RPCFunctions(object):
 
                 params = {"_session_id_": session}
                 response = self.jsonRpcPost(
-                    self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "Interface.listInterfaces", params)
+                    self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "Interface.listInterfaces", params)
                 interface = False
                 if response['error'] is None and response['result']:
                     for i in response['result']:
@@ -336,12 +337,12 @@ class RPCFunctions(object):
                 if not interface:
                     params = {"_session_id_": session}
                     response = self.jsonRpcPost(
-                        self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "Session.logout", params)
+                        self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "Session.logout", params)
                     return
 
                 params = {"_session_id_": session}
                 response = self.jsonRpcPost(
-                    self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "Device.listAllDetail", params)
+                    self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "Device.listAllDetail", params)
 
                 if response['error'] is None and response['result']:
                     LOG.debug(
@@ -357,11 +358,11 @@ class RPCFunctions(object):
 
                 params = {"_session_id_": session}
                 response = self.jsonRpcPost(
-                    self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "Session.logout", params)
+                    self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "Session.logout", params)
             except Exception as err:
                 params = {"_session_id_": session}
                 response = self.jsonRpcPost(
-                    self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "Session.logout", params)
+                    self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "Session.logout", params)
                 LOG.warning(
                     "RPCFunctions.addDeviceNames: Exception: %s" % str(err))
 
@@ -597,7 +598,7 @@ class ServerThread(threading.Thread):
             params = {"username": self.remotes[remote][
                 'username'], "password": self.remotes[remote]['password']}
             response = self._rpcfunctions.jsonRpcPost(
-                self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "Session.login", params)
+                self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "Session.login", params)
             if response['error'] is None and response['result']:
                 session = response['result']
 
@@ -615,7 +616,7 @@ class ServerThread(threading.Thread):
         try:
             params = {"_session_id_": session}
             response = self._rpcfunctions.jsonRpcPost(
-                self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "Session.logout", params)
+                self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "Session.logout", params)
             if response['error'] is None and response['result']:
                 logout = response['result']
         except Exception as err:
@@ -635,7 +636,7 @@ class ServerThread(threading.Thread):
             try:
                 params = {"_session_id_": session}
                 response = self._rpcfunctions.jsonRpcPost(
-                    self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "SysVar.getAll", params)
+                    self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "SysVar.getAll", params)
                 if response['error'] is None and response['result']:
                     for var in response['result']:
                         key, value = self.parseCCUSysVar(var)
@@ -667,7 +668,7 @@ class ServerThread(threading.Thread):
             try:
                 params = {"_session_id_": session, "name": name}
                 response = self._rpcfunctions.jsonRpcPost(
-                    self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "SysVar.getValueByName", params)
+                    self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "SysVar.getValueByName", params)
                 if response['error'] is None and response['result']:
                     try:
                         var = float(response['result'])
@@ -699,7 +700,7 @@ class ServerThread(threading.Thread):
             try:
                 params = {"_session_id_": session, "name": name}
                 response = self._rpcfunctions.jsonRpcPost(
-                    self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "SysVar.deleteSysVarByName", params)
+                    self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "SysVar.deleteSysVarByName", params)
                 if response['error'] is None and response['result']:
                     deleted = response['result']
                     LOG.warning(
@@ -731,10 +732,10 @@ class ServerThread(threading.Thread):
                 if value is True or value is False:
                     params['value'] = int(value)
                     response = self._rpcfunctions.jsonRpcPost(
-                        self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "SysVar.setBool", params)
+                        self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "SysVar.setBool", params)
                 else:
                     response = self._rpcfunctions.jsonRpcPost(
-                        self.remotes[remote]['ip'], self.remotes[remote]['jsonport'], "SysVar.setFloat", params)
+                        self.remotes[remote]['ip'], self.remotes[remote].get('jsonport', DEFAULT_JSONPORT), "SysVar.setFloat", params)
                 if response['error'] is None and response['result']:
                     res = response['result']
                     LOG.debug(
