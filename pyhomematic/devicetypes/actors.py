@@ -401,7 +401,7 @@ class IPSwitchPowermeter(IPSwitch, HMSensor):
                                     "ENERGY_COUNTER": [sensorIndex]})
 
 
-class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperEventRemote, HelperActionPress):
+class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
     """
     Switch turning plugged in device on or off and measuring energy consumption.
     """
