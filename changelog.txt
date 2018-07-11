@@ -1,4 +1,4 @@
-Version 0.1.45 (2018-07-)
+Version 0.1.45 (2018-07-11)
 - Fix variables (Issue #146) @danielperna84
 - Added HmIP-SPDR @danielperna84
 
