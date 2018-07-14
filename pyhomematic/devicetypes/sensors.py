@@ -262,6 +262,24 @@ class Motion(HMBinarySensor, HMSensor):
         return int(self.getSensorData("BRIGHTNESS", channel))
 
 
+class SmartwareMotion(HMBinarySensor, HMSensor):
+    """Motion detection."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"STATE": self.ELEMENT})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("STATE", channel))
+
+    @property
+    def ELEMENT(self):
+        return [1]
+
+
 class MotionV2(Motion, HelperSabotage):
     """Motion detection version 2."""
     pass
@@ -684,4 +702,5 @@ DEVICETYPES = {
     "HmIP-STHO": IPAreaThermostat,
     "HmIP-STHO-A": IPAreaThermostat,
     "HmIP-SPDR": IPPassageSensor,
+    "IT-Old-Remote-1-Channel": SmartwareMotion,
 }
