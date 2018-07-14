@@ -260,8 +260,8 @@ class Motion(HMBinarySensor, HMSensor):
     def get_brightness(self, channel=None):
         """ Return brightness from 0 (dark ) to 255 (bright) """
         return int(self.getSensorData("BRIGHTNESS", channel))
-      
-      
+
+
 class SmartwareMotion(HMBinarySensor, HMSensor):
     """Motion detection."""
 
@@ -270,7 +270,6 @@ class SmartwareMotion(HMBinarySensor, HMSensor):
 
         # init metadata
         self.BINARYNODE.update({"STATE": self.ELEMENT})
-        #self.BINARYNODE.update({"STATE": [1]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
@@ -278,7 +277,7 @@ class SmartwareMotion(HMBinarySensor, HMSensor):
 
     @property
     def ELEMENT(self):
-        return [1]      
+        return [1]
 
 
 class MotionV2(Motion, HelperSabotage):
