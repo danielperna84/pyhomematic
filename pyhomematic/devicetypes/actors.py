@@ -1,6 +1,7 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
+from pyhomematic.devicetypes.misc import HMEvent
 from pyhomematic.devicetypes.helper import (
     HelperWorking, HelperActorState, HelperActorLevel, HelperActorBlindTilt, HelperActionOnTime,
     HelperActionPress, HelperEventRemote, HelperWired)
@@ -400,6 +401,17 @@ class IPSwitchPowermeter(IPSwitch, HMSensor):
                                     "ENERGY_COUNTER": [sensorIndex]})
 
 
+class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
+    """
+    Switch turning plugged in device on or off and measuring energy consumption.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG": [1, 2]})
+
+
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
     "HM-LC-Bl1-SM-2": Blind,
@@ -518,7 +530,7 @@ DEVICETYPES = {
     "HmIP-PSM-CH": IPSwitchPowermeter,
     "HmIP-FSM": IPSwitchPowermeter,
     "HmIP-FSM16": IPSwitchPowermeter,
-    "HmIP-BSM": IPSwitchPowermeter,
+    "HmIP-BSM": IPKeySwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
     "HmIP-BDT": IPKeyDimmer,
     "HM-Sec-Key": KeyMatic,
