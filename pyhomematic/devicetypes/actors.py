@@ -408,7 +408,6 @@ class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.ELEMENT.extend([1, 2])
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG": [1, 2]})
 
