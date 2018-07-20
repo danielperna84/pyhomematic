@@ -5,7 +5,7 @@ from pyhomematic import _hm
 LOG = logging.getLogger(__name__)
 
 
-class HMConnection(object):
+class HMConnection():
     def __init__(self,
                  local=_hm.LOCAL,
                  localport=_hm.LOCALPORT,

@@ -46,7 +46,7 @@ working = False
 
 
 # Object holding the methods the XML-RPC server should provide.
-class RPCFunctions(object):
+class RPCFunctions():
 
     def __init__(self,
                  devicefile=DEVICEFILE,
@@ -436,6 +436,7 @@ class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/', '/RPC2',)
 
 
+# pylint: disable=too-many-public-methods
 class ServerThread(threading.Thread):
     """XML-RPC server thread to handle messages from CCU / Homegear"""
 
