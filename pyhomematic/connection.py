@@ -180,3 +180,8 @@ class HMConnection(object):
         """Check if proxy is still initialized"""
         if self._server is not None:
             return self._server.homegearCheckInit(remote)
+
+    def putParamset(self, remote, address, paramset, value):
+        """Set paramsets manually"""
+        if self._server is not None:
+            return self._server.putParamset(remote, address, paramset, value)
