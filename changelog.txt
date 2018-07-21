@@ -1,4 +1,4 @@
-Version 0.1.46 (2018-07-)
+Version 0.1.46 (2018-07-21)
 - Added PRESS event for HmIP-BSM @ToSa27
 - Added Smartware Motion Detector @maxm87
 - Fix PRESS* events for HM-RCV-50 @danielperna84
