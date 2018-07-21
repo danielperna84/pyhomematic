@@ -42,7 +42,7 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         return xmlrpc.client._Method(self.__request, *args, **kwargs)
 
 # Object holding the methods the XML-RPC server should provide.
-class RPCFunctions(object):
+class RPCFunctions():
     def __init__(self):
         LOG.debug("RPCFunctions.__init__")
         self.remotes = {}

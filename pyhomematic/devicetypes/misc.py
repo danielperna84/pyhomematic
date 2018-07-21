@@ -13,7 +13,7 @@ class HMCCU(HMDevice):
     pass
 
 
-class RemoteVirtual(HMCCU, HelperActionPress):
+class RemoteVirtual(HMCCU, HelperEventRemote, HelperActionPress):
     """For virtual remote from ccu/homegear or simple devices with just PRESS_SHORT and PRESS_LONG."""
 
     @property

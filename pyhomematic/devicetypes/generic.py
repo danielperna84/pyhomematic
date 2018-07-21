@@ -11,7 +11,7 @@ PARAM_UNREACH = 'UNREACH'
 PARAMSET_VALUES = 'VALUES'
 
 
-class HMGeneric(object):
+class HMGeneric():
     # pylint: disable=unused-argument
     def __init__(self, device_description, proxy, resolveparamsets):
         # These properties are available for every device and its channels
