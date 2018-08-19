@@ -680,6 +680,7 @@ DEVICETYPES = {
     "KS550Tech": WeatherSensor,
     "KS550LC": WeatherSensor,
     "HmIP-SWO-PR": IPWeatherSensor,
+    "HmIP-SWO-PL": IPWeatherSensor,
     "WS550": WeatherStation,
     "WS888": WeatherStation,
     "WS550Tech": WeatherStation,
