@@ -140,7 +140,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
                 print(" / Switch is on: %s" % str(device.is_on(channel)))
 
         ########### Attribute #########
-        print(" / RSSI_DEVICE: %i" % device.get_rssi())
+        print(" / RSSI_PEER: %i" % device.get_rssi())
 
         if isinstance(device, HelperLowBat):
             print(" / Low batter: %s" % str(device.low_batt()))

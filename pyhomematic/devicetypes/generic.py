@@ -213,7 +213,7 @@ class HMDevice(HMGeneric):
         # - 0...n / getValue from channel (fix)
         self._SENSORNODE = {}
         self._BINARYNODE = {}
-        self._ATTRIBUTENODE = {"RSSI_DEVICE": [0]}
+        self._ATTRIBUTENODE = {"RSSI_PEER": [0]}
         self._WRITENODE = {}
         self._EVENTNODE = {}
         self._ACTIONNODE = {}
@@ -334,7 +334,7 @@ class HMDevice(HMGeneric):
         return False
 
     def get_rssi(self, channel=0):
-        return self.getAttributeData("RSSI_DEVICE", channel)
+        return self.getAttributeData("RSSI_PEER", channel)
 
     @property
     def ELEMENT(self):

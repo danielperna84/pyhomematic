@@ -535,7 +535,7 @@ class IPPassageSensor(HMSensor, HMBinarySensor, HelperEventRemote, HelperLowBatI
         self.BINARYNODE.update({"PASSAGE_COUNTER_OVERFLOW": self.ELEMENT,
                                 "LAST_PASSAGE_DIRECTION": [2],
                                 "CURRENT_PASSAGE_DIRECTION": [2]})
-        self.ATTRIBUTENODE.update({"RSSI_DEVICE": [0]})
+        self.ATTRIBUTENODE.update({"RSSI_PEER": [0]})
 
     @property
     def ELEMENT(self):
