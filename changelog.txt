@@ -1,6 +1,7 @@
-Version 0.1.47 (2018-)
+Version 0.1.47 (2018-08-)
 - Fix HmIP-BWTH (Issue #151) @danielperna84
 - Added HmIP-KRCA @danielperna84
+- Fix RSSI reporting (Issue #155) @klada
 
 Version 0.1.46 (2018-07-21)
 - Added PRESS event for HmIP-BSM @ToSa27
