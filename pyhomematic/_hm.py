@@ -30,7 +30,7 @@ REMOTES = {
     }}
 DEVICEFILE = False  # e.g. devices.json
 INTERFACE_ID = 'pyhomematic'
-XML_API_URL = '/config/xmlapi/devicelist.cgi'
+XML_API_URL = '/addons/xmlapi/devicelist.cgi'
 JSONRPC_URL = '/api/homematic.cgi'
 BACKEND_UNKNOWN = 0
 BACKEND_CCU = 1
