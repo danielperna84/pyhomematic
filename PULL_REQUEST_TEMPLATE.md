@@ -1,4 +1,4 @@
-Please point your pull request at the __devel__ branch. Also provide information some information about the changes.
+Please point your pull request at the __devel__ branch. Also provide some information about the changes.
 
 This pull request:
 - fixes issue: \<Link to issue>
