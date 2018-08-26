@@ -1,5 +1,6 @@
 Version 0.1.48 (2018-)
 - Added Support for HmIP-SWO-PL and HmIP-SWO-B @dickesW
+- Fix callbacks for channel 0 @klada
 
 Version 0.1.47 (2018-08-20)
 - Fix HmIP-BWTH (Issue #151) @danielperna84
