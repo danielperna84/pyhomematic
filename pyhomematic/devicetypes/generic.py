@@ -59,6 +59,9 @@ class HMGeneric():
             % (self._ADDRESS, interface_id, key, value))
         if key == PARAM_UNREACH:
             self._unreach = value
+        if not self._eventcallbacks:
+            LOG.debug("HMGeneric.event: No callbacks registered for event %s (%s)", key, str(self))
+
         for callback in self._eventcallbacks:
             LOG.debug("HMDevice.event: Using callback %s " % str(callback))
             callback(self._ADDRESS, interface_id, key, value)
@@ -352,9 +355,14 @@ class HMDevice(HMGeneric):
         Signature for callback-functions: foo(address, interface_id, key, value)
         """
         if hasattr(callback, '__call__'):
+            LOG.debug(
+                "Adding callback '%s' for %s:%s (%s)",
+                str(callback), self._name, channel, str(self)
+            )
+
             if channel == 0:
                 self._eventcallbacks.append(callback)
-            elif not bequeath and channel > 0 and channel in self._hmchannels:
+            if not bequeath and channel in self._hmchannels:
                 self._hmchannels[channel]._eventcallbacks.append(callback)
             if bequeath:
                 for channel, device in self._hmchannels.items():
