@@ -1,5 +1,5 @@
-Version 0.1.48 (2018-09-)
-- Rework RSSI handling (Issue #164) @klada
+Version 0.1.49 (2018-09-16)
+- Rework RSSI handling (Issue #164, Issue #121) @klada
 - Prevent failure of everything when single host is down (Issue #162)
 
 Version 0.1.48 (2018-09-13)
