@@ -238,8 +238,28 @@ class HelperEventRemote(HMDevice):
                                "PRESS_LONG_RELEASE": self.ELEMENT})
 
 class HelperWired(HMDevice):
-    """Remove the RSSI_PEER attribute"""
+    """Remove the RSSI-related attributes"""
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
-
         self.ATTRIBUTENODE.pop("RSSI_PEER", None)
+        self.ATTRIBUTENODE.pop("RSSI_DEVICE", None)
+
+
+class HelperRssiDevice(HMDevice):
+    """Used for devices which report their RSSI value through RSSI_DEVICE"""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self.ATTRIBUTENODE["RSSI_DEVICE"] = [0]
+
+    def get_rssi(self, channel=0):
+        return self.getAttributeData("RSSI_DEVICE", channel)
+
+
+class HelperRssiPeer(HMDevice):
+    """Used for devices which report their RSSI value through RSSI_PEER"""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self.ATTRIBUTENODE["RSSI_PEER"] = [0]
+
+    def get_rssi(self, channel=0):
+        return self.getAttributeData("RSSI_PEER", channel)

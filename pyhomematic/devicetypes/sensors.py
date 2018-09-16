@@ -5,7 +5,7 @@ from pyhomematic.devicetypes.helper import (HelperLowBat, HelperSabotage,
                                             HelperLowBatIP, HelperSabotageIP,
                                             HelperBinaryState,
                                             HelperSensorState,
-                                            HelperWired, HelperEventRemote)
+                                            HelperWired, HelperEventRemote, HelperRssiPeer, HelperRssiDevice)
 
 LOG = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
         return [1]
 
 
-class ShutterContact(IPShutterContact, HelperSabotage):
+class ShutterContact(IPShutterContact, HelperSabotage, HelperRssiPeer):
     """Door / Window contact that emits its open/closed state."""
     pass
 
@@ -60,7 +60,7 @@ class TiltSensor(HMBinarySensor, HelperBinaryState, HelperLowBat):
         return not self.get_state(channel)
 
 
-class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabotage):
+class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabotage, HelperRssiPeer):
     """Window handle contact."""
     def is_open(self, channel=None):
         """ Returns True if the handle is set to open. """
@@ -105,7 +105,7 @@ class CO2Sensor(HMSensor, HelperSensorState):
         return self.get_state(channel) == 2
 
 
-class WaterSensor(HMSensor, HelperSensorState, HelperLowBat):
+class WaterSensor(HMSensor, HelperSensorState, HelperLowBat, HelperRssiPeer):
     """Watter detect sensor."""
 
     def is_dry(self, channel=None):
@@ -121,7 +121,7 @@ class WaterSensor(HMSensor, HelperSensorState, HelperLowBat):
         return self.get_state(channel) == 2
 
 
-class PowermeterGas(HMSensor):
+class PowermeterGas(HMSensor, HelperRssiPeer):
     """Powermeter for Gas and energy."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -167,7 +167,7 @@ class SmokeV2(Smoke, HelperLowBat):
                                    "ERROR_SMOKE_CHAMBER": self.ELEMENT})
 
 
-class IPSmoke(HMSensor):
+class IPSmoke(HMSensor, HelperRssiDevice):
     """HomeMatic IP Smoke sensor"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):

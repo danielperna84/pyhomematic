@@ -1,6 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
-from pyhomematic.devicetypes.helper import HelperActionPress, HelperEventRemote, HelperEventPress
+from pyhomematic.devicetypes.helper import HelperActionPress, HelperEventRemote, HelperEventPress, HelperRssiPeer
 
 LOG = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class RemoteVirtual(HMCCU, HelperEventRemote, HelperActionPress):
         return [c for c in range(1, 51)]
 
 
-class Remote(HMEvent, HelperEventRemote, HelperActionPress):
+class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
     """Remote handle buttons."""
 
     @property

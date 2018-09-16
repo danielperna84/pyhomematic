@@ -4,7 +4,7 @@ from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.misc import HMEvent
 from pyhomematic.devicetypes.helper import (
     HelperWorking, HelperActorState, HelperActorLevel, HelperActorBlindTilt, HelperActionOnTime,
-    HelperActionPress, HelperEventRemote, HelperWired)
+    HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer)
 
 LOG = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ class GenericBlind(HMActor, HelperActorLevel):
         self.actionNodeData("STOP", True, channel)
 
 
-class Blind(GenericBlind, HelperWorking):
+class Blind(GenericBlind, HelperWorking, HelperRssiPeer):
     """
     Blind switch that raises and lowers roller shutters or window blinds.
     """
@@ -174,7 +174,7 @@ class Rain(GenericSwitch, HelperWorking):
         return [2]
 
 
-class Switch(GenericSwitch, HelperWorking):
+class Switch(GenericSwitch, HelperWorking, HelperRssiPeer):
     """
     Switch turning plugged in device on or off.
     """
@@ -268,7 +268,7 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
         return self._doc
 
 
-class RFSiren(GenericSwitch, HelperWorking):
+class RFSiren(GenericSwitch, HelperWorking, HelperRssiPeer):
     """
     HM-Sec-Sir-WM Siren
     """

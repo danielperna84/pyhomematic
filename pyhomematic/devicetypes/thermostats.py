@@ -1,7 +1,7 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import AreaThermostat
-from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState, HelperLowBat, HelperLowBatIP
+from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState, HelperLowBat, HelperLowBatIP, HelperRssiPeer
 
 LOG = logging.getLogger(__name__)
 
@@ -123,7 +123,7 @@ class ThermostatGroup(HMThermostat):
                                    "CONTROL_MODE": [1]})
 
 
-class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
+class Thermostat(HMThermostat, HelperBatteryState, HelperValveState, HelperRssiPeer):
     """
     HM-CC-RT-DN, HM-CC-RT-DN-BoM
     ClimateControl-Radiator Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -144,7 +144,7 @@ class Thermostat(HMThermostat, HelperBatteryState, HelperValveState):
                                    "CONTROL_MODE": [4]})
 
 
-class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState):
+class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState, HelperRssiPeer):
     """
     HM-TC-IT-WM-W-EU
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
