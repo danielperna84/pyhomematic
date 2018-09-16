@@ -1,4 +1,5 @@
-Version 0.1.48 (2018-)
+Version 0.1.48 (2018-09-)
+- Rework RSSI handling (Issue #164) @klada
 
 Version 0.1.48 (2018-09-13)
 - Added Support for HmIP-SWO-PL and HmIP-SWO-B @dickesW
