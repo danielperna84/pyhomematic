@@ -286,7 +286,7 @@ class RFSiren(GenericSwitch, HelperWorking, HelperRssiPeer):
         return [1, 2, 3]
 
 
-class KeyMatic(HMActor, HelperActorState):
+class KeyMatic(HMActor, HelperActorState, HelperRssiPeer):
     """
     Lock, Unlock or Open KeyMatic.
     """
