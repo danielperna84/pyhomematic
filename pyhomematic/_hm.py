@@ -462,6 +462,7 @@ class ServerThread(threading.Thread):
         self.systemcallback = systemcallback
         self.resolveparamsets = resolveparamsets
         self.proxies = {}
+        self.failed_inits = []
 
         # Create proxies to interact with CCU / Homegear
         LOG.debug("__init__: Creating proxies")
@@ -551,12 +552,15 @@ class ServerThread(threading.Thread):
             except Exception as err:
                 LOG.debug("proxyInit: Exception: %s" % str(err))
                 LOG.warning("Failed to initialize proxy")
-                raise Exception
+                self.failed_inits.append(interface_id)
 
     def stop(self):
         """To stop the server we de-init from the CCU / Homegear, then shut down our XML-RPC server."""
         stopped = []
-        for _, proxy in self.proxies.items():
+        for interface_id, proxy in self.proxies.items():
+            if interface_id in self.failed_inits:
+                LOG.warning("ServerThread.stop: Not performing de-init for %s" % interface_id)
+                continue
             if proxy._callbackip and proxy._callbackport:
                 callbackip = proxy._callbackip
                 callbackport = proxy._callbackport
@@ -573,7 +577,6 @@ class ServerThread(threading.Thread):
                 except Exception as err:
                     LOG.debug("proxyInit: Exception: %s" % str(err))
                     LOG.warning("Failed to de-initialize proxy")
-                    raise Exception
         self.proxies.clear()
         LOG.info("Shutting down server")
         self.server.shutdown()

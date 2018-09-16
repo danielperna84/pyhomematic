@@ -8,6 +8,7 @@ import json
 from pyhomematic import vccu
 from pyhomematic import HMConnection
 from pyhomematic import devicetypes
+from pyhomematic.devicetypes.helper import HelperRssiDevice, HelperRssiPeer
 
 logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger(__name__)
@@ -144,6 +145,28 @@ class Test_2_PyhomematicDevices(unittest.TestCase):
                     LOG.info("Unsupported device: %s" % deviceobject.TYPE)
                 else:
                     LOG.warning("Device class missing for: %s" % deviceobject.TYPE)
+
+
+class Test_3_HelperClassHierarchy(unittest.TestCase):
+    """
+    Some helper classes are mutally exclusive (such as HelperRssiPeer/HelperRssiDevice).
+
+    Since many device implementations inherit from other implementation classes we need
+    to be extra careful when plugging in such mutally excluse helpers somewhere in the
+    class hierarchy. This test case may be used for checking the currently available device
+    classes for such situations.
+    """
+    def setUp(self):
+        self.device_classes = set(devicetypes.SUPPORTED.values())
+
+    def test_rssi_helper(self):
+        for klass in self.device_classes:
+            both_rssi_helpers_used = issubclass(HelperRssiDevice, klass) and issubclass(HelperRssiPeer, klass)
+            self.assertFalse(
+                both_rssi_helpers_used, 
+                "The class %s inherits from both HelperRssiDevice and HelperRssiPeer, which is not supported." % klass
+            )
+
 
 if __name__ == '__main__':
     unittest.main()
