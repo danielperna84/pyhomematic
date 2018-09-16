@@ -4,7 +4,7 @@ from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.misc import HMEvent
 from pyhomematic.devicetypes.helper import (
     HelperWorking, HelperActorState, HelperActorLevel, HelperActorBlindTilt, HelperActionOnTime,
-    HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer)
+    HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer, HelperRssiDevice)
 
 LOG = logging.getLogger(__name__)
 
@@ -377,7 +377,7 @@ class EcoLogic(Switch, HelperActionOnTime, HelperActionPress, HMSensor):
         return [1, 2]
 
 
-class IPSwitchPowermeter(IPSwitch, HMSensor):
+class IPSwitchPowermeter(IPSwitch, HMSensor, HelperRssiDevice):
     """
     Switch turning plugged in device on or off and measuring energy consumption.
     """
