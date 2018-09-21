@@ -1,4 +1,5 @@
 Version 0.1.50 (2018-)
+- Added Support for HmIP-FROLL @jplck
 
 Version 0.1.49 (2018-09-16)
 - Rework RSSI handling (Issue #164, Issue #121) @klada
