@@ -412,6 +412,37 @@ class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
                                "PRESS_LONG": [1, 2]})
 
 
+class IPGarage(GenericSwitch, HMSensor):
+    """
+    HmIP-MOD-TM Garage actor
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"DOOR_STATE": [self.ELEMENT]})
+
+    def move_up(self):
+        """Opens the garage"""
+        return self.setValue("DOOR_COMMAND", 1)
+
+    def stop(self):
+        """Stop motion"""
+        return self.setValue("DOOR_COMMAND", 2)
+
+    def move_down(self):
+        """Close the garage"""
+        return self.setValue("DOOR_COMMAND", 3)
+
+    def vent(self):
+        """Go to ventilation position"""
+        return self.setValue("DOOR_COMMAND", 4)
+
+    @property
+    def ELEMENT(self):
+        return [1]
+
+
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
     "HM-LC-Bl1-SM-2": Blind,
@@ -541,4 +572,5 @@ DEVICETYPES = {
     "HM-Sen-RD-O": Rain,
     "ST6-SH": EcoLogic,
     "HM-Sec-Sir-WM": RFSiren,
+    "HmIP-MOD-TM": IPGarage,
 }
