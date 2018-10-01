@@ -176,6 +176,11 @@ class HMConnection():
         if self._server is not None:
             return self._server.listBidcosInterfaces(remote)
 
+    def ping(self, remote):
+        """Send ping to CCU/Homegear to generate PONG-event"""
+        if self._server is not None:
+            self._server.ping(remote)
+
     def homegearCheckInit(self, remote):
         """Check if proxy is still initialized"""
         if self._server is not None:

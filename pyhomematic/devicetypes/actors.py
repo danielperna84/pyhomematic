@@ -101,7 +101,7 @@ class Dimmer(GenericDimmer, HelperWorking):
     """
     @property
     def ELEMENT(self):
-        if "Dim2L" in self._TYPE:
+        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE:
             return [1, 2]
         return [1]
 
@@ -426,6 +426,7 @@ DEVICETYPES = {
     "HM-LC-BlX": Blind,
     "HM-Sec-Win": Blind,
     "HmIP-BROLL": IPKeyBlind,
+    "HmIP-FROLL": IPKeyBlind,
     "HmIP-BBL": IPKeyBlindTilt,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-2": Dimmer,
