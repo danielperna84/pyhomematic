@@ -1,4 +1,4 @@
-Version 0.1.50 (2018-)
+Version 0.1.50 (2018-10-01)
 - Added Support for HmIP-FROLL @jplck
 - Added missing channel for HM-LC-Dim2T @danielperna84
 - Added ping-method for HMConnection object @danielperna84
