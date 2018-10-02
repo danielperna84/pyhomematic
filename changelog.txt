@@ -1,4 +1,5 @@
 Version 0.1.51 (2018-)
+- Added device_descriptions.json to distributed package to allow performing tests with vccu
 
 Version 0.1.50 (2018-10-01)
 - Added Support for HmIP-FROLL @jplck
