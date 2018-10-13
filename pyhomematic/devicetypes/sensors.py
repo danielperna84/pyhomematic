@@ -710,7 +710,7 @@ class WeatherStation(HMSensor):
 
     def get_air_pressure(self, channel=None):
         return int(self.getSensorData("AIR_PRESSURE", channel))
-        
+
 
 class IPBrightnessSensor(HMSensor, HelperRssiDevice):
     """IP Sensor for outdoor brightness measure"""
