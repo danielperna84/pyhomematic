@@ -719,7 +719,7 @@ class IPBrightnessSensor(HMSensor, HelperRssiDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"": [1],
+        self.SENSORNODE.update({"CURRENT_ILLUMINATION": [1],
                                 "AVERAGE_ILLUMINATION": [1],
                                 "LOWEST_ILLUMINATION": [1],
                                 "HIGHEST_ILLUMINATION": [1]})
