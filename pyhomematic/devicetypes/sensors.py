@@ -710,6 +710,20 @@ class WeatherStation(HMSensor):
 
     def get_air_pressure(self, channel=None):
         return int(self.getSensorData("AIR_PRESSURE", channel))
+        
+
+class IPBrightnessSensor(HMSensor, HelperRssiDevice):
+    """IP Sensor for outdoor brightness measure"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"": [1],
+                                "AVERAGE_ILLUMINATION": [1],
+                                "LOWEST_ILLUMINATION": [1],
+                                "HIGHEST_ILLUMINATION": [1]})
+        self.ATTRIBUTENODE.update({"OPERATING_VOLTAGE": [0]})
 
 
 DEVICETYPES = {
@@ -796,4 +810,5 @@ DEVICETYPES = {
     "HmIP-STHO-A": IPAreaThermostat,
     "HmIP-SPDR": IPPassageSensor,
     "IT-Old-Remote-1-Channel": SmartwareMotion,
+    "HmIP-SLO": IPBrightnessSensor,
 }
