@@ -1,3 +1,8 @@
+Version 0.1.51 (2018-10-14)
+- Added device_descriptions.json to distributed package to allow performing tests with vccu
+- Add valve level to IP Thermostat attributes @hanzoh
+- Added HmIP-SLO @noxhirsch
+
 Version 0.1.50 (2018-10-01)
 - Added Support for HmIP-FROLL @jplck
 - Added missing channel for HM-LC-Dim2T @danielperna84

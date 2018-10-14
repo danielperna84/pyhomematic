@@ -231,7 +231,8 @@ class IPThermostat(HMThermostat, HelperLowBatIP, HelperValveState):
                                    "OPERATING_VOLTAGE": [0],
                                    "SET_POINT_MODE": [1],
                                    "BOOST_MODE": [1],
-                                   "VALVE_STATE": [1]})
+                                   "VALVE_STATE": [1],
+                                   "LEVEL": [1]})
 
     def get_set_temperature(self):
         """ Returns the current target temperature. """

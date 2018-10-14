@@ -1,2 +1,4 @@
 include README.rst
 include LICENSE.txt
+include pyhomematic/devicetypes/json/device_descriptions.json
+include pyhomematic/devicetypes/json/device_details.json
