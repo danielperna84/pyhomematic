@@ -1,3 +1,5 @@
+Version 0.1.52 (2018-)
+
 Version 0.1.51 (2018-10-14)
 - Added device_descriptions.json to distributed package to allow performing tests with vccu
 - Add valve level to IP Thermostat attributes @hanzoh
