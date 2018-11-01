@@ -62,6 +62,7 @@ class KeyBlind(Blind, HelperActionPress, HelperWired):
     def ELEMENT(self):
         return [3]
 
+
 class IPKeyBlind(KeyBlind):
     """
     Blind switch that raises and lowers homematic ip roller shutters or window blinds.
@@ -70,6 +71,7 @@ class IPKeyBlind(KeyBlind):
     @property
     def ELEMENT(self):
         return [4]
+
 
 class IPKeyBlindTilt(IPKeyBlind, HelperActorBlindTilt):
 
@@ -117,6 +119,7 @@ class KeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
         # init metadata
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG_RELEASE": [1, 2]})
+
     @property
     def ELEMENT(self):
         return [3]
@@ -132,6 +135,7 @@ class IPKeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
         # init metadata
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG_RELEASE": [1, 2]})
+
     @property
     def ELEMENT(self):
         return [4]
@@ -261,8 +265,8 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
 
         # init metadata
         self.BINARYNODE.update({"STATE": self._dic})
-        self.SENSORNODE.update({"FREQUENCY": self._fic, # mHz, from 0.0 to 350000.0
-                                "VALUE": self._aic}) # No specific unit, float from 0.0 to 1000.0
+        self.SENSORNODE.update({"FREQUENCY": self._fic,  # mHz, from 0.0 to 350000.0
+                                "VALUE": self._aic})  # No specific unit, float from 0.0 to 1000.0
 
     @property
     def ELEMENT(self):
@@ -426,26 +430,26 @@ class RGBLight(Dimmer):
         Returns (red, green, blue) tuple with values in range of 0-255, representing an RGB color value.
         """
         hsv = self.getValue(key="COLOR", channel=self._color_channel)
-        if hsv >= 0 and hsv < 200:
+        if 0 <= hsv < 200:
             # HSV color: Convert to RGB
-            return tuple([v*255 for v in colorsys.hsv_to_rgb(hsv/199,1,1)])
+            return tuple([v*255 for v in colorsys.hsv_to_rgb(hsv/199, 1, 1)])
         elif hsv >= 200:
             # 200 is a special case (white).
             # Larger values are undefined. For the sake of robustness we return "white" anyway.
-            return (255,255,255)
+            return 255, 255, 255
 
     def set_color(self, red: int, green: int, blue: int):
         """
         Set a fixed color and also turn off effects in order to see the color.
 
         :param red: red color component in range of 0-255
-        :param g: green color component in range of 0-255
-        :param b: blue color component in range of 0-255
+        :param green: green color component in range of 0-255
+        :param blue: blue color component in range of 0-255
         """
         hsv = 200
 
         # Convert to list and truncate to allowed range 0-255
-        rgb = [min(max(v, 0), 255)/255.0 for v in (red,green,blue)]
+        rgb = [min(max(v, 0), 255)/255.0 for v in (red, green, blue)]
 
         if sum(rgb) < 765:  # = not all colors have value 255
             hsv = round(colorsys.rgb_to_hsv(*rgb)[0] * 199)
@@ -463,7 +467,7 @@ class RGBEffectLight(RGBLight):
 
     def get_effect_list(self) -> list:
         """Return the list of supported effects."""
-        return _light_effect_list
+        return self._light_effect_list
 
     def get_effect(self) -> str:
         """Return the current color change program of the light."""
@@ -479,7 +483,7 @@ class RGBEffectLight(RGBLight):
         try:
             effect_index = self._light_effect_list.index(effect_name)
         except ValueError:
-            LOG.error(f"Trying to set unknown light effect '{effect_name}'")
+            LOG.error("Trying to set unknown light effect")
             return False
 
         return self.setValue(key="PROGRAM", channel=self._effect_channel, value=effect_index)
