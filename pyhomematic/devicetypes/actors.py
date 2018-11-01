@@ -420,7 +420,7 @@ class IPGarage(GenericSwitch, HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"DOOR_STATE": [self.ELEMENT]})
+        self.SENSORNODE.update({"DOOR_STATE": self.ELEMENT})
 
     def move_up(self):
         """Opens the garage"""
