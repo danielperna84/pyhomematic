@@ -1,4 +1,5 @@
 import logging
+import colorsys
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.misc import HMEvent
@@ -412,6 +413,83 @@ class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
                                "PRESS_LONG": [1, 2]})
 
 
+class RGBLight(Dimmer):
+    """
+    Color light with dimmer function.
+    """
+    _color_channel = 2
+
+    def get_color(self):
+        """
+        Return the color of the light.
+
+        Returns (red, green, blue) tuple with values in range of 0-255, representing an RGB color value.
+        """
+        hsv = self.getValue(key="COLOR", channel=self._color_channel)
+        if hsv >= 0 and hsv < 200:
+            # HSV color: Convert to RGB
+            return tuple([v*255 for v in colorsys.hsv_to_rgb(hsv/199,1,1)])
+        elif hsv >= 200:
+            # 200 is a special case (white).
+            # Larger values are undefined. For the sake of robustness we return "white" anyway.
+            return (255,255,255)
+
+    def set_color(self, red: int, green: int, blue: int):
+        """
+        Set a fixed color and also turn off effects in order to see the color.
+
+        :param red: red color component in range of 0-255
+        :param g: green color component in range of 0-255
+        :param b: blue color component in range of 0-255
+        """
+        hsv = 200
+
+        # Convert to list and truncate to allowed range 0-255
+        rgb = [min(max(v, 0), 255)/255.0 for v in (red,green,blue)]
+
+        if sum(rgb) < 765:  # = not all colors have value 255
+            hsv = round(colorsys.rgb_to_hsv(*rgb)[0] * 199)
+
+        return self.setValue(key="COLOR", channel=self._color_channel, value=int(hsv))
+
+
+class RGBEffectLight(RGBLight):
+    """
+    Color light with dimmer function and color effects.
+    """
+    _effect_channel = 3
+    _light_effect_list = ['Off', 'Slow color change', 'Medium color change', 'Fast color change', 'Campfire',
+                          'Waterfall', 'TV simulation']
+
+    def get_effect_list(self) -> list:
+        """Return the list of supported effects."""
+        return _light_effect_list
+
+    def get_effect(self) -> str:
+        """Return the current color change program of the light."""
+        effect_value = self.getValue(key="PROGRAM", channel=self._effect_channel)
+        try:
+            return self._light_effect_list[effect_value]
+        except IndexError:
+            LOG.error("Unexpected color effect returned by CCU")
+            return "Unknown"
+
+    def set_effect(self, effect_name: str):
+        """Sets the color change program of the light."""
+        try:
+            effect_index = self._light_effect_list.index(effect_name)
+        except ValueError:
+            LOG.error(f"Trying to set unknown light effect '{effect_name}'")
+            return False
+
+        return self.setValue(key="PROGRAM", channel=self._effect_channel, value=effect_index)
+
+    def set_color(self, *args, **kwargs):
+        """Overloading parent's function in order to turn off the color effects."""
+        self.set_effect(self._light_effect_list[0])
+        super(RGBEffectLight, self).set_color(*args, **kwargs)
+
+
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
     "HM-LC-Bl1-SM-2": Blind,
@@ -541,4 +619,5 @@ DEVICETYPES = {
     "HM-Sen-RD-O": Rain,
     "ST6-SH": EcoLogic,
     "HM-Sec-Sir-WM": RFSiren,
+    "HM-LC-RGBW-WM": RGBEffectLight,
 }
