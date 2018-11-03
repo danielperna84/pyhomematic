@@ -417,11 +417,14 @@ class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
                                "PRESS_LONG": [1, 2]})
 
 
-class RGBLight(Dimmer):
+class RGBEffectLight(Dimmer):
     """
-    Color light with dimmer function.
+    Color light with dimmer function and color effects.
     """
     _color_channel = 2
+    _effect_channel = 3
+    _light_effect_list = ['Off', 'Slow color change', 'Medium color change', 'Fast color change', 'Campfire',
+                          'Waterfall', 'TV simulation']
 
     def get_color(self):
         """
@@ -446,24 +449,17 @@ class RGBLight(Dimmer):
         :param green: green color component in range of 0-255
         :param blue: blue color component in range of 0-255
         """
-        hsv = 200
+        if sum((red, green, blue)) < 765:
+            # Truncate to allowed range 0-255
+            rgb = [min(max(v, 0), 255)/255.0 for v in (red, green, blue)]
 
-        # Convert to list and truncate to allowed range 0-255
-        rgb = [min(max(v, 0), 255)/255.0 for v in (red, green, blue)]
-
-        if sum(rgb) < 765:  # = not all colors have value 255
+            # Calculate HSV color from RGB color
             hsv = round(colorsys.rgb_to_hsv(*rgb)[0] * 199)
+        else:
+            # All colors have value 255 => white
+            hsv = 200
 
-        return self.setValue(key="COLOR", channel=self._color_channel, value=int(hsv))
-
-
-class RGBEffectLight(RGBLight):
-    """
-    Color light with dimmer function and color effects.
-    """
-    _effect_channel = 3
-    _light_effect_list = ['Off', 'Slow color change', 'Medium color change', 'Fast color change', 'Campfire',
-                          'Waterfall', 'TV simulation']
+        return self.turn_off_effect and self.setValue(key="COLOR", channel=self._color_channel, value=int(hsv))
 
     def get_effect_list(self) -> list:
         """Return the list of supported effects."""
@@ -488,10 +484,8 @@ class RGBEffectLight(RGBLight):
 
         return self.setValue(key="PROGRAM", channel=self._effect_channel, value=effect_index)
 
-    def set_color(self, *args, **kwargs):
-        """Overloading parent's function in order to turn off the color effects."""
-        self.set_effect(self._light_effect_list[0])
-        super(RGBEffectLight, self).set_color(*args, **kwargs)
+    def turn_off_effect(self):
+        return self.set_effect(self._light_effect_list[0])
 
 
 DEVICETYPES = {
