@@ -1,5 +1,5 @@
 import logging
-import colorsys
+
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.misc import HMEvent
@@ -417,7 +417,7 @@ class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
                                "PRESS_LONG": [1, 2]})
 
 
-class RGBEffectLight(Dimmer):
+class ColorEffectLight(Dimmer):
     """
     Color light with dimmer function and color effects.
     """
@@ -426,40 +426,41 @@ class RGBEffectLight(Dimmer):
     _light_effect_list = ['Off', 'Slow color change', 'Medium color change', 'Fast color change', 'Campfire',
                           'Waterfall', 'TV simulation']
 
-    def get_color(self):
+    def get_hs_color(self):
         """
-        Return the color of the light.
+        Return the color of the light as HSV color without the "value" component for the brightness.
 
-        Returns (red, green, blue) tuple with values in range of 0-255, representing an RGB color value.
+        Returns (hue, saturation) tuple with values in range of 0-1, representing the H and S component of the
+        HSV color system.
         """
-        hsv = self.getValue(key="COLOR", channel=self._color_channel)
-        if 0 <= hsv < 200:
-            # HSV color: Convert to RGB
-            return tuple([v*255 for v in colorsys.hsv_to_rgb(hsv/199, 1, 1)])
-        elif hsv >= 200:
-            # 200 is a special case (white).
+        # Get the color from homematic. In general this is just the hue parameter.
+        hm_color = self.getValue(key="COLOR", channel=self._color_channel)
+        if hm_color >= 200:
+            # 200 is a special case (white), so we have a saturation of 0.
             # Larger values are undefined. For the sake of robustness we return "white" anyway.
-            return 255, 255, 255
+            return 0, 0
 
-    def set_color(self, red: int, green: int, blue: int):
+        # For all other colors we assume saturation of 1
+        return hm_color/200, 1
+
+    def set_hs_color(self, hue: float, saturation: float):
         """
         Set a fixed color and also turn off effects in order to see the color.
 
-        :param red: red color component in range of 0-255
-        :param green: green color component in range of 0-255
-        :param blue: blue color component in range of 0-255
+        :param hue: Hue component (range 0-1)
+        :param saturation: Saturation component (range 0-1). Yields white for values near 0, other values are
+            interpreted as 100% saturation.
+
+        The input values are the components of an HSV color without the value/brightness component.
         """
-        if sum((red, green, blue)) < 765:
-            # Truncate to allowed range 0-255
-            rgb = [min(max(v, 0), 255)/255.0 for v in (red, green, blue)]
+        self.turn_off_effect()
 
-            # Calculate HSV color from RGB color
-            hsv = round(colorsys.rgb_to_hsv(*rgb)[0] * 199)
+        if saturation < 0.1:  # Special case (white)
+            hm_color = 200
         else:
-            # All colors have value 255 => white
-            hsv = 200
+            hm_color = int(round(max(min(hue, 1), 0) * 199))
 
-        return self.turn_off_effect and self.setValue(key="COLOR", channel=self._color_channel, value=int(hsv))
+        self.setValue(key="COLOR", channel=self._color_channel, value=hm_color)
 
     def get_effect_list(self) -> list:
         """Return the list of supported effects."""
@@ -617,5 +618,5 @@ DEVICETYPES = {
     "HM-Sen-RD-O": Rain,
     "ST6-SH": EcoLogic,
     "HM-Sec-Sir-WM": RFSiren,
-    "HM-LC-RGBW-WM": RGBEffectLight,
+    "HM-LC-RGBW-WM": ColorEffectLight,
 }
