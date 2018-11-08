@@ -420,27 +420,27 @@ class IPGarage(GenericSwitch, HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"DOOR_STATE": self.ELEMENT})
+        self.SENSORNODE.update({"DOOR_STATE": [1]})
 
     def move_up(self):
         """Opens the garage"""
-        return self.setValue("DOOR_COMMAND", 1)
+        return self.setValue("DOOR_COMMAND", 1, channel=1),
 
     def stop(self):
         """Stop motion"""
-        return self.setValue("DOOR_COMMAND", 2)
+        return self.setValue("DOOR_COMMAND", 2, channel=1)
 
     def move_down(self):
         """Close the garage"""
-        return self.setValue("DOOR_COMMAND", 3)
+        return self.setValue("DOOR_COMMAND", 3, channel=1)
 
     def vent(self):
         """Go to ventilation position"""
-        return self.setValue("DOOR_COMMAND", 4)
+        return self.setValue("DOOR_COMMAND", 4, channel=1)
 
     @property
     def ELEMENT(self):
-        return [1]
+        return [2]
 
 
 DEVICETYPES = {
