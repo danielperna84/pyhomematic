@@ -424,7 +424,7 @@ class IPGarage(GenericSwitch, HMSensor):
 
     def move_up(self):
         """Opens the garage"""
-        return self.setValue("DOOR_COMMAND", 1, channel=1),
+        return self.setValue("DOOR_COMMAND", 1, channel=1)
 
     def stop(self):
         """Stop motion"""
