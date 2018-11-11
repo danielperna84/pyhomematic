@@ -27,8 +27,8 @@ class HMGeneric():
         self._proxy = proxy
         self._paramsets = {}
         self._eventcallbacks = []
-        self._unreach = None
         self._name = None
+        self._VALUES = {}   # Dictionary to cache values. They are updated in the event() function.
 
     @property
     def ADDRESS(self):
@@ -57,8 +57,9 @@ class HMGeneric():
         LOG.info(
             "HMGeneric.event: address=%s, interface_id=%s, key=%s, value=%s"
             % (self._ADDRESS, interface_id, key, value))
-        if key == PARAM_UNREACH:
-            self._unreach = value
+
+        self._VALUES[key] = value   # Cache the value
+
         for callback in self._eventcallbacks:
             LOG.debug("HMDevice.event: Using callback %s " % str(callback))
             callback(self._ADDRESS, interface_id, key, value)
@@ -86,7 +87,7 @@ class HMGeneric():
                         self._paramsets[paramset] = returnset
                         if self.PARAMSETS:
                             if self.PARAMSETS.get(PARAMSET_VALUES):
-                                self._unreach = self.PARAMSETS.get(PARAMSET_VALUES).get(PARAM_UNREACH)
+                                self._VALUES[PARAM_UNREACH] = self.PARAMSETS.get(PARAMSET_VALUES).get(PARAM_UNREACH)
                         return True
             return False
         except Exception as err:
@@ -154,6 +155,16 @@ class HMChannel(HMGeneric):
         if resolveparamsets:
             self.updateParamsets()
 
+    def getCachedOrUpdatedValue(self, key):
+        """ Gets the device's value with the given key.
+
+        If the key is not found in the cache, the value is queried from the host.
+        """
+        try:
+            return self._VALUES[key]
+        except KeyError:
+            return self.getValue(key)
+
     @property
     def PARENT(self):
         return self._PARENT
@@ -161,9 +172,7 @@ class HMChannel(HMGeneric):
     @property
     def UNREACH(self):
         """ Returns true if children is not reachable """
-        if self._unreach:
-            return True
-        return False
+        return bool(self._VALUES.get(PARAM_UNREACH, False))
 
     def setEventCallback(self, callback):
         """
@@ -193,6 +202,7 @@ class HMChannel(HMGeneric):
         LOG.debug("HMGeneric.getValue: address = '%s', key = '%s'" % (self._ADDRESS, key))
         try:
             returnvalue = self._proxy.getValue(self._ADDRESS, key)
+            self._VALUES[key] = returnvalue
             return returnvalue
         except Exception as err:
             LOG.error("HMGeneric.getValue: %s on %s Exception: %s", key,
@@ -240,10 +250,25 @@ class HMDevice(HMGeneric):
         self._UPDATABLE = device_description.get('UPDATABLE')
         self._PARENT_TYPE = None
 
+    def getCachedOrUpdatedValue(self, key, channel=None):
+        """ Gets the channel's value with the given key.
+
+        If the key is not found in the cache, the value is queried from the host.
+        If 'channel' is given, the respective channel's value is returned.
+        """
+        if channel:
+            return self._hmchannels[channel].getCachedOrUpdatedValue(key)
+
+        try:
+            return self._VALUES[key]
+        except KeyError:
+            value = self._VALUES[key] = self.getValue(key)
+            return value
+
     @property
     def UNREACH(self):
         """ Returns true if the device or any children is not reachable """
-        if self._unreach:
+        if self._VALUES.get(PARAM_UNREACH, False):
             return True
         else:
             for device in self._hmchannels.values():

@@ -421,10 +421,17 @@ class ColorEffectLight(Dimmer):
     """
     Color light with dimmer function and color effects.
     """
+    _level_channel = 1
     _color_channel = 2
     _effect_channel = 3
     _light_effect_list = ['Off', 'Slow color change', 'Medium color change', 'Fast color change', 'Campfire',
                           'Waterfall', 'TV simulation']
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"COLOR": [self._color_channel], "PROGRAM": [self._effect_channel]})
 
     def get_hs_color(self):
         """
@@ -434,7 +441,8 @@ class ColorEffectLight(Dimmer):
         HSV color system.
         """
         # Get the color from homematic. In general this is just the hue parameter.
-        hm_color = self.getValue(key="COLOR", channel=self._color_channel)
+        hm_color = self.getCachedOrUpdatedValue("COLOR", channel=self._color_channel)
+
         if hm_color >= 200:
             # 200 is a special case (white), so we have a saturation of 0.
             # Larger values are undefined. For the sake of robustness we return "white" anyway.
@@ -452,6 +460,11 @@ class ColorEffectLight(Dimmer):
             interpreted as 100% saturation.
 
         The input values are the components of an HSV color without the value/brightness component.
+        Example colors:
+            * Green: set_hs_color(120/360, 1)
+            * Blue: set_hs_color(240/360, 1)
+            * Yellow: set_hs_color(60/360, 1)
+            * White: set_hs_color(0, 0)
         """
         self.turn_off_effect()
 
@@ -468,7 +481,8 @@ class ColorEffectLight(Dimmer):
 
     def get_effect(self) -> str:
         """Return the current color change program of the light."""
-        effect_value = self.getValue(key="PROGRAM", channel=self._effect_channel)
+        effect_value = self.getCachedOrUpdatedValue("PROGRAM", channel=self._effect_channel)
+
         try:
             return self._light_effect_list[effect_value]
         except IndexError:
