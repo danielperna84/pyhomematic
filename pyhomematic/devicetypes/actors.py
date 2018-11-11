@@ -1,5 +1,4 @@
 import logging
-
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.misc import HMEvent
@@ -417,6 +416,37 @@ class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
                                "PRESS_LONG": [1, 2]})
 
 
+class IPGarage(GenericSwitch, HMSensor):
+    """
+    HmIP-MOD-TM Garage actor
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"DOOR_STATE": [1]})
+
+    def move_up(self):
+        """Opens the garage"""
+        return self.setValue("DOOR_COMMAND", 1, channel=1)
+
+    def stop(self):
+        """Stop motion"""
+        return self.setValue("DOOR_COMMAND", 2, channel=1)
+
+    def move_down(self):
+        """Close the garage"""
+        return self.setValue("DOOR_COMMAND", 3, channel=1)
+
+    def vent(self):
+        """Go to ventilation position"""
+        return self.setValue("DOOR_COMMAND", 4, channel=1)
+
+    @property
+    def ELEMENT(self):
+        return [2]
+
+
 class ColorEffectLight(Dimmer):
     """
     Color light with dimmer function and color effects.
@@ -632,5 +662,6 @@ DEVICETYPES = {
     "HM-Sen-RD-O": Rain,
     "ST6-SH": EcoLogic,
     "HM-Sec-Sir-WM": RFSiren,
+    "HmIP-MOD-TM": IPGarage,
     "HM-LC-RGBW-WM": ColorEffectLight,
 }
