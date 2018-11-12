@@ -49,7 +49,7 @@ class HMConnection():
                 credentials['password'] = rpcpassword
             for (key, value) in remotes.items():
                 value.update(credentials)
-                remotesWithAuth[key] = value 
+                remotesWithAuth[key] = value
             remotes = remotesWithAuth
 
         try:
