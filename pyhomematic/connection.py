@@ -42,7 +42,15 @@ class HMConnection():
                 remotes['default']['username'] = rpcusername
             if rpcpassword:
                 remotes['default']['password'] = rpcpassword
-
+        elif remotes and rpcusername:
+            remotesWithAuth = {}
+            credentials = {'username': rpcusername}
+            if rpcpassword:
+                credentials['password'] = rpcpassword
+            for (key, value) in remotes.items():
+                value.update(credentials)
+                remotesWithAuth[key] = value 
+            remotes = remotesWithAuth
 
         try:
             self._server = _hm.ServerThread(local=local,
