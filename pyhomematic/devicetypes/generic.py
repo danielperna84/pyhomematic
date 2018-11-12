@@ -29,6 +29,7 @@ class HMGeneric():
         self._eventcallbacks = []
         self._name = None
         self._VALUES = {}   # Dictionary to cache values. They are updated in the event() function.
+        self._VALUES[PARAM_UNREACH] = None
 
     @property
     def ADDRESS(self):

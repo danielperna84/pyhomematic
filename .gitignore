@@ -14,5 +14,3 @@ MANIFEST
 # Tox stuff, lint
 /.tox/
 /.pylint.d/
-/local/
-Dockerfile
