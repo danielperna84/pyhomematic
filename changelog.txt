@@ -1,5 +1,6 @@
 Version 0.1.52 (2018-)
 - Added HmIP-MOD-TM (Issue #170) @danielperna84
+- Added HM-LC-RGBW-WM @chr1st1ank
 
 Version 0.1.51 (2018-10-14)
 - Added device_descriptions.json to distributed package to allow performing tests with vccu
