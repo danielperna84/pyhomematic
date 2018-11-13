@@ -61,7 +61,7 @@
     "HM-RC-4-3": {},
     "HM-Sec-SD-2-Team": {"supported": false},
     "HmIP-FSM16": {"supported": false},
-    "HM-LC-RGBW-WM": {"supported": false},
+    "HM-LC-RGBW-WM": {},
     "HMIP-WTH": {},
     "HmIP-BSM": {},
     "HmIP-SAM": {},

@@ -61,6 +61,7 @@ class KeyBlind(Blind, HelperActionPress, HelperWired):
     def ELEMENT(self):
         return [3]
 
+
 class IPKeyBlind(KeyBlind):
     """
     Blind switch that raises and lowers homematic ip roller shutters or window blinds.
@@ -69,6 +70,7 @@ class IPKeyBlind(KeyBlind):
     @property
     def ELEMENT(self):
         return [4]
+
 
 class IPKeyBlindTilt(IPKeyBlind, HelperActorBlindTilt):
 
@@ -116,6 +118,7 @@ class KeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
         # init metadata
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG_RELEASE": [1, 2]})
+
     @property
     def ELEMENT(self):
         return [3]
@@ -131,6 +134,7 @@ class IPKeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
         # init metadata
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG_RELEASE": [1, 2]})
+
     @property
     def ELEMENT(self):
         return [4]
@@ -260,8 +264,8 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
 
         # init metadata
         self.BINARYNODE.update({"STATE": self._dic})
-        self.SENSORNODE.update({"FREQUENCY": self._fic, # mHz, from 0.0 to 350000.0
-                                "VALUE": self._aic}) # No specific unit, float from 0.0 to 1000.0
+        self.SENSORNODE.update({"FREQUENCY": self._fic,  # mHz, from 0.0 to 350000.0
+                                "VALUE": self._aic})  # No specific unit, float from 0.0 to 1000.0
 
     @property
     def ELEMENT(self):
@@ -443,6 +447,92 @@ class IPGarage(GenericSwitch, HMSensor):
         return [2]
 
 
+class ColorEffectLight(Dimmer):
+    """
+    Color light with dimmer function and color effects.
+    """
+    _level_channel = 1
+    _color_channel = 2
+    _effect_channel = 3
+    _light_effect_list = ['Off', 'Slow color change', 'Medium color change', 'Fast color change', 'Campfire',
+                          'Waterfall', 'TV simulation']
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"COLOR": [self._color_channel], "PROGRAM": [self._effect_channel]})
+
+    def get_hs_color(self):
+        """
+        Return the color of the light as HSV color without the "value" component for the brightness.
+
+        Returns (hue, saturation) tuple with values in range of 0-1, representing the H and S component of the
+        HSV color system.
+        """
+        # Get the color from homematic. In general this is just the hue parameter.
+        hm_color = self.getCachedOrUpdatedValue("COLOR", channel=self._color_channel)
+
+        if hm_color >= 200:
+            # 200 is a special case (white), so we have a saturation of 0.
+            # Larger values are undefined. For the sake of robustness we return "white" anyway.
+            return 0, 0
+
+        # For all other colors we assume saturation of 1
+        return hm_color/200, 1
+
+    def set_hs_color(self, hue: float, saturation: float):
+        """
+        Set a fixed color and also turn off effects in order to see the color.
+
+        :param hue: Hue component (range 0-1)
+        :param saturation: Saturation component (range 0-1). Yields white for values near 0, other values are
+            interpreted as 100% saturation.
+
+        The input values are the components of an HSV color without the value/brightness component.
+        Example colors:
+            * Green: set_hs_color(120/360, 1)
+            * Blue: set_hs_color(240/360, 1)
+            * Yellow: set_hs_color(60/360, 1)
+            * White: set_hs_color(0, 0)
+        """
+        self.turn_off_effect()
+
+        if saturation < 0.1:  # Special case (white)
+            hm_color = 200
+        else:
+            hm_color = int(round(max(min(hue, 1), 0) * 199))
+
+        self.setValue(key="COLOR", channel=self._color_channel, value=hm_color)
+
+    def get_effect_list(self) -> list:
+        """Return the list of supported effects."""
+        return self._light_effect_list
+
+    def get_effect(self) -> str:
+        """Return the current color change program of the light."""
+        effect_value = self.getCachedOrUpdatedValue("PROGRAM", channel=self._effect_channel)
+
+        try:
+            return self._light_effect_list[effect_value]
+        except IndexError:
+            LOG.error("Unexpected color effect returned by CCU")
+            return "Unknown"
+
+    def set_effect(self, effect_name: str):
+        """Sets the color change program of the light."""
+        try:
+            effect_index = self._light_effect_list.index(effect_name)
+        except ValueError:
+            LOG.error("Trying to set unknown light effect")
+            return False
+
+        return self.setValue(key="PROGRAM", channel=self._effect_channel, value=effect_index)
+
+    def turn_off_effect(self):
+        return self.set_effect(self._light_effect_list[0])
+
+
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
     "HM-LC-Bl1-SM-2": Blind,
@@ -573,4 +663,5 @@ DEVICETYPES = {
     "ST6-SH": EcoLogic,
     "HM-Sec-Sir-WM": RFSiren,
     "HmIP-MOD-TM": IPGarage,
+    "HM-LC-RGBW-WM": ColorEffectLight,
 }
