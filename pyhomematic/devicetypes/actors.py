@@ -124,9 +124,18 @@ class KeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
         return [3]
 
 
-class IPKeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
+class IPDimmer(GenericDimmer):
     """
     IP Dimmer switch that controls level of light brightness.
+    """
+    @property
+    def ELEMENT(self):
+        return [3]
+
+
+class IPKeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
+    """
+    IP Dimmer with buttons switch that controls level of light brightness.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -656,6 +665,7 @@ DEVICETYPES = {
     "HmIP-BSM": IPKeySwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
     "HmIP-BDT": IPKeyDimmer,
+    "HmIP-PDT": IPDimmer,
     "HM-Sec-Key": KeyMatic,
     "HM-Sec-Key-S": KeyMatic,
     "HM-Sec-Key-O": KeyMatic,
