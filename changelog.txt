@@ -1,4 +1,4 @@
-Version 0.1.52 (2018-)
+Version 0.1.52 (2018-11-15)
 - Added HmIP-MOD-TM (Issue #170) @danielperna84
 - Added HM-LC-RGBW-WM @chr1st1ank
 - Added caching of parameters received by events @chr1st1ank
