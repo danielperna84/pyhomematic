@@ -207,7 +207,7 @@ class HMChannel(HMGeneric):
             return returnvalue
         except Exception as err:
             LOG.warning("HMGeneric.getValue: %s on %s Exception: %s", key,
-                      self._ADDRESS, err)
+                        self._ADDRESS, err)
             return False
 
 
