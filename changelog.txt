@@ -1,3 +1,6 @@
+Version 0.1.53 ()
+- Changed loglevel for getValue to `warning` (Issue #153) @danielperna84
+
 Version 0.1.52 (2018-11-15)
 - Added HmIP-MOD-TM (Issue #170) @danielperna84
 - Added HM-LC-RGBW-WM @chr1st1ank
