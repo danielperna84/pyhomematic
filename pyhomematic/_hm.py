@@ -2,6 +2,7 @@ import os
 import threading
 import json
 import urllib.request
+import urllib.parse
 import xml.etree.ElementTree as ET
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
@@ -401,8 +402,9 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         self._callbackport = kwargs.pop("callbackport", None)
         self.lock = threading.Lock()
         xmlrpc.client.ServerProxy.__init__(self, *args, **kwargs)
-        self._remoteip, self._remoteport = self._ServerProxy__host.split(':')
-        self._remoteport = int(self._remoteport)
+        urlcomponents = urllib.parse.urlparse(args[0])
+        self._remoteip = urlcomponents.hostname
+        self._remoteport = urlcomponents.port
         LOG.debug("LockingServerProxy.__init__: Getting local ip")
         tmpsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         tmpsocket.connect((self._remoteip, self._remoteport))
