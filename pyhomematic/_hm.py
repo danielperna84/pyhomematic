@@ -46,6 +46,38 @@ devices_raw_dict = {}
 working = False
 
 
+def make_http_credentials(username=None, password=None):
+    """Build auth part for api_url."""
+    credentials = ''
+    if username is None:
+        return credentials
+    if username is not None:
+        if ':' in username:
+            return credentials
+        credentials += username
+    if credentials and password is not None:
+        credentials += ":%s" % password
+    return "%s@" % credentials
+
+
+def build_api_url(host=REMOTES['default']['ip'],
+                  port=REMOTES['default']['port'],
+                  path=REMOTES['default']['port'],
+                  username=None,
+                  password=None,
+                  ssl=False):
+    """Build API URL from components."""
+    credentials = make_http_credentials(username, password)
+    scheme = 'http'
+    if not path:
+        path = ''
+    if path and not path.startswith('/'):
+        path = "/%s" % path
+    if ssl:
+        scheme += 's'
+    return "%s://%s%s:%i%s" % (scheme, credentials, host, port, path)
+
+
 # Object holding the methods the XML-RPC server should provide.
 class RPCFunctions():
 
@@ -476,15 +508,22 @@ class ServerThread(threading.Thread):
                 LOG.warning("Skipping proxy: %s" % str(err))
                 continue
             if 'path' not in host:
-                host['path'] = ""
-            LOG.info("Creating proxy %s. Connecting to http://%s:%i%s" %
+                host['path'] = ''
+            LOG.info("Creating proxy %s. Connecting to %s:%i%s" %
                      (remote, host['ip'], host['port'], host['path']))
             host['id'] = "%s-%s" % (self._interface_id, remote)
             try:
-                self.proxies[host['id']] = LockingServerProxy("http://%s:%i%s" % (host['ip'], host['port'], host['path']),
-                                                              callbackip=host.get('callbackip', None),
-                                                              callbackport=host.get('callbackport', None),
-                                                              skipinit=not host.get('connect', True))
+                api_url = build_api_url(host=host['ip'],
+                                        port=host['port'],
+                                        path=host['path'],
+                                        username=host.get('username'),
+                                        password=host.get('password'),
+                                        ssl=host.get('ssl'))
+                self.proxies[host['id']] = LockingServerProxy(
+                    api_url,
+                    callbackip=host.get('callbackip', None),
+                    callbackport=host.get('callbackport', None),
+                    skipinit=not host.get('connect', True))
             except Exception as err:
                 LOG.warning("Failed connecting to proxy at http://%s:%i%s" %
                             (host['ip'], host['port'], host['path']))
