@@ -13,7 +13,6 @@ class HMActor(HMDevice):
     """
     Generic HM Actor Object
     """
-    pass
 
 
 class GenericBlind(HMActor, HelperActorLevel):
