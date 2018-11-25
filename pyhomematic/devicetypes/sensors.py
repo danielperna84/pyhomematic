@@ -37,7 +37,6 @@ class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
 
 class ShutterContact(IPShutterContact, HelperSabotage, HelperRssiPeer):
     """Door / Window contact that emits its open/closed state."""
-    pass
 
 
 class MaxShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
@@ -282,7 +281,6 @@ class SmartwareMotion(HMBinarySensor, HMSensor):
 
 class MotionV2(Motion, HelperSabotage):
     """Motion detection version 2."""
-    pass
 
 
 class MotionIP(HMBinarySensor, HMSensor):
