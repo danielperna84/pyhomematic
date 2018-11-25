@@ -45,7 +45,7 @@ class HelperLowBatIP(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"LOW_BAT": self.ELEMENT})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0]})
 
     def low_batt(self, channel=None):
         """ Returns if the battery is low. """
