@@ -1,6 +1,7 @@
 import os
 import threading
 import json
+import ssl
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
@@ -432,7 +433,11 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         self._skipinit = kwargs.pop("skipinit", False)
         self._callbackip = kwargs.pop("callbackip", None)
         self._callbackport = kwargs.pop("callbackport", None)
+        self._ssl = kwargs.pop("ssl", False)
+        self._verify_ssl = kwargs.pop("verify_ssl", True)
         self.lock = threading.Lock()
+        if self._ssl and not self._verify_ssl and self._verify_ssl is not None:
+            kwargs['context'] = ssl._create_unverified_context()
         xmlrpc.client.ServerProxy.__init__(self, *args, **kwargs)
         urlcomponents = urllib.parse.urlparse(args[0])
         self._remoteip = urlcomponents.hostname
@@ -523,7 +528,9 @@ class ServerThread(threading.Thread):
                     api_url,
                     callbackip=host.get('callbackip', None),
                     callbackport=host.get('callbackport', None),
-                    skipinit=not host.get('connect', True))
+                    skipinit=not host.get('connect', True),
+                    ssl=host.get('ssl', False),
+                    verify_ssl=host.get('verify_ssl', True))
             except Exception as err:
                 LOG.warning("Failed connecting to proxy at http://%s:%i%s" %
                             (host['ip'], host['port'], host['path']))
