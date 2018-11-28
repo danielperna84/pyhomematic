@@ -508,7 +508,7 @@ class ServerThread(threading.Thread):
         for remote, host in self.remotes.items():
             # Initialize XML-RPC
             try:
-                socket.inet_pton(socket.AF_INET, host['ip'])
+                socket.gethostbyname(host['ip'])
             except Exception as err:
                 LOG.warning("Skipping proxy: %s" % str(err))
                 continue
