@@ -130,7 +130,9 @@ class IPDimmer(GenericDimmer):
     """
     @property
     def ELEMENT(self):
-        return [3]
+        if "PDT" in self._TYPE:
+            return [3]
+        return [2]
 
 
 class IPKeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
@@ -665,6 +667,7 @@ DEVICETYPES = {
     "HmIP-BSM": IPKeySwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
     "HmIP-BDT": IPKeyDimmer,
+    "HmIP-FDT": IPDimmer,
     "HmIP-PDT": IPDimmer,
     "HM-Sec-Key": KeyMatic,
     "HM-Sec-Key-S": KeyMatic,
