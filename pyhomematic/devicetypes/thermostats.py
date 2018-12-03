@@ -352,6 +352,7 @@ DEVICETYPES = {
     "HmIP-eTRV": IPThermostat,
     "HmIP-eTRV-2": IPThermostat,
     "HmIP-eTRV-B": IPThermostat,
+    "HmIP-eTRV-B1": IPThermostat,
     "HmIP-STHD": IPThermostatWall,
     "HmIP-STH": IPThermostatWall,
     "HmIP-WTH-2": IPThermostatWall,
