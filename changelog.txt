@@ -1,10 +1,11 @@
-Version 0.1.53 (2018-)
+Version 0.1.53 (2018-12-05)
 - Changed loglevel for getValue to `warning` (Issue #153) @danielperna84
 - Channel for LOW_BAT always is 0 for HmIP devices (Issue #186) @danielperna84
 - Support hostnames for XML-RPC endpoints @danielperna84
 - Add support for HmIP-eTRV-B @SiwYv
 - Added support for HmIP-FDT @DieterChmod
 - Added support for HB-UW-Sen-THPL-O and HB-UW-Sen-THPL-I @rgriebl
+- Add support for SSL and authentication with CCU3 @danielperna84
 
 Version 0.1.52 (2018-11-15)
 - Added HmIP-MOD-TM (Issue #170) @danielperna84
