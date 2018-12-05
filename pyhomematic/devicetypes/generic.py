@@ -206,8 +206,8 @@ class HMChannel(HMGeneric):
             self._VALUES[key] = returnvalue
             return returnvalue
         except Exception as err:
-            LOG.error("HMGeneric.getValue: %s on %s Exception: %s", key,
-                      self._ADDRESS, err)
+            LOG.warning("HMGeneric.getValue: %s on %s Exception: %s", key,
+                        self._ADDRESS, err)
             return False
 
 

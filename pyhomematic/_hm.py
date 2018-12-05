@@ -1,7 +1,9 @@
 import os
 import threading
 import json
+import ssl
 import urllib.request
+import urllib.parse
 import xml.etree.ElementTree as ET
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
@@ -43,6 +45,38 @@ devices_all = {}
 devices_raw = {}
 devices_raw_dict = {}
 working = False
+
+
+def make_http_credentials(username=None, password=None):
+    """Build auth part for api_url."""
+    credentials = ''
+    if username is None:
+        return credentials
+    if username is not None:
+        if ':' in username:
+            return credentials
+        credentials += username
+    if credentials and password is not None:
+        credentials += ":%s" % password
+    return "%s@" % credentials
+
+
+def build_api_url(host=REMOTES['default']['ip'],
+                  port=REMOTES['default']['port'],
+                  path=REMOTES['default']['port'],
+                  username=None,
+                  password=None,
+                  ssl=False):
+    """Build API URL from components."""
+    credentials = make_http_credentials(username, password)
+    scheme = 'http'
+    if not path:
+        path = ''
+    if path and not path.startswith('/'):
+        path = "/%s" % path
+    if ssl:
+        scheme += 's'
+    return "%s://%s%s:%i%s" % (scheme, credentials, host, port, path)
 
 
 # Object holding the methods the XML-RPC server should provide.
@@ -399,10 +433,15 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         self._skipinit = kwargs.pop("skipinit", False)
         self._callbackip = kwargs.pop("callbackip", None)
         self._callbackport = kwargs.pop("callbackport", None)
+        self._ssl = kwargs.pop("ssl", False)
+        self._verify_ssl = kwargs.pop("verify_ssl", True)
         self.lock = threading.Lock()
+        if self._ssl and not self._verify_ssl and self._verify_ssl is not None:
+            kwargs['context'] = ssl._create_unverified_context()
         xmlrpc.client.ServerProxy.__init__(self, *args, **kwargs)
-        self._remoteip, self._remoteport = self._ServerProxy__host.split(':')
-        self._remoteport = int(self._remoteport)
+        urlcomponents = urllib.parse.urlparse(args[0])
+        self._remoteip = urlcomponents.hostname
+        self._remoteport = urlcomponents.port
         LOG.debug("LockingServerProxy.__init__: Getting local ip")
         tmpsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         tmpsocket.connect((self._remoteip, self._remoteport))
@@ -469,20 +508,29 @@ class ServerThread(threading.Thread):
         for remote, host in self.remotes.items():
             # Initialize XML-RPC
             try:
-                socket.inet_pton(socket.AF_INET, host['ip'])
+                socket.gethostbyname(host['ip'])
             except Exception as err:
                 LOG.warning("Skipping proxy: %s" % str(err))
                 continue
             if 'path' not in host:
-                host['path'] = ""
-            LOG.info("Creating proxy %s. Connecting to http://%s:%i%s" %
+                host['path'] = ''
+            LOG.info("Creating proxy %s. Connecting to %s:%i%s" %
                      (remote, host['ip'], host['port'], host['path']))
             host['id'] = "%s-%s" % (self._interface_id, remote)
             try:
-                self.proxies[host['id']] = LockingServerProxy("http://%s:%i%s" % (host['ip'], host['port'], host['path']),
-                                                              callbackip=host.get('callbackip', None),
-                                                              callbackport=host.get('callbackport', None),
-                                                              skipinit=not host.get('connect', True))
+                api_url = build_api_url(host=host['ip'],
+                                        port=host['port'],
+                                        path=host['path'],
+                                        username=host.get('username'),
+                                        password=host.get('password'),
+                                        ssl=host.get('ssl'))
+                self.proxies[host['id']] = LockingServerProxy(
+                    api_url,
+                    callbackip=host.get('callbackip', None),
+                    callbackport=host.get('callbackport', None),
+                    skipinit=not host.get('connect', True),
+                    ssl=host.get('ssl', False),
+                    verify_ssl=host.get('verify_ssl', True))
             except Exception as err:
                 LOG.warning("Failed connecting to proxy at http://%s:%i%s" %
                             (host['ip'], host['port'], host['path']))

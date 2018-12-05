@@ -37,7 +37,6 @@ class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
 
 class ShutterContact(IPShutterContact, HelperSabotage, HelperRssiPeer):
     """Door / Window contact that emits its open/closed state."""
-    pass
 
 
 class MaxShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
@@ -282,7 +281,6 @@ class SmartwareMotion(HMBinarySensor, HMSensor):
 
 class MotionV2(Motion, HelperSabotage):
     """Motion detection version 2."""
-    pass
 
 
 class MotionIP(HMBinarySensor, HMSensor):
@@ -726,6 +724,23 @@ class IPBrightnessSensor(HMSensor, HelperRssiDevice):
         self.ATTRIBUTENODE.update({"OPERATING_VOLTAGE": [0]})
 
 
+class UniversalSensor(WeatherStation, HelperLowBat, HelperRssiPeer):
+    """Universal sensor. (https://wiki.fhem.de/wiki/Universalsensor)"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"BatteryVoltage": [1],
+                                "LUMINOSITY": [1]})
+
+    def get_luminosity(self, channel=None):
+        return float(self.getSensorData("LUMINOSITY", channel))
+
+    def get_battery_voltage(self, channel=None):
+        return float(self.getSensorData("BatteryVoltage", channel))
+
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -811,4 +826,6 @@ DEVICETYPES = {
     "HmIP-SPDR": IPPassageSensor,
     "IT-Old-Remote-1-Channel": SmartwareMotion,
     "HmIP-SLO": IPBrightnessSensor,
+    "HB-UW-Sen-THPL-O": UniversalSensor,
+    "HB-UW-Sen-THPL-I": UniversalSensor,
 }
