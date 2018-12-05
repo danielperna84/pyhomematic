@@ -1,3 +1,5 @@
+Version 0.1.54 ()
+
 Version 0.1.53 (2018-12-05)
 - Changed loglevel for getValue to `warning` (Issue #153) @danielperna84
 - Channel for LOW_BAT always is 0 for HmIP devices (Issue #186) @danielperna84
