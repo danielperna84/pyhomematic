@@ -318,6 +318,41 @@ class MotionIP(HMBinarySensor, HMSensor):
         return [0, 1]
 
 
+class MotionIPV2(HMBinarySensor, HMSensor):
+    """Motion detection indoor 55 (rf ip)"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [3], "MOTION": [3]})
+        self.SENSORNODE.update({"ILLUMINATION": [3]})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0], "ERROR_CODE": [0], "SABOTAGE": [0]})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def is_motion_detection_active(self, channel=None):
+        return bool(self.getBinaryData("MOTION_DETECTION_ACTIVE", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark) to 163830 (bright) """
+        return float(self.getSensorData("ILLUMINATION", channel))
+
+    def low_batt(self, channel=None):
+        """ Returns if the battery is low. """
+        return self.getAttributeData("LOW_BAT", channel)
+
+    def sabotage(self, channel=None):
+        """Returns True if the devicecase has been opened."""
+        return bool(self.getAttributeData("SABOTAGE", channel))
+
+    @property
+    def ELEMENT(self):
+        return [0, 1, 2, 3]
+
+
 class PresenceIP(HMBinarySensor, HMSensor):
     """Presence detection with HmIP-SPI"""
 
@@ -778,6 +813,7 @@ DEVICETYPES = {
     "263 162": MotionV2,
     "HM-Sec-MD": MotionV2,
     "HmIP-SMI": MotionIP,
+    "HmIP-SMI55": MotionIPV2,
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
     "HmIP-SPI": PresenceIP,
