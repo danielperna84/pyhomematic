@@ -62,7 +62,7 @@ class HMGeneric():
         self._VALUES[key] = value   # Cache the value
 
         for callback in self._eventcallbacks:
-            LOG.debug("HMDevice.event: Using callback %s " % str(callback))
+            LOG.debug("HMGeneric.event: Using callback %s " % str(callback))
             callback(self._ADDRESS, interface_id, key, value)
 
     def getParamsetDescription(self, paramset):

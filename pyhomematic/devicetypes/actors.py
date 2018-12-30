@@ -559,6 +559,7 @@ DEVICETYPES = {
     "HmIP-BROLL": IPKeyBlind,
     "HmIP-FROLL": IPKeyBlind,
     "HmIP-BBL": IPKeyBlindTilt,
+    "HmIP-FBL": IPKeyBlindTilt,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-2": Dimmer,
     "HM-LC-Dim1L-Pl-3": Dimmer,

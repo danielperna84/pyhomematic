@@ -21,7 +21,7 @@ class HelperSabotageIP(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"SABOTAGE": self.ELEMENT})
+        self.ATTRIBUTENODE.update({"SABOTAGE": [0]})
 
     def sabotage(self, channel=None):
         """Returns True if the devicecase has been opened."""
