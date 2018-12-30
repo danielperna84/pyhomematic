@@ -1,4 +1,9 @@
-Version 0.1.54 ()
+Version 0.1.54 (2018-12-30)
+- Set SABOTAGE helper for HmIP devices to channel 0 @rgriebl
+- Fix log-message for callbacks @danielperna84
+- Add support for HmIP-FBL @Alex-ala
+- Add support for HmIP-SWDM @leoMehlig
+- Add support for HmIP-SMI55 @janbrummer
 
 Version 0.1.53 (2018-12-05)
 - Changed loglevel for getValue to `warning` (Issue #153) @danielperna84
