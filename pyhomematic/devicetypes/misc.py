@@ -66,7 +66,7 @@ class RemotePress(HMEvent, HelperEventPress, HelperActionPress):
     def ELEMENT(self):
         return [1, 2, 3]
 
-    
+
 DEVICETYPES = {
     "HM-RCV-50": RemoteVirtual,
     "HM-RC-2-PBU-FM": Remote,
