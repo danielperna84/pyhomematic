@@ -457,6 +457,27 @@ class IPGarage(GenericSwitch, HMSensor):
         return [2]
 
 
+class IPMultiIO(IPSwitch):
+    """
+    HmIP-MIOB Multi IO Box
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"CHANGE_OVER": [9, 10],
+                                "EXTERNAL_CLOCK": [9, 10],
+                                "HUMIDITY_LIMITER": [9, 10],
+                                "STATE": [9, 10],
+                                "TACTILE_SWITCH": [9, 10],
+                                "TEMPERATURE_LIMITER": [9, 10]})
+        self.SENSORNODE.update({"LEVEL": [11]})
+
+    @property
+    def ELEMENT(self):
+        return [3, 7]
+
+
 class ColorEffectLight(Dimmer):
     """
     Color light with dimmer function and color effects.
@@ -678,4 +699,5 @@ DEVICETYPES = {
     "HM-Sec-Sir-WM": RFSiren,
     "HmIP-MOD-TM": IPGarage,
     "HM-LC-RGBW-WM": ColorEffectLight,
+    "HmIP-MIOB": IPMultiIO,
 }
