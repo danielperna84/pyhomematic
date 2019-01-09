@@ -1,5 +1,7 @@
-Version 0.1.55 (2019-)
-- Add HmIP-MIOB @danielperna84
+Version 0.1.55 (2019-01-)
+- Add support for HmIP-MIOB @danielperna84
+- Add support for HmIP-BRC2 @hg8496
+- Add support for HmIP-KRC4 @l-mb
 
 Version 0.1.54 (2018-12-30)
 - Set SABOTAGE helper for HmIP devices to channel 0 @rgriebl
