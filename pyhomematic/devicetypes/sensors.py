@@ -776,6 +776,23 @@ class UniversalSensor(WeatherStation, HelperLowBat, HelperRssiPeer):
         return float(self.getSensorData("BatteryVoltage", channel))
 
 
+class WaterIP(HMBinarySensor, HelperRssiDevice, HelperLowBatIP):
+    """Water sensor HmIP-SWD"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"ALARMSTATE": self.ELEMENT,
+                                "MOISTURE_DETECTED": self.ELEMENT,
+                                "WATERLEVEL_DETECTED": self.ELEMENT,
+                                "ERROR_NON_FLAT_POSITION": [0]})
+
+    @property
+    def ELEMENT(self):
+        return [1]
+
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -865,4 +882,5 @@ DEVICETYPES = {
     "HmIP-SLO": IPBrightnessSensor,
     "HB-UW-Sen-THPL-O": UniversalSensor,
     "HB-UW-Sen-THPL-I": UniversalSensor,
+    "HmIP-SWD": WaterIP,
 }
