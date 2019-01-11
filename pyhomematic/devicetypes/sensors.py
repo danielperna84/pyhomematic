@@ -788,6 +788,7 @@ DEVICETYPES = {
     "HmIP-SWDO": IPShutterContact,
     "HmIP-SWDO-I": IPShutterContact,
     "HmIP-SWDM": IPShutterContact,
+    "HmIP-SWDM-B2": IPShutterContact,
     "HmIP-SRH": RotaryHandleSensorIP,
     "HM-Sec-RHS": RotaryHandleSensor,
     "ZEL STG RM FDK": RotaryHandleSensor,
