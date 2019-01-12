@@ -785,8 +785,7 @@ class WaterIP(HMBinarySensor, HelperRssiDevice, HelperLowBatIP):
         # init metadata
         self.BINARYNODE.update({"ALARMSTATE": self.ELEMENT,
                                 "MOISTURE_DETECTED": self.ELEMENT,
-                                "WATERLEVEL_DETECTED": self.ELEMENT,
-                                "ERROR_NON_FLAT_POSITION": [0]})
+                                "WATERLEVEL_DETECTED": self.ELEMENT})
 
     @property
     def ELEMENT(self):
