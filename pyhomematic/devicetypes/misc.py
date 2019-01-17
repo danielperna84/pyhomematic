@@ -26,7 +26,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
 
     @property
     def ELEMENT(self):
-        if "RC-2" in self.TYPE or "PB-2" in self.TYPE or "WRC2" in self.TYPE:
+        if "RC-2" in self.TYPE or "PB-2" in self.TYPE or "WRC2" in self.TYPE or "BRC2" in self.TYPE:
             return [1, 2]
         if "HM-Dis-WM55" in self.TYPE or "HM-Dis-EP-WM55" in self.TYPE:
             return [1, 2]
@@ -121,6 +121,7 @@ DEVICETYPES = {
     "HMW-IO-12-FM": Remote,
     "HMIP-WRC2": Remote,
     "HmIP-WRC2": Remote,
+    "HmIP-BRC2": Remote,
     "HmIP-WRC6": Remote,
     "HmIP-KRCA": Remote,
     "HM-SwI-3-FM": RemotePress,
