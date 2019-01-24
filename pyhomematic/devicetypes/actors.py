@@ -356,6 +356,21 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
             return [3]
 
 
+class IPKeySwitch(IPSwitch, HMEvent, HelperActionPress):
+    """
+    Switch turning plugged in device on or off and measuring energy consumption.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG": [1, 2]})
+
+    @property
+    def ELEMENT(self):
+        return [4]
+
+
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
     """
     Switch turning plugged in device on or off and measuring energy consumption.
@@ -683,6 +698,7 @@ DEVICETYPES = {
     "HmIP-PS-PE": IPSwitch,
     "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
+    "HmIP-BSL": IPKeySwitch,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM-CH": IPSwitchPowermeter,
