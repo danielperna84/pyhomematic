@@ -1,3 +1,5 @@
+Version 0.1.56 (2019-)
+
 Version 0.1.55 (2019-01-24)
 - Add support for HmIP-MIOB @danielperna84
 - Add suppoer for HmIP-BSL @danielperna84
