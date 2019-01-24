@@ -1,3 +1,12 @@
+Version 0.1.55 (2019-01-24)
+- Add support for HmIP-MIOB @danielperna84
+- Add suppoer for HmIP-BSL @danielperna84
+- Add support for HmIP-SWD @danielperna84
+- Add support for HmIP-BRC2 @hg8496
+- Add support for HmIP-KRC4 @l-mb
+- Add support for HmIP-SWDM-B2 @haggybear
+- Add support for multiple variants of existing devices for other regions @danielperna84
+
 Version 0.1.54 (2018-12-30)
 - Set SABOTAGE helper for HmIP devices to channel 0 @rgriebl
 - Fix log-message for callbacks @danielperna84

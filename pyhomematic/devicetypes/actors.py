@@ -356,6 +356,21 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
             return [3]
 
 
+class IPKeySwitch(IPSwitch, HMEvent, HelperActionPress):
+    """
+    Switch turning plugged in device on or off and measuring energy consumption.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG": [1, 2]})
+
+    @property
+    def ELEMENT(self):
+        return [4]
+
+
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
     """
     Switch turning plugged in device on or off and measuring energy consumption.
@@ -455,6 +470,27 @@ class IPGarage(GenericSwitch, HMSensor):
     @property
     def ELEMENT(self):
         return [2]
+
+
+class IPMultiIO(IPSwitch):
+    """
+    HmIP-MIOB Multi IO Box
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"CHANGE_OVER": [9, 10],
+                                "EXTERNAL_CLOCK": [9, 10],
+                                "HUMIDITY_LIMITER": [9, 10],
+                                "STATE": [9, 10],
+                                "TACTILE_SWITCH": [9, 10],
+                                "TEMPERATURE_LIMITER": [9, 10]})
+        self.SENSORNODE.update({"LEVEL": [11]})
+
+    @property
+    def ELEMENT(self):
+        return [3, 7]
 
 
 class ColorEffectLight(Dimmer):
@@ -658,10 +694,17 @@ DEVICETYPES = {
     "HMW-LC-Dim1L-DR": KeyDimmer,
     "HMIP-PS": IPSwitch,
     "HmIP-PS": IPSwitch,
+    "HmIP-PS-CH": IPSwitch,
+    "HmIP-PS-PE": IPSwitch,
+    "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
+    "HmIP-BSL": IPKeySwitch,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM-CH": IPSwitchPowermeter,
+    "HmIP-PSM-IT": IPSwitchPowermeter,
+    "HmIP-PSM-PE": IPSwitchPowermeter,
+    "HmIP-PSM-UK": IPSwitchPowermeter,
     "HmIP-FSM": IPSwitchPowermeter,
     "HmIP-FSM16": IPSwitchPowermeter,
     "HmIP-BSM": IPKeySwitchPowermeter,
@@ -669,6 +712,7 @@ DEVICETYPES = {
     "HmIP-BDT": IPKeyDimmer,
     "HmIP-FDT": IPDimmer,
     "HmIP-PDT": IPDimmer,
+    "HmIP-PDT-UK": IPDimmer,
     "HM-Sec-Key": KeyMatic,
     "HM-Sec-Key-S": KeyMatic,
     "HM-Sec-Key-O": KeyMatic,
@@ -678,4 +722,5 @@ DEVICETYPES = {
     "HM-Sec-Sir-WM": RFSiren,
     "HmIP-MOD-TM": IPGarage,
     "HM-LC-RGBW-WM": ColorEffectLight,
+    "HmIP-MIOB": IPMultiIO,
 }
