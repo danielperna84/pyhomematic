@@ -3,6 +3,7 @@ from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.misc import HMEvent, Remote
 from pyhomematic.devicetypes.helper import (HelperLowBat, HelperSabotage,
                                             HelperLowBatIP, HelperSabotageIP,
+                                            HelperOperatingVoltageIP,
                                             HelperBinaryState,
                                             HelperSensorState,
                                             HelperWired, HelperEventRemote, HelperRssiPeer, HelperRssiDevice)
@@ -18,7 +19,7 @@ class HMBinarySensor(HMDevice):
     pass
 
 
-class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
+class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperOperatingVoltageIP):
     """Door / Window contact that emits its open/closed state."""
     def is_open(self, channel=None):
         """ Returns True if the contact is open. """
