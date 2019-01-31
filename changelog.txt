@@ -1,4 +1,5 @@
 Version 0.1.56 (2019-)
+- Remove SABOTAGE from HmIP-SMO(-A) (Issue #212) @danielperna84
 
 Version 0.1.55 (2019-01-24)
 - Add support for HmIP-MIOB @danielperna84

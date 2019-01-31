@@ -292,7 +292,7 @@ class MotionIP(HMBinarySensor, HMSensor):
         # init metadata
         self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [1], "MOTION": [1]})
         self.SENSORNODE.update({"ILLUMINATION": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0], "ERROR_CODE": [0], "SABOTAGE": [0]})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0], "ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
