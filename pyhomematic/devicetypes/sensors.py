@@ -284,7 +284,7 @@ class MotionV2(Motion, HelperSabotage):
     """Motion detection version 2."""
 
 
-class MotionIP(HMBinarySensor, HMSensor):
+class MotionIP(HMBinarySensor, HMSensor, HelperLowBatIP, HelperOperatingVoltageIP):
     """Motion detection indoor (rf ip)"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -293,7 +293,7 @@ class MotionIP(HMBinarySensor, HMSensor):
         # init metadata
         self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [1], "MOTION": [1]})
         self.SENSORNODE.update({"ILLUMINATION": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0], "ERROR_CODE": [0]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
@@ -306,20 +306,12 @@ class MotionIP(HMBinarySensor, HMSensor):
         """ Return brightness from 0 (dark) to 163830 (bright) """
         return float(self.getSensorData("ILLUMINATION", channel))
 
-    def low_batt(self, channel=None):
-        """ Returns if the battery is low. """
-        return self.getAttributeData("LOW_BAT", channel)
-
-    def sabotage(self, channel=None):
-        """Returns True if the devicecase has been opened."""
-        return bool(self.getAttributeData("SABOTAGE", channel))
-
     @property
     def ELEMENT(self):
         return [0, 1]
 
 
-class MotionIPV2(HMBinarySensor, HMSensor):
+class MotionIPV2(HMBinarySensor, HMSensor, HelperLowBatIP, HelperOperatingVoltageIP):
     """Motion detection indoor 55 (rf ip)"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -328,7 +320,7 @@ class MotionIPV2(HMBinarySensor, HMSensor):
         # init metadata
         self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [3], "MOTION": [3]})
         self.SENSORNODE.update({"ILLUMINATION": [3]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0], "ERROR_CODE": [0], "SABOTAGE": [0]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0], "SABOTAGE": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
@@ -340,10 +332,6 @@ class MotionIPV2(HMBinarySensor, HMSensor):
     def get_brightness(self, channel=None):
         """ Return brightness from 0 (dark) to 163830 (bright) """
         return float(self.getSensorData("ILLUMINATION", channel))
-
-    def low_batt(self, channel=None):
-        """ Returns if the battery is low. """
-        return self.getAttributeData("LOW_BAT", channel)
 
     def sabotage(self, channel=None):
         """Returns True if the devicecase has been opened."""
