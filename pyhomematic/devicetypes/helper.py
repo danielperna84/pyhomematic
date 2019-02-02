@@ -52,6 +52,19 @@ class HelperLowBatIP(HMDevice):
         return self.getAttributeData("LOW_BAT", channel)
 
 
+class HelperOperatingVoltageIP(HMDevice):
+    """This Helper adds easy access to read the OPERATING_VOLTAGE state"""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"OPERATING_VOLTAGE": [0]})
+
+    def operation_voltage(self, channel=None):
+        """ Returns the operating voltage. """
+        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
+
+
 class HelperWorking(HMDevice):
     """This helper provides access to the WORKING state of some devices."""
     def __init__(self, device_description, proxy, resolveparamsets=False):
