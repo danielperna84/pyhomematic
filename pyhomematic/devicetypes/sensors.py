@@ -311,7 +311,7 @@ class MotionIP(HMBinarySensor, HMSensor, HelperLowBatIP, HelperOperatingVoltageI
         return [0, 1]
 
 
-class MotionIPV2(HMBinarySensor, HMSensor, HelperLowBatIP, HelperOperatingVoltageIP):
+class MotionIPV2(HMBinarySensor, HMSensor, HelperLowBatIP, HelperOperatingVoltageIP, HelperSabotageIP):
     """Motion detection indoor 55 (rf ip)"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -320,7 +320,7 @@ class MotionIPV2(HMBinarySensor, HMSensor, HelperLowBatIP, HelperOperatingVoltag
         # init metadata
         self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [3], "MOTION": [3]})
         self.SENSORNODE.update({"ILLUMINATION": [3]})
-        self.ATTRIBUTENODE.update({"ERROR_CODE": [0], "SABOTAGE": [0]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
@@ -333,16 +333,12 @@ class MotionIPV2(HMBinarySensor, HMSensor, HelperLowBatIP, HelperOperatingVoltag
         """ Return brightness from 0 (dark) to 163830 (bright) """
         return float(self.getSensorData("ILLUMINATION", channel))
 
-    def sabotage(self, channel=None):
-        """Returns True if the devicecase has been opened."""
-        return bool(self.getAttributeData("SABOTAGE", channel))
-
     @property
     def ELEMENT(self):
         return [0, 1, 2, 3]
 
 
-class PresenceIP(HMBinarySensor, HMSensor):
+class PresenceIP(HMBinarySensor, HMSensor, HelperLowBatIP, HelperSabotageIP):
     """Presence detection with HmIP-SPI"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -351,9 +347,7 @@ class PresenceIP(HMBinarySensor, HMSensor):
         # init metadata
         self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": [1]})
         self.SENSORNODE.update({"ILLUMINATION": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0],
-                                   "SABOTAGE": [0]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
@@ -363,20 +357,12 @@ class PresenceIP(HMBinarySensor, HMSensor):
         """ Return brightness from 0 (dark) to 163830 (bright) """
         return float(self.getSensorData("ILLUMINATION", channel))
 
-    def low_batt(self, channel=None):
-        """ Returns if the battery is low. """
-        return self.getAttributeData("LOW_BAT", channel)
-
-    def sabotage(self, channel=None):
-        """Returns True if the devicecase has been opened."""
-        return bool(self.getAttributeData("SABOTAGE", channel))
-
     @property
     def ELEMENT(self):
         return [0, 1]
 
 
-class TiltIP(HMBinarySensor, HMSensor):
+class TiltIP(HMBinarySensor, HMSensor, HelperLowBatIP):
     """Tilt detection with HmIP-SAM"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -384,16 +370,11 @@ class TiltIP(HMBinarySensor, HMSensor):
 
         # init metadata
         self.BINARYNODE.update({"MOTION": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
         return bool(self.getBinaryData("MOTION", channel))
-
-    def low_batt(self, channel=None):
-        """ Returns if the battery is low. """
-        return self.getAttributeData("LOW_BAT", channel)
 
     @property
     def ELEMENT(self):
@@ -456,7 +437,7 @@ class AreaThermostat(HMSensor):
         return int(self.getSensorData("HUMIDITY", channel))
 
 
-class IPAreaThermostat(HMSensor):
+class IPAreaThermostat(HMSensor, HelperLowBatIP):
     """Wall mount thermostat."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -465,7 +446,6 @@ class IPAreaThermostat(HMSensor):
         # init metadata
         self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
                                 "HUMIDITY": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0]})
 
     def get_temperature(self, channel=None):
         return float(self.getSensorData("ACTUAL_TEMPERATURE", channel))
@@ -545,7 +525,7 @@ class WeatherSensor(HMSensor, HMBinarySensor):
         """ Return True if motion is detected """
         return bool(self.getBinaryData("RAINING", channel))
 
-class IPWeatherSensorPlus(HMSensor, HMBinarySensor):
+class IPWeatherSensorPlus(HMSensor, HMBinarySensor, HelperLowBatIP, HelperOperatingVoltageIP):
     """HomeMatic IP Weather sensor Plus."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -559,9 +539,7 @@ class IPWeatherSensorPlus(HMSensor, HMBinarySensor):
                                 "SUNSHINEDURATION": [1],
                                 "ILLUMINATION": [1]})
         self.BINARYNODE.update({"RAINING": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0],
-                                   "OPERATING_VOLTAGE": [0],
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0],
                                    "TEMPERATURE_OUT_OF_RANGE": [0]})
 
     def get_temperature(self, channel=None):
@@ -582,20 +560,14 @@ class IPWeatherSensorPlus(HMSensor, HMBinarySensor):
     def get_brightness(self, channel=None):
         return int(self.getSensorData("ILLUMINATION", channel))
 
-    def get_operating_voltage(self, channel=None):
-        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
-
     def is_raining(self, channel=None):
         return bool(self.getBinaryData("RAINING", channel))
-
-    def is_low_batt(self, channel=None):
-        return bool(self.getAttributeData("LOW_BAT", channel))
 
     def is_temperature_out_of_range(self, channel=None):
         return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
 
 
-class IPWeatherSensorBasic(HMSensor, HMBinarySensor):
+class IPWeatherSensorBasic(HMSensor, HMBinarySensor, HelperLowBatIP, HelperOperatingVoltageIP):
     """HomeMatic IP Weather sensor Basic."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -607,9 +579,7 @@ class IPWeatherSensorBasic(HMSensor, HMBinarySensor):
                                 "WIND_SPEED": [1],
                                 "SUNSHINEDURATION": [1],
                                 "ILLUMINATION": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0],
-                                   "OPERATING_VOLTAGE": [0],
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0],
                                    "TEMPERATURE_OUT_OF_RANGE": [0]})
 
     def get_temperature(self, channel=None):
@@ -626,12 +596,6 @@ class IPWeatherSensorBasic(HMSensor, HMBinarySensor):
 
     def get_brightness(self, channel=None):
         return int(self.getSensorData("ILLUMINATION", channel))
-
-    def get_operating_voltage(self, channel=None):
-        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
-
-    def is_low_batt(self, channel=None):
-        return bool(self.getAttributeData("LOW_BAT", channel))
 
     def is_temperature_out_of_range(self, channel=None):
         return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
@@ -655,7 +619,7 @@ class IPPassageSensor(HMSensor, HMBinarySensor, HelperEventRemote, HelperLowBatI
         return [2, 3]
 
 
-class IPWeatherSensor(HMSensor, HMBinarySensor):
+class IPWeatherSensor(HMSensor, HMBinarySensor, HelperLowBatIP, HelperOperatingVoltageIP):
     """HomeMatic IP Weather sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -671,9 +635,7 @@ class IPWeatherSensor(HMSensor, HMBinarySensor):
                                 "SUNSHINEDURATION": [1],
                                 "ILLUMINATION": [1]})
         self.BINARYNODE.update({"RAINING": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0],
-                                   "OPERATING_VOLTAGE": [0],
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0],
                                    "TEMPERATURE_OUT_OF_RANGE": [0]})
 
     def get_temperature(self, channel=None):
@@ -700,14 +662,8 @@ class IPWeatherSensor(HMSensor, HMBinarySensor):
     def get_brightness(self, channel=None):
         return int(self.getSensorData("ILLUMINATION", channel))
 
-    def get_operating_voltage(self, channel=None):
-        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
-
     def is_raining(self, channel=None):
         return bool(self.getBinaryData("RAINING", channel))
-
-    def is_low_batt(self, channel=None):
-        return bool(self.getAttributeData("LOW_BAT", channel))
 
     def is_temperature_out_of_range(self, channel=None):
         return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
@@ -734,7 +690,7 @@ class WeatherStation(HMSensor):
         return int(self.getSensorData("AIR_PRESSURE", channel))
 
 
-class IPBrightnessSensor(HMSensor, HelperRssiDevice):
+class IPBrightnessSensor(HMSensor, HelperOperatingVoltageIP, HelperRssiDevice):
     """IP Sensor for outdoor brightness measure"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -745,8 +701,6 @@ class IPBrightnessSensor(HMSensor, HelperRssiDevice):
                                 "AVERAGE_ILLUMINATION": [1],
                                 "LOWEST_ILLUMINATION": [1],
                                 "HIGHEST_ILLUMINATION": [1]})
-        self.ATTRIBUTENODE.update({"OPERATING_VOLTAGE": [0]})
-
 
 class UniversalSensor(WeatherStation, HelperLowBat, HelperRssiPeer):
     """Universal sensor. (https://wiki.fhem.de/wiki/Universalsensor)"""
