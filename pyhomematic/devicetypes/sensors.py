@@ -19,7 +19,7 @@ class HMBinarySensor(HMDevice):
     pass
 
 
-class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat, HelperOperatingVoltageIP):
+class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBatIP, HelperOperatingVoltageIP):
     """Door / Window contact that emits its open/closed state."""
     def is_open(self, channel=None):
         """ Returns True if the contact is open. """
