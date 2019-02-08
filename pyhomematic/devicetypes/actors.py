@@ -413,6 +413,9 @@ class IPSwitchPowermeter(IPSwitch, HMSensor, HelperRssiDevice):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG": [1, 2]})
+
         # init metadata
         sensorIndex = None
         if "HmIP-FSM" in self.TYPE or "HmIP-FSM16" in self.TYPE:
