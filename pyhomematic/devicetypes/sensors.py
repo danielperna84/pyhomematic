@@ -11,12 +11,23 @@ from pyhomematic.devicetypes.helper import (HelperLowBat, HelperSabotage,
 LOG = logging.getLogger(__name__)
 
 
-class HMSensor(HMDevice):
+class SensorHm(HMDevice, HelperRssiDevice, HelperLowBat):
+    """Homematic sensors always publish their
+         signal strength the device (HelperRssiDevice)
+         low battery status (HelperLowBat)"""
     pass
 
 
-class HMBinarySensor(HMDevice):
+class SensorHmIP(HMDevice, HelperRssiDevice, HelperLowBatIP, HelperOperatingVoltageIP):
+    """Homematic IP sensors always publish their
+         signal strength the device (HelperRssiDevice)
+         low battery status (HelperLowBatIP)
+         voltage of the batteries (HelperOperatingVoltageIP)"""
     pass
+
+
+class ShutterContact(IPShutterContact, HelperSabotage, HelperRssiPeer):
+    """Door / Window contact that emits its open/closed state."""
 
 
 class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBatIP, HelperOperatingVoltageIP):
@@ -34,10 +45,6 @@ class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBatIP, Helper
         if "HM-SCI-3-FM" in self._TYPE:
             return [1, 2, 3]
         return [1]
-
-
-class ShutterContact(IPShutterContact, HelperSabotage, HelperRssiPeer):
-    """Door / Window contact that emits its open/closed state."""
 
 
 class MaxShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
