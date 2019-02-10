@@ -363,7 +363,7 @@ class RPCFunctions():
                 interface = False
                 if response['error'] is None and response['result']:
                     for i in response['result']:
-                        if i['port'] == self.remotes[remote]['port']:
+                        if i['port'] in [self.remotes[remote]['port'], self.remotes[remote]['port'] + 30000]:
                             interface = i['name']
                             break
                 LOG.debug(
