@@ -1,6 +1,9 @@
 Version 0.1.56 (2019-)
 - Remove SABOTAGE from HmIP-SMO(-A) (Issue #212) @danielperna84
 - Fix resolving names with JSON with SSL @danielperna84
+- Added PRESS_* events to IP Powermeter switches @dagobert
+- Added OPERATING_VOLTAGE to some IP devices @dagobert
+- Fix LOWBAT-Helper for IP shutter contact @dagobert
 
 Version 0.1.55 (2019-01-24)
 - Add support for HmIP-MIOB @danielperna84
