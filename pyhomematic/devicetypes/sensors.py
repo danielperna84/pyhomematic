@@ -13,14 +13,12 @@ LOG = logging.getLogger(__name__)
 
 class HMSensor(HMDevice):
     """This class helps to resolve class inheritance order problems."""
-    pass
 
 
 class SensorHm(HMSensor, HelperRssiDevice, HelperRssiPeer, HelperLowBat):
     """Homematic sensors always publish their
          signal strength the device (HelperRssiDevice)
          low battery status (HelperLowBat)"""
-    pass
 
 
 class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVoltageIP):
@@ -28,7 +26,6 @@ class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVolt
          signal strength the device (HelperRssiDevice)
          low battery status (HelperLowBatIP)
          voltage of the batteries (HelperOperatingVoltageIP)"""
-    pass
 
 
 class ShutterContact(SensorHm, HelperBinaryState, HelperSabotage):
