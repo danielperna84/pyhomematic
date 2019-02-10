@@ -16,11 +16,10 @@ class HMSensor(HMDevice):
     pass
 
 
-class SensorHm(HMSensor, HelperRssiDevice, HelperLowBat):
+class SensorHm(HMSensor, HelperRssiDevice, HelperRssiPeer, HelperLowBat):
     """Homematic sensors always publish their
          signal strength the device (HelperRssiDevice)
          low battery status (HelperLowBat)"""
-
     pass
 
 
@@ -29,7 +28,6 @@ class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVolt
          signal strength the device (HelperRssiDevice)
          low battery status (HelperLowBatIP)
          voltage of the batteries (HelperOperatingVoltageIP)"""
-
     pass
 
 
