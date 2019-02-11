@@ -15,17 +15,31 @@ class HMSensor(HMDevice):
     """This class helps to resolve class inheritance order problems."""
 
 
+class SensorHmW(HMSensor):
+    """Homematic Wired sensors"""
+
+
 class SensorHm(HMSensor, HelperRssiDevice, HelperRssiPeer, HelperLowBat):
-    """Homematic sensors always publish their
-         signal strength the device (HelperRssiDevice)
-         low battery status (HelperLowBat)"""
+    """Homematic sensors always have
+         - strength of the signal received by the device (HelperRssiDevice).
+           Be aware that standard HM devices have a reversed understanding of PEER
+           and DEVICE compared to HMIP devices.
+         - strength of the signal received by the CCU (HelperRssiPeer).
+           Be aware that standard HM devices have a reversed understanding of PEER
+           and DEVICE compared to HMIP devices.
+         - low battery status (HelperLowBat)"""
 
 
 class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVoltageIP):
-    """Homematic IP sensors always publish their
-         signal strength the device (HelperRssiDevice)
-         low battery status (HelperLowBatIP)
-         voltage of the batteries (HelperOperatingVoltageIP)"""
+    """Homematic IP sensors always have
+         - strength of the signal received by the CCU (HelperRssiDevice).
+           Be aware that HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - strength of the signal received by the device (HelperRssiPeer).
+           Be aware that standard HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - low battery status (HelperLowBatIP)
+         - voltage of the batteries (HelperOperatingVoltageIP)"""
 
 
 class ShutterContact(SensorHm, HelperBinaryState, HelperSabotage):
@@ -223,7 +237,7 @@ class GongSensor(SensorHm):
         self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT})
 
 
-class WiredSensor(HMSensor, HelperWired):
+class WiredSensor(SensorHmW, HelperWired):
     """Wired binary Sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
