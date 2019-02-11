@@ -4,6 +4,7 @@ Version 0.1.56 (2019-)
 - Added PRESS_* events to IP Powermeter switches @dagobert
 - Added OPERATING_VOLTAGE to some IP devices @dagobert
 - Fix LOWBAT-Helper for IP shutter contact @dagobert
+- Code cleanup @dagobert, @danielperna84
 
 Version 0.1.55 (2019-01-24)
 - Add support for HmIP-MIOB @danielperna84
