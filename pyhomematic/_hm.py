@@ -37,6 +37,7 @@ JSONRPC_URL = '/api/homematic.cgi'
 BACKEND_UNKNOWN = 0
 BACKEND_CCU = 1
 BACKEND_HOMEGEAR = 2
+WORKING = False
 
 
 # Device-storage
@@ -44,7 +45,6 @@ devices = {}
 devices_all = {}
 devices_raw = {}
 devices_raw_dict = {}
-working = False
 
 
 def make_http_credentials(username=None, password=None):
@@ -63,7 +63,7 @@ def make_http_credentials(username=None, password=None):
 
 def build_api_url(host=REMOTES['default']['ip'],
                   port=REMOTES['default']['port'],
-                  path=REMOTES['default']['port'],
+                  path=REMOTES['default']['path'],
                   username=None,
                   password=None,
                   ssl=False):
@@ -132,19 +132,22 @@ class RPCFunctions():
                         if fcontent:
                             self._devices_raw[remote] = json.loads(fcontent)
 
+            # Continue if there are no stored devices
+            if not self._devices_raw.get(remote):
+                continue
             for device in self._devices_raw[remote]:
                 self._devices_raw_dict[remote][device['ADDRESS']] = device
             LOG.debug("RPCFunctions.__init__: devices_raw = %s" %
                       (str(self._devices_raw[remote]), ))
 
-            # Create the "interactive" device-objects and store them in
-            # self._devices and self._devices_all
+            # Create the "interactive" device-objects from cache and store
+            # them in self._devices and self._devices_all
             self.createDeviceObjects(interface_id)
 
     def createDeviceObjects(self, interface_id):
         """Transform the raw device descriptions into instances of devicetypes.generic.HMDevice or availabe subclass."""
-        global working
-        working = True
+        global WORKING
+        WORKING = True
         remote = interface_id.split('-')[-1]
         LOG.debug(
             "RPCFunctions.createDeviceObjects: iterating interface_id = %s" % (remote, ))
@@ -187,7 +190,7 @@ class RPCFunctions():
                         "RPCFunctions.createDeviceObjects: Child: %s", str(err))
         if self.devices_all[remote] and self.remotes[remote].get('resolvenames', False):
             self.addDeviceNames(remote)
-        working = False
+        WORKING = False
         if self.systemcallback:
             self.systemcallback('createDeviceObjects')
         return True
@@ -363,7 +366,7 @@ class RPCFunctions():
                 interface = False
                 if response['error'] is None and response['result']:
                     for i in response['result']:
-                        if i['port'] == self.remotes[remote]['port']:
+                        if i['port'] in [self.remotes[remote]['port'], self.remotes[remote]['port'] + 30000]:
                             interface = i['name']
                             break
                 LOG.debug(
@@ -402,6 +405,7 @@ class RPCFunctions():
 
         # Then try to get names from XML-API
         elif self.remotes[remote]['resolvenames'] == 'xml':
+            LOG.warning("Resolving names with the XML-API addon will be disabled in a future release. Please switch to json.")
             try:
                 response = urllib.request.urlopen(
                     "http://%s%s" % (self.remotes[remote]['ip'], XML_API_URL), timeout=5)
