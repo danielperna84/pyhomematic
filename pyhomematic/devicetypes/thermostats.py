@@ -334,6 +334,37 @@ class IPThermostatWall230V(HMThermostat):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
 
+class IPThermostatWall2(IPThermostat, HelperLowBatIP):
+    """
+    HmIP-WTH, HmIP-WTH-2
+    ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"SET_POINT_TEMPERATURE": [1],
+                                "BOOST_MODE": [1],
+                                "HUMIDITY": [1]})
+        self.ACTIONNODE.update({"BOOST_MODE": [1]})
+
+    def get_set_temperature(self):
+        """ Returns the current target temperature. """
+        return self.getWriteData("SET_POINT_TEMPERATURE")
+
+    def set_temperature(self, target_temperature):
+        """ Set the target temperature. """
+        try:
+            target_temperature = float(target_temperature)
+        except Exception as err:
+            LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
+            return False
+        self.writeNodeData("SET_POINT_TEMPERATURE", target_temperature)
+
+    def turnoff(self):
+        """ Turn off Thermostat. """
+        self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
+
 DEVICETYPES = {
     "HM-CC-VG-1": ThermostatGroup,
     "HM-CC-RT-DN": Thermostat,
@@ -357,10 +388,10 @@ DEVICETYPES = {
     "HmIP-eTRV-B1": IPThermostat,
     "HmIP-STHD": IPThermostatWall,
     "HmIP-STH": IPThermostatWall,
-    "HmIP-WTH-2": IPThermostatWall,
-    "HMIP-WTH-2": IPThermostatWall,
-    "HMIP-WTH": IPThermostatWall,
-    "HmIP-WTH": IPThermostatWall,
+    "HmIP-WTH-2": IPThermostatWall2,
+    "HMIP-WTH-2": IPThermostatWall2,
+    "HMIP-WTH": IPThermostatWall2,
+    "HmIP-WTH": IPThermostatWall2,
     "HmIP-BWTH": IPThermostatWall230V,
     "HmIP-HEATING": IPThermostat,
 }
