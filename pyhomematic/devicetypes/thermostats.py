@@ -334,19 +334,13 @@ class IPThermostatWall230V(HMThermostat):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
 
-class IPThermostatWall2(IPThermostat, HelperLowBatIP):
+class IPThermostatWall2(IPThermostat, AreaThermostat, HelperLowBatIP):
     """
     HmIP-WTH, HmIP-WTH-2
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.SENSORNODE.update({"HUMIDITY": [1]})
-
-    def get_humidity(self, channel=None):
-        return int(self.getSensorData("HUMIDITY", channel))
 
 DEVICETYPES = {
     "HM-CC-VG-1": ThermostatGroup,
