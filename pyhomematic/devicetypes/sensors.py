@@ -3,6 +3,7 @@ from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.misc import HMEvent, Remote
 from pyhomematic.devicetypes.helper import (HelperLowBat, HelperSabotage,
                                             HelperLowBatIP, HelperSabotageIP,
+                                            HelperOperatingVoltageIP,
                                             HelperBinaryState,
                                             HelperSensorState,
                                             HelperWired, HelperEventRemote, HelperRssiPeer, HelperRssiDevice)
@@ -11,15 +12,40 @@ LOG = logging.getLogger(__name__)
 
 
 class HMSensor(HMDevice):
-    pass
+    """This class helps to resolve class inheritance order problems."""
 
 
-class HMBinarySensor(HMDevice):
-    pass
+class SensorHmW(HMSensor):
+    """Homematic Wired sensors"""
 
 
-class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
-    """Door / Window contact that emits its open/closed state."""
+class SensorHm(HMSensor, HelperRssiDevice, HelperRssiPeer, HelperLowBat):
+    """Homematic sensors always have
+         - strength of the signal received by the device (HelperRssiDevice).
+           Be aware that standard HM devices have a reversed understanding of PEER
+           and DEVICE compared to HMIP devices.
+         - strength of the signal received by the CCU (HelperRssiPeer).
+           Be aware that standard HM devices have a reversed understanding of PEER
+           and DEVICE compared to HMIP devices.
+         - low battery status (HelperLowBat)"""
+
+
+class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVoltageIP):
+    """Homematic IP sensors always have
+         - strength of the signal received by the CCU (HelperRssiDevice).
+           Be aware that HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - strength of the signal received by the device (HelperRssiPeer).
+           Be aware that standard HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - low battery status (HelperLowBatIP)
+         - voltage of the batteries (HelperOperatingVoltageIP)"""
+
+
+class ShutterContact(SensorHm, HelperBinaryState, HelperSabotage):
+    """Door / Window contact that emits its open/closed state.
+       This is a binary sensor."""
+
     def is_open(self, channel=None):
         """ Returns True if the contact is open. """
         return self.get_state(channel)
@@ -35,13 +61,23 @@ class IPShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
         return [1]
 
 
-class ShutterContact(IPShutterContact, HelperSabotage, HelperRssiPeer):
-    """Door / Window contact that emits its open/closed state."""
-    pass
+class IPShutterContact(SensorHmIP, HelperBinaryState, HelperSabotageIP):
+    """Door / Window contact that emits its open/closed state.
+       This is a binary sensor."""
+
+    def is_open(self, channel=None):
+        """ Returns True if the contact is open. """
+        return self.get_state(channel)
+
+    def is_closed(self, channel=None):
+        """ Returns True if the contact is closed. """
+        return not self.get_state(channel)
 
 
-class MaxShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
-    """Door / Window contact that emits its open/closed state."""
+class MaxShutterContact(HelperBinaryState, HelperLowBat):
+    """Door / Window contact that emits its open/closed state.
+       This is a binary sensor."""
+
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
@@ -49,8 +85,10 @@ class MaxShutterContact(HMBinarySensor, HelperBinaryState, HelperLowBat):
         self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
 
-class TiltSensor(HMBinarySensor, HelperBinaryState, HelperLowBat):
-    """Sensor that emits its tilted state."""
+class TiltSensor(SensorHm, HelperBinaryState):
+    """Sensor that emits its tilted state.
+       This is a binary sensor."""
+
     def is_tilted(self, channel=None):
         """ Returns True if the contact is tilted. """
         return self.get_state(channel)
@@ -60,8 +98,9 @@ class TiltSensor(HMBinarySensor, HelperBinaryState, HelperLowBat):
         return not self.get_state(channel)
 
 
-class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabotage, HelperRssiPeer):
+class RotaryHandleSensor(SensorHm, HelperSensorState, HelperSabotage):
     """Window handle contact."""
+
     def is_open(self, channel=None):
         """ Returns True if the handle is set to open. """
         return self.get_state(channel) == 2
@@ -75,8 +114,9 @@ class RotaryHandleSensor(HMSensor, HelperSensorState, HelperLowBat, HelperSabota
         return self.get_state(channel) == 1
 
 
-class RotaryHandleSensorIP(HMSensor, HelperSensorState, HelperLowBatIP, HelperSabotageIP):
+class RotaryHandleSensorIP(SensorHmIP, HelperSensorState, HelperSabotageIP):
     """Window handle contact."""
+
     def is_open(self, channel=None):
         """ Returns True if the handle is set to open. """
         return self.get_state(channel) == 2
@@ -90,8 +130,9 @@ class RotaryHandleSensorIP(HMSensor, HelperSensorState, HelperLowBatIP, HelperSa
         return self.get_state(channel) == 1
 
 
-class CO2Sensor(HMSensor, HelperSensorState):
+class CO2Sensor(SensorHm, HelperSensorState):
     """CO2 Sensor"""
+
     def is_normal(self, channel=None):
         """ Returns True if CO2 state is normal. """
         return self.get_state(channel) == 0
@@ -105,7 +146,7 @@ class CO2Sensor(HMSensor, HelperSensorState):
         return self.get_state(channel) == 2
 
 
-class WaterSensor(HMSensor, HelperSensorState, HelperLowBat, HelperRssiPeer):
+class WaterSensor(SensorHm, HelperSensorState):
     """Watter detect sensor."""
 
     def is_dry(self, channel=None):
@@ -121,7 +162,7 @@ class WaterSensor(HMSensor, HelperSensorState, HelperLowBat, HelperRssiPeer):
         return self.get_state(channel) == 2
 
 
-class PowermeterGas(HMSensor, HelperRssiPeer):
+class PowermeterGas(SensorHm):
     """Powermeter for Gas and energy."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -149,16 +190,18 @@ class PowermeterGas(HMSensor, HelperRssiPeer):
         return float(self.getSensorData("POWER", channel))
 
 
-class Smoke(HMBinarySensor, HelperBinaryState):
-    """Smoke alarm."""
+class Smoke(SensorHm, HelperBinaryState):
+    """Smoke alarm.
+       This is a binary sensor."""
 
     def is_smoke(self, channel=None):
         """ Return True if smoke is detected """
         return self.get_state(channel)
 
 
-class SmokeV2(Smoke, HelperLowBat):
-    """Smoke alarm with Battery."""
+class SmokeV2(SensorHm, HelperBinaryState):
+    """Smoke alarm with Battery.
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -166,9 +209,13 @@ class SmokeV2(Smoke, HelperLowBat):
         self.ATTRIBUTENODE.update({"ERROR_ALARM_TEST": self.ELEMENT,
                                    "ERROR_SMOKE_CHAMBER": self.ELEMENT})
 
+    def is_smoke(self, channel=None):
+        """ Return True if smoke is detected """
+        return self.get_state(channel)
 
-class IPSmoke(HMSensor, HelperRssiDevice):
-    """HomeMatic IP Smoke sensor"""
+
+class IPSmoke(SensorHmIP):
+    """HomeMatic IP Smoke sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -176,12 +223,12 @@ class IPSmoke(HMSensor, HelperRssiDevice):
         # init metadata
         self.SENSORNODE.update({"SMOKE_DETECTOR_ALARM_STATUS": self.ELEMENT})
 
-
     @property
     def ELEMENT(self):
         return [1]
 
-class GongSensor(HMEvent):
+
+class GongSensor(SensorHm):
     """Wireless Gong Sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -190,7 +237,7 @@ class GongSensor(HMEvent):
         self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT})
 
 
-class WiredSensor(HMEvent, HelperWired):
+class WiredSensor(SensorHmW, HelperWired):
     """Wired binary Sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -207,7 +254,7 @@ class WiredSensor(HMEvent, HelperWired):
         return bool(self.getBinaryData("SENSOR", channel))
 
 
-class FillingLevel(HMSensor):
+class FillingLevel(SensorHm):
     """Filling level sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -225,7 +272,7 @@ class FillingLevel(HMSensor):
         return [1]
 
 
-class ValveDrive(HMSensor):
+class ValveDrive(SensorHm):
     """Valve drive HM-CC-VD."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -243,8 +290,9 @@ class ValveDrive(HMSensor):
         return [1]
 
 
-class Motion(HMBinarySensor, HMSensor):
-    """Motion detection."""
+class Motion(SensorHm):
+    """Motion detection.
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -262,8 +310,9 @@ class Motion(HMBinarySensor, HMSensor):
         return int(self.getSensorData("BRIGHTNESS", channel))
 
 
-class SmartwareMotion(HMBinarySensor, HMSensor):
-    """Motion detection."""
+class SmartwareMotion(HMSensor, HelperRssiDevice):
+    """Motion detection.
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -280,13 +329,29 @@ class SmartwareMotion(HMBinarySensor, HMSensor):
         return [1]
 
 
-class MotionV2(Motion, HelperSabotage):
-    """Motion detection version 2."""
-    pass
+class MotionV2(SensorHm, HelperSabotage):
+    """Motion detection version 2.
+       This is a binary sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION": self.ELEMENT})
+        self.SENSORNODE.update({"BRIGHTNESS": self.ELEMENT})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark ) to 255 (bright) """
+        return int(self.getSensorData("BRIGHTNESS", channel))
 
 
-class MotionIP(HMBinarySensor, HMSensor):
-    """Motion detection indoor (rf ip)"""
+class MotionIP(SensorHmIP):
+    """Motion detection indoor (rf ip)
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -294,7 +359,7 @@ class MotionIP(HMBinarySensor, HMSensor):
         # init metadata
         self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [1], "MOTION": [1]})
         self.SENSORNODE.update({"ILLUMINATION": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0], "ERROR_CODE": [0], "SABOTAGE": [0]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
@@ -307,21 +372,42 @@ class MotionIP(HMBinarySensor, HMSensor):
         """ Return brightness from 0 (dark) to 163830 (bright) """
         return float(self.getSensorData("ILLUMINATION", channel))
 
-    def low_batt(self, channel=None):
-        """ Returns if the battery is low. """
-        return self.getAttributeData("LOW_BAT", channel)
-
-    def sabotage(self, channel=None):
-        """Returns True if the devicecase has been opened."""
-        return bool(self.getAttributeData("SABOTAGE", channel))
-
     @property
     def ELEMENT(self):
         return [0, 1]
 
 
-class PresenceIP(HMBinarySensor, HMSensor):
-    """Presence detection with HmIP-SPI"""
+class MotionIPV2(SensorHmIP, HelperSabotageIP):
+    """Motion detection indoor 55 (rf ip)
+       This is a binary sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [3], "MOTION": [3]})
+        self.SENSORNODE.update({"ILLUMINATION": [3]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def is_motion_detection_active(self, channel=None):
+        return bool(self.getBinaryData("MOTION_DETECTION_ACTIVE", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark) to 163830 (bright) """
+        return float(self.getSensorData("ILLUMINATION", channel))
+
+    @property
+    def ELEMENT(self):
+        return [0, 1, 2, 3]
+
+
+class PresenceIP(SensorHmIP, HelperSabotageIP):
+    """Presence detection with HmIP-SPI.
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -329,9 +415,7 @@ class PresenceIP(HMBinarySensor, HMSensor):
         # init metadata
         self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": [1]})
         self.SENSORNODE.update({"ILLUMINATION": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0],
-                                   "SABOTAGE": [0]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
@@ -341,45 +425,34 @@ class PresenceIP(HMBinarySensor, HMSensor):
         """ Return brightness from 0 (dark) to 163830 (bright) """
         return float(self.getSensorData("ILLUMINATION", channel))
 
-    def low_batt(self, channel=None):
-        """ Returns if the battery is low. """
-        return self.getAttributeData("LOW_BAT", channel)
-
-    def sabotage(self, channel=None):
-        """Returns True if the devicecase has been opened."""
-        return bool(self.getAttributeData("SABOTAGE", channel))
-
     @property
     def ELEMENT(self):
         return [0, 1]
 
 
-class TiltIP(HMBinarySensor, HMSensor):
-    """Tilt detection with HmIP-SAM"""
+class TiltIP(SensorHmIP):
+    """Tilt detection with HmIP-SAM.
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
         self.BINARYNODE.update({"MOTION": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
         return bool(self.getBinaryData("MOTION", channel))
-
-    def low_batt(self, channel=None):
-        """ Returns if the battery is low. """
-        return self.getAttributeData("LOW_BAT", channel)
 
     @property
     def ELEMENT(self):
         return [0, 1]
 
 
-class RemoteMotion(Remote, Motion):
-    """Motion detection with buttons."""
+class RemoteMotion(SensorHm, Remote):
+    """Motion detection with buttons.
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -388,12 +461,20 @@ class RemoteMotion(Remote, Motion):
         self.BINARYNODE.update({"MOTION": [3]})
         self.SENSORNODE.update({"BRIGHTNESS": [3]})
 
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark ) to 255 (bright) """
+        return int(self.getSensorData("BRIGHTNESS", channel))
+
     @property
     def ELEMENT(self):
         return [1, 2]
 
 
-class LuxSensor(HMSensor):
+class LuxSensor(SensorHm):
     """Sensor for messure LUX."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -417,7 +498,7 @@ class ImpulseSensor(HMEvent):
         self.EVENTNODE.update({"SEQUENCE_OK": self.ELEMENT})
 
 
-class AreaThermostat(HMSensor):
+class AreaThermostat(SensorHm):
     """Wall mount thermostat."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -434,7 +515,7 @@ class AreaThermostat(HMSensor):
         return int(self.getSensorData("HUMIDITY", channel))
 
 
-class IPAreaThermostat(HMSensor):
+class IPAreaThermostat(SensorHmIP):
     """Wall mount thermostat."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -443,7 +524,6 @@ class IPAreaThermostat(HMSensor):
         # init metadata
         self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
                                 "HUMIDITY": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0]})
 
     def get_temperature(self, channel=None):
         return float(self.getSensorData("ACTUAL_TEMPERATURE", channel))
@@ -452,7 +532,7 @@ class IPAreaThermostat(HMSensor):
         return int(self.getSensorData("HUMIDITY", channel))
 
 
-class TemperatureSensor(HMSensor):
+class TemperatureSensor(SensorHm):
     """Temperature Sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -465,7 +545,7 @@ class TemperatureSensor(HMSensor):
         return float(self.getSensorData("TEMPERATURE", channel))
 
 
-class TemperatureDiffSensor(HMSensor):
+class TemperatureDiffSensor(SensorHm):
     """Temperature difference Sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -478,8 +558,9 @@ class TemperatureDiffSensor(HMSensor):
         return float(self.getSensorData("TEMPERATURE", channel))
 
 
-class WeatherSensor(HMSensor, HMBinarySensor):
-    """Weather sensor."""
+class WeatherSensor(SensorHm):
+    """Weather sensor.
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -523,8 +604,10 @@ class WeatherSensor(HMSensor, HMBinarySensor):
         """ Return True if motion is detected """
         return bool(self.getBinaryData("RAINING", channel))
 
-class IPWeatherSensorPlus(HMSensor, HMBinarySensor):
-    """HomeMatic IP Weather sensor Plus."""
+
+class IPWeatherSensorPlus(SensorHmIP):
+    """HomeMatic IP Weather sensor Plus.
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -537,9 +620,7 @@ class IPWeatherSensorPlus(HMSensor, HMBinarySensor):
                                 "SUNSHINEDURATION": [1],
                                 "ILLUMINATION": [1]})
         self.BINARYNODE.update({"RAINING": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0],
-                                   "OPERATING_VOLTAGE": [0],
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0],
                                    "TEMPERATURE_OUT_OF_RANGE": [0]})
 
     def get_temperature(self, channel=None):
@@ -560,20 +641,14 @@ class IPWeatherSensorPlus(HMSensor, HMBinarySensor):
     def get_brightness(self, channel=None):
         return int(self.getSensorData("ILLUMINATION", channel))
 
-    def get_operating_voltage(self, channel=None):
-        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
-
     def is_raining(self, channel=None):
         return bool(self.getBinaryData("RAINING", channel))
-
-    def is_low_batt(self, channel=None):
-        return bool(self.getAttributeData("LOW_BAT", channel))
 
     def is_temperature_out_of_range(self, channel=None):
         return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
 
 
-class IPWeatherSensorBasic(HMSensor, HMBinarySensor):
+class IPWeatherSensorBasic(SensorHmIP):
     """HomeMatic IP Weather sensor Basic."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -585,9 +660,7 @@ class IPWeatherSensorBasic(HMSensor, HMBinarySensor):
                                 "WIND_SPEED": [1],
                                 "SUNSHINEDURATION": [1],
                                 "ILLUMINATION": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0],
-                                   "OPERATING_VOLTAGE": [0],
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0],
                                    "TEMPERATURE_OUT_OF_RANGE": [0]})
 
     def get_temperature(self, channel=None):
@@ -605,18 +678,13 @@ class IPWeatherSensorBasic(HMSensor, HMBinarySensor):
     def get_brightness(self, channel=None):
         return int(self.getSensorData("ILLUMINATION", channel))
 
-    def get_operating_voltage(self, channel=None):
-        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
-
-    def is_low_batt(self, channel=None):
-        return bool(self.getAttributeData("LOW_BAT", channel))
-
     def is_temperature_out_of_range(self, channel=None):
         return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
 
 
-class IPPassageSensor(HMSensor, HMBinarySensor, HelperEventRemote, HelperLowBatIP):
-    """HomeMatic IP Passage Sensor. #2 = right to left, #3 = left to right"""
+class IPPassageSensor(SensorHmIP, HelperRssiPeer, HelperEventRemote):
+    """HomeMatic IP Passage Sensor. #2 = right to left, #3 = left to right
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -626,15 +694,15 @@ class IPPassageSensor(HMSensor, HMBinarySensor, HelperEventRemote, HelperLowBatI
         self.BINARYNODE.update({"PASSAGE_COUNTER_OVERFLOW": self.ELEMENT,
                                 "LAST_PASSAGE_DIRECTION": [2],
                                 "CURRENT_PASSAGE_DIRECTION": [2]})
-        self.ATTRIBUTENODE.update({"RSSI_PEER": [0]})
 
     @property
     def ELEMENT(self):
         return [2, 3]
 
 
-class IPWeatherSensor(HMSensor, HMBinarySensor):
-    """HomeMatic IP Weather sensor."""
+class IPWeatherSensor(SensorHmIP):
+    """HomeMatic IP Weather sensor.
+       This is a binary sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -649,9 +717,7 @@ class IPWeatherSensor(HMSensor, HMBinarySensor):
                                 "SUNSHINEDURATION": [1],
                                 "ILLUMINATION": [1]})
         self.BINARYNODE.update({"RAINING": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "ERROR_CODE": [0],
-                                   "OPERATING_VOLTAGE": [0],
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0],
                                    "TEMPERATURE_OUT_OF_RANGE": [0]})
 
     def get_temperature(self, channel=None):
@@ -678,20 +744,14 @@ class IPWeatherSensor(HMSensor, HMBinarySensor):
     def get_brightness(self, channel=None):
         return int(self.getSensorData("ILLUMINATION", channel))
 
-    def get_operating_voltage(self, channel=None):
-        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
-
     def is_raining(self, channel=None):
         return bool(self.getBinaryData("RAINING", channel))
-
-    def is_low_batt(self, channel=None):
-        return bool(self.getAttributeData("LOW_BAT", channel))
 
     def is_temperature_out_of_range(self, channel=None):
         return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
 
 
-class WeatherStation(HMSensor):
+class WeatherStation(SensorHm):
     """Weather station."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -712,7 +772,7 @@ class WeatherStation(HMSensor):
         return int(self.getSensorData("AIR_PRESSURE", channel))
 
 
-class IPBrightnessSensor(HMSensor, HelperRssiDevice):
+class IPBrightnessSensor(SensorHmIP):
     """IP Sensor for outdoor brightness measure"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -723,7 +783,52 @@ class IPBrightnessSensor(HMSensor, HelperRssiDevice):
                                 "AVERAGE_ILLUMINATION": [1],
                                 "LOWEST_ILLUMINATION": [1],
                                 "HIGHEST_ILLUMINATION": [1]})
-        self.ATTRIBUTENODE.update({"OPERATING_VOLTAGE": [0]})
+
+
+class UniversalSensor(HMSensor, HelperLowBat, HelperRssiPeer):
+    """Universal sensor. (https://wiki.fhem.de/wiki/Universalsensor)"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT,
+                                "HUMIDITY": self.ELEMENT,
+                                "AIR_PRESSURE": self.ELEMENT,
+                                "BatteryVoltage": [1],
+                                "LUMINOSITY": [1]})
+
+    def get_temperature(self, channel=None):
+        return float(self.getSensorData("TEMPERATURE", channel))
+
+    def get_humidity(self, channel=None):
+        return int(self.getSensorData("HUMIDITY", channel))
+
+    def get_air_pressure(self, channel=None):
+        return int(self.getSensorData("AIR_PRESSURE", channel))
+
+    def get_luminosity(self, channel=None):
+        return float(self.getSensorData("LUMINOSITY", channel))
+
+    def get_battery_voltage(self, channel=None):
+        return float(self.getSensorData("BatteryVoltage", channel))
+
+
+class WaterIP(SensorHmIP):
+    """Water sensor HmIP-SWD
+       This is a binary sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"ALARMSTATE": self.ELEMENT,
+                                "MOISTURE_DETECTED": self.ELEMENT,
+                                "WATERLEVEL_DETECTED": self.ELEMENT})
+
+    @property
+    def ELEMENT(self):
+        return [1]
 
 
 DEVICETYPES = {
@@ -733,10 +838,12 @@ DEVICETYPES = {
     "ZEL STG RM FFK": ShutterContact,
     "BC-SC-Rd-WM-2": MaxShutterContact,
     "BC-SC-Rd-WM": MaxShutterContact,
-    "HM-SCI-3-FM": IPShutterContact,
+    "HM-SCI-3-FM": ShutterContact,
     "HMIP-SWDO": IPShutterContact,
     "HmIP-SWDO": IPShutterContact,
     "HmIP-SWDO-I": IPShutterContact,
+    "HmIP-SWDM": IPShutterContact,
+    "HmIP-SWDM-B2": IPShutterContact,
     "HmIP-SRH": RotaryHandleSensorIP,
     "HM-Sec-RHS": RotaryHandleSensor,
     "ZEL STG RM FDK": RotaryHandleSensor,
@@ -763,6 +870,7 @@ DEVICETYPES = {
     "263 162": MotionV2,
     "HM-Sec-MD": MotionV2,
     "HmIP-SMI": MotionIP,
+    "HmIP-SMI55": MotionIPV2,
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
     "HmIP-SPI": PresenceIP,
@@ -811,4 +919,7 @@ DEVICETYPES = {
     "HmIP-SPDR": IPPassageSensor,
     "IT-Old-Remote-1-Channel": SmartwareMotion,
     "HmIP-SLO": IPBrightnessSensor,
+    "HB-UW-Sen-THPL-O": UniversalSensor,
+    "HB-UW-Sen-THPL-I": UniversalSensor,
+    "HmIP-SWD": WaterIP,
 }

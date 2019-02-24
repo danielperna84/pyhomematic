@@ -21,7 +21,7 @@ class HelperSabotageIP(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"SABOTAGE": self.ELEMENT})
+        self.ATTRIBUTENODE.update({"SABOTAGE": [0]})
 
     def sabotage(self, channel=None):
         """Returns True if the devicecase has been opened."""
@@ -45,11 +45,24 @@ class HelperLowBatIP(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.ATTRIBUTENODE.update({"LOW_BAT": self.ELEMENT})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0]})
 
     def low_batt(self, channel=None):
         """ Returns if the battery is low. """
         return self.getAttributeData("LOW_BAT", channel)
+
+
+class HelperOperatingVoltageIP(HMDevice):
+    """This Helper adds easy access to read the OPERATING_VOLTAGE state"""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"OPERATING_VOLTAGE": [0]})
+
+    def operation_voltage(self, channel=None):
+        """ Returns the operating voltage. """
+        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
 
 
 class HelperWorking(HMDevice):

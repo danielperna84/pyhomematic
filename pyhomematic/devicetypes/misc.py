@@ -26,7 +26,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
 
     @property
     def ELEMENT(self):
-        if "RC-2" in self.TYPE or "PB-2" in self.TYPE or "WRC2" in self.TYPE:
+        if "RC-2" in self.TYPE or "PB-2" in self.TYPE or "WRC2" in self.TYPE or "BRC2" in self.TYPE:
             return [1, 2]
         if "HM-Dis-WM55" in self.TYPE or "HM-Dis-EP-WM55" in self.TYPE:
             return [1, 2]
@@ -38,7 +38,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
             return [1, 2, 3, 4]
         if "HM-PBI-4-FM" in self.TYPE or "ZEL STG RM FST UP4" in self.TYPE or "263 145" in self.TYPE or "HM-PBI-X" in self.TYPE:
             return [1, 2, 3, 4]
-        if "Sec4" in self.TYPE or "Key4" in self.TYPE or "KRCA" in self.TYPE:
+        if "Sec4" in self.TYPE or "Key4" in self.TYPE or "KRCA" in self.TYPE or "KRC4" in self.TYPE:
             return [1, 2, 3, 4]
         if "PB-6" in self.TYPE or "WRC6" in self.TYPE:
             return [1, 2, 3, 4, 5, 6]
@@ -121,8 +121,10 @@ DEVICETYPES = {
     "HMW-IO-12-FM": Remote,
     "HMIP-WRC2": Remote,
     "HmIP-WRC2": Remote,
+    "HmIP-BRC2": Remote,
     "HmIP-WRC6": Remote,
     "HmIP-KRCA": Remote,
+    "HmIP-KRC4": Remote,
     "HM-SwI-3-FM": RemotePress,
     "ZEL STG RM FSS UP3": RemotePress,
     "263 144": RemotePress,

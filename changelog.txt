@@ -1,3 +1,37 @@
+Version 0.1.56 (2019-02-19)
+- Remove SABOTAGE from HmIP-SMO(-A) (Issue #212) @danielperna84
+- Fix resolving names with JSON with SSL @danielperna84
+- Added PRESS_* events to IP Powermeter switches @dagobert
+- Added OPERATING_VOLTAGE to some IP devices @dagobert
+- Fix LOWBAT-Helper for IP shutter contact @dagobert
+- Code cleanup @dagobert, @danielperna84
+
+Version 0.1.55 (2019-01-24)
+- Add support for HmIP-MIOB @danielperna84
+- Add suppoer for HmIP-BSL @danielperna84
+- Add support for HmIP-SWD @danielperna84
+- Add support for HmIP-BRC2 @hg8496
+- Add support for HmIP-KRC4 @l-mb
+- Add support for HmIP-SWDM-B2 @haggybear
+- Add support for multiple variants of existing devices for other regions @danielperna84
+
+Version 0.1.54 (2018-12-30)
+- Set SABOTAGE helper for HmIP devices to channel 0 @rgriebl
+- Fix log-message for callbacks @danielperna84
+- Add support for HmIP-FBL @Alex-ala
+- Add support for HmIP-SWDM @leoMehlig
+- Add support for HmIP-SMI55 @janbrummer
+
+Version 0.1.53 (2018-12-05)
+- Changed loglevel for getValue to `warning` (Issue #153) @danielperna84
+- Channel for LOW_BAT always is 0 for HmIP devices (Issue #186) @danielperna84
+- Support hostnames for XML-RPC endpoints @danielperna84
+- Add support for HmIP-eTRV-B @SiwYv
+- Added support for HmIP-FDT @DieterChmod
+- Added support for HB-UW-Sen-THPL-O and HB-UW-Sen-THPL-I @rgriebl
+- Add support for SSL and authentication with CCU3 @danielperna84
+- Added support for HmIP-B1 @jberrenberg
+
 Version 0.1.52 (2018-11-15)
 - Added HmIP-MOD-TM (Issue #170) @danielperna84
 - Added HM-LC-RGBW-WM @chr1st1ank
