@@ -194,7 +194,7 @@ class Switch(GenericSwitch, HelperWorking, HelperRssiPeer):
     """
     @property
     def ELEMENT(self):
-        if "LC-Sw2" in self.TYPE:
+        if "LC-Sw2" in self.TYPE or "Sec-SFA-SM" in self.TYPE:
             return [1, 2]
         elif "LC-Sw4" in self.TYPE:
             return [1, 2, 3, 4]
@@ -680,6 +680,7 @@ DEVICETYPES = {
     "HM-MOD-Re-8": Switch,
     "IT-Switch": Switch,
     "REV-Ritter-Switch": Switch,
+    "HM-Sec-SFA-SM": Switch,
     "HM-ES-PMSw1-Pl": SwitchPowermeter,
     "HM-ES-PMSw1-Pl-DN-R1": SwitchPowermeter,
     "HM-ES-PMSw1-Pl-DN-R2": SwitchPowermeter,
