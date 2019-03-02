@@ -7,7 +7,7 @@ def readme():
 
 PACKAGE_NAME = 'pyhomematic'
 HERE = os.path.abspath(os.path.dirname(__file__))
-VERSION = '0.1.57'
+VERSION = '0.1.58'
 
 PACKAGES = find_packages(exclude=['tests', 'tests.*', 'dist', 'build'])
 

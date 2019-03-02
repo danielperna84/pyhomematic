@@ -1,3 +1,5 @@
+Version 0.1.58 (2019-)
+
 Version 0.1.57 (2019-03-02)
 - Fix/add support for HmIP-WTH & HmIP-WTH-2 (Issue #223) @DieterChmod
 - Add support for HM-Sec-SFA-SM @danielperna84
