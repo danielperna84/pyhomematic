@@ -1,4 +1,5 @@
-Version 0.1.57 (2019-)
+Version 0.1.57 (2019-03-)
+- Fix/add support for HmIP-WTH & HmIP-WTH-2 (Issue #223) @DieterChmod
 
 Version 0.1.56 (2019-02-19)
 - Remove SABOTAGE from HmIP-SMO(-A) (Issue #212) @danielperna84
