@@ -19,6 +19,16 @@ class SensorHmW(HMSensor):
     """Homematic Wired sensors"""
 
 
+class SensorHmNLB(HMSensor, HelperRssiDevice, HelperRssiPeer):
+    """Homematic sensors always have
+         - strength of the signal received by the device (HelperRssiDevice).
+           Be aware that standard HM devices have a reversed understanding of PEER
+           and DEVICE compared to HMIP devices.
+         - strength of the signal received by the CCU (HelperRssiPeer).
+           Be aware that standard HM devices have a reversed understanding of PEER
+           and DEVICE compared to HMIP devices."""
+
+
 class SensorHm(HMSensor, HelperRssiDevice, HelperRssiPeer, HelperLowBat):
     """Homematic sensors always have
          - strength of the signal received by the device (HelperRssiDevice).
@@ -290,7 +300,7 @@ class ValveDrive(SensorHm):
         return [1]
 
 
-class Motion(SensorHm):
+class Motion(SensorHmNLB):
     """Motion detection.
        This is a binary sensor."""
 
