@@ -1,6 +1,6 @@
 Version 0.1.58 (2019-)
 - KeyMatic, add LOWBAT, move STATE_UNCERTAIN & ERROR to attributes (Issue #229) @danielperna84
-- Remove LOWBAT for specific motion detectors (Issue #230) @danielperna84
+- Remove LOWBAT for specific motion detectors & Thermostats (Issue #230) @danielperna84
 
 Version 0.1.57 (2019-03-02)
 - Fix/add support for HmIP-WTH & HmIP-WTH-2 (Issue #223) @DieterChmod

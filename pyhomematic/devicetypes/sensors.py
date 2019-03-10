@@ -508,7 +508,7 @@ class ImpulseSensor(HMEvent):
         self.EVENTNODE.update({"SEQUENCE_OK": self.ELEMENT})
 
 
-class AreaThermostat(SensorHm):
+class AreaThermostat(SensorHmNLB):
     """Wall mount thermostat."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
