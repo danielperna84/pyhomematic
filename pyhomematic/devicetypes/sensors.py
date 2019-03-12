@@ -19,6 +19,16 @@ class SensorHmW(HMSensor):
     """Homematic Wired sensors"""
 
 
+class SensorHmNLB(HMSensor, HelperRssiDevice, HelperRssiPeer):
+    """Homematic sensors always have
+         - strength of the signal received by the device (HelperRssiDevice).
+           Be aware that standard HM devices have a reversed understanding of PEER
+           and DEVICE compared to HMIP devices.
+         - strength of the signal received by the CCU (HelperRssiPeer).
+           Be aware that standard HM devices have a reversed understanding of PEER
+           and DEVICE compared to HMIP devices."""
+
+
 class SensorHm(HMSensor, HelperRssiDevice, HelperRssiPeer, HelperLowBat):
     """Homematic sensors always have
          - strength of the signal received by the device (HelperRssiDevice).
@@ -61,7 +71,7 @@ class ShutterContact(SensorHm, HelperBinaryState, HelperSabotage):
         return [1]
 
 
-class IPShutterContact(SensorHmIP, HelperBinaryState, HelperSabotageIP):
+class IPShutterContact(SensorHmIP, HelperBinaryState):
     """Door / Window contact that emits its open/closed state.
        This is a binary sensor."""
 
@@ -72,6 +82,10 @@ class IPShutterContact(SensorHmIP, HelperBinaryState, HelperSabotageIP):
     def is_closed(self, channel=None):
         """ Returns True if the contact is closed. """
         return not self.get_state(channel)
+
+
+class IPShutterContactSabotage(IPShutterContact, HelperSabotageIP):
+    """Same as IPShutterContact, but with sabotage detection."""
 
 
 class MaxShutterContact(HelperBinaryState, HelperLowBat):
@@ -290,7 +304,7 @@ class ValveDrive(SensorHm):
         return [1]
 
 
-class Motion(SensorHm):
+class Motion(SensorHmNLB):
     """Motion detection.
        This is a binary sensor."""
 
@@ -498,7 +512,7 @@ class ImpulseSensor(HMEvent):
         self.EVENTNODE.update({"SEQUENCE_OK": self.ELEMENT})
 
 
-class AreaThermostat(SensorHm):
+class AreaThermostat(SensorHmNLB):
     """Wall mount thermostat."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -839,9 +853,9 @@ DEVICETYPES = {
     "BC-SC-Rd-WM-2": MaxShutterContact,
     "BC-SC-Rd-WM": MaxShutterContact,
     "HM-SCI-3-FM": ShutterContact,
-    "HMIP-SWDO": IPShutterContact,
-    "HmIP-SWDO": IPShutterContact,
-    "HmIP-SWDO-I": IPShutterContact,
+    "HMIP-SWDO": IPShutterContactSabotage,
+    "HmIP-SWDO": IPShutterContactSabotage,
+    "HmIP-SWDO-I": IPShutterContactSabotage,
     "HmIP-SWDM": IPShutterContact,
     "HmIP-SWDM-B2": IPShutterContact,
     "HmIP-SRH": RotaryHandleSensorIP,
