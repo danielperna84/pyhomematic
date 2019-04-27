@@ -350,9 +350,9 @@ class HMDevice(HMGeneric):
         nodeChannel = None
         if name in metadata:
             nodeChannelList = metadata[name]
-            if len(nodeChannelList) > 1:
-                nodeChannel = channel if channel is not None else nodeChannelList[0]
-            elif len(nodeChannelList) == 1:
+            if channel is not None:
+                nodeChannel = channel
+            elif nodeChannelList:
                 nodeChannel = nodeChannelList[0]
             if nodeChannel is not None and nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].setValue(name, data)

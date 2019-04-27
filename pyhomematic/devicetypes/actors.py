@@ -66,6 +66,13 @@ class IPKeyBlind(KeyBlind):
     Blind switch that raises and lowers homematic ip roller shutters or window blinds.
     """
 
+    def get_level(self, channel=3):
+        """
+        Return current level. Return value is float() from 0.0 to 1.0.
+        Overrides inherited get_level() in order to use correct channel for requesting level state.
+        """
+        return self.getWriteData("LEVEL", channel)
+
     @property
     def ELEMENT(self):
         return [4]
