@@ -1,7 +1,8 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.helper import HelperActionPress, \
-    HelperEventRemote, HelperEventPress, HelperRssiPeer, HelperLowBatIP
+    HelperEventRemote, HelperEventPress, HelperRssiPeer, HelperLowBatIP, \
+    HelperLowBat
 
 LOG = logging.getLogger(__name__)
 
@@ -59,8 +60,14 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
             return [1, 2, 3, 4, 5, 6, 7, 8]
         return [1]
 
-class RemoteBattery(Remote,HelperLowBatIP):
-    """Like Remote, but battery operated."""
+
+class RemoteBatteryIP(Remote, HelperLowBatIP):
+    """Battery operated HomeMaticIP remote device."""
+
+
+class RemoteBattery(Remote, HelperLowBat):
+    """Battery operated HomeMatic remote device."""
+
 
 class RemotePress(HMEvent, HelperEventPress, HelperActionPress):
     """Remote handle buttons."""
@@ -125,7 +132,7 @@ DEVICETYPES = {
     "HMIP-WRC2": Remote,
     "HmIP-WRC2": Remote,
     "HmIP-BRC2": Remote,
-    "HmIP-WRC6": RemoteBattery,
+    "HmIP-WRC6": RemoteBatteryIP,
     "HmIP-KRCA": Remote,
     "HmIP-KRC4": Remote,
     "HM-SwI-3-FM": RemotePress,
