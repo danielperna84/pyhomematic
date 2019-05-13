@@ -1,3 +1,6 @@
+Version 0.1.60 (2019-)
+- 
+
 Version 0.1.59 (2019-05-13)
 - Added classes for battery operated remotes @sander76
 - Added HmIP eTRV-C @danielperna84
