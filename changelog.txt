@@ -1,6 +1,6 @@
 Version 0.1.59 (2019-05-13)
 - Added classes for battery operated remotes @sander76
-- 
+- Added HmIP eTRV-C @danielperna84
 
 Version 0.1.58 (2019-03-12)
 - KeyMatic, add LOWBAT, move STATE_UNCERTAIN & ERROR to attributes (Issue #229) @danielperna84
