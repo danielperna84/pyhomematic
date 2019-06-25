@@ -187,6 +187,7 @@ class PowermeterGas(SensorHm):
                                 "GAS_POWER": [1],
                                 "ENERGY_COUNTER": [1],
                                 "POWER": [1]})
+        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
     def get_gas_counter(self, channel=None):
         """Return gas counter."""
@@ -250,6 +251,7 @@ class GongSensor(SensorHm):
         super().__init__(device_description, proxy, resolveparamsets)
 
         self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT})
+        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
 
 class WiredSensor(SensorHmW, HelperWired):
@@ -475,6 +477,7 @@ class RemoteMotion(SensorHm, Remote):
         # init metadata
         self.BINARYNODE.update({"MOTION": [3]})
         self.SENSORNODE.update({"BRIGHTNESS": [3]})
+        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
