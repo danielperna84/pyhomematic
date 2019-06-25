@@ -810,7 +810,7 @@ class UniversalSensor(HMSensor, HelperLowBat, HelperRssiPeer, HelperValveState):
         self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT,
                                 "HUMIDITY": self.ELEMENT,
                                 "AIR_PRESSURE": self.ELEMENT})
-              
+
         if "HB-UNI-Sensor1" in self._TYPE:
             self.SENSORNODE.update({"OPERATING_VOLTAGE": self.ELEMENT,
                                     "LUX": self.ELEMENT,
