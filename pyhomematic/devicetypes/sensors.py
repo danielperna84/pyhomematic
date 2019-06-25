@@ -6,7 +6,8 @@ from pyhomematic.devicetypes.helper import (HelperLowBat, HelperSabotage,
                                             HelperOperatingVoltageIP,
                                             HelperBinaryState,
                                             HelperSensorState,
-                                            HelperWired, HelperEventRemote, HelperRssiPeer, HelperRssiDevice)
+                                            HelperWired, HelperEventRemote, HelperRssiPeer, HelperRssiDevice,
+                                            HelperValveState)
 
 LOG = logging.getLogger(__name__)
 
@@ -799,7 +800,7 @@ class IPBrightnessSensor(SensorHmIP):
                                 "HIGHEST_ILLUMINATION": [1]})
 
 
-class UniversalSensor(HMSensor, HelperLowBat, HelperRssiPeer):
+class UniversalSensor(HMSensor, HelperLowBat, HelperRssiPeer, HelperValveState):
     """Universal sensor. (https://wiki.fhem.de/wiki/Universalsensor)"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -808,9 +809,15 @@ class UniversalSensor(HMSensor, HelperLowBat, HelperRssiPeer):
         # init metadata
         self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT,
                                 "HUMIDITY": self.ELEMENT,
-                                "AIR_PRESSURE": self.ELEMENT,
-                                "BatteryVoltage": [1],
-                                "LUMINOSITY": [1]})
+                                "AIR_PRESSURE": self.ELEMENT})
+
+        if "HB-UNI-Sensor1" in self._TYPE:
+            self.SENSORNODE.update({"OPERATING_VOLTAGE": self.ELEMENT,
+                                    "LUX": self.ELEMENT,
+                                    "VALVE_STATE": self.ELEMENT})
+        else:
+            self.SENSORNODE.update({"BatteryVoltage": [1],
+                                    "LUMINOSITY": [1]})
 
     def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))
@@ -822,10 +829,16 @@ class UniversalSensor(HMSensor, HelperLowBat, HelperRssiPeer):
         return int(self.getSensorData("AIR_PRESSURE", channel))
 
     def get_luminosity(self, channel=None):
-        return float(self.getSensorData("LUMINOSITY", channel))
+        if "HB-UNI-Sensor1" in self._TYPE:
+            return float(self.getSensorData("LUX", channel))
+        else:
+            return float(self.getSensorData("LUMINOSITY", channel))
 
     def get_battery_voltage(self, channel=None):
-        return float(self.getSensorData("BatteryVoltage", channel))
+        if "HB-UNI-Sensor1" in self._TYPE:
+            return float(self.getSensorData("OPERATING_VOLTAGE", channel))
+        else:
+            return float(self.getSensorData("BatteryVoltage", channel))
 
 
 class WaterIP(SensorHmIP):
@@ -843,7 +856,6 @@ class WaterIP(SensorHmIP):
     @property
     def ELEMENT(self):
         return [1]
-
 
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
@@ -936,4 +948,5 @@ DEVICETYPES = {
     "HB-UW-Sen-THPL-O": UniversalSensor,
     "HB-UW-Sen-THPL-I": UniversalSensor,
     "HmIP-SWD": WaterIP,
+    "HB-UNI-Sensor1": UniversalSensor,
 }
