@@ -868,6 +868,7 @@ DEVICETYPES = {
     "BC-SC-Rd-WM-2": MaxShutterContact,
     "BC-SC-Rd-WM": MaxShutterContact,
     "HM-SCI-3-FM": ShutterContact,
+    "HmIP-SCI": IPShutterContactSabotage,
     "HMIP-SWDO": IPShutterContactSabotage,
     "HmIP-SWDO": IPShutterContactSabotage,
     "HmIP-SWDO-I": IPShutterContactSabotage,
