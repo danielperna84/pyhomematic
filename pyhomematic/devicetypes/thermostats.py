@@ -123,7 +123,7 @@ class ThermostatGroup(HMThermostat):
                                    "CONTROL_MODE": [1]})
 
 
-class Thermostat(HMThermostat, HelperBatteryState, HelperValveState, HelperRssiPeer):
+class Thermostat(HMThermostat, HelperBatteryState, HelperValveState, HelperRssiPeer, HelperLowBat):
     """
     HM-CC-RT-DN, HM-CC-RT-DN-BoM
     ClimateControl-Radiator Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -139,12 +139,13 @@ class Thermostat(HMThermostat, HelperBatteryState, HelperValveState, HelperRssiP
                                 "BOOST_MODE": [4],
                                 "COMFORT_MODE": [4],
                                 "LOWERING_MODE": [4]})
-        self.ATTRIBUTENODE.update({"VALVE_STATE": [4],
+        self.ATTRIBUTENODE.update({"LOWBAT": [0],
+                                   "VALVE_STATE": [4],
                                    "BATTERY_STATE": [4],
                                    "CONTROL_MODE": [4]})
 
 
-class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState, HelperRssiPeer):
+class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState, HelperRssiPeer, HelperLowBat):
     """
     HM-TC-IT-WM-W-EU
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -161,7 +162,9 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState, HelperRss
                                 "BOOST_MODE": [2],
                                 "COMFORT_MODE": [2],
                                 "LOWERING_MODE": [2]})
-        self.ATTRIBUTENODE.update({"CONTROL_MODE": [2], "BATTERY_STATE": [2]})
+        self.ATTRIBUTENODE.update({"LOWBAT": [0],
+                                   "CONTROL_MODE": [2],
+                                   "BATTERY_STATE": [2]})
 
 
 class ThermostatWall2(HMThermostat, AreaThermostat):

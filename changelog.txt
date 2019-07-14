@@ -1,3 +1,9 @@
+Version 0.1.60 (2019-07-15)
+- Added support for HmIP-PCBS-BAT (Issue #235) @danielperna84
+- Fix LOWBAT warning for some devices (Issue #230) @danielperna84, @klada
+- Add support for HB-UNI-Sensor1 @oechslein
+- Add support for HmIP-SCI @SukramJ
+
 Version 0.1.59 (2019-05-13)
 - Added classes for battery operated remotes @sander76
 - Added HmIP eTRV-C @danielperna84
