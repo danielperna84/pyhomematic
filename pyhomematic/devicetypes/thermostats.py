@@ -6,11 +6,9 @@ from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState,
 LOG = logging.getLogger(__name__)
 
 
+
 class HMThermostat(HMDevice):
-    """
-    HM-CC-RT-DN, HM-CC-RT-DN-BoM
-    ClimateControl-RadiatorThermostat that measures temperature and allows to set a target temperature or use some automatic mode.
-    """
+    """Base class for HomeMatic thermostats."""
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
@@ -21,7 +19,13 @@ class HMThermostat(HMDevice):
         self.BOOST_MODE = 3
         self.COMFORT_MODE = 4
         self.LOWERING_MODE = 5
-        self.OFF_VALUE = 4.5
+        if "HMIP" in self.TYPE.upper():
+            self.OFF_VALUE = self._proxy.getParamset("%s:1" % self._ADDRESS, "MASTER").get("TEMPERATURE_MINIMUM", 4.5)
+            self.MAX = self._proxy.getParamset("%s:1" % self._ADDRESS, "MASTER").get("TEMPERATURE_MAXIMUM", 30.5)
+        else:
+            self.OFF_VALUE = self._proxy.getParamset("%s" % self._ADDRESS, "MASTER").get("TEMPERATURE_MINIMUM", 4.5)
+            self.MAX = self._proxy.getParamset("%s" % self._ADDRESS, "MASTER").get("TEMPERATURE_MAXIMUM", 30.5)
+        self.MIN = self.OFF_VALUE + 0.5
 
         self.mode = None
 
