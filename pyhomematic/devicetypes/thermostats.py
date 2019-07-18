@@ -21,11 +21,12 @@ class HMThermostat(HMDevice):
         self.LOWERING_MODE = 5
         if "HMIP" in self.TYPE.upper():
             self.OFF_VALUE = self._proxy.getParamset("%s:1" % self._ADDRESS, "MASTER").get("TEMPERATURE_MINIMUM", 4.5)
-            self.MAX = self._proxy.getParamset("%s:1" % self._ADDRESS, "MASTER").get("TEMPERATURE_MAXIMUM", 30.5)
+            self.ON_VALUE = self._proxy.getParamset("%s:1" % self._ADDRESS, "MASTER").get("TEMPERATURE_MAXIMUM", 30.5)
         else:
             self.OFF_VALUE = self._proxy.getParamset("%s" % self._ADDRESS, "MASTER").get("TEMPERATURE_MINIMUM", 4.5)
-            self.MAX = self._proxy.getParamset("%s" % self._ADDRESS, "MASTER").get("TEMPERATURE_MAXIMUM", 30.5)
+            self.ON_VALUE = self._proxy.getParamset("%s" % self._ADDRESS, "MASTER").get("TEMPERATURE_MAXIMUM", 30.5)
         self.MIN = self.OFF_VALUE + 0.5
+        self.MAX = self.ON_VALUE - 0.5
 
         self.mode = None
 
