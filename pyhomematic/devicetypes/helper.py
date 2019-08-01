@@ -276,3 +276,14 @@ class HelperRssiPeer(HMDevice):
 
     def get_rssi(self, channel=0):
         return self.getAttributeData("RSSI_PEER", channel)
+
+
+class HelperDeviceTemperature(HMDevice):
+    """Used for devices that report their actual device temperature values (such as the HmIP Wired devices)"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self.ATTRIBUTENODE["ACTUAL_TEMPERATURE"] = [0]
+
+    def get_device_temperature(self, channel=0):
+        return self.getAttributeData("ACTUAL_TEMPERATURE", channel)

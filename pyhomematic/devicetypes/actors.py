@@ -4,7 +4,7 @@ from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.misc import HMEvent
 from pyhomematic.devicetypes.helper import (
     HelperWorking, HelperActorState, HelperActorLevel, HelperActorBlindTilt, HelperActionOnTime,
-    HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer, HelperRssiDevice)
+    HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer, HelperRssiDevice, HelperDeviceTemperature)
 
 LOG = logging.getLogger(__name__)
 
@@ -280,6 +280,21 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
     @property
     def ELEMENT(self):
         return self._doc
+
+
+class IPWSwitch(GenericSwitch, HelperDeviceTemperature, HelperWired):
+    """
+    HomematicIP-Wired Switch units turning attached device on or off.
+    """
+    @property
+    def ELEMENT(self):
+        if "HmIPW-DRS4" in self.TYPE:
+            # Address correct switching channels for each relais; might change in future HM firmware, but necessary for now.
+            return [2, 6, 10, 14]
+        elif "HmIPW-DRS8" in self.TYPE:
+            # Address correct switching channels for each relais; might change in future HM firmware, but necessary for now.
+            return [2, 6, 10, 14, 18, 22, 26, 30]
+        return [1]
 
 
 class RFSiren(GenericSwitch, HelperWorking, HelperRssiPeer):
@@ -697,6 +712,8 @@ DEVICETYPES = {
     "HMW-LC-Bl1-DR": KeyBlind,
     "HMW-LC-Bl1-DR-2": KeyBlind,
     "HMW-LC-Dim1L-DR": KeyDimmer,
+    "HmIPW-DRS4": IPWSwitch,
+    "HmIPW-DRS8": IPWSwitch,
     "HMIP-PS": IPSwitch,
     "HmIP-PS": IPSwitch,
     "HmIP-PS-CH": IPSwitch,
