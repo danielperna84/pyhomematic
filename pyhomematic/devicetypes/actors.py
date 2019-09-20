@@ -1,4 +1,7 @@
+from pprint import pformat
+
 import logging
+import time
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.misc import HMEvent
@@ -294,6 +297,74 @@ class IPWSwitch(GenericSwitch, HelperDeviceTemperature, HelperWired):
         elif "HmIPW-DRS8" in self.TYPE:
             # Address correct switching channels for each relais; might change in future HM firmware, but necessary for now.
             return [2, 6, 10, 14, 18, 22, 26, 30]
+        return [1]
+
+
+class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
+    """
+    IP-Wired component to support long / short press events and state report (if window contact or on/off switch)
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self._hmipw_keys = []
+        self._hmipw_binarysensors = []
+
+        LOG.debug("++++ DRI32 - trying to setup %s ++++", device_description)
+        # LOG.debug("++++ DRI32 - Wait 60 ++++")
+        # time.sleep(60)
+        # LOG.debug("++++ Res-Params: %s", resolveparamsets)
+
+        # LOG.debug("++++ Self as seen from IPWInputDevice ++++")
+        # LOG.debug(pformat(vars(self), indent=2))
+
+        # LOG.debug("++++ Self METHODS as seen from IPWInputDevice ++++")
+        # LOG.debug(pformat([method_name for method_name in dir(self)
+        #                    if callable(getattr(self, method_name))]))
+
+        # LOG.debug("++++ Proxy as seen from IPWInputDevice ++++")
+        # LOG.debug(pformat(vars(self._proxy), indent=2))
+
+        # LOG.debug("++++ Proxy METHODS as seen from IPWInputDevice ++++")
+        # LOG.debug(pformat([method_name for method_name in dir(self._proxy)
+        #                    if callable(getattr(self._proxy, method_name))]))
+
+        # prmset = None
+        # try:
+        #     prmset = proxy.getParamset(self._ADDRESS, "MASTER", 0)
+        # except:
+        #     LOG.warning("get prmset for %s failed", (self._ADDRESS))
+        # LOG.debug("++++ Paramset XXX from IPWInputDevice ++++")
+        # LOG.debug(pformat(prmset))
+
+        for chan in self.ELEMENT:
+            address_channel = "%s:%i" % (self._ADDRESS, chan)
+            LOG.debug("++++ DRI32 - trying to setup %s ++++", address_channel)
+            try:
+                # channel_paramset = {}
+                channel_paramset = self._proxy.getParamset(address_channel, "MASTER", 0)
+                channel_operation_mode = channel_paramset.get("CHANNEL_OPERATION_MODE") if "CHANNEL_OPERATION_MODE" in channel_paramset else 1
+                LOG.debug("+++++ Chan %s Ops-Mode: %s", chan, channel_operation_mode)
+                if channel_operation_mode == 1:
+                    LOG.debug("IPWInputDevice: Added %s as KEY", address_channel)
+                    self._hmipw_keys.append(chan)
+                elif channel_operation_mode in [2, 3]:
+                    LOG.debug("IPWInputDevice: Added %s as BINARY", address_channel)
+                    self._hmipw_binarysensors.append(chan)
+            except Exception as err:
+                LOG.error("IPWInputDevice: Failure to determine input channel operations mode of HmIPW input device %s: %s", address_channel, err)
+
+
+        self.ACTIONNODE.update({"PRESS_SHORT": self._hmipw_keys,
+                                "PRESS_LONG": self._hmipw_keys})
+        self.BINARYNODE.update({"STATE": self._hmipw_binarysensors})
+
+    @property
+    def ELEMENT(self):
+        """ General channel definition """
+        if "HmIPW-DRI16" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+        elif "HmIPW-DRI32" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
         return [1]
 
 
@@ -714,6 +785,8 @@ DEVICETYPES = {
     "HMW-LC-Dim1L-DR": KeyDimmer,
     "HmIPW-DRS4": IPWSwitch,
     "HmIPW-DRS8": IPWSwitch,
+    "HmIPW-DRI32": IPWInputDevice,
+    "HmIPW-DRI16": IPWInputDevice,
     "HMIP-PS": IPSwitch,
     "HmIP-PS": IPSwitch,
     "HmIP-PS-CH": IPSwitch,
