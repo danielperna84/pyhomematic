@@ -298,6 +298,7 @@ class RPCFunctions():
             self._devices_raw_dict[remote][d['ADDRESS']] = d
             self._paramsets[remote][d['ADDRESS']] = {}
         self.saveDevices(remote)
+        self.saveParamsets(remote)
         self.createDeviceObjects(interface_id)
         if self.systemcallback:
             self.systemcallback('newDevices', interface_id, dev_descriptions)
@@ -312,6 +313,12 @@ class RPCFunctions():
         self._devices_raw[remote] = [device for device in self._devices_raw[
             remote] if not device['ADDRESS'] in addresses]
         self.saveDevices(remote)
+        for address in addresses:
+            try:
+                del self._paramsets[remote][address]
+            except KeyError:
+                pass
+        self.saveParamsets(remote)
         if self.systemcallback:
             self.systemcallback('deleteDevice', interface_id, addresses)
         return True
@@ -532,6 +539,7 @@ class ServerThread(threading.Thread):
                  localport=LOCALPORT,
                  remotes=REMOTES,
                  devicefile=DEVICEFILE,
+                 paramsetfile=PARAMSETFILE,
                  interface_id=INTERFACE_ID,
                  eventcallback=False,
                  systemcallback=False,
@@ -544,6 +552,7 @@ class ServerThread(threading.Thread):
         self._local = local
         self._localport = int(localport)
         self._devicefile = devicefile
+        self._paramsetfile = paramsetfile
         self.remotes = remotes
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
@@ -601,6 +610,7 @@ class ServerThread(threading.Thread):
             raise Exception
 
         self._rpcfunctions = RPCFunctions(devicefile=self._devicefile,
+                                          paramsetfile=self._paramsetfile,
                                           proxies=self.proxies,
                                           remotes=self.remotes,
                                           eventcallback=self.eventcallback,
