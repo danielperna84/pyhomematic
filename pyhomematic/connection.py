@@ -32,6 +32,7 @@ class HMConnection():
         self.devices_all = _hm.devices_all
         self.devices_raw = _hm.devices_raw
         self.devices_raw_dict = _hm.devices_raw_dict
+        self.paramsets = _hm.paramsets
 
         if remote and remoteport:
             remotes['default']['ip'] = remote
@@ -55,7 +56,7 @@ class HMConnection():
                                             resolveparamsets=resolveparamsets)
 
         except Exception as err:
-            LOG.critical("Failed to create server")
+            LOG.critical("Failed to create server %s", err)
             LOG.debug(str(err))
 
         if autostart:
@@ -74,7 +75,7 @@ class HMConnection():
             self._server.proxyInit()
             return True
         except Exception as err:
-            LOG.critical("Failed to start server")
+            LOG.critical("Failed to start server: %s", err)
             LOG.debug(str(err))
             self._server.stop()
             return False
