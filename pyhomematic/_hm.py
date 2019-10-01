@@ -485,6 +485,7 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         """
         Initialize new proxy for server and get local ip
         """
+        self._remote = kwargs.pop("remote", None)
         self._skipinit = kwargs.pop("skipinit", False)
         self._callbackip = kwargs.pop("callbackip", None)
         self._callbackport = kwargs.pop("callbackport", None)
@@ -583,6 +584,7 @@ class ServerThread(threading.Thread):
                                         ssl=host.get('ssl'))
                 self.proxies[host['id']] = LockingServerProxy(
                     api_url,
+                    remote=remote,
                     callbackip=host.get('callbackip', None),
                     callbackport=host.get('callbackport', None),
                     skipinit=not host.get('connect', True),
