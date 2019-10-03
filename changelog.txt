@@ -1,5 +1,5 @@
-Version 0.1.61 (2019-)
-- 
+Version 0.1.61 (2019-10-)
+- Fix device storage @danielperna84
 
 Version 0.1.60 (2019-07-15)
 - Added support for HmIP-PCBS-BAT (Issue #235) @danielperna84
