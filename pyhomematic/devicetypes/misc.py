@@ -77,6 +77,14 @@ class RemotePress(HMEvent, HelperEventPress, HelperActionPress):
         return [1, 2, 3]
 
 
+class RemotePressBattery(HMEvent, HelperEventPress, HelperActionPress, HelperLowBat):
+    """Remote handle buttons."""
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3]
+
+
 DEVICETYPES = {
     "HM-RCV-50": RemoteVirtual,
     "HM-RC-2-PBU-FM": Remote,
@@ -106,7 +114,7 @@ DEVICETYPES = {
     "HM-RC-X": Remote,
     "HM-PB-2-FM": Remote,
     "HM-PB-2-WM": Remote,
-    "BC-PB-2-WM": RemotePress,
+    "BC-PB-2-WM": RemotePressBattery,
     "HM-PB-4-WM": Remote,
     "HM-PB-6-WM55": Remote,
     "HM-PB-2-WM55-2": Remote,
