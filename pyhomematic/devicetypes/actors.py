@@ -720,7 +720,7 @@ DEVICETYPES = {
     "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
     "HmIP-PCBS-BAT": IPSwitch,
-    "HmIP-BSL": IPKeySwitch,
+    "HmIP-BSL": IPKeySwitchLevel,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM-CH": IPSwitchPowermeter,
