@@ -62,6 +62,7 @@ class HelperOperatingVoltageIP(HMDevice):
         # init metadata
         self.ATTRIBUTENODE.update({"OPERATING_VOLTAGE": [0]})
 
+    # pylint: disable=unused-argument
     def operation_voltage(self, channel=None):
         """ Returns the operating voltage. """
         return float(self.getAttributeData("OPERATING_VOLTAGE", 0))
