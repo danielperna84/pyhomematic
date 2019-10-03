@@ -30,7 +30,8 @@ REMOTES = {
         'resolvenames': False,
         'connect': True,
     }}
-DEVICEFILE = False  # e.g. devices.json
+DEVICEFILE = None  # e.g. devices_%s.json
+PARAMSETFILE = None # e.g. paramsets_%s.json
 INTERFACE_ID = 'pyhomematic'
 XML_API_URL = '/config/xmlapi/devicelist.cgi'
 JSONRPC_URL = '/api/homematic.cgi'
@@ -45,6 +46,7 @@ devices = {}
 devices_all = {}
 devices_raw = {}
 devices_raw_dict = {}
+paramsets = {}
 
 
 def make_http_credentials(username=None, password=None):
@@ -84,18 +86,33 @@ class RPCFunctions():
 
     def __init__(self,
                  devicefile=DEVICEFILE,
+                 paramsetfile=PARAMSETFILE,
                  proxies={},
                  remotes={},
                  eventcallback=False,
                  systemcallback=False,
                  resolveparamsets=False):
-        global devices, devices_all, devices_raw, devices_raw_dict
+        global devices, devices_all, devices_raw, devices_raw_dict, paramsets
         LOG.debug("RPCFunctions.__init__")
-        self.devicefile = devicefile
+        self.devicefile = None
+        if devicefile is not None:
+            if "%s" in devicefile:
+                self.devicefile = devicefile
+            else:
+                LOG.warning("RPCFunctions.__init__: Invalid devicefile template")
+                self.devicefile = None
+        self.paramsetfile = None
+        if paramsetfile is not None:
+            if "%s" in paramsetfile:
+                self.paramsetfile = paramsetfile
+            else:
+                LOG.warning("RPCFunctions.__init__: Invalid paramsetfile template")
+                self.paramsetfile = None
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
         self.resolveparamsets = resolveparamsets
         self.remotes = remotes
+        self._paramsets = paramsets
 
         # The methods need to know about the proxyies to be able to pass it on
         # to the device-objects
@@ -113,24 +130,34 @@ class RPCFunctions():
         self._devices_raw = devices_raw
 
         for interface_id in proxies:
-            LOG.debug("RPCFunctions.__init__: iterating proxy = %s" %
-                      (interface_id, ))
+            LOG.debug("RPCFunctions.__init__: iterating proxy = %s", interface_id)
             remote = interface_id.split('-')[-1]
             self.devices[remote] = {}
             self.devices_all[remote] = {}
             self._devices_raw[remote] = []
             self._devices_raw_dict[remote] = {}
+            self._paramsets[remote] = {}
 
             # If there are stored devices, we load them instead of getting them
             # from the server.
-            if self.devicefile:
-                LOG.debug("RPCFunctions.__init__: devicefile = %s" %
-                          (self.devicefile, ))
-                if os.path.isfile(self.devicefile):
-                    with open(self.devicefile, 'r') as fptr:
+            if self.devicefile is not None:
+                devicefilename = self.devicefile % remote
+                LOG.debug("RPCFunctions.__init__: devicefile = %s", devicefilename)
+                if os.path.isfile(devicefilename):
+                    with open(devicefilename, 'r') as fptr:
                         fcontent = fptr.read()
                         if fcontent:
                             self._devices_raw[remote] = json.loads(fcontent)
+
+            # Load stored paramsets if available
+            if self.paramsetfile is not None:
+                paramsetfilename = self.paramsetfile % remote
+                LOG.debug("RPCFunctions.__init__: paramsetfile = %s", paramsetfilename)
+                if os.path.isfile(paramsetfilename):
+                    with open(paramsetfilename, 'r') as fptr:
+                        fcontent = fptr.read()
+                        if fcontent:
+                            self._paramsets[remote] = json.loads(fcontent)
 
             # Continue if there are no stored devices
             if not self._devices_raw.get(remote):
@@ -150,7 +177,7 @@ class RPCFunctions():
         WORKING = True
         remote = interface_id.split('-')[-1]
         LOG.debug(
-            "RPCFunctions.createDeviceObjects: iterating interface_id = %s" % (remote, ))
+            "RPCFunctions.createDeviceObjects: iterating interface_id = %s", remote)
         # First create parent object
         for dev in self._devices_raw[remote]:
             if not dev['PARENT']:
@@ -197,19 +224,19 @@ class RPCFunctions():
 
     def error(self, interface_id, errorcode, msg):
         """When some error occurs the CCU / Homegear will send it's error message here"""
-        LOG.debug("RPCFunctions.error: interface_id = %s, errorcode = %i, message = %s" % (
-            interface_id, int(errorcode), str(msg)))
+        LOG.debug("RPCFunctions.error: interface_id = %s, errorcode = %i, message = %s",
+                  interface_id, int(errorcode), str(msg))
         if self.systemcallback:
             self.systemcallback('error', interface_id, errorcode, msg)
         return True
 
     def saveDevices(self, remote):
         """We save known devices into a json-file so we don't have to work through the whole list of devices the CCU / Homegear presents us"""
-        LOG.debug("RPCFunctions.saveDevices: devicefile: %s, _devices_raw: %s" % (
-            self.devicefile, str(self._devices_raw[remote])))
-        if self.devicefile:
+        if self.devicefile is not None:
+            devicefilename = self.devicefile % remote
+            LOG.debug("RPCFunctions.saveDevices: devicefile: %s", devicefilename)
             try:
-                with open(self.devicefile, 'w') as df:
+                with open(devicefilename, 'w') as df:
                     df.write(json.dumps(self._devices_raw[remote]))
                 return True
             except Exception as err:
@@ -218,6 +245,20 @@ class RPCFunctions():
                 return False
         else:
             return True
+
+    def saveParamsets(self, remote):
+        """Write known paramsets to disk."""
+        if self.paramsetfile is not None:
+            paramsetfilename = self.paramsetfile % remote
+            LOG.debug("RPCFunctions.saveParamsets: paramsetfile: %s", paramsetfilename)
+            try:
+                with open(paramsetfilename, 'w') as df:
+                    df.write(json.dumps(self._paramsets[remote]))
+                return True
+            except Exception as err:
+                LOG.warning(
+                    "RPCFunctions.saveParamsets: Exception saving _paramsets: %s", str(err))
+                return False
 
     def event(self, interface_id, address, value_key, value):
         """If a device emits some sort event, we will handle it here."""
@@ -250,10 +291,14 @@ class RPCFunctions():
             self._devices_raw[remote] = []
         if remote not in self._devices_raw_dict:
             self._devices_raw_dict[remote] = {}
+        if remote not in self._paramsets:
+            self._paramsets[remote] = {}
         for d in dev_descriptions:
             self._devices_raw[remote].append(d)
             self._devices_raw_dict[remote][d['ADDRESS']] = d
+            self._paramsets[remote][d['ADDRESS']] = {}
         self.saveDevices(remote)
+        self.saveParamsets(remote)
         self.createDeviceObjects(interface_id)
         if self.systemcallback:
             self.systemcallback('newDevices', interface_id, dev_descriptions)
@@ -268,6 +313,12 @@ class RPCFunctions():
         self._devices_raw[remote] = [device for device in self._devices_raw[
             remote] if not device['ADDRESS'] in addresses]
         self.saveDevices(remote)
+        for address in addresses:
+            try:
+                del self._paramsets[remote][address]
+            except KeyError:
+                pass
+        self.saveParamsets(remote)
         if self.systemcallback:
             self.systemcallback('deleteDevice', interface_id, addresses)
         return True
@@ -434,6 +485,7 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         """
         Initialize new proxy for server and get local ip
         """
+        self._remote = kwargs.pop("remote", None)
         self._skipinit = kwargs.pop("skipinit", False)
         self._callbackip = kwargs.pop("callbackip", None)
         self._callbackport = kwargs.pop("callbackport", None)
@@ -488,6 +540,7 @@ class ServerThread(threading.Thread):
                  localport=LOCALPORT,
                  remotes=REMOTES,
                  devicefile=DEVICEFILE,
+                 paramsetfile=PARAMSETFILE,
                  interface_id=INTERFACE_ID,
                  eventcallback=False,
                  systemcallback=False,
@@ -500,6 +553,7 @@ class ServerThread(threading.Thread):
         self._local = local
         self._localport = int(localport)
         self._devicefile = devicefile
+        self._paramsetfile = paramsetfile
         self.remotes = remotes
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
@@ -530,6 +584,7 @@ class ServerThread(threading.Thread):
                                         ssl=host.get('ssl'))
                 self.proxies[host['id']] = LockingServerProxy(
                     api_url,
+                    remote=remote,
                     callbackip=host.get('callbackip', None),
                     callbackport=host.get('callbackport', None),
                     skipinit=not host.get('connect', True),
@@ -557,6 +612,7 @@ class ServerThread(threading.Thread):
             raise Exception
 
         self._rpcfunctions = RPCFunctions(devicefile=self._devicefile,
+                                          paramsetfile=self._paramsetfile,
                                           proxies=self.proxies,
                                           remotes=self.remotes,
                                           eventcallback=self.eventcallback,
