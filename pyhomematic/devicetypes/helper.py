@@ -23,9 +23,10 @@ class HelperSabotageIP(HMDevice):
         # init metadata
         self.ATTRIBUTENODE.update({"SABOTAGE": [0]})
 
+    # pylint: disable=unused-argument
     def sabotage(self, channel=None):
         """Returns True if the devicecase has been opened."""
-        return bool(self.getAttributeData("SABOTAGE", channel))
+        return bool(self.getAttributeData("SABOTAGE", 0))
 
 class HelperLowBat(HMDevice):
     """This Helper adds easy access to read the LOWBAT state"""
@@ -47,9 +48,10 @@ class HelperLowBatIP(HMDevice):
         # init metadata
         self.ATTRIBUTENODE.update({"LOW_BAT": [0]})
 
+    # pylint: disable=unused-argument
     def low_batt(self, channel=None):
         """ Returns if the battery is low. """
-        return self.getAttributeData("LOW_BAT", channel)
+        return self.getAttributeData("LOW_BAT", 0)
 
 
 class HelperOperatingVoltageIP(HMDevice):
@@ -62,7 +64,7 @@ class HelperOperatingVoltageIP(HMDevice):
 
     def operation_voltage(self, channel=None):
         """ Returns the operating voltage. """
-        return float(self.getAttributeData("OPERATING_VOLTAGE", channel))
+        return float(self.getAttributeData("OPERATING_VOLTAGE", 0))
 
 
 class HelperWorking(HMDevice):
