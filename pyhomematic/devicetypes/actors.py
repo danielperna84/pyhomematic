@@ -380,6 +380,7 @@ class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress,
         super().__init__(device_description, proxy, resolveparamsets)
 
         self.WRITENODE.update({"STATE": [4],
+                               "COLOR": [8, 12],
                                "LEVEL": [8, 12]})
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG": [1, 2]})
@@ -397,6 +398,69 @@ class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress,
             self.set_level(0.0, channel)
         else:
             self.set_state(False, channel)
+
+    def get_hs_color(self, channel=None):
+        """
+        Return the color of the light as HSV color without the "value" component for the brightness.
+
+        Returns (hue, saturation) tuple with values in range of 0-1, representing the H and S component of the
+        HSV color system.
+        """
+
+        # Get the color from homematic. This is one of the predefined colors, that need to be converted to h/s value
+        hm_color = self.getCachedOrUpdatedValue("COLOR", channel)
+
+        if hm_color == 7: #WHITE
+            return 0, 0
+        elif hm_color == 6: #YELLOW
+            return 60/360, 1
+        elif hm_color == 2: #GREEN
+            return 120/360, 1
+        elif hm_color == 3: #TURQUOISE / CYAN
+            return 180/360, 1
+        elif hm_color == 1: #BLUE
+            return 240/360, 1
+        elif hm_color == 5: #PURPLE
+            return 300/360, 1
+        elif hm_color == 4: #RED
+            return 0, 1
+        else:
+            return 1, 1  #No way to specify "black", so just pick a different shade of red
+
+    def set_hs_color(self, hue: float, saturation: float, channel=None):
+        """
+        Set a fixed color.
+
+        :param hue: Hue component (range 0-1)
+        :param saturation: Saturation component (range 0-1). Yields white for values near 0, other values are
+            interpreted as 100% saturation.
+
+        The input values are the components of an HSV color without the value/brightness component.
+        Example colors:
+            * Green: set_hs_color(120/360, 1)
+            * Blue: set_hs_color(240/360, 1)
+            * Yellow: set_hs_color(60/360, 1)
+            * White: set_hs_color(0, 0)
+        """
+
+        hue = hue * 360
+        if saturation < 0.1:  # Special case (white)
+            hm_color = 'WHITE'
+        elif hue in range(30,89):
+            hm_color = 'YELLOW'
+        elif hue in range(90,149):
+            hm_color = 'GREEN'
+        elif hue in range(150,209):
+            hm_color = 'TURQUOISE' # actually cyan
+        elif hue in range(210,269):
+            hm_color = 'BLUE'
+        elif hue in range(270,329):
+            hm_color = 'PURPLE' # actually magenta
+        else:
+            hm_color = 'RED'
+
+        self.setValue(key="COLOR", value=hm_color, channel=channel)
+
 
     @property
     def ELEMENT(self):
@@ -544,7 +608,7 @@ class ColorEffectLight(Dimmer):
         # init metadata
         self.WRITENODE.update({"COLOR": [self._color_channel], "PROGRAM": [self._effect_channel]})
 
-    def get_hs_color(self):
+    def get_hs_color(self, channel=None):
         """
         Return the color of the light as HSV color without the "value" component for the brightness.
 
@@ -562,7 +626,7 @@ class ColorEffectLight(Dimmer):
         # For all other colors we assume saturation of 1
         return hm_color/200, 1
 
-    def set_hs_color(self, hue: float, saturation: float):
+    def set_hs_color(self, hue: float, saturation: float, channel=None):
         """
         Set a fixed color and also turn off effects in order to see the color.
 
