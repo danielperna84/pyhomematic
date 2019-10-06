@@ -400,7 +400,7 @@ class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress,
 
     @property
     def ELEMENT(self):
-        return self.WRITENODE["STATE"] + self.WRITENODE["LEVEL"]
+        return [4, 8, 12]
 
 
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
