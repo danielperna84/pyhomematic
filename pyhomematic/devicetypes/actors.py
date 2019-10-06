@@ -374,7 +374,7 @@ class IPKeySwitch(IPSwitch, HMEvent, HelperActionPress):
 
 class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress, HelperActorLevel):
     """
-    Switch turning plugged in device on or off and measuring energy consumption.
+    Switch with two independent controllable LEDs, turning plugged in device on or off.
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
