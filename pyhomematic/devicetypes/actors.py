@@ -381,6 +381,19 @@ class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress,
 
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG": [1, 2]})
+    def on(self, channel=None):
+        """Turn light/switch on."""
+        if (channel == 8) or (channel == 12):
+            self.set_level(1.0, channel)
+        else:
+            self.set_state(True, channel)
+
+    def off(self, channel=None):
+        """Turn light/switch off."""
+        if (channel == 8) or (channel == 12):
+            self.set_level(0.0, channel)
+        else:
+            self.set_state(False, channel)
 
     @property
     def ELEMENT(self):
