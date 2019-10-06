@@ -379,7 +379,6 @@ class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress,
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.WRITENODE.update({"LEVEL": [8, 12]})
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG": [1, 2]})
 
