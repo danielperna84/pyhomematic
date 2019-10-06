@@ -372,7 +372,7 @@ class IPKeySwitch(IPSwitch, HMEvent, HelperActionPress):
         return [4]
 
 
-class IPKeySwitchLevel(IPSwitch, HMEvent, HelperActionPress, HelperActorLevel):
+class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress, HelperActorLevel):
     """
     Switch turning plugged in device on or off and measuring energy consumption.
     """
