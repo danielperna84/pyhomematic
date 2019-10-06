@@ -379,25 +379,28 @@ class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress,
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
+        self.WRITENODE.update({"STATE": [4],
+                               "LEVEL": [8, 12]})
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG": [1, 2]})
+
     def on(self, channel=None):
         """Turn light/switch on."""
-        if (channel == 8) or (channel == 12):
+        if channel in self.WRITENODE["LEVEL"]:
             self.set_level(1.0, channel)
         else:
             self.set_state(True, channel)
 
     def off(self, channel=None):
         """Turn light/switch off."""
-        if (channel == 8) or (channel == 12):
+        if channel in self.WRITENODE["LEVEL"]:
             self.set_level(0.0, channel)
         else:
             self.set_state(False, channel)
 
     @property
     def ELEMENT(self):
-        return [4, 8, 12]
+        return self.WRITENODE["STATE"] + self.WRITENODE["LEVEL"]
 
 
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
