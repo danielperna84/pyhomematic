@@ -397,7 +397,7 @@ class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress,
 
     @property
     def ELEMENT(self):
-        return [4]
+        return [4, 8, 12]
 
 
 class SwitchPowermeter(Switch, HelperActionOnTime, HMSensor):
