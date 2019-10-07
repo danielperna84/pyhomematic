@@ -608,6 +608,7 @@ class ColorEffectLight(Dimmer):
         # init metadata
         self.WRITENODE.update({"COLOR": [self._color_channel], "PROGRAM": [self._effect_channel]})
 
+    # pylint: disable=unused-argument
     def get_hs_color(self, channel=None):
         """
         Return the color of the light as HSV color without the "value" component for the brightness.
@@ -626,6 +627,7 @@ class ColorEffectLight(Dimmer):
         # For all other colors we assume saturation of 1
         return hm_color/200, 1
 
+    # pylint: disable=unused-argument
     def set_hs_color(self, hue: float, saturation: float, channel=None):
         """
         Set a fixed color and also turn off effects in order to see the color.
