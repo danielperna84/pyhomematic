@@ -446,15 +446,15 @@ class IPKeySwitchLevel(GenericDimmer, GenericSwitch, HMEvent, HelperActionPress,
         hue = hue * 360
         if saturation < 0.1:  # Special case (white)
             hm_color = 'WHITE'
-        elif hue in range(30,89):
+        elif hue in range(30, 89):
             hm_color = 'YELLOW'
-        elif hue in range(90,149):
+        elif hue in range(90, 149):
             hm_color = 'GREEN'
-        elif hue in range(150,209):
+        elif hue in range(150, 209):
             hm_color = 'TURQUOISE' # actually cyan
-        elif hue in range(210,269):
+        elif hue in range(210, 269):
             hm_color = 'BLUE'
-        elif hue in range(270,329):
+        elif hue in range(270, 329):
             hm_color = 'PURPLE' # actually magenta
         else:
             hm_color = 'RED'
