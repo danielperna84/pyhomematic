@@ -148,5 +148,6 @@ DEVICETYPES = {
     "263 144": RemotePress,
     "HM-SwI-X": RemotePress,
     "HMW-RCV-50": RemoteVirtual,
+    "HmIP-RCV-50": RemoteVirtual,
     "HmIP-RC8": Remote,
 }
