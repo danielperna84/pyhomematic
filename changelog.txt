@@ -1,3 +1,10 @@
+Version 0.1.61 (2019-10-13)
+- Fix device storage @danielperna84
+- Add battery attribute for BC-PB-2-WM @danielperna84
+- Improve HmIP-helper classes, Issue #240 @danielperna84
+- Add Light-support for HmIP-BSL (Issue #255) @guillempages
+- Add support for HmIP-RCV-50 (Issue #262) @danielperna84
+
 Version 0.1.60 (2019-07-15)
 - Added support for HmIP-PCBS-BAT (Issue #235) @danielperna84
 - Fix LOWBAT warning for some devices (Issue #230) @danielperna84, @klada
