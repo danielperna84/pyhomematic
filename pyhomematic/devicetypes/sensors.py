@@ -593,6 +593,7 @@ class WeatherSensor(SensorHm):
                                 "SUNSHINEDURATION": self.ELEMENT,
                                 "BRIGHTNESS": self.ELEMENT})
         self.BINARYNODE.update({"RAINING": self.ELEMENT})
+        del self.ATTRIBUTENODE["LOWBAT"]
 
     def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))

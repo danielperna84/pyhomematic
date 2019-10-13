@@ -1,5 +1,5 @@
 Version 0.1.62 ()
-- 
+- Remove LOWBAT for WeatherSensor-class-devices (Issue #230) @danielperna84
 
 Version 0.1.61 (2019-10-13)
 - Fix device storage @danielperna84
