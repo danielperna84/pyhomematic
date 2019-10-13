@@ -20,7 +20,7 @@ class RemoteVirtual(HMCCU, HelperEventRemote, HelperActionPress):
 
     @property
     def ELEMENT(self):
-        return [c for c in range(1, 51)]
+        return list(range(1, 51))
 
 
 class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
@@ -33,7 +33,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
         if "HM-Dis-WM55" in self.TYPE or "HM-Dis-EP-WM55" in self.TYPE:
             return [1, 2]
         if "HM-RC-Dis-H-x-EU" in self.TYPE:
-            return [c for c in range(1, 21)]
+            return list(range(1, 21))
         if "Sec3" in self.TYPE or "Key3" in self.TYPE:
             return [1, 2, 3]
         if "RC-4" in self.TYPE or "PB-4" in self.TYPE:
@@ -49,9 +49,9 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
         if "RC-12" in self.TYPE:
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         if "HM-OU-LED16" in self.TYPE:
-            return [c for c in range(1, 16)]
+            return list(range(1, 16))
         if "RC-19" in self.TYPE or "HM-PB-4Dis-WM" in self.TYPE:
-            return [c for c in range(1, 20)]
+            return list(range(1, 20))
         if "HMW-IO-4-FM" in self.TYPE:
             return [1, 2, 3, 4]
         if "HMW-IO-12-FM" in self.TYPE:
@@ -70,6 +70,14 @@ class RemoteBattery(Remote, HelperLowBat):
 
 
 class RemotePress(HMEvent, HelperEventPress, HelperActionPress):
+    """Remote handle buttons."""
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3]
+
+
+class RemotePressBattery(HMEvent, HelperEventPress, HelperActionPress, HelperLowBat):
     """Remote handle buttons."""
 
     @property
@@ -106,7 +114,7 @@ DEVICETYPES = {
     "HM-RC-X": Remote,
     "HM-PB-2-FM": Remote,
     "HM-PB-2-WM": Remote,
-    "BC-PB-2-WM": RemotePress,
+    "BC-PB-2-WM": RemotePressBattery,
     "HM-PB-4-WM": Remote,
     "HM-PB-6-WM55": Remote,
     "HM-PB-2-WM55-2": Remote,
@@ -140,5 +148,6 @@ DEVICETYPES = {
     "263 144": RemotePress,
     "HM-SwI-X": RemotePress,
     "HMW-RCV-50": RemoteVirtual,
+    "HmIP-RCV-50": RemoteVirtual,
     "HmIP-RC8": Remote,
 }
