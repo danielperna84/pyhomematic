@@ -358,7 +358,7 @@ class IPThermostatWall230V(HMThermostat, IPAreaThermostat):
     def turnoff(self):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
-        
+
 class IPThermostatWall2(HMThermostat, IPAreaThermostat, HelperLowBatIP):
     """
     HmIP-WTH, HmIP-WTH-2
