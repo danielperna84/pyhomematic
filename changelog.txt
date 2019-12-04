@@ -1,3 +1,9 @@
+Version 0.1.62 (2019-12-04)
+- Remove `LOWBAT` for some devices (#230) @danielperna84
+- Add battery reporting for `HMIP-WRC2` @pg5
+- Add output-support for `HMW-IO-12-FM` (#269) @Lokla
+- Add action-nodes for `HmIP-BWTH`, `HmIP-BWTH24` (#270) @dickesW
+
 Version 0.1.61 (2019-10-13)
 - Fix device storage @danielperna84
 - Add battery attribute for BC-PB-2-WM @danielperna84

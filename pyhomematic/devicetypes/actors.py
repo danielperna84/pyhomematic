@@ -214,10 +214,20 @@ class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote, HelperWired):
     Switch turning attached device on or off.
     """
 
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        self._doc = []
+        super().__init__(device_description, proxy, resolveparamsets)
+        if "HMW-IO-12-FM" in self.TYPE:
+            for chan in range(1, 13):
+                if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER").get("BEHAVIOUR", None) == 1:
+                    self._doc.append(chan)
+
     @property
     def ELEMENT(self):
         if "HMW-IO-12-Sw7-DR" in self.TYPE:
             return [13, 14, 15, 16, 17, 18, 19]
+        if "HMW-IO-12-FM" in self.TYPE:
+            return self._doc
         if "HMW-LC-Sw2-DR" in self.TYPE:
             return [3, 4]
         return [1]
@@ -790,6 +800,7 @@ DEVICETYPES = {
     "HM-ES-PMSwX": SwitchPowermeter,
     "HMW-IO-12-Sw7-DR": IOSwitch,
     "HMW-IO-12-Sw14-DR": HMWIOSwitch,
+    "HMW-IO-12-FM": IOSwitch,
     "HMW-LC-Sw2-DR": IOSwitch,
     "HMW-LC-Bl1-DR": KeyBlind,
     "HMW-LC-Bl1-DR-2": KeyBlind,

@@ -209,6 +209,9 @@ class PowermeterGas(SensorHm):
 class Smoke(SensorHm, HelperBinaryState):
     """Smoke alarm.
        This is a binary sensor."""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        del self.ATTRIBUTENODE["LOWBAT"]
 
     def is_smoke(self, channel=None):
         """ Return True if smoke is detected """
@@ -593,6 +596,7 @@ class WeatherSensor(SensorHm):
                                 "SUNSHINEDURATION": self.ELEMENT,
                                 "BRIGHTNESS": self.ELEMENT})
         self.BINARYNODE.update({"RAINING": self.ELEMENT})
+        del self.ATTRIBUTENODE["LOWBAT"]
 
     def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))
