@@ -102,7 +102,7 @@ class Dimmer(GenericDimmer, HelperWorking):
     """
     @property
     def ELEMENT(self):
-        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE:
+        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE  or self._TYPE == "HM-DW-WM":
             return [1, 2]
         return [1]
 
@@ -837,4 +837,5 @@ DEVICETYPES = {
     "HmIP-MOD-TM": IPGarage,
     "HM-LC-RGBW-WM": ColorEffectLight,
     "HmIP-MIOB": IPMultiIO,
+    "HM-DW-WM": Dimmer,
 }
