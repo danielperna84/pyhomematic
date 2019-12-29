@@ -225,7 +225,8 @@ class IPThermostat(HMThermostat, HelperLowBatIP, HelperValveState):
 
         # init metadata
         self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1]})
-        self.WRITENODE.update({"SET_POINT_TEMPERATURE": [1]})
+        self.WRITENODE.update({"SET_POINT_TEMPERATURE": [1],
+                               "WINDOW_STATE": [1]})
         self.ACTIONNODE.update({"AUTO_MODE": [1],
                                 "MANU_MODE": [1],
                                 "CONTROL_MODE": [1],
@@ -249,6 +250,19 @@ class IPThermostat(HMThermostat, HelperLowBatIP, HelperValveState):
             LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
             return False
         self.writeNodeData("SET_POINT_TEMPERATURE", target_temperature)
+
+    def get_window_state(self):
+        """ Returns the current window state. """
+        return self.getWriteData("WINDOW_STATE")
+
+    def set_window_state(self, target_state):
+        """ Set the target window state. """
+        try:
+            target_state = int(target_state)
+        except Exception as err:
+            LOG.debug("Thermostat.set_window_state: Exception %s" % (err,))
+            return False
+        self.writeNodeData("WINDOW_STATE", target_state)
 
     @property
     def MODE(self):
