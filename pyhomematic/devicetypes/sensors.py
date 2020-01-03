@@ -553,9 +553,12 @@ class TemperatureSensor(SensorHm):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        # init metadata
-        self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT})
-
+        # init metadata (HB-UNI-Sen-TEMP-DS18B20 has 8 temperature values)
+        if "HB-UNI-Sen-TEMP-DS18B20" in self._TYPE:
+            self.SENSORNODE.update({"TEMPERATURE": [1, 2, 3, 4, 5, 6, 7, 8]})
+        else:
+            self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT})
+            
     def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))
 
@@ -949,4 +952,5 @@ DEVICETYPES = {
     "HB-UW-Sen-THPL-I": UniversalSensor,
     "HmIP-SWD": WaterIP,
     "HB-UNI-Sensor1": UniversalSensor,
+    "HB-UNI-Sen-TEMP-DS18B20": TemperatureSensor,
 }
