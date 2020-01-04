@@ -864,6 +864,36 @@ class WaterIP(SensorHmIP):
     def ELEMENT(self):
         return [1]
 
+
+class IPContact(SensorHmIP, HelperBinaryState, HelperEventRemote):
+    """Multi purpose contact that emits its open/closed state.
+       This is a binary sensor. Supports multiple modes"""
+
+    def is_open(self, channel=None):
+        """ Returns True if the contact is open. """
+        return self.get_state(channel)
+
+    def is_closed(self, channel=None):
+        """ Returns True if the contact is closed. """
+        return not self.get_state(channel)
+
+    def is_on(self, channel=None):
+        """ Returns True if switch is on. """
+        return self.get_state(channel)
+
+    def is_off(self, channel=None):
+        """ Returns True if switch is off. """
+        return not self.get_state(channel)
+
+    @property
+    def ELEMENT(self):
+        if "FCI6" in self._TYPE:
+            return [1, 2, 3, 4, 5, 6]
+        elif "FCI1" in self._TYPE:
+            return [1]
+
+
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -957,4 +987,6 @@ DEVICETYPES = {
     "HB-UW-Sen-THPL-I": UniversalSensor,
     "HmIP-SWD": WaterIP,
     "HB-UNI-Sensor1": UniversalSensor,
+    "HmIP-FCI1": IPContact,
+    "HmIP-FCI6": IPContact,
 }
