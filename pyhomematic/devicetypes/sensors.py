@@ -564,7 +564,7 @@ class TemperatureSensor(SensorHm):
             self.SENSORNODE.update({"TEMPERATURE": [1, 2, 3, 4, 5, 6, 7, 8]})
         else:
             self.SENSORNODE.update({"TEMPERATURE": self.ELEMENT})
-            
+
     def get_temperature(self, channel=None):
         return float(self.getSensorData("TEMPERATURE", channel))
 
