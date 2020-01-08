@@ -3,9 +3,10 @@ import sys
 import logging
 import click
 from pyhomematic import HMConnection
-from pyhomematic.devicetypes.sensors import WeatherSensor, AreaThermostat, ShutterContact, Smoke, Motion, Remote
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
 from pyhomematic.devicetypes.actors import GenericSwitch
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
+from pyhomematic.devicetypes.sensors import WeatherSensor, AreaThermostat, ShutterContact, Smoke, Motion, Remote
+from pyhomematic.devicetypes.thermostats import HMThermostat, IPThermostat
 
 
 def systemcallback(src, *args):
@@ -139,6 +140,14 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
                 device.set_state(bool(state), channel)
                 print(" / Switch is on: %s" % str(device.is_on(channel)))
 
+        # Thermostat
+        if isinstance(device, HMThermostat):
+            print(" / Working mode: %i" % device.MODE)
+            print(" / Target temperature: %.1f" % device.get_set_temperature())
+            print(" / Actual temperature: %.1f" % device.actual_temperature())
+        if isinstance(device, IPThermostat):
+            print(" / Window is opened: %s" % str(bool(device.get_window_state())))
+
         ########### Attribute #########
         print(" / RSSI_PEER: %i" % device.get_rssi())
 
@@ -155,7 +164,7 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
             print(" / Valve state: %i" % device.valve_state())
 
         if isinstance(device, HelperBatteryState):
-            print(" / Bettery state: %f" % device.battery_state())
+            print(" / Battery state: %f" % device.battery_state())
 
     # do nothing for show & debug events
     print("Now waiting for events/callback")

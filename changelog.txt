@@ -1,3 +1,10 @@
+Version 0.1.63 (2020-01-08)
+- Add support for HM-DW-WM @stealth20
+- Add WINDOW_STATE support for IP thermostats @dtretyakov
+- Add support for HmIP-MOD-HO @Nico0302
+- Add support for HB-UNI-Sen-TEMP-DS18B20 @oechslein
+- Add support for HmIP-FCI1 and HmIP-FCI6 @macrojames
+
 Version 0.1.62 (2019-12-04)
 - Remove `LOWBAT` for some devices (#230) @danielperna84
 - Add battery reporting for `HMIP-WRC2` @pg5
