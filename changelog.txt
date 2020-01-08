@@ -1,3 +1,6 @@
+Version 0.1.64 (2020-)
+- 
+
 Version 0.1.63 (2020-01-08)
 - Add support for HM-DW-WM @stealth20
 - Add WINDOW_STATE support for IP thermostats @dtretyakov
