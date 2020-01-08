@@ -1,3 +1,6 @@
+Version 0.1.63 ()
+- 
+
 Version 0.1.62 (2019-12-04)
 - Remove `LOWBAT` for some devices (#230) @danielperna84
 - Add battery reporting for `HMIP-WRC2` @pg5
