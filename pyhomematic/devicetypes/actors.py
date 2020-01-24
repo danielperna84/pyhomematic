@@ -363,6 +363,8 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
             return [4]
         elif "HmIP-FSM" in self.TYPE or "HmIP-FSM16" in self.TYPE:
             return [2]
+        elif "HmIP-MOD-OC8" in self.TYPE:
+            return [10, 14, 18, 22, 26, 30, 34, 38]
         else:
             return [3]
 
@@ -812,6 +814,7 @@ DEVICETYPES = {
     "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
     "HmIP-PCBS-BAT": IPSwitch,
+    "HmIP-MOD-OC8": IPSwitch,
     "HmIP-BSL": IPKeySwitchLevel,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,
