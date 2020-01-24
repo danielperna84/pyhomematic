@@ -44,6 +44,21 @@ class Blind(GenericBlind, HelperWorking, HelperRssiPeer):
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
 
 
+class IPBlind(GenericBlind, HelperRssiPeer):
+    """
+    Blind switch that raises and lowers roller shutters or window blinds.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTIVITIY_STATE": self.ELEMENT,
+                                "LEVEL_STATUS": self.ELEMENT,
+                                "SECTION": self.ELEMENT})
+        self.ACTIONNODE.update({"STOP": self.ELEMENT})
+        self.WRITENODE.update({"LEVEL": self.ELEMENT})
+
+
 class KeyBlind(Blind, HelperActionPress, HelperWired):
     """
     Blind switch that raises and lowers roller shutters or window blinds.
@@ -61,10 +76,16 @@ class KeyBlind(Blind, HelperActionPress, HelperWired):
         return [3]
 
 
-class IPKeyBlind(KeyBlind):
+class IPKeyBlind(IPBlind, HelperActionPress):
     """
     Blind switch that raises and lowers homematic ip roller shutters or window blinds.
     """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG": [1, 2]})
 
     @property
     def ELEMENT(self):
