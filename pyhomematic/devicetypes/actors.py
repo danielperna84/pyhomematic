@@ -700,52 +700,29 @@ class ColdWarmDimmer(Dimmer):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"TEMP": [self._temp_channel]})
-
-    # pylint: disable=unused-argument
-    def get_min_mireds(self, channel=None):
-        """
-        Return the coldest color_temp that this light supports.
-
-        Default to the Philips Hue value that HA has always assumed
-        https://developers.meethue.com/documentation/core-concepts
-        """
-        return 153
-
-    # pylint: disable=unused-argument
-    def get_max_mireds(self, channel=None):
-        """
-        Return the warmest color_temp that this light supports.
-
-        Default to the Philips Hue value that HA has always assumed
-        https://developers.meethue.com/documentation/core-concepts
-        """
-        return 500
+        self.WRITENODE.update({"COLOR_TEMP": [self._temp_channel]})
 
     # pylint: disable=unused-argument
     def get_color_temp(self, channel=None):
         """
-        Return the CT color value in mireds.
+        Return the color temperature.
+
+        Returns the color temperature with 0 being the warmest and 1 the coldest value
         """
-        # In Homematic 0 is cold and 1 is warm
-        hm_temp = self.getCachedOrUpdatedValue("LEVEL", channel=self._temp_channel)
-        return self.get_max_mireds() - (self.get_max_mireds() - self.get_min_mireds())*hm_temp
+        return self.getCachedOrUpdatedValue("LEVEL", channel=self._temp_channel)
 
     # pylint: disable=unused-argument
-    def set_color_temp(self, color_temp: int, channel=None):
+    def set_color_temp(self, color_temp: float, channel=None):
         """
-        Set the CT color value in mireds.
+        Set the color temperature.
 
-        :param color_temp: Color temperature (range <min mireds> - <max mireds>)
+        :param color_temp: Color temperature (range 0:warmest - 1:coldest)
         """
         # Ensure color_temp is within range
-        color_temp = max (self.get_min_mireds(), color_temp)
-        color_temp = min (self.get_max_mireds(), color_temp)
+        color_temp = max (0.0, color_temp)
+        color_temp = min (1.0, color_temp)
 
-        # In Homematic 0 is cold and 1 is warm
-        hm_temp = (self.get_max_mireds() - color_temp) / (self.get_max_mireds() - self.get_min_mireds())
-
-        self.setValue(key="LEVEL", channel=self._temp_channel, value=hm_temp)
+        self.setValue(key="LEVEL", channel=self._temp_channel, value=color_temp)
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
