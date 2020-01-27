@@ -722,14 +722,7 @@ class ColdWarmDimmer(Dimmer):
         color_temp = max (0.0, color_temp)
         color_temp = min (1.0, color_temp)
 
-        level = self.getCachedOrUpdatedValue("LEVEL", self._level_channel)
-        self.writeNodeData("LEVEL", level+0.01, self._level_channel)
-        #self.setValue(key="LEVEL", channel=self._temp_channel, value=color_temp)
-        self.writeNodeData("LEVEL", color_temp, self._temp_channel)
-        # set level after color_temp to have color_level attribute updated
-        self.writeNodeData("LEVEL", level, self._level_channel)
-        #self.getWriteData("LEVEL", self._temp_channel)
-        #self.setValue(key="LEVEL", channel=self._level_channel, value=level)
+        return self.setValue(key="LEVEL", channel=self._temp_channel, value=color_temp)
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
