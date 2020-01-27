@@ -102,7 +102,7 @@ class Dimmer(GenericDimmer, HelperWorking):
     """
     @property
     def ELEMENT(self):
-        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE  or self._TYPE == "HM-DW-WM" or self._TYPE == "HM-LC-DW-WM":
+        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE  or self._TYPE == "HM-DW-WM":
             return [1, 2]
         return [1]
 
@@ -700,7 +700,7 @@ class ColdWarmDimmer(Dimmer):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.WRITENODE.update({"COLOR_TEMP": [self._temp_channel]})
+        self.WRITENODE.update({"LEVEL": [self._level_channel, self._temp_channel]})
 
     # pylint: disable=unused-argument
     def get_color_temp(self, channel=None):
