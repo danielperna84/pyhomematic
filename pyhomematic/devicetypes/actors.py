@@ -102,7 +102,7 @@ class Dimmer(GenericDimmer, HelperWorking):
     """
     @property
     def ELEMENT(self):
-        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE  or self._TYPE == "HM-DW-WM" or self._TYPE == "HM-LC-DW-WM":
+        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE  or self._TYPE == "HM-DW-WM":
             return [1, 2]
         return [1]
 
@@ -689,6 +689,63 @@ class ColorEffectLight(Dimmer):
     def turn_off_effect(self):
         return self.set_effect(self._light_effect_list[0])
 
+class ColdWarmDimmer(Dimmer):
+    """
+    Dimmer with controls for Cold and Warm LEDs.
+    """
+    _level_channel = 1
+    _temp_channel = 2
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"TEMP": [self._temp_channel]})
+
+    # pylint: disable=unused-argument
+    def get_min_mireds(self, channel=None):
+        """
+        Return the coldest color_temp that this light supports.
+
+        Default to the Philips Hue value that HA has always assumed
+        https://developers.meethue.com/documentation/core-concepts
+        """
+        return 153
+
+    # pylint: disable=unused-argument
+    def get_max_mireds(self, channel=None):
+        """
+        Return the warmest color_temp that this light supports.
+
+        Default to the Philips Hue value that HA has always assumed
+        https://developers.meethue.com/documentation/core-concepts
+        """
+        return 500
+
+    # pylint: disable=unused-argument
+    def get_color_temp(self, channel=None):
+        """
+        Return the CT color value in mireds.
+        """
+        # In Homematic 0 is cold and 1 is warm
+        hm_temp = self.getCachedOrUpdatedValue("LEVEL", channel=self._temp_channel)
+        return self.get_max_mireds() - (self.get_max_mireds() - self.get_min_mireds())*hm_temp
+
+    # pylint: disable=unused-argument
+    def set_color_temp(self, color_temp: int, channel=None):
+        """
+        Set the CT color value in mireds.
+
+        :param color_temp: Color temperature (range <min mireds> - <max mireds>)
+        """
+        # Ensure color_temp is within range
+        color_temp = max (self.get_min_mireds(), color_temp)
+        color_temp = min (self.get_max_mireds(), color_temp)
+
+        # In Homematic 0 is cold and 1 is warm
+        hm_temp = (self.get_max_mireds() - color_temp) / (self.get_max_mireds() - self.get_min_mireds())
+
+        self.setValue(key="LEVEL", channel=self._temp_channel, value=hm_temp)
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
@@ -839,5 +896,5 @@ DEVICETYPES = {
     "HM-LC-RGBW-WM": ColorEffectLight,
     "HmIP-MIOB": IPMultiIO,
     "HM-DW-WM": Dimmer,
-    "HM-LC-DW-WM": Dimmer,
+    "HM-LC-DW-WM": ColdWarmDimmer,
 }
