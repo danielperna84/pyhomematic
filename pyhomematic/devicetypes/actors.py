@@ -52,9 +52,9 @@ class IPBlind(GenericBlind, HelperRssiPeer):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTIVITIY_STATE": self.ELEMENT,
-                                "LEVEL_STATUS": self.ELEMENT,
-                                "SECTION": self.ELEMENT})
+        self.ATTRIBUTENODE.update({"ACTIVITY_STATE": self.ELEMENT,
+                                   "LEVEL_STATUS": self.ELEMENT,
+                                   "SECTION": self.ELEMENT})
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
         self.WRITENODE.update({"LEVEL": self.ELEMENT})
 
