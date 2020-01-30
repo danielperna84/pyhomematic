@@ -76,16 +76,10 @@ class KeyBlind(Blind, HelperActionPress, HelperWired):
         return [3]
 
 
-class IPKeyBlind(IPBlind, HelperActionPress):
+class IPKeyBlind(KeyBlind):
     """
     Blind switch that raises and lowers homematic ip roller shutters or window blinds.
     """
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
-                               "PRESS_LONG": [1, 2]})
 
     @property
     def ELEMENT(self):
