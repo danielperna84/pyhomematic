@@ -706,6 +706,40 @@ class ColorEffectLight(Dimmer):
     def turn_off_effect(self):
         return self.set_effect(self._light_effect_list[0])
 
+class ColdWarmDimmer(Dimmer):
+    """
+    Dimmer with controls for Cold and Warm LEDs.
+    """
+    _level_channel = 1
+    _temp_channel = 2
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"LEVEL": [self._level_channel, self._temp_channel]})
+
+    # pylint: disable=unused-argument
+    def get_color_temp(self, channel=None):
+        """
+        Return the color temperature.
+
+        Returns the color temperature with 0 being the warmest and 1 the coldest value
+        """
+        return self.getCachedOrUpdatedValue("LEVEL", channel=self._temp_channel)
+
+    # pylint: disable=unused-argument
+    def set_color_temp(self, color_temp: float, channel=None):
+        """
+        Set the color temperature.
+
+        :param color_temp: Color temperature (range 0:warmest - 1:coldest)
+        """
+        # Ensure color_temp is within range
+        color_temp = max (0.0, color_temp)
+        color_temp = min (1.0, color_temp)
+
+        return self.setValue(key="LEVEL", channel=self._temp_channel, value=color_temp)
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
@@ -857,5 +891,5 @@ DEVICETYPES = {
     "HM-LC-RGBW-WM": ColorEffectLight,
     "HmIP-MIOB": IPMultiIO,
     "HM-DW-WM": Dimmer,
-    "HM-LC-DW-WM": Dimmer,
+    "HM-LC-DW-WM": ColdWarmDimmer,
 }
