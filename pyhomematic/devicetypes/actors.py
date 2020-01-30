@@ -736,8 +736,8 @@ class ColdWarmDimmer(Dimmer):
         :param color_temp: Color temperature (range 0:warmest - 1:coldest)
         """
         # Ensure color_temp is within range
-        color_temp = max (0.0, color_temp)
-        color_temp = min (1.0, color_temp)
+        color_temp = max(0.0, color_temp)
+        color_temp = min(1.0, color_temp)
 
         return self.setValue(key="LEVEL", channel=self._temp_channel, value=color_temp)
 
