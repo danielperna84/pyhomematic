@@ -1,4 +1,4 @@
-Version 0.1.64 (2020-)
+Version 0.1.64 (2020-02-02)
 - Add support for HmIP-MOD-OC8 @danielperna84
 - Add support for HM-LC-DW-WM @angelnu
 
