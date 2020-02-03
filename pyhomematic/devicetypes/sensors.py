@@ -211,7 +211,7 @@ class Smoke(SensorHm, HelperBinaryState):
        This is a binary sensor."""
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
-        del self.ATTRIBUTENODE["LOWBAT"]
+        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
     def is_smoke(self, channel=None):
         """ Return True if smoke is detected """
@@ -263,7 +263,7 @@ class WiredSensor(SensorHmW, HelperWired):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.EVENTNODE.update({"SENSOR": self.ELEMENT})
+        self.BINARYNODE.update({"SENSOR": self.ELEMENT})
 
     @property
     def ELEMENT(self):
