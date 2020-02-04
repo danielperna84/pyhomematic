@@ -975,7 +975,7 @@ DEVICETYPES = {
     "WS550LCW": WeatherStation,
     "HM-WDC7000": WeatherStation,
     "HM-Sec-TiS": TiltSensor,
-    "HM-CC-SCD": CO2Sensor,
+    "HM-CC-SCD": CO2SensorPlug,
     "263 160": CO2Sensor,
     "HM-WDS30-OT2-SM": TemperatureDiffSensor,
     "HM-WDS30-OT2-SM-2": TemperatureDiffSensor,
