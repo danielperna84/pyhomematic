@@ -40,6 +40,10 @@ class SensorHm(HMSensor, HelperRssiDevice, HelperRssiPeer, HelperLowBat):
            and DEVICE compared to HMIP devices.
          - low battery status (HelperLowBat)"""
 
+class SensorHmPlug(HMSensor, HelperRssiDevice, HelperRssiPeer):
+    """Homematic sensors which are
+        - plugged into a socket or
+        - are not battery powered"""
 
 class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVoltageIP):
     """Homematic IP sensors always have
@@ -154,6 +158,20 @@ class CO2Sensor(SensorHm, HelperSensorState):
         """ Returns True if CO2 state is added strong. """
         return self.get_state(channel) == 2
 
+class CO2SensorPlug(SensorHmPlug, HelperSensorState):
+    """ Plug-in CO2 Sensor """
+
+    def is_normal(self, channel=None):
+        """ Returns True if CO2 state is normal. """
+        return self.get_state(channel) == 0
+
+    def is_added(self, channel=None):
+        """ Returns True if CO2 state is added. """
+        return self.get_state(channel) == 1
+
+    def is_added_strong(self, channel=None):
+        """ Returns True if CO2 state is added strong. """
+        return self.get_state(channel) == 2
 
 class WaterSensor(SensorHm, HelperSensorState):
     """Watter detect sensor."""
