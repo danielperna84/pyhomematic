@@ -287,9 +287,9 @@ class HelperLedDevice(HMDevice):
         super().__init__(device_description, proxy, resolveparamsets)
         self.WRITENODE.update({"LED_STATUS": self.ELEMENT})
 
-    def get_led_status(self, channel):
+    def get_led_status(self, channel=None):
         """Get current LED color"""
-        self.getWriteData("LED_STATUS", channel=None)
+        self.getWriteData("LED_STATUS", channel)
 
     def set_led_status(self, status, channel):
         """Set LED to color"""
