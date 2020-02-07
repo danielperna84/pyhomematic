@@ -279,3 +279,18 @@ class HelperRssiPeer(HMDevice):
 
     def get_rssi(self, channel=0):
         return self.getAttributeData("RSSI_PEER", channel)
+
+class HelperLedDevice(HMDevice):
+    """Used for devices which do have a LED with 4 states"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self.WRITENODE.update({"LED_STATUS": self.ELEMENT})
+
+    def get_led_status(self, channel):
+        """Get current LED color"""
+        self.getWriteData("LED_STATUS", channel=None)
+
+    def set_led_status(self, status, channel):
+        """Set LED to color"""
+        self.writeNodeData("LED_STATUS", status, channel)
