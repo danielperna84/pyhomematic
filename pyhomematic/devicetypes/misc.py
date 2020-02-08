@@ -2,7 +2,7 @@ import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.helper import HelperActionPress, \
     HelperEventRemote, HelperEventPress, HelperRssiPeer, HelperLowBatIP, \
-    HelperLowBat, HelperLedDevice
+    HelperLowBat
 
 LOG = logging.getLogger(__name__)
 
