@@ -50,6 +50,8 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         if "RC-19" in self.TYPE or "HM-PB-4Dis-WM" in self.TYPE:
             return list(range(1, 20))
+        if "HM-OU-LED16" in self.TYPE:
+            return list(range(1, 17))
         if "HMW-IO-4-FM" in self.TYPE:
             return [1, 2, 3, 4]
         if "HmIP-RC8" in self.TYPE:
@@ -85,11 +87,11 @@ DEVICETYPES = {
     "HM-RCV-50": RemoteVirtual,
     "HM-RC-2-PBU-FM": Remote,
     "HM-RC-Dis-H-x-EU": Remote,
-    "HM-RC-4": Remote,
-    "HM-RC-4-B": Remote,
-    "HM-RC-4-2": Remote,
-    "HM-RC-4-3": Remote,
-    "HM-RC-4-3-D": Remote,
+    "HM-RC-4": RemoteBattery,
+    "HM-RC-4-B": RemoteBattery,
+    "HM-RC-4-2": RemoteBattery,
+    "HM-RC-4-3": RemoteBattery,
+    "HM-RC-4-3-D": RemoteBattery,
     "HM-RC-8": Remote,
     "HM-RC-12": Remote,
     "HM-RC-12-B": Remote,
@@ -128,7 +130,7 @@ DEVICETYPES = {
     "ZEL STG RM FST UP4": Remote,
     "263 145": Remote,
     "263 135": Remote,
-    "HM-OU-LED16": LedDevice,
+    "HM-OU-LED16": Remote,
     "HM-PB-4Dis-WM": Remote,
     "HM-PB-4Dis-WM-2": Remote,
     "HMW-IO-4-FM": Remote,
