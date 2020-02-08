@@ -81,14 +81,6 @@ class RemotePressBattery(HMEvent, HelperEventPress, HelperActionPress, HelperLow
         return [1, 2, 3]
 
 
-class LedDevice(Remote, HelperLedDevice):
-    """LED Output Device"""
-
-    def ELEMENT(self):
-        if "HM-OU-LED16" in self.TYPE:
-            return list(range(1, 16))
-
-
 DEVICETYPES = {
     "HM-RCV-50": RemoteVirtual,
     "HM-RC-2-PBU-FM": Remote,
