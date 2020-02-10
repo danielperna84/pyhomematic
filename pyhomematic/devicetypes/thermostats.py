@@ -1,7 +1,7 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import AreaThermostat, IPAreaThermostat
-from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState, HelperLowBat, HelperLowBatIP, HelperRssiPeer
+from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState, HelperLowBat, HelperLowBatIP, HelperRssiPeer, HelperRssiDevice
 
 LOG = logging.getLogger(__name__)
 
@@ -212,7 +212,7 @@ class MAXWallThermostat(HMThermostat, HelperLowBat):
                                 "BOOST_MODE": [1]})
         self.ATTRIBUTENODE.update({"CONTROL_MODE": [1]})
 
-class IPThermostat(HMThermostat, HelperLowBatIP, HelperValveState):
+class IPThermostat(HMThermostat, HelperRssiDevice, HelperLowBatIP, HelperValveState):
     """
     HPIM-eTRV
     ClimateControl-Radiator Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -283,7 +283,7 @@ class IPThermostat(HMThermostat, HelperLowBatIP, HelperValveState):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
 
-class IPThermostatWall(HMThermostat, HelperLowBatIP):
+class IPThermostatWall(HMThermostat, IPAreaThermostat, HelperRssiDevice, HelperLowBatIP):
     """
     HmIP-STHD
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -297,7 +297,9 @@ class IPThermostatWall(HMThermostat, HelperLowBatIP):
         self.WRITENODE.update({"SET_POINT_TEMPERATURE": [1]})
         self.ACTIONNODE.update({"BOOST_MODE": [1]})
         self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "SET_POINT_MODE": [1]})
+                                   "OPERATING_VOLTAGE": [0],
+                                   "SET_POINT_MODE": [1],
+                                   "BOOST_MODE": [1]})
 
     def get_set_temperature(self):
         """ Returns the current target temperature. """
@@ -316,7 +318,7 @@ class IPThermostatWall(HMThermostat, HelperLowBatIP):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
 
-class IPThermostatWall230V(HMThermostat, IPAreaThermostat):
+class IPThermostatWall230V(HMThermostat, IPAreaThermostat, HelperRssiDevice):
     """
     HmIP-BWTH, HmIP-BWTH24
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -370,7 +372,7 @@ class IPThermostatWall230V(HMThermostat, IPAreaThermostat):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
 
-class IPThermostatWall2(HMThermostat, IPAreaThermostat, HelperLowBatIP):
+class IPThermostatWall2(HMThermostat, IPAreaThermostat, HelperRssiDevice, HelperLowBatIP):
     """
     HmIP-WTH, HmIP-WTH-2
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.

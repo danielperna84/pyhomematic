@@ -56,6 +56,17 @@ class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVolt
          - low battery status (HelperLowBatIP)
          - voltage of the batteries (HelperOperatingVoltageIP)"""
 
+class SensorHmIPNoVoltage(HMSensor, HelperRssiDevice, HelperLowBatIP):
+    """Some Homematic IP sensors have
+         - strength of the signal received by the CCU (HelperRssiDevice).
+           Be aware that HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - strength of the signal received by the device (HelperRssiPeer).
+           Be aware that standard HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - low battery status (HelperLowBatIP)
+         - but no voltage of batteries"""
+
 
 class ShutterContact(SensorHm, HelperBinaryState, HelperSabotage):
     """Door / Window contact that emits its open/closed state.
@@ -241,7 +252,7 @@ class SmokeV2(SensorHm, HelperBinaryState):
         return self.get_state(channel)
 
 
-class IPSmoke(SensorHmIP):
+class IPSmoke(SensorHmIPNoVoltage):
     """HomeMatic IP Smoke sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
