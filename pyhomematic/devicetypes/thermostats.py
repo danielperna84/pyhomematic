@@ -139,8 +139,7 @@ class Thermostat(HMThermostat, HelperBatteryState, HelperValveState, HelperRssiP
                                 "BOOST_MODE": [4],
                                 "COMFORT_MODE": [4],
                                 "LOWERING_MODE": [4]})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0],
-                                   "VALVE_STATE": [4],
+        self.ATTRIBUTENODE.update({"VALVE_STATE": [4],
                                    "BATTERY_STATE": [4],
                                    "CONTROL_MODE": [4]})
 
@@ -162,8 +161,7 @@ class ThermostatWall(HMThermostat, AreaThermostat, HelperBatteryState, HelperRss
                                 "BOOST_MODE": [2],
                                 "COMFORT_MODE": [2],
                                 "LOWERING_MODE": [2]})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0],
-                                   "CONTROL_MODE": [2],
+        self.ATTRIBUTENODE.update({"CONTROL_MODE": [2],
                                    "BATTERY_STATE": [2]})
 
 
@@ -195,8 +193,7 @@ class MAXThermostat(HMThermostat, HelperLowBat, HelperValveState):
         self.ACTIONNODE.update({"AUTO_MODE": [1],
                                 "MANU_MODE": [1],
                                 "BOOST_MODE": [1]})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0],
-                                   "CONTROL_MODE": [1],
+        self.ATTRIBUTENODE.update({"CONTROL_MODE": [1],
                                    "VALVE_STATE": [1]})
 
 class MAXWallThermostat(HMThermostat, HelperLowBat):
@@ -213,7 +210,7 @@ class MAXWallThermostat(HMThermostat, HelperLowBat):
         self.ACTIONNODE.update({"AUTO_MODE": [1],
                                 "MANU_MODE": [1],
                                 "BOOST_MODE": [1]})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0], "CONTROL_MODE": [1]})
+        self.ATTRIBUTENODE.update({"CONTROL_MODE": [1]})
 
 class IPThermostat(HMThermostat, HelperRssiDevice, HelperLowBatIP, HelperValveState):
     """
