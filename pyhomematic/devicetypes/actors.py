@@ -335,8 +335,7 @@ class KeyMatic(HMActor, HelperActorState, HelperRssiPeer):
         # init metadata
         self.ACTIONNODE.update({"OPEN": self.ELEMENT})
         self.ATTRIBUTENODE.update({"STATE_UNCERTAIN": self.ELEMENT,
-                                   "ERROR": self.ELEMENT,
-                                   "LOWBAT": [0]})
+                                   "ERROR": self.ELEMENT})
 
     def is_unlocked(self, channel=None):
         """ Returns True if KeyMatic is unlocked. """

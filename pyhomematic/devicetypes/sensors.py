@@ -104,12 +104,6 @@ class MaxShutterContact(HelperBinaryState, HelperLowBat):
     """Door / Window contact that emits its open/closed state.
        This is a binary sensor."""
 
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
-
 
 class TiltSensor(SensorHm, HelperBinaryState):
     """Sensor that emits its tilted state.
@@ -198,7 +192,6 @@ class PowermeterGas(SensorHm):
                                 "GAS_POWER": [1],
                                 "ENERGY_COUNTER": [1],
                                 "POWER": [1]})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
     def get_gas_counter(self, channel=None):
         """Return gas counter."""
@@ -220,9 +213,6 @@ class PowermeterGas(SensorHm):
 class Smoke(SensorHm, HelperBinaryState):
     """Smoke alarm.
        This is a binary sensor."""
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
     def is_smoke(self, channel=None):
         """ Return True if smoke is detected """
@@ -265,7 +255,6 @@ class GongSensor(SensorHm):
         super().__init__(device_description, proxy, resolveparamsets)
 
         self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
 
 class WiredSensor(SensorHmW, HelperWired):
@@ -491,7 +480,6 @@ class RemoteMotion(SensorHm, Remote):
         # init metadata
         self.BINARYNODE.update({"MOTION": [3]})
         self.SENSORNODE.update({"BRIGHTNESS": [3]})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
