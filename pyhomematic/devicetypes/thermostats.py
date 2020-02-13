@@ -456,6 +456,8 @@ DEVICETYPES = {
     "HmIP-STH": IPThermostatWall,
     "HmIP-WTH-2": IPThermostatWall2,
     "HMIP-WTH-2": IPThermostatWall2,
+    "HmIP-WTH-B": IPThermostatWall2,
+    "HMIP-WTH-B": IPThermostatWall2,
     "HMIP-WTH": IPThermostatWall2,
     "HmIP-WTH": IPThermostatWall2,
     "HmIP-BWTH": IPThermostatWall230V,
