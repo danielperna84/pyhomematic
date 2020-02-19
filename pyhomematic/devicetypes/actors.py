@@ -86,6 +86,16 @@ class IPKeyBlind(KeyBlind):
         return [4]
 
 
+class IPKeyBlindMulti(KeyBlind):
+    """
+    Multi-blind actor HmIP-DRBLI4
+    """
+
+    @property
+    def ELEMENT(self):
+        return [10, 14, 18, 22]
+
+
 class IPKeyBlindTilt(IPKeyBlind, HelperActorBlindTilt):
 
     def close_slats(self, channel=None):
@@ -757,6 +767,7 @@ DEVICETYPES = {
     "HmIP-FROLL": IPKeyBlind,
     "HmIP-BBL": IPKeyBlindTilt,
     "HmIP-FBL": IPKeyBlindTilt,
+    "HmIP-DRBLI4": IPKeyBlindMulti,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-2": Dimmer,
     "HM-LC-Dim1L-Pl-3": Dimmer,
