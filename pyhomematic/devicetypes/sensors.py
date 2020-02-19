@@ -52,6 +52,17 @@ class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVolt
          - low battery status (HelperLowBatIP)
          - voltage of the batteries (HelperOperatingVoltageIP)"""
 
+class SensorHmIPNoVoltage(HMSensor, HelperRssiDevice, HelperLowBatIP):
+    """Some Homematic IP sensors have
+         - strength of the signal received by the CCU (HelperRssiDevice).
+           Be aware that HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - strength of the signal received by the device (HelperRssiPeer).
+           Be aware that standard HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - low battery status (HelperLowBatIP)
+         - but no voltage of batteries"""
+
 
 class ShutterContact(SensorHm, HelperBinaryState, HelperSabotage):
     """Door / Window contact that emits its open/closed state.
@@ -92,12 +103,6 @@ class IPShutterContactSabotage(IPShutterContact, HelperSabotageIP):
 class MaxShutterContact(HelperBinaryState, HelperLowBat):
     """Door / Window contact that emits its open/closed state.
        This is a binary sensor."""
-
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
 
 class TiltSensor(SensorHm, HelperBinaryState):
@@ -187,7 +192,6 @@ class PowermeterGas(SensorHm):
                                 "GAS_POWER": [1],
                                 "ENERGY_COUNTER": [1],
                                 "POWER": [1]})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
     def get_gas_counter(self, channel=None):
         """Return gas counter."""
@@ -209,9 +213,6 @@ class PowermeterGas(SensorHm):
 class Smoke(SensorHm, HelperBinaryState):
     """Smoke alarm.
        This is a binary sensor."""
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
     def is_smoke(self, channel=None):
         """ Return True if smoke is detected """
@@ -233,7 +234,7 @@ class SmokeV2(SensorHm, HelperBinaryState):
         return self.get_state(channel)
 
 
-class IPSmoke(SensorHmIP):
+class IPSmoke(SensorHmIPNoVoltage):
     """HomeMatic IP Smoke sensor."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -254,7 +255,6 @@ class GongSensor(SensorHm):
         super().__init__(device_description, proxy, resolveparamsets)
 
         self.EVENTNODE.update({"PRESS_SHORT": self.ELEMENT})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
 
 class WiredSensor(SensorHmW, HelperWired):
@@ -480,7 +480,6 @@ class RemoteMotion(SensorHm, Remote):
         # init metadata
         self.BINARYNODE.update({"MOTION": [3]})
         self.SENSORNODE.update({"BRIGHTNESS": [3]})
-        self.ATTRIBUTENODE.update({"LOWBAT": [0]})
 
     def is_motion(self, channel=None):
         """ Return True if motion is detected """
