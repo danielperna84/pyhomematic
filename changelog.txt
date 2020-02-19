@@ -1,5 +1,9 @@
 Version 0.1.65 (2020-02-20)
 - Add support for HmIP-DRBLI4 @danielperna84
+- Add support for HmIP-WTH-B @srehlig
+- Change LOWBAT attributes @flexkra
+- Fix for HmIP thermostats and smoke detectors @hanzoh
+- Fix HMW-Sen-SC-12-DR @dk1305hb
 
 Version 0.1.64 (2020-02-02)
 - Add support for HmIP-MOD-OC8 @danielperna84
