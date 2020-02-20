@@ -873,6 +873,7 @@ DEVICETYPES = {
     "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
     "HmIP-PCBS-BAT": IPSwitch,
+    "HmIP-PMFS": IPSwitch,
     "HmIP-MOD-OC8": IPSwitch,
     "HmIP-BSL": IPKeySwitchLevel,
     "HMIP-PSM": IPSwitchPowermeter,
