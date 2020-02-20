@@ -389,6 +389,8 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
             return [2]
         elif "HmIP-MOD-OC8" in self.TYPE:
             return [10, 14, 18, 22, 26, 30, 34, 38]
+        elif "HmIP-DRSI4" in self.TYPE:
+            return [6, 10, 14, 18]
         else:
             return [3]
 
@@ -875,6 +877,7 @@ DEVICETYPES = {
     "HmIP-PCBS-BAT": IPSwitch,
     "HmIP-PMFS": IPSwitch,
     "HmIP-MOD-OC8": IPSwitch,
+    "HmIP-DRSI4": IPSwitch,
     "HmIP-BSL": IPKeySwitchLevel,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,

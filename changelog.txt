@@ -1,5 +1,5 @@
 Version 0.1.66 (2020-)
-- 
+- Add support for HmIP-DRSI4 @danielperna84
 
 Version 0.1.65 (2020-02-20)
 - Add support for HmIP-DRBLI4 @danielperna84
