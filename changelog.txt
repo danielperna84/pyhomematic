@@ -1,5 +1,23 @@
-Version 0.1.63 ()
-- 
+Version 0.1.66 (2020-)
+- Add support for HmIP-DRSI4 @danielperna84
+
+Version 0.1.65 (2020-02-20)
+- Add support for HmIP-DRBLI4 @danielperna84
+- Add support for HmIP-WTH-B @srehlig
+- Change LOWBAT attributes @flexkra
+- Fix for HmIP thermostats and smoke detectors @hanzoh
+- Fix HMW-Sen-SC-12-DR @dk1305hb
+
+Version 0.1.64 (2020-02-02)
+- Add support for HmIP-MOD-OC8 @danielperna84
+- Add support for HM-LC-DW-WM @angelnu
+
+Version 0.1.63 (2020-01-08)
+- Add support for HM-DW-WM @stealth20
+- Add WINDOW_STATE support for IP thermostats @dtretyakov
+- Add support for HmIP-MOD-HO @Nico0302
+- Add support for HB-UNI-Sen-TEMP-DS18B20 @oechslein
+- Add support for HmIP-FCI1 and HmIP-FCI6 @macrojames
 
 Version 0.1.62 (2019-12-04)
 - Remove `LOWBAT` for some devices (#230) @danielperna84

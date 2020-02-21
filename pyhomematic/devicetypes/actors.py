@@ -44,6 +44,21 @@ class Blind(GenericBlind, HelperWorking, HelperRssiPeer):
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
 
 
+class IPBlind(GenericBlind, HelperRssiPeer):
+    """
+    Blind switch that raises and lowers roller shutters or window blinds.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"ACTIVITY_STATE": self.ELEMENT,
+                                   "LEVEL_STATUS": self.ELEMENT,
+                                   "SECTION": self.ELEMENT})
+        self.ACTIONNODE.update({"STOP": self.ELEMENT})
+        self.WRITENODE.update({"LEVEL": self.ELEMENT})
+
+
 class KeyBlind(Blind, HelperActionPress, HelperWired):
     """
     Blind switch that raises and lowers roller shutters or window blinds.
@@ -69,6 +84,16 @@ class IPKeyBlind(KeyBlind):
     @property
     def ELEMENT(self):
         return [4]
+
+
+class IPKeyBlindMulti(KeyBlind):
+    """
+    Multi-blind actor HmIP-DRBLI4
+    """
+
+    @property
+    def ELEMENT(self):
+        return [10, 14, 18, 22]
 
 
 class IPKeyBlindTilt(IPKeyBlind, HelperActorBlindTilt):
@@ -102,7 +127,7 @@ class Dimmer(GenericDimmer, HelperWorking):
     """
     @property
     def ELEMENT(self):
-        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE  or self._TYPE == "HM-DW-WM":
+        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE  or self._TYPE == "HM-DW-WM" or self._TYPE == "HM-LC-DW-WM":
             return [1, 2]
         return [1]
 
@@ -320,8 +345,7 @@ class KeyMatic(HMActor, HelperActorState, HelperRssiPeer):
         # init metadata
         self.ACTIONNODE.update({"OPEN": self.ELEMENT})
         self.ATTRIBUTENODE.update({"STATE_UNCERTAIN": self.ELEMENT,
-                                   "ERROR": self.ELEMENT,
-                                   "LOWBAT": [0]})
+                                   "ERROR": self.ELEMENT})
 
     def is_unlocked(self, channel=None):
         """ Returns True if KeyMatic is unlocked. """
@@ -363,6 +387,10 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
             return [4]
         elif "HmIP-FSM" in self.TYPE or "HmIP-FSM16" in self.TYPE:
             return [2]
+        elif "HmIP-MOD-OC8" in self.TYPE:
+            return [10, 14, 18, 22, 26, 30, 34, 38]
+        elif "HmIP-DRSI4" in self.TYPE:
+            return [6, 10, 14, 18]
         else:
             return [3]
 
@@ -689,6 +717,40 @@ class ColorEffectLight(Dimmer):
     def turn_off_effect(self):
         return self.set_effect(self._light_effect_list[0])
 
+class ColdWarmDimmer(Dimmer):
+    """
+    Dimmer with controls for Cold and Warm LEDs.
+    """
+    _level_channel = 1
+    _temp_channel = 2
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"LEVEL": [self._level_channel, self._temp_channel]})
+
+    # pylint: disable=unused-argument
+    def get_color_temp(self, channel=None):
+        """
+        Return the color temperature.
+
+        Returns the color temperature with 0 being the warmest and 1 the coldest value
+        """
+        return self.getCachedOrUpdatedValue("LEVEL", channel=self._temp_channel)
+
+    # pylint: disable=unused-argument
+    def set_color_temp(self, color_temp: float, channel=None):
+        """
+        Set the color temperature.
+
+        :param color_temp: Color temperature (range 0:warmest - 1:coldest)
+        """
+        # Ensure color_temp is within range
+        color_temp = max(0.0, color_temp)
+        color_temp = min(1.0, color_temp)
+
+        return self.setValue(key="LEVEL", channel=self._temp_channel, value=color_temp)
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
@@ -707,6 +769,7 @@ DEVICETYPES = {
     "HmIP-FROLL": IPKeyBlind,
     "HmIP-BBL": IPKeyBlindTilt,
     "HmIP-FBL": IPKeyBlindTilt,
+    "HmIP-DRBLI4": IPKeyBlindMulti,
     "HM-LC-Dim1L-Pl": Dimmer,
     "HM-LC-Dim1L-Pl-2": Dimmer,
     "HM-LC-Dim1L-Pl-3": Dimmer,
@@ -812,6 +875,9 @@ DEVICETYPES = {
     "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
     "HmIP-PCBS-BAT": IPSwitch,
+    "HmIP-PMFS": IPSwitch,
+    "HmIP-MOD-OC8": IPSwitch,
+    "HmIP-DRSI4": IPSwitch,
     "HmIP-BSL": IPKeySwitchLevel,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,
@@ -839,4 +905,5 @@ DEVICETYPES = {
     "HM-LC-RGBW-WM": ColorEffectLight,
     "HmIP-MIOB": IPMultiIO,
     "HM-DW-WM": Dimmer,
+    "HM-LC-DW-WM": ColdWarmDimmer,
 }
