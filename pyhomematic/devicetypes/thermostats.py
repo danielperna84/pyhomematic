@@ -1,6 +1,6 @@
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
-from pyhomematic.devicetypes.sensors import AreaThermostat, IPAreaThermostat
+from pyhomematic.devicetypes.sensors import AreaThermostat, IPAreaThermostat, IPAreaThermostatNoBattery
 from pyhomematic.devicetypes.helper import HelperValveState, HelperBatteryState, HelperLowBat, HelperLowBatIP, HelperRssiPeer, HelperRssiDevice
 
 LOG = logging.getLogger(__name__)
@@ -318,7 +318,7 @@ class IPThermostatWall(HMThermostat, IPAreaThermostat, HelperRssiDevice, HelperL
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
 
-class IPThermostatWall230V(HMThermostat, IPAreaThermostat, HelperRssiDevice):
+class IPThermostatWall230V(HMThermostat, IPAreaThermostatNoBattery, HelperRssiDevice):
     """
     HmIP-BWTH, HmIP-BWTH24
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
