@@ -282,6 +282,7 @@ class IPThermostat(HMThermostat, HelperRssiDevice, HelperLowBatIP, HelperValveSt
     def turnoff(self):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
+        self.actionNodeData('CONTROL_MODE', self.MANU_MODE)
 
 class IPThermostatWall(HMThermostat, IPAreaThermostat, HelperRssiDevice, HelperLowBatIP):
     """
@@ -317,6 +318,7 @@ class IPThermostatWall(HMThermostat, IPAreaThermostat, HelperRssiDevice, HelperL
     def turnoff(self):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
+        self.actionNodeData('CONTROL_MODE', self.MANU_MODE)
 
 class IPThermostatWall230V(HMThermostat, IPAreaThermostat, HelperRssiDevice):
     """
@@ -371,6 +373,7 @@ class IPThermostatWall230V(HMThermostat, IPAreaThermostat, HelperRssiDevice):
     def turnoff(self):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
+        self.actionNodeData('CONTROL_MODE', self.MANU_MODE)
 
 class IPThermostatWall2(HMThermostat, IPAreaThermostat, HelperRssiDevice, HelperLowBatIP):
     """
@@ -427,6 +430,7 @@ class IPThermostatWall2(HMThermostat, IPAreaThermostat, HelperRssiDevice, Helper
     def turnoff(self):
         """ Turn off Thermostat. """
         self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
+        self.actionNodeData('CONTROL_MODE', self.MANU_MODE)
 
 
 DEVICETYPES = {
