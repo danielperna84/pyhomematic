@@ -76,10 +76,16 @@ class KeyBlind(Blind, HelperActionPress, HelperWired):
         return [3]
 
 
-class IPKeyBlind(KeyBlind):
+class IPKeyBlind(IPBlind, HelperActionPress):
     """
     Blind switch that raises and lowers homematic ip roller shutters or window blinds.
     """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG": [1, 2]})
 
     @property
     def ELEMENT(self):
@@ -389,6 +395,8 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
             return [2]
         elif "HmIP-MOD-OC8" in self.TYPE:
             return [10, 14, 18, 22, 26, 30, 34, 38]
+        elif "HmIP-DRSI4" in self.TYPE:
+            return [6, 10, 14, 18]
         else:
             return [3]
 
@@ -873,7 +881,9 @@ DEVICETYPES = {
     "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
     "HmIP-PCBS-BAT": IPSwitch,
+    "HmIP-PMFS": IPSwitch,
     "HmIP-MOD-OC8": IPSwitch,
+    "HmIP-DRSI4": IPSwitch,
     "HmIP-BSL": IPKeySwitchLevel,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,

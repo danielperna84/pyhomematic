@@ -63,6 +63,17 @@ class SensorHmIPNoVoltage(HMSensor, HelperRssiDevice, HelperLowBatIP):
          - low battery status (HelperLowBatIP)
          - but no voltage of batteries"""
 
+class SensorHmIPNoBattery(HMSensor, HelperRssiDevice):
+    """Some Homematic IP sensors have
+         - strength of the signal received by the CCU (HelperRssiDevice).
+           Be aware that HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - strength of the signal received by the device (HelperRssiPeer).
+           Be aware that standard HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - low battery status (HelperLowBatIP)
+         - but no voltage of batteries"""
+
 
 class ShutterContact(SensorHm, HelperBinaryState, HelperSabotage):
     """Door / Window contact that emits its open/closed state.
@@ -537,6 +548,23 @@ class AreaThermostat(SensorHmNLB):
 
 class IPAreaThermostat(SensorHmIP):
     """Wall mount thermostat."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
+                                "HUMIDITY": [1]})
+
+    def get_temperature(self, channel=None):
+        return float(self.getSensorData("ACTUAL_TEMPERATURE", channel))
+
+    def get_humidity(self, channel=None):
+        return int(self.getSensorData("HUMIDITY", channel))
+
+
+class IPAreaThermostatNoBattery(SensorHmIPNoBattery):
+    """Wall mount thermostat without battery."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
