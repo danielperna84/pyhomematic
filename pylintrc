@@ -32,3 +32,4 @@ disable=
   not-context-manager,
   inconsistent-return-statements,
   duplicate-code,
+  too-many-lines,
