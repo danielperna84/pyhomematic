@@ -505,7 +505,7 @@ class RemoteMotion(SensorHm, Remote):
         return [1, 2]
 
 
-class IPRemoteMotionV2(MotionIPV2, Remote):
+class IPRemoteMotionV2(Remote, MotionIPV2):
     """Motion detection with buttons (hm ip).
        This is a binary sensor."""
 
