@@ -512,10 +512,6 @@ class IPRemoteMotionV2(MotionIPV2, Remote):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-    @property
-    def ELEMENT(self):
-        return [1, 2]
-
 class LuxSensor(SensorHm):
     """Sensor for messure LUX."""
 
