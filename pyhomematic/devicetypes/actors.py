@@ -165,7 +165,7 @@ class IPDimmer(GenericDimmer):
         return [2]
 
 
-class IPKeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
+class IPKeyDimmer(GenericDimmer, HelperActionPress):
     """
     IP Dimmer with buttons switch that controls level of light brightness.
     """
