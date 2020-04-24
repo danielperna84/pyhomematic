@@ -408,7 +408,7 @@ class MotionIP(SensorHmIP):
         return [0, 1]
 
 
-class MotionIPV2(SensorHmIP, HelperSabotageIP):
+class MotionIPV2(SensorHmIP):
     """Motion detection indoor 55 (rf ip)
        This is a binary sensor."""
 
@@ -504,6 +504,13 @@ class RemoteMotion(SensorHm, Remote):
     def ELEMENT(self):
         return [1, 2]
 
+
+class IPRemoteMotionV2(Remote, MotionIPV2):
+    """Motion detection with buttons (hm ip).
+       This is a binary sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
 
 class LuxSensor(SensorHm):
     """Sensor for messure LUX."""
@@ -964,7 +971,7 @@ DEVICETYPES = {
     "263 162": MotionV2,
     "HM-Sec-MD": MotionV2,
     "HmIP-SMI": MotionIP,
-    "HmIP-SMI55": MotionIPV2,
+    "HmIP-SMI55": IPRemoteMotionV2,
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
     "HmIP-SPI": PresenceIP,
