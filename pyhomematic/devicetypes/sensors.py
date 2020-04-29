@@ -942,6 +942,7 @@ DEVICETYPES = {
     "HmIP-SCI": IPShutterContactSabotage,
     "HMIP-SWDO": IPShutterContactSabotage,
     "HmIP-SWDO": IPShutterContactSabotage,
+    "HmIP-SWDO-PL": IPShutterContactSabotage,
     "HmIP-SWDO-I": IPShutterContactSabotage,
     "HmIP-SWDM": IPShutterContact,
     "HmIP-SWDM-B2": IPShutterContact,
