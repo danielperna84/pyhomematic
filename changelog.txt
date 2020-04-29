@@ -1,5 +1,5 @@
 Version 0.1.67 (2020-)
-- 
+- Refactoring @danielperna84
 
 Version 0.1.66 (2020-04-17)
 - Add support for HmIP-DRSI4 @danielperna84
