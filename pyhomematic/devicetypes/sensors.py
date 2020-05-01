@@ -52,6 +52,7 @@ class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVolt
          - low battery status (HelperLowBatIP)
          - voltage of the batteries (HelperOperatingVoltageIP)"""
 
+
 class SensorHmIPNoVoltage(HMSensor, HelperRssiDevice, HelperLowBatIP):
     """Some Homematic IP sensors have
          - strength of the signal received by the CCU (HelperRssiDevice).
@@ -62,6 +63,7 @@ class SensorHmIPNoVoltage(HMSensor, HelperRssiDevice, HelperLowBatIP):
            and DEVICE compared to standard HM devices.
          - low battery status (HelperLowBatIP)
          - but no voltage of batteries"""
+
 
 class SensorHmIPNoBattery(HMSensor, HelperRssiDevice):
     """Some Homematic IP sensors have
@@ -928,7 +930,7 @@ class IPContact(SensorHmIP, HelperBinaryState, HelperEventRemote):
             return [1, 2, 3, 4, 5, 6]
         elif "FCI1" in self._TYPE:
             return [1]
-
+        return [1]
 
 
 DEVICETYPES = {
@@ -1027,5 +1029,6 @@ DEVICETYPES = {
     "HB-UNI-Sensor1": UniversalSensor,
     "HmIP-FCI1": IPContact,
     "HmIP-FCI6": IPContact,
+    "HmIP-DSD-PCB": IPContact,
     "HB-UNI-Sen-TEMP-DS18B20": TemperatureSensor,
 }
