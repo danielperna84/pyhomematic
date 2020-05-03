@@ -2,6 +2,7 @@ Version 0.1.67 (2020-)
 - Refactoring @danielperna84
 - Add support for HmIP-SWDO-PL @rgriebl
 - Add buttons for HmIP-SMI55 @angelnu
+- Add support for HmIP-DSD-PCB @Ahrak
 
 Version 0.1.66 (2020-04-17)
 - Add support for HmIP-DRSI4 @danielperna84
