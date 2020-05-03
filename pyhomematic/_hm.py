@@ -9,7 +9,9 @@ from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import xmlrpc.client
 import socket
+from socketserver import ThreadingMixIn
 import logging
+
 from pyhomematic import devicetypes
 from pyhomematic.devicetypes.generic import HMChannel
 
@@ -576,7 +578,6 @@ class ServerThread(threading.Thread):
 
         # Setup server to handle requests from CCU / Homegear
         LOG.debug("ServerThread.__init__: Setting up server")
-        from socketserver import ThreadingMixIn
         class SimpleThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
             pass
         self.server = SimpleThreadedXMLRPCServer((self._local, self._localport),
