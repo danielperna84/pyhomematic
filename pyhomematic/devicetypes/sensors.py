@@ -511,6 +511,7 @@ class IPRemoteMotionV2(Remote, MotionIPV2):
     """Motion detection with buttons (hm ip).
        This is a binary sensor."""
 
+    # pylint: disable=useless-super-delegation
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
