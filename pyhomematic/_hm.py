@@ -494,7 +494,7 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         self.lock = threading.Lock()
         if self._ssl and not self._verify_ssl and self._verify_ssl is not None:
             kwargs['context'] = ssl._create_unverified_context()
-        xmlrpc.client.ServerProxy.__init__(self, *args, **kwargs)
+        xmlrpc.client.ServerProxy.__init__(self, encoding="ISO-8859-1", *args, **kwargs)
         urlcomponents = urllib.parse.urlparse(args[0])
         self._remoteip = urlcomponents.hostname
         self._remoteport = urlcomponents.port
@@ -576,9 +576,12 @@ class ServerThread(threading.Thread):
 
         # Setup server to handle requests from CCU / Homegear
         LOG.debug("ServerThread.__init__: Setting up server")
-        self.server = SimpleXMLRPCServer((self._local, self._localport),
-                                         requestHandler=RequestHandler,
-                                         logRequests=False)
+        from socketserver import ThreadingMixIn
+        class SimpleThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
+            pass
+        self.server = SimpleThreadedXMLRPCServer((self._local, self._localport),
+                                                 requestHandler=RequestHandler,
+                                                 logRequests=False)
         self._localport = self.server.socket.getsockname()[1]
         self.server.register_introspection_functions()
         self.server.register_multicall_functions()
