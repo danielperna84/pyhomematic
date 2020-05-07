@@ -584,7 +584,7 @@ class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
                                "PRESS_LONG": [1, 2]})
 
 
-class IPGarage(GenericSwitch, HMSensor):
+class IPGarage(GenericSwitch, GenericBlind, HMSensor):
     """
     HmIP-MOD-HO and HmIP-MOD-TM Garage actor
     """
@@ -594,15 +594,27 @@ class IPGarage(GenericSwitch, HMSensor):
         # init metadata
         self.SENSORNODE.update({"DOOR_STATE": [1]})
 
-    def move_up(self):
+    def is_closed(self):
+        """Returns whether the door is closed"""
+        state = self.getValue("DOOR_STATE", channel=1)
+        # States:
+        # 0: closed
+        # 1: open
+        # 2: ventilation
+        # 3: unknown
+        if state in [2, 3]:
+            return None
+        return state == 0
+
+    def move_up(self, channel=1):
         """Opens the garage"""
         return self.setValue("DOOR_COMMAND", 1, channel=1)
 
-    def stop(self):
+    def stop(self, channel=1):
         """Stop motion"""
         return self.setValue("DOOR_COMMAND", 2, channel=1)
 
-    def move_down(self):
+    def move_down(self, channel=1):
         """Close the garage"""
         return self.setValue("DOOR_COMMAND", 3, channel=1)
 
