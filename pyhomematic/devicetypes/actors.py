@@ -594,9 +594,8 @@ class IPGarage(GenericSwitch, GenericBlind, HMSensor):
         # init metadata
         self.SENSORNODE.update({"DOOR_STATE": [1]})
 
-    def is_closed(self):
+    def is_closed(self, state):
         """Returns whether the door is closed"""
-        state = self.getValue("DOOR_STATE", channel=1)
         # States:
         # 0: closed
         # 1: open
@@ -606,15 +605,15 @@ class IPGarage(GenericSwitch, GenericBlind, HMSensor):
             return None
         return state == 0
 
-    def move_up(self, channel=1):
+    def move_up(self, _=None):
         """Opens the garage"""
         return self.setValue("DOOR_COMMAND", 1, channel=1)
 
-    def stop(self, channel=1):
+    def stop(self, _=None):
         """Stop motion"""
         return self.setValue("DOOR_COMMAND", 2, channel=1)
 
-    def move_down(self, channel=1):
+    def move_down(self, _=None):
         """Close the garage"""
         return self.setValue("DOOR_COMMAND", 3, channel=1)
 
