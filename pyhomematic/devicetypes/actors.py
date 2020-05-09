@@ -605,16 +605,22 @@ class IPGarage(GenericSwitch, GenericBlind, HMSensor):
             return None
         return state == 0
 
-    def move_up(self, _=None):
+    def move_up(self, channel=1):
         """Opens the garage"""
+        # channel needs to be hardcoded to "1"; home assistant somehow calls the cover entity with channel=2
+        # and then the command does not work.
         return self.setValue("DOOR_COMMAND", 1, channel=1)
 
-    def stop(self, _=None):
+    def stop(self, channel=1):
         """Stop motion"""
+        # channel needs to be hardcoded to "1"; home assistant somehow calls the cover entity with channel=2
+        # and then the command does not work.
         return self.setValue("DOOR_COMMAND", 2, channel=1)
 
-    def move_down(self, _=None):
+    def move_down(self, channel=1):
         """Close the garage"""
+        # channel needs to be hardcoded to "1"; home assistant somehow calls the cover entity with channel=2
+        # and then the command does not work.
         return self.setValue("DOOR_COMMAND", 3, channel=1)
 
     def vent(self):
