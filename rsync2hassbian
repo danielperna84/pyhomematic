@@ -1,1 +1,0 @@
-rsync -ahv ./pyhomematic/devicetypes/* homeassistant@10.0.4.15:/srv/homeassistant/lib/python3.7/site-packages/pyhomematic/devicetypes
