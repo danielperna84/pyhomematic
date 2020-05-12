@@ -349,7 +349,7 @@ class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
         self._hmipw_binarysensor_channels = []
 
         LOG.debug("++ HMIPW-DRI - trying to setup %s ++++", device_description)
-        
+
         for chan in self.ELEMENT:
             address_channel = "%s:%i" % (self._ADDRESS, chan)
             LOG.debug("+++ HMIPW-DRI - trying to setup %s ++++", address_channel)
