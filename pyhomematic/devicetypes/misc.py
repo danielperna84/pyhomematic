@@ -20,7 +20,7 @@ class RemoteVirtual(HMCCU, HelperEventRemote, HelperActionPress):
 
     @property
     def ELEMENT(self):
-        return [c for c in range(1, 51)]
+        return list(range(1, 51))
 
 
 class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
@@ -33,7 +33,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
         if "HM-Dis-WM55" in self.TYPE or "HM-Dis-EP-WM55" in self.TYPE:
             return [1, 2]
         if "HM-RC-Dis-H-x-EU" in self.TYPE:
-            return [c for c in range(1, 21)]
+            return list(range(1, 21))
         if "Sec3" in self.TYPE or "Key3" in self.TYPE:
             return [1, 2, 3]
         if "RC-4" in self.TYPE or "PB-4" in self.TYPE:
@@ -49,15 +49,15 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
         if "RC-12" in self.TYPE:
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         if "HM-OU-LED16" in self.TYPE:
-            return [c for c in range(1, 16)]
+            return list(range(1, 16))
         if "RC-19" in self.TYPE or "HM-PB-4Dis-WM" in self.TYPE:
-            return [c for c in range(1, 20)]
+            return list(range(1, 20))
         if "HMW-IO-4-FM" in self.TYPE:
             return [1, 2, 3, 4]
-        if "HMW-IO-12-FM" in self.TYPE:
-            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         if "HmIP-RC8" in self.TYPE:
             return [1, 2, 3, 4, 5, 6, 7, 8]
+        if "HmIP-WRCD" in self.TYPE:
+            return [1, 2, 3]
         return [1]
 
 
@@ -77,15 +77,23 @@ class RemotePress(HMEvent, HelperEventPress, HelperActionPress):
         return [1, 2, 3]
 
 
+class RemotePressBattery(HMEvent, HelperEventPress, HelperActionPress, HelperLowBat):
+    """Remote handle buttons."""
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3]
+
+
 DEVICETYPES = {
     "HM-RCV-50": RemoteVirtual,
     "HM-RC-2-PBU-FM": Remote,
     "HM-RC-Dis-H-x-EU": Remote,
-    "HM-RC-4": Remote,
-    "HM-RC-4-B": Remote,
-    "HM-RC-4-2": Remote,
-    "HM-RC-4-3": Remote,
-    "HM-RC-4-3-D": Remote,
+    "HM-RC-4": RemoteBattery,
+    "HM-RC-4-B": RemoteBattery,
+    "HM-RC-4-2": RemoteBattery,
+    "HM-RC-4-3": RemoteBattery,
+    "HM-RC-4-3-D": RemoteBattery,
     "HM-RC-8": Remote,
     "HM-RC-12": Remote,
     "HM-RC-12-B": Remote,
@@ -106,7 +114,7 @@ DEVICETYPES = {
     "HM-RC-X": Remote,
     "HM-PB-2-FM": Remote,
     "HM-PB-2-WM": Remote,
-    "BC-PB-2-WM": RemotePress,
+    "BC-PB-2-WM": RemotePressBattery,
     "HM-PB-4-WM": Remote,
     "HM-PB-6-WM55": Remote,
     "HM-PB-2-WM55-2": Remote,
@@ -128,11 +136,11 @@ DEVICETYPES = {
     "HM-PB-4Dis-WM": Remote,
     "HM-PB-4Dis-WM-2": Remote,
     "HMW-IO-4-FM": Remote,
-    "HMW-IO-12-FM": Remote,
-    "HMIP-WRC2": Remote,
-    "HmIP-WRC2": Remote,
+    "HMIP-WRC2": RemoteBatteryIP,
+    "HmIP-WRC2": RemoteBatteryIP,
     "HmIP-BRC2": Remote,
     "HmIP-WRC6": RemoteBatteryIP,
+    "HmIP-WRCD": RemoteBatteryIP,
     "HmIP-KRCA": Remote,
     "HmIP-KRC4": Remote,
     "HM-SwI-3-FM": RemotePress,
@@ -140,5 +148,6 @@ DEVICETYPES = {
     "263 144": RemotePress,
     "HM-SwI-X": RemotePress,
     "HMW-RCV-50": RemoteVirtual,
+    "HmIP-RCV-50": RemoteVirtual,
     "HmIP-RC8": Remote,
 }

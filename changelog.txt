@@ -1,5 +1,46 @@
-Version 0.1.61 (2019-)
-- 
+Version 0.1.67 (2020-)
+- Refactoring @danielperna84
+- Add support for HmIP-SWDO-PL @rgriebl
+- Add buttons for HmIP-SMI55 @angelnu
+- Add support for HmIP-DSD-PCB @Ahrak
+
+Version 0.1.66 (2020-04-17)
+- Add support for HmIP-DRSI4 @danielperna84
+- Add support for HmIP-PMFS @k-laus
+- Add support for HmIP-WRCD @macrojames
+- Fix attribute errors @macrojames
+- Fix HmIP Thermostats @pg5
+
+Version 0.1.65 (2020-02-20)
+- Add support for HmIP-DRBLI4 @danielperna84
+- Add support for HmIP-WTH-B @srehlig
+- Change LOWBAT attributes @flexkra
+- Fix for HmIP thermostats and smoke detectors @hanzoh
+- Fix HMW-Sen-SC-12-DR @dk1305hb
+
+Version 0.1.64 (2020-02-02)
+- Add support for HmIP-MOD-OC8 @danielperna84
+- Add support for HM-LC-DW-WM @angelnu
+
+Version 0.1.63 (2020-01-08)
+- Add support for HM-DW-WM @stealth20
+- Add WINDOW_STATE support for IP thermostats @dtretyakov
+- Add support for HmIP-MOD-HO @Nico0302
+- Add support for HB-UNI-Sen-TEMP-DS18B20 @oechslein
+- Add support for HmIP-FCI1 and HmIP-FCI6 @macrojames
+
+Version 0.1.62 (2019-12-04)
+- Remove `LOWBAT` for some devices (#230) @danielperna84
+- Add battery reporting for `HMIP-WRC2` @pg5
+- Add output-support for `HMW-IO-12-FM` (#269) @Lokla
+- Add action-nodes for `HmIP-BWTH`, `HmIP-BWTH24` (#270) @dickesW
+
+Version 0.1.61 (2019-10-13)
+- Fix device storage @danielperna84
+- Add battery attribute for BC-PB-2-WM @danielperna84
+- Improve HmIP-helper classes, Issue #240 @danielperna84
+- Add Light-support for HmIP-BSL (Issue #255) @guillempages
+- Add support for HmIP-RCV-50 (Issue #262) @danielperna84
 
 Version 0.1.60 (2019-07-15)
 - Added support for HmIP-PCBS-BAT (Issue #235) @danielperna84

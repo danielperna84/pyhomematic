@@ -13,6 +13,7 @@ class HMConnection():
                  remote=None,
                  remoteport=None,
                  devicefile=_hm.DEVICEFILE,
+                 paramsetfile=_hm.PARAMSETFILE,
                  interface_id=_hm.INTERFACE_ID,
                  autostart=False,
                  eventcallback=False,
@@ -32,6 +33,7 @@ class HMConnection():
         self.devices_all = _hm.devices_all
         self.devices_raw = _hm.devices_raw
         self.devices_raw_dict = _hm.devices_raw_dict
+        self.paramsets = _hm.paramsets
 
         if remote and remoteport:
             remotes['default']['ip'] = remote
@@ -49,13 +51,14 @@ class HMConnection():
                                             localport=localport,
                                             remotes=remotes,
                                             devicefile=devicefile,
+                                            paramsetfile=paramsetfile,
                                             interface_id=interface_id,
                                             eventcallback=eventcallback,
                                             systemcallback=systemcallback,
                                             resolveparamsets=resolveparamsets)
 
         except Exception as err:
-            LOG.critical("Failed to create server")
+            LOG.critical("Failed to create server %s", err)
             LOG.debug(str(err))
 
         if autostart:
@@ -74,7 +77,7 @@ class HMConnection():
             self._server.proxyInit()
             return True
         except Exception as err:
-            LOG.critical("Failed to start server")
+            LOG.critical("Failed to start server: %s", err)
             LOG.debug(str(err))
             self._server.stop()
             return False
