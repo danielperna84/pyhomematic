@@ -348,26 +348,18 @@ class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
         self._hmipw_keypress_event_channels = []
         self._hmipw_binarysensor_channels = []
 
-        LOG.debug("++ HMIPW-DRI - trying to setup %s ++++", device_description)
-
         for chan in self.ELEMENT:
             address_channel = "%s:%i" % (self._ADDRESS, chan)
-            LOG.debug("+++ HMIPW-DRI - trying to setup %s ++++", address_channel)
-
             try:
                 channel_paramset = self._proxy.getParamset(address_channel, "MASTER", 0)
                 channel_operation_mode = channel_paramset.get("CHANNEL_OPERATION_MODE") if "CHANNEL_OPERATION_MODE" in channel_paramset else 1
-                LOG.debug("++++ Chan %s Ops-Mode: %s", chan, channel_operation_mode)
 
                 if channel_operation_mode == 1:
-                    LOG.debug("+++++ IPWInputDevice: Added %s as KEY", address_channel)
                     self._hmipw_keypress_event_channels.append(chan)
                 elif channel_operation_mode in [2, 3]:
-                    LOG.debug("+++++ IPWInputDevice: Added %s as BINARY", address_channel)
                     self._hmipw_binarysensor_channels.append(chan)
-
             except Exception as err:
-                LOG.error("+++++ IPWInputDevice: Failure to determine input channel operations mode of HmIPW input device %s: %s", address_channel, err)
+                LOG.error("IPWInputDevice: Failure to determine input channel operations mode of HmIPW input device %s: %s", address_channel, err)
 
         self.ACTIONNODE.update({"PRESS_SHORT": self._hmipw_keypress_event_channels,
                                 "PRESS_LONG": self._hmipw_keypress_event_channels})
