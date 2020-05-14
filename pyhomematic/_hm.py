@@ -9,7 +9,9 @@ from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import xmlrpc.client
 import socket
+#from socketserver import ThreadingMixIn
 import logging
+
 from pyhomematic import devicetypes
 from pyhomematic.devicetypes.generic import HMChannel
 
@@ -494,7 +496,7 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         self.lock = threading.Lock()
         if self._ssl and not self._verify_ssl and self._verify_ssl is not None:
             kwargs['context'] = ssl._create_unverified_context()
-        xmlrpc.client.ServerProxy.__init__(self, *args, **kwargs)
+        xmlrpc.client.ServerProxy.__init__(self, encoding="ISO-8859-1", *args, **kwargs)
         urlcomponents = urllib.parse.urlparse(args[0])
         self._remoteip = urlcomponents.hostname
         self._remoteport = urlcomponents.port
@@ -561,8 +563,44 @@ class ServerThread(threading.Thread):
         self.proxies = {}
         self.failed_inits = []
 
-        # Create proxies to interact with CCU / Homegear
-        LOG.debug("__init__: Creating proxies")
+        self.createProxies()
+        if not self.proxies:
+            LOG.warning("No proxies available. Aborting.")
+            raise Exception
+
+        self._rpcfunctions = RPCFunctions(devicefile=self._devicefile,
+                                          paramsetfile=self._paramsetfile,
+                                          proxies=self.proxies,
+                                          remotes=self.remotes,
+                                          eventcallback=self.eventcallback,
+                                          systemcallback=self.systemcallback,
+                                          resolveparamsets=self.resolveparamsets)
+
+        # Setup server to handle requests from CCU / Homegear
+        LOG.debug("ServerThread.__init__: Setting up server")
+        # class SimpleThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
+        #     pass
+        # self.server = SimpleThreadedXMLRPCServer((self._local, self._localport),
+        #                                          requestHandler=RequestHandler,
+        #                                          logRequests=False)
+        self.server = SimpleXMLRPCServer((self._local, self._localport),
+                                         requestHandler=RequestHandler,
+                                         logRequests=False)
+        self._localport = self.server.socket.getsockname()[1]
+        self.server.register_introspection_functions()
+        self.server.register_multicall_functions()
+        LOG.debug("ServerThread.__init__: Registering RPC functions")
+        self.server.register_instance(
+            self._rpcfunctions, allow_dotted_names=True)
+
+    def run(self):
+        LOG.info("Starting server at http://%s:%i" %
+                 (self._local, self._localport))
+        self.server.serve_forever()
+
+    def createProxies(self):
+        """Create proxies to interact with CCU / Homegear"""
+        LOG.debug("createProxies: Creating proxies")
         for remote, host in self.remotes.items():
             # Initialize XML-RPC
             try:
@@ -607,34 +645,10 @@ class ServerThread(threading.Thread):
                 LOG.warning("__init__: Failed to detect backend type: %s" % str(err))
                 host['type'] = BACKEND_UNKNOWN
 
-        if not self.proxies:
-            LOG.warning("No proxies available. Aborting.")
-            raise Exception
-
-        self._rpcfunctions = RPCFunctions(devicefile=self._devicefile,
-                                          paramsetfile=self._paramsetfile,
-                                          proxies=self.proxies,
-                                          remotes=self.remotes,
-                                          eventcallback=self.eventcallback,
-                                          systemcallback=self.systemcallback,
-                                          resolveparamsets=self.resolveparamsets)
-
-        # Setup server to handle requests from CCU / Homegear
-        LOG.debug("ServerThread.__init__: Setting up server")
-        self.server = SimpleXMLRPCServer((self._local, self._localport),
-                                         requestHandler=RequestHandler,
-                                         logRequests=False)
-        self._localport = self.server.socket.getsockname()[1]
-        self.server.register_introspection_functions()
-        self.server.register_multicall_functions()
-        LOG.debug("ServerThread.__init__: Registering RPC functions")
-        self.server.register_instance(
-            self._rpcfunctions, allow_dotted_names=True)
-
-    def run(self):
-        LOG.info("Starting server at http://%s:%i" %
-                 (self._local, self._localport))
-        self.server.serve_forever()
+    def clearProxies(self):
+        """Remove existing proxy objects."""
+        LOG.debug("clearProxies: Clearing proxies")
+        self.proxies.clear()
 
     def proxyInit(self):
         """
@@ -644,6 +658,7 @@ class ServerThread(threading.Thread):
         # the receiver) to receive events. XML RPC server has to be running.
         for interface_id, proxy in self.proxies.items():
             if proxy._skipinit:
+                LOG.warning("Skipping init for %s", interface_id)
                 continue
             if proxy._callbackip and proxy._callbackport:
                 callbackip = proxy._callbackip
@@ -656,18 +671,18 @@ class ServerThread(threading.Thread):
             try:
                 proxy.init("http://%s:%i" %
                            (callbackip, callbackport), interface_id)
-                LOG.info("Proxy initialized")
+                LOG.info("Proxy for %s initialized", interface_id)
             except Exception as err:
                 LOG.debug("proxyInit: Exception: %s" % str(err))
-                LOG.warning("Failed to initialize proxy")
+                LOG.warning("Failed to initialize proxy for %s", interface_id)
                 self.failed_inits.append(interface_id)
 
-    def stop(self):
-        """To stop the server we de-init from the CCU / Homegear, then shut down our XML-RPC server."""
+    def proxyDeInit(self):
+        """De-Init from the proxies."""
         stopped = []
         for interface_id, proxy in self.proxies.items():
             if interface_id in self.failed_inits:
-                LOG.warning("ServerThread.stop: Not performing de-init for %s" % interface_id)
+                LOG.warning("ServerThread.proxyDeInit: Not performing de-init for %s", interface_id)
                 continue
             if proxy._callbackip and proxy._callbackport:
                 callbackip = proxy._callbackip
@@ -676,21 +691,25 @@ class ServerThread(threading.Thread):
                 callbackip = proxy._localip
                 callbackport = self._localport
             remote = "http://%s:%i" % (callbackip, callbackport)
-            LOG.debug("ServerThread.stop: init('%s')" % remote)
-            if not callbackip in stopped:
+            LOG.debug("ServerThread.proxyDeInit: init('%s')", remote)
+            if not interface_id in stopped:
                 try:
                     proxy.init(remote)
-                    stopped.append(callbackip)
-                    LOG.info("Proxy de-initialized: %s" % remote)
+                    stopped.append(interface_id)
+                    LOG.info("proxyDeInit: Proxy for %s de-initialized: %s", interface_id, remote)
                 except Exception as err:
-                    LOG.debug("proxyInit: Exception: %s" % str(err))
-                    LOG.warning("Failed to de-initialize proxy")
-        self.proxies.clear()
+                    LOG.debug("proxyDeInit: Exception: %s", err)
+                    LOG.warning("proxyDeInit: Failed to de-initialize proxy")
+
+    def stop(self):
+        """To stop the server we de-init from the CCU / Homegear, then shut down our XML-RPC server."""
+        self.proxyDeInit()
+        self.clearProxies()
         LOG.info("Shutting down server")
         self.server.shutdown()
         LOG.debug("ServerThread.stop: Stopping ServerThread")
         self.server.server_close()
-        LOG.info("Server stopped")
+        LOG.info("HomeMatic XML-RPC Server stopped")
 
     def parseCCUSysVar(self, data):
         """Helper to parse type of system variables of CCU"""

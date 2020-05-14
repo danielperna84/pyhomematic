@@ -1,10 +1,11 @@
+
 import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.misc import HMEvent
 from pyhomematic.devicetypes.helper import (
     HelperWorking, HelperActorState, HelperActorLevel, HelperActorBlindTilt, HelperActionOnTime,
-    HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer, HelperRssiDevice)
+    HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer, HelperRssiDevice, HelperDeviceTemperature)
 
 LOG = logging.getLogger(__name__)
 
@@ -133,7 +134,7 @@ class Dimmer(GenericDimmer, HelperWorking):
     """
     @property
     def ELEMENT(self):
-        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE  or self._TYPE == "HM-DW-WM" or self._TYPE == "HM-LC-DW-WM":
+        if "Dim2L" in self._TYPE or "Dim2T" in self._TYPE  or self._TYPE == "HM-DW-WM":
             return [1, 2]
         return [1]
 
@@ -165,7 +166,7 @@ class IPDimmer(GenericDimmer):
         return [2]
 
 
-class IPKeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
+class IPKeyDimmer(GenericDimmer, HelperActionPress):
     """
     IP Dimmer with buttons switch that controls level of light brightness.
     """
@@ -321,6 +322,57 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
     @property
     def ELEMENT(self):
         return self._doc
+
+
+class IPWSwitch(GenericSwitch, HelperDeviceTemperature, HelperWired):
+    """
+    HomematicIP-Wired Switch units turning attached device on or off.
+    """
+    @property
+    def ELEMENT(self):
+        if "HmIPW-DRS4" in self.TYPE:
+            # Address correct switching channels for each relais
+            return [2, 6, 10, 14]
+        elif "HmIPW-DRS8" in self.TYPE:
+            # Address correct switching channels for each relais
+            return [2, 6, 10, 14, 18, 22, 26, 30]
+        return [1]
+
+
+class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
+    """
+    IP-Wired component to support long / short press events and state report (e.g. if window contact or on/off switch)
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self._hmipw_keypress_event_channels = []
+        self._hmipw_binarysensor_channels = []
+
+        for chan in self.ELEMENT:
+            address_channel = "%s:%i" % (self._ADDRESS, chan)
+            try:
+                channel_paramset = self._proxy.getParamset(address_channel, "MASTER", 0)
+                channel_operation_mode = channel_paramset.get("CHANNEL_OPERATION_MODE") if "CHANNEL_OPERATION_MODE" in channel_paramset else 1
+
+                if channel_operation_mode == 1:
+                    self._hmipw_keypress_event_channels.append(chan)
+                elif channel_operation_mode in [2, 3]:
+                    self._hmipw_binarysensor_channels.append(chan)
+            except Exception as err:
+                LOG.error("IPWInputDevice: Failure to determine input channel operations mode of HmIPW input device %s: %s", address_channel, err)
+
+        self.ACTIONNODE.update({"PRESS_SHORT": self._hmipw_keypress_event_channels,
+                                "PRESS_LONG": self._hmipw_keypress_event_channels})
+        self.BINARYNODE.update({"STATE": self._hmipw_binarysensor_channels})
+
+    @property
+    def ELEMENT(self):
+        """ General channel definition """
+        if "HmIPW-DRI16" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+        elif "HmIPW-DRI32" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+        return [1]
 
 
 class RFSiren(GenericSwitch, HelperWorking, HelperRssiPeer):
@@ -584,7 +636,7 @@ class IPKeySwitchPowermeter(IPSwitchPowermeter, HMEvent, HelperActionPress):
                                "PRESS_LONG": [1, 2]})
 
 
-class IPGarage(GenericSwitch, HMSensor):
+class IPGarage(GenericSwitch, GenericBlind, HMSensor):
     """
     HmIP-MOD-HO and HmIP-MOD-TM Garage actor
     """
@@ -594,16 +646,33 @@ class IPGarage(GenericSwitch, HMSensor):
         # init metadata
         self.SENSORNODE.update({"DOOR_STATE": [1]})
 
-    def move_up(self):
+    def is_closed(self, state):
+        """Returns whether the door is closed"""
+        # States:
+        # 0: closed
+        # 1: open
+        # 2: ventilation
+        # 3: unknown
+        if state in [2, 3]:
+            return None
+        return state == 0
+
+    def move_up(self, channel=1):
         """Opens the garage"""
+        # channel needs to be hardcoded to "1"; home assistant somehow calls the cover entity with channel=2
+        # and then the command does not work.
         return self.setValue("DOOR_COMMAND", 1, channel=1)
 
-    def stop(self):
+    def stop(self, channel=1):
         """Stop motion"""
+        # channel needs to be hardcoded to "1"; home assistant somehow calls the cover entity with channel=2
+        # and then the command does not work.
         return self.setValue("DOOR_COMMAND", 2, channel=1)
 
-    def move_down(self):
+    def move_down(self, channel=1):
         """Close the garage"""
+        # channel needs to be hardcoded to "1"; home assistant somehow calls the cover entity with channel=2
+        # and then the command does not work.
         return self.setValue("DOOR_COMMAND", 3, channel=1)
 
     def vent(self):
@@ -874,6 +943,10 @@ DEVICETYPES = {
     "HMW-LC-Bl1-DR": KeyBlind,
     "HMW-LC-Bl1-DR-2": KeyBlind,
     "HMW-LC-Dim1L-DR": KeyDimmer,
+    "HmIPW-DRS4": IPWSwitch,
+    "HmIPW-DRS8": IPWSwitch,
+    "HmIPW-DRI32": IPWInputDevice,
+    "HmIPW-DRI16": IPWInputDevice,
     "HMIP-PS": IPSwitch,
     "HmIP-PS": IPSwitch,
     "HmIP-PS-CH": IPSwitch,
