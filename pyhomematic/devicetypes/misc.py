@@ -150,4 +150,5 @@ DEVICETYPES = {
     "HMW-RCV-50": RemoteVirtual,
     "HmIP-RCV-50": RemoteVirtual,
     "HmIP-RC8": Remote,
+    "HmIP-DBB": RemoteBatteryIP,
 }

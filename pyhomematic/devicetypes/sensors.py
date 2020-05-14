@@ -606,6 +606,24 @@ class TemperatureSensor(SensorHm):
         return float(self.getSensorData("TEMPERATURE", channel))
 
 
+class HBUNISenWEA(TemperatureSensor):
+    """HB-UNI-Sen-WEA"""
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.SENSORNODE.update({"AIR_PRESSURE": self.ELEMENT,
+                                "HUMIDITY": self.ELEMENT,
+                                "LUX": self.ELEMENT,
+                                "RAIN_COUNTER": self.ELEMENT,
+                                "WIND_SPEED": self.ELEMENT,
+                                "WIND_DIRECTION": self.ELEMENT,
+                                "WIND_DIRECTION_RANGE": self.ELEMENT,
+                                "GUST_SPEED": self.ELEMENT,
+                                "UVINDEX": self.ELEMENT,
+                                "LIGHTNING_COUNTER": self.ELEMENT,
+                                "LIGHNTING_DISTANCE": self.ELEMENT})
+
+
 class TemperatureDiffSensor(SensorHm):
     """Temperature difference Sensor."""
 
@@ -1032,4 +1050,5 @@ DEVICETYPES = {
     "HmIP-FCI6": IPContact,
     "HmIP-DSD-PCB": IPContact,
     "HB-UNI-Sen-TEMP-DS18B20": TemperatureSensor,
+    "HB-UNI-Sen-WEA": HBUNISenWEA,
 }
