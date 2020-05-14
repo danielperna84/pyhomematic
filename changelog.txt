@@ -3,6 +3,7 @@ Version 0.1.67 (2020-)
 - Add support for HmIP-SWDO-PL @rgriebl
 - Add buttons for HmIP-SMI55 @angelnu
 - Add support for HmIP-DSD-PCB @Ahrak
+- Add support for HmIPW-DRS4, HmIPW-DRS8, HmIPW-DRI32, HmIPW-DRI16 @henningweiler
 
 Version 0.1.66 (2020-04-17)
 - Add support for HmIP-DRSI4 @danielperna84
