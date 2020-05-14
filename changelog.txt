@@ -1,4 +1,4 @@
-Version 0.1.67 (2020-)
+Version 0.1.67 (2020-05-14)
 - Refactoring @danielperna84
 - Add support for HmIP-SWDO-PL @rgriebl
 - Add buttons for HmIP-SMI55 @angelnu
