@@ -326,7 +326,7 @@ class HMWIOSwitch(GenericSwitch, HelperWired):
 
 class IPWSwitch(GenericSwitch, HelperDeviceTemperature, HelperWired):
     """
-    HomematicIP-Wired Switch units turning attached device on or off.
+    IP-Wired Switch units turning attached device on or off.
     """
     @property
     def ELEMENT(self):
@@ -338,6 +338,56 @@ class IPWSwitch(GenericSwitch, HelperDeviceTemperature, HelperWired):
             return [2, 6, 10, 14, 18, 22, 26, 30]
         return [1]
 
+
+class IPWDimmer(GenericDimmer, HelperDeviceTemperature, HelperWired):
+    """
+    IP-Wired Dimmer switch that controls level of light brightness.
+    """
+    @property
+    def ELEMENT(self):
+        if "HmIPW-DRD3" in self._TYPE:
+            # Address correct switching channels for each relais
+            return [2, 6, 10]
+        return [1]
+
+
+class IPWMotionDection(HelperWired):
+    """
+    IP-Wired Motion Detection
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+       super().__init__(device_description, proxy, resolveparamsets)
+       
+       # init metadata
+       self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": self.ELEMENT,
+                               "PRESENCE_DETECTION_ACTIVE": self.ELEMENT,
+                               "CURRENT_ILLUMINATION_STATUS": self.ELEMENT,
+                               "ILLUMINATION_STATUS": self.ELEMENT})
+       self.SENSORNODE.update({"ILLUMINATION": self.ELEMENT,
+                               "CURRENT_ILLUMINATION": self.ELEMENT})
+
+    @property
+    def ELEMENT(self):
+        return [1]
+
+
+class IPWKeyBlindMulti(KeyBlind, HelperDeviceTemperature, HelperWired):
+    """
+    Multi-blind actor HmIPW-DRBL4
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"ACTIVITY_STATE": self.ELEMENT,
+                                   "LEVEL_STATUS": self.ELEMENT,
+                                   "SECTION": self.ELEMENT})
+        self.ACTIONNODE.update({"STOP": self.ELEMENT})
+        self.WRITENODE.update({"LEVEL": self.ELEMENT})
+
+    @property
+    def ELEMENT(self):
+        return [2, 6, 10, 14]
 
 class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
     """
@@ -947,6 +997,9 @@ DEVICETYPES = {
     "HmIPW-DRS8": IPWSwitch,
     "HmIPW-DRI32": IPWInputDevice,
     "HmIPW-DRI16": IPWInputDevice,
+    "HmIPW-DRD3": IPWDimmer,
+    "HmIPW-SPI": IPWMotionDection,
+    "HmIPW-DRBL4": IPWKeyBlindMulti,
     "HMIP-PS": IPSwitch,
     "HmIP-PS": IPSwitch,
     "HmIP-PS-CH": IPSwitch,
