@@ -356,15 +356,15 @@ class IPWMotionDection(HelperWired):
     IP-Wired Motion Detection
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
-       super().__init__(device_description, proxy, resolveparamsets)
-       
-       # init metadata
-       self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": self.ELEMENT,
-                               "PRESENCE_DETECTION_ACTIVE": self.ELEMENT,
-                               "CURRENT_ILLUMINATION_STATUS": self.ELEMENT,
-                               "ILLUMINATION_STATUS": self.ELEMENT})
-       self.SENSORNODE.update({"ILLUMINATION": self.ELEMENT,
-                               "CURRENT_ILLUMINATION": self.ELEMENT})
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": self.ELEMENT,
+                                "PRESENCE_DETECTION_ACTIVE": self.ELEMENT,
+                                "CURRENT_ILLUMINATION_STATUS": self.ELEMENT,
+                                "ILLUMINATION_STATUS": self.ELEMENT})
+        self.SENSORNODE.update({"ILLUMINATION": self.ELEMENT,
+                                "CURRENT_ILLUMINATION": self.ELEMENT})
 
     @property
     def ELEMENT(self):
