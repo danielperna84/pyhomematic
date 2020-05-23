@@ -107,7 +107,7 @@ class HMGeneric():
             LOG.error("HMGeneric.updateParamsets: Exception: " + str(err))
             return False
 
-    def putParamset(self, paramset, data={}):
+    def putParamset(self, paramset, data={}, rx_mode = None):
         """
         Some devices act upon changes to paramsets.
         A "putted" paramset must not contain all keys available in the specified paramset,
@@ -115,7 +115,10 @@ class HMGeneric():
         """
         try:
             if paramset in self._PARAMSETS and data:
-                self._proxy.putParamset(self._ADDRESS, paramset, data)
+                if rx_mode is None:
+                    self._proxy.putParamset(self._ADDRESS, paramset, data)
+                else:
+                    self._proxy.putParamset(self._ADDRESS, paramset, data, rx_mode)
                 # We update all paramsets to at least have a temporarily accurate state for the device.
                 # This might not be true for tasks that take long to complete (lifting a rollershutter completely etc.).
                 # For this the server-process has to call the updateParamsets-method when it receives events for the device.
