@@ -982,9 +982,13 @@ class ServerThread(threading.Thread):
                 "ServerThread.homegearCheckInit: Exception: %s" % str(err))
             return False
 
-    def putParamset(self, remote, address, paramset, value):
+    def putParamset(self, remote, address, paramset, value, rx_mode=None):
         """Set paramsets manually"""
         try:
-            return self.proxies["%s-%s" % (self._interface_id, remote)].putParamset(address, paramset, value)
+            proxy = self.proxies["%s-%s" % (self._interface_id, remote)]
+            if rx_mode is None:
+                return proxy.putParamset(address, paramset, value)
+            else:
+                return proxy.putParamset(address, paramset, value, rx_mode)
         except Exception as err:
             LOG.debug("ServerThread.putParamset: Exception: %s" % str(err))
