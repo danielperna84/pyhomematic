@@ -107,7 +107,7 @@ class HMGeneric():
             LOG.error("HMGeneric.updateParamsets: Exception: " + str(err))
             return False
 
-    def putParamset(self, paramset, data={}, rx_mode = None):
+    def putParamset(self, paramset, data={}, rx_mode=None):
         """
         Some devices act upon changes to paramsets.
         A "putted" paramset must not contain all keys available in the specified paramset,
