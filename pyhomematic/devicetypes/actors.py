@@ -1038,4 +1038,5 @@ DEVICETYPES = {
     "HmIP-MIOB": IPMultiIO,
     "HM-DW-WM": Dimmer,
     "HM-LC-DW-WM": ColdWarmDimmer,
+    "HB-UNI-RGB-LED-CTRL": ColorEffectLight,
 }
