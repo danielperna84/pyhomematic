@@ -1,6 +1,7 @@
 import logging
 
 from pyhomematic import _hm
+import pmatic
 
 LOG = logging.getLogger(__name__)
 
@@ -74,6 +75,8 @@ class HMConnection():
             LOG.debug("kwargs: %s" % str(kwargs))
         try:
             self._server.start()
+            import debugpy
+            debugpy.breakpoint()
             self._server.proxyInit()
             return True
         except Exception as err:

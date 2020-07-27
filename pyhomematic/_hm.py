@@ -11,6 +11,7 @@ import xmlrpc.client
 import socket
 #from socketserver import ThreadingMixIn
 import logging
+import pmatic
 
 from pyhomematic import devicetypes
 from pyhomematic.devicetypes.generic import HMChannel
@@ -91,6 +92,7 @@ class RPCFunctions():
                  paramsetfile=PARAMSETFILE,
                  proxies={},
                  remotes={},
+                 ccu={},
                  eventcallback=False,
                  systemcallback=False,
                  resolveparamsets=False):
@@ -116,9 +118,11 @@ class RPCFunctions():
         self.remotes = remotes
         self._paramsets = paramsets
 
+
         # The methods need to know about the proxyies to be able to pass it on
         # to the device-objects
         self._proxies = proxies
+        self._ccu = ccu
 
         # Devices w/o channels will be accessible using the device-address as
         # the key
@@ -130,8 +134,12 @@ class RPCFunctions():
         # The plain JSON (actually dicts) are stored as well
         self._devices_raw_dict = devices_raw_dict
         self._devices_raw = devices_raw
+#        self.ccu = pmatic.CCU(address="http://192.168.178.39", credentials=("PmaticAdmin", "EPIC-SECRET-PW"))
 
         for interface_id in proxies:
+
+ 
+
             LOG.debug("RPCFunctions.__init__: iterating proxy = %s", interface_id)
             remote = interface_id.split('-')[-1]
             self.devices[remote] = {}
@@ -139,6 +147,7 @@ class RPCFunctions():
             self._devices_raw[remote] = []
             self._devices_raw_dict[remote] = {}
             self._paramsets[remote] = {}
+ 
 
             # If there are stored devices, we load them instead of getting them
             # from the server.
@@ -161,6 +170,16 @@ class RPCFunctions():
                         if fcontent:
                             self._paramsets[remote] = json.loads(fcontent)
 
+#            if interface_id == "homeassistant-HMIP":
+                # working
+#                from xmlrpc.client import ServerProxy
+#                p2 = ServerProxy("http://192.168.178.39:2010")
+                # p2 = self._proxies[interface_id]
+                # t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+                # print ("after proxis1", t)
+                # t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+                # print ("after proxis2", t)
+            
             # Continue if there are no stored devices
             if not self._devices_raw.get(remote):
                 continue
@@ -173,7 +192,22 @@ class RPCFunctions():
             # them in self._devices and self._devices_all
             self.createDeviceObjects(interface_id)
 
-    def createDeviceObjects(self, interface_id):
+#            if interface_id == "homeassistant-HMIP":
+#                from xmlrpc.client import ServerProxy
+#                p2 = ServerProxy("http://192.168.178.39:2010")
+# working
+#                 p2 = self._proxies[interface_id]
+# #            from xmlrpc.client import ServerProxy
+#                 p2 = ServerProxy("http://192.168.178.39:2010")
+#     #            p2 = self._proxies[interface_id]
+#                 t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+#                 print ("end proxis", t)
+#                 t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+#                 print ("end proxis", t)
+
+
+
+    def createDeviceObjects(self, interface_id,skip_systemcallback=False):
         """Transform the raw device descriptions into instances of devicetypes.generic.HMDevice or availabe subclass."""
         global WORKING
         WORKING = True
@@ -220,7 +254,7 @@ class RPCFunctions():
         if self.devices_all[remote] and self.remotes[remote].get('resolvenames', False):
             self.addDeviceNames(remote)
         WORKING = False
-        if self.systemcallback:
+        if self.systemcallback and not skip_systemcallback:
             self.systemcallback('createDeviceObjects')
         return True
 
@@ -277,17 +311,41 @@ class RPCFunctions():
         """The CCU / Homegear asks for devices known to our XML-RPC server. We respond to that request using this method."""
         LOG.debug("RPCFunctions.listDevices: interface_id = %s, _devices_raw = %s" % (
             interface_id, str(self._devices_raw)))
+# not working
+#         if interface_id == "homeassistant-HMIP":
+# #            from xmlrpc.client import ServerProxy
+# #            p2 = ServerProxy("http://192.168.178.39:2010")
+#             p2 = self._proxies[interface_id]
+#             t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+#             print (t)
+#             t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+#             print ("before listDevices", t)
+
         remote = interface_id.split('-')[-1]
         if remote not in self._devices_raw:
             self._devices_raw[remote] = []
         if self.systemcallback:
             self.systemcallback('listDevices', interface_id)
-        return self._devices_raw[remote]
 
-    def newDevices(self, interface_id, dev_descriptions):
+
+        # # from xmlrpc.client import ServerProxy
+        # p2 = ServerProxy("http://192.168.178.39:2010")
+        # t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+        # print (t)
+        # t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+        # print ("listdevices", t)
+
+        if len(self._devices_raw[remote]) > 2:
+            return []
+#            return self._devices_raw[remote][:2]
+        else:
+            return self._devices_raw[remote]
+
+    def newDevices(self, interface_id, dev_descriptions, skip_systemcallback=False):
         """The CCU / Homegear informs us about newly added devices. We react on that and add those devices as well."""
         LOG.debug("RPCFunctions.newDevices: interface_id = %s, dev_descriptions = %s" % (
             interface_id, str(dev_descriptions)))
+        # from xmlrpc.client import ServerProxy
         remote = interface_id.split('-')[-1]
         if remote not in self._devices_raw:
             self._devices_raw[remote] = []
@@ -295,14 +353,18 @@ class RPCFunctions():
             self._devices_raw_dict[remote] = {}
         if remote not in self._paramsets:
             self._paramsets[remote] = {}
+        if self._devices_raw[remote] != []:
+            if self.systemcallback:
+                self.systemcallback('newDevices', interface_id, dev_descriptions)
+            return True
         for d in dev_descriptions:
             self._devices_raw[remote].append(d)
             self._devices_raw_dict[remote][d['ADDRESS']] = d
             self._paramsets[remote][d['ADDRESS']] = {}
         self.saveDevices(remote)
         self.saveParamsets(remote)
-        self.createDeviceObjects(interface_id)
-        if self.systemcallback:
+        self.createDeviceObjects(interface_id, skip_systemcallback)
+        if self.systemcallback and not skip_systemcallback:
             self.systemcallback('newDevices', interface_id, dev_descriptions)
         return True
 
@@ -487,6 +549,8 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         """
         Initialize new proxy for server and get local ip
         """
+        self._username = kwargs.pop("username", None)
+        self._password = kwargs.pop("password", False)
         self._remote = kwargs.pop("remote", None)
         self._skipinit = kwargs.pop("skipinit", False)
         self._callbackip = kwargs.pop("callbackip", None)
@@ -499,12 +563,14 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         xmlrpc.client.ServerProxy.__init__(self, encoding="ISO-8859-1", *args, **kwargs)
         urlcomponents = urllib.parse.urlparse(args[0])
         self._remoteip = urlcomponents.hostname
+        self._ccu = pmatic.CCU(address="http://%s" % (self._remoteip), credentials=(self._username, self._password))
         self._remoteport = urlcomponents.port
         LOG.debug("LockingServerProxy.__init__: Getting local ip")
         tmpsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         tmpsocket.connect((self._remoteip, self._remoteport))
         self._localip = tmpsocket.getsockname()[0]
         tmpsocket.close()
+        self._mymethod = xmlrpc.client._Method
         LOG.debug("LockingServerProxy.__init__: Got local ip %s" %
                   self._localip)
 
@@ -522,8 +588,7 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         """
         Magic method dispatcher
         """
-
-        return xmlrpc.client._Method(self.__request, *args, **kwargs)
+        return self._mymethod(self.__request, *args, **kwargs)
 
 # Restrict to particular paths.
 
@@ -553,24 +618,43 @@ class ServerThread(threading.Thread):
         # Member
         self._interface_id = interface_id
         self._local = local
-        self._localport = int(localport)
+        self._localport = int(9125)
         self._devicefile = devicefile
         self._paramsetfile = paramsetfile
         self.remotes = remotes
         self.eventcallback = eventcallback
         self.systemcallback = systemcallback
         self.resolveparamsets = resolveparamsets
+        self.ccu = {}
         self.proxies = {}
         self.failed_inits = []
+
+        import debugpy
+        debugpy.breakpoint()
+
+        # from xmlrpc.client import ServerProxy
+        # p2 = ServerProxy("http://192.168.178.39:2010")
+        # t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+        # print (t)
+        # t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+        # print ("vorher", t)
 
         self.createProxies()
         if not self.proxies:
             LOG.warning("No proxies available. Aborting.")
             raise Exception
 
+        # from xmlrpc.client import ServerProxy
+        # p2 = ServerProxy("http://192.168.178.39:2010")
+        # t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+        # print (t)
+        # t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+        # print ("nachher", t)
+
         self._rpcfunctions = RPCFunctions(devicefile=self._devicefile,
                                           paramsetfile=self._paramsetfile,
                                           proxies=self.proxies,
+                                          ccu=self.ccu,
                                           remotes=self.remotes,
                                           eventcallback=self.eventcallback,
                                           systemcallback=self.systemcallback,
@@ -593,6 +677,21 @@ class ServerThread(threading.Thread):
         self.server.register_instance(
             self._rpcfunctions, allow_dotted_names=True)
 
+#        if interface_id == "homeassistant":
+# working
+            # from xmlrpc.client import ServerProxy
+            # p2 = ServerProxy("http://192.168.178.39:2010")
+            # t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+            # print ("schulss", t)
+            # t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+            # print ("schulss", t)
+
+    # def system_listMethods(self, interface_id): # pylint:disable=unused-argument
+    #     """Wrap the standard system_listMethods of SimpleXMLRPCDispatcher. This is needed
+    #     because the CCU sends an argument (the interface_id) which is not handled by the
+    #     default system_listMethods() method."""
+    #     return super(ServerThread, self).system_listMethods()
+
     def run(self):
         LOG.info("Starting server at http://%s:%i" %
                  (self._local, self._localport))
@@ -601,6 +700,12 @@ class ServerThread(threading.Thread):
     def createProxies(self):
         """Create proxies to interact with CCU / Homegear"""
         LOG.debug("createProxies: Creating proxies")
+        # from xmlrpc.client import ServerProxy
+        # p2 = ServerProxy("http://192.168.178.39:2010")
+        # t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+        # print (t)
+        # t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+        # print ("createProxies", t)
         for remote, host in self.remotes.items():
             # Initialize XML-RPC
             try:
@@ -622,6 +727,8 @@ class ServerThread(threading.Thread):
                                         ssl=host.get('ssl'))
                 self.proxies[host['id']] = LockingServerProxy(
                     api_url,
+                    username=host.get('username'),
+                    password=host.get('password'),
                     remote=remote,
                     callbackip=host.get('callbackip', None),
                     callbackport=host.get('callbackport', None),
@@ -644,6 +751,15 @@ class ServerThread(threading.Thread):
             except Exception as err:
                 LOG.warning("__init__: Failed to detect backend type: %s" % str(err))
                 host['type'] = BACKEND_UNKNOWN
+
+        # from xmlrpc.client import ServerProxy
+        # p2 = ServerProxy("http://192.168.178.39:2010")
+        # t = p2.getParamsetDescription("00155A49970BE9:1", "MASTER")
+        # print ("createproxis", t)
+        # t = p2.getParamsetId("00155A49970BE9:1", "MASTER")
+        # print (t)
+        # t = p2.getParamset("00155A49970BE9:1", "MASTER")
+        # print (t)
 
     def clearProxies(self):
         """Remove existing proxy objects."""
@@ -669,13 +785,90 @@ class ServerThread(threading.Thread):
             LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" %
                       (callbackip, callbackport, interface_id))
             try:
-                proxy.init("http://%s:%i" %
-                           (callbackip, callbackport), interface_id)
+                # if interface_id == "homeassistant-Wired":
+                #     result = proxy._ccu.api.interface_init(interface="Wired",
+                #             url="http://%s:%i" %
+                #             (callbackip, callbackport), interfaceId=interface_id)
+                if interface_id == "homeassistant-HMIP":
+                    import debugpy
+                    debugpy.breakpoint()
+
+    #                 from xmlrpc.client import ServerProxy
+    #                 p2 = ServerProxy("http://192.168.178.39:2010")
+    # #            p2 = self._proxies[interface_id]
+    #                 t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+    #                 print ("before init proxie1", t)
+    #                 t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+    #                 print ("before init proxie2", t)
+
+#                    import pmatic
+                    # test = proxy._ccu.api.interface_get_paramset(interface="HmIP-RF",
+                    #                      address="001718A9A77FBC:1", paramsetKey="MASTER")
+                    # print(test)
+                    # result = proxy._ccu.api.interface_init(interface="HmIP-RF",
+                    #         url="http://%s:%i" %
+                    #         (callbackip, 9124), interfaceId=interface_id)
+                    # test = proxy._ccu.api.interface_get_paramset(interface="HmIP-RF",
+                    #                      address="001718A9A77FBC:1", paramsetKey="MASTER")
+                    # print(test)
+                    # # the following is not working, but allows debugging in the pmatic domain
+
+                    # from xmlrpc.client import ServerProxy
+                    # p2 = ServerProxy("http://%s:%i" %
+                    #         (proxy._remoteip, proxy._remoteport))
+                    # dev_list = p2.listDevices()
+                    dev_list = proxy.listDevices(interface_id)
+                    self._rpcfunctions.newDevices(interface_id=interface_id,dev_descriptions=dev_list, skip_systemcallback=True)
+                    result = proxy._ccu.api.interface_init(interface="HmIP-RF",
+                            url="http://%s:%i" %
+                            (callbackip, callbackport), interfaceId=interface_id)
+                    # test = proxy._ccu.api.interface_get_paramset(interface="HmIP-RF",
+                    #                      address="001718A9A77FBC:1", paramsetKey="MASTER")
+                    # print(test)
+
+#                    for room in ccu.rooms:
+#                        print("%-30s %d devices" % (room.name, len(room.devices)))
+        
+
+                    # proxy.init("http://%s:%i" %
+                    #         (callbackip, 9124), interface_id)
+                    # p2 = proxy
+                    # t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+                    # print ("before init proxie1", t)
+                    # t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+                    # print ("before init proxie2", t)
+
+                    # proxy.init("http://%s:%i" %
+                    #         (callbackip, callbackport), interface_id)
+                    # p2 = proxy
+                    # t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+                    # print ("before init proxie1", t)
+                    # t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+                    # print ("before init proxie2", t)
+
+                else:
+                    proxy.init("http://%s:%i" %
+                            (callbackip, callbackport), interface_id)
                 LOG.info("Proxy for %s initialized", interface_id)
+
+# working
+        #         if interface_id == "homeassistant-HMIP":
+        #             from xmlrpc.client import ServerProxy
+        #             p2 = ServerProxy("http://192.168.178.39:2010")
+        # #            p2 = proxy
+        #             t = p2.getParamsetDescription("001718A9A77FBC:1", "MASTER")
+        #             print ("after init proxie1", t)
+        #             t = p2.getParamset("001718A9A77FBC:1", "MASTER")
+        #             print ("after init proxie2", t)
+
             except Exception as err:
                 LOG.debug("proxyInit: Exception: %s" % str(err))
                 LOG.warning("Failed to initialize proxy for %s", interface_id)
                 self.failed_inits.append(interface_id)
+
+#            t = proxy.getParamset("001718A9A77FBC:1", "MASTER")
+#            print (t)
+
 
     def proxyDeInit(self):
         """De-Init from the proxies."""
