@@ -355,6 +355,7 @@ class RPCFunctions():
             self._paramsets[remote] = {}
         if self._devices_raw[remote] != []:
             if self.systemcallback:
+                self.systemcallback('createDeviceObjects')
                 self.systemcallback('newDevices', interface_id, dev_descriptions)
             return True
         for d in dev_descriptions:
