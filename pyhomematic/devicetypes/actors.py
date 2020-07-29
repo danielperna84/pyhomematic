@@ -401,57 +401,7 @@ class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
         for chan in self.ELEMENT:
             address_channel = "%s:%i" % (self._ADDRESS, chan)
             try:
-                if self._ADDRESS == "001718A9A77FBC":
-
-                    # from xmlrpc.client import ServerProxy
-                    # p2 = ServerProxy("http://192.168.178.39:2010")
-                    # t = p2.getParamsetDescription("00155A49970BE9:1", "MASTER")
-                    # print ("hiere", t)
-                    # t = self._proxy.getParamsetDescription(address_channel, "MASTER")
-                    # print ("hiere", t)
-                    # t = p2.getParamsetId("00155A49970BE9:1", "MASTER")
-                    # print ("hiere", t)
-                    # t = p2.getParamset(address_channel, "VALUES")
-                    # print (t)
-                    
-                    # t = p.getParamset("001858A996BB80:4", "MASTER")
-                    # print (t)
-                    # t = p.getParamset("001718A9A77FBC:4", "MASTER")
-                    # print (t)
-                    # test = proxy._ccu.api.interface_get_paramset(interface="HmIP-RF",
-                    #                      address="001718A9A77FBC:1", paramsetKey="MASTER")
-                    # print(test)
-
-                    # import xmlrpc.client
-                    # ipHm = '192.168.178.39'
-                    # portHm = '2010'
-                    # # IP & port of homematic ccu
-                    # # portHM depends on access, BidCos-Wired = 2000, BidCos-RF = 2001, Internal = 2002
-                    # ipXmlRpcServer = '192.168.178.35'
-                    # portXmlRpcServer = '5544'
-                    # idHm = 'test-server'
-                    # # To register an xmlrpc server with Homematic set an ID 
-                    # # To unregister leave it blank
-                    # print(" list HM-HMIP")
-                    # tmpproxy = xmlrpc.client.ServerProxy('http://'+ipHm+':'+'2010')
-                    # tmpproxy.init(ipXmlRpcServer+':'+portXmlRpcServer,"")
-                    # tmpproxy.init(ipXmlRpcServer+':'+portXmlRpcServer,"HM-HMIP3")
-                    # value = tmpproxy.getParamset("001718A9A77FBC:1", "MASTER")
-                    # print(value)
-
-                    # value_specs = proxy._ccu.api.interface_get_paramset_description(interface="HmIP-RF",
-                    #                                 address=address_channel, paramsetType="VALUES")
-                    # test = proxy._ccu.api.interface_get_paramset(interface="HmIP-RF",
-                    #                      address="001718A9A77FBC:1", paramsetKey="VALUES")
-                    # result = proxy._ccu.api.interface_init(interface="HmIP-RF",
-                    #         url="http://%s:%i" %
-                    #         ("192.168.178.39", 9124), interfaceId="homeassistant-HMIP2")
-                    # print(test)
-
-
-                    channel_paramset = self._proxy.getParamset(address_channel, "MASTER",0)
-                else:
-                    channel_paramset = self._proxy.getParamset(address_channel, "MASTER", 0)
+                channel_paramset = self._proxy.getParamset(address_channel, "MASTER", 0)
                 channel_operation_mode = channel_paramset.get("CHANNEL_OPERATION_MODE") if "CHANNEL_OPERATION_MODE" in channel_paramset else 1
 
                 if channel_operation_mode == 1:

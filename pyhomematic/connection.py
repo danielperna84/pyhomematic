@@ -75,8 +75,6 @@ class HMConnection():
             LOG.debug("kwargs: %s" % str(kwargs))
         try:
             self._server.start()
-            import debugpy
-            debugpy.breakpoint()
             self._server.proxyInit()
             return True
         except Exception as err:
