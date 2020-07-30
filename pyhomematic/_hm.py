@@ -173,7 +173,7 @@ class RPCFunctions():
             # them in self._devices and self._devices_all
             self.createDeviceObjects(interface_id)
 
-    def createDeviceObjects(self, interface_id,skip_systemcallback=False):
+    def createDeviceObjects(self, interface_id, skip_systemcallback=False):
         """Transform the raw device descriptions into instances of devicetypes.generic.HMDevice or availabe subclass."""
         global WORKING
         WORKING = True
@@ -683,7 +683,7 @@ class ServerThread(threading.Thread):
                 # at least for home ip, init ccu is not working. Read list devices before "init proxy"
                 if interface_id == "homeassistant-HMIP":
                     dev_list = proxy.listDevices(interface_id)
-                    self._rpcfunctions.newDevices(interface_id=interface_id,dev_descriptions=dev_list, skip_systemcallback=True)
+                    self._rpcfunctions.newDevices(interface_id=interface_id, dev_descriptions=dev_list, skip_systemcallback=True)
 
                 proxy.init("http://%s:%i" %
                            (callbackip, callbackport), interface_id)
