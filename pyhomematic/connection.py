@@ -1,7 +1,6 @@
 import logging
 
 from pyhomematic import _hm
-import pmatic
 
 LOG = logging.getLogger(__name__)
 
