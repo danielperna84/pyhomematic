@@ -284,9 +284,9 @@ class RPCFunctions():
             self.systemcallback('listDevices', interface_id)
 
 
-        if len(self._devices_raw[remote]) > 2:
+        # return empty list, as appearently the maximum lenght is limited to 8192 bytes  (see #318 for details)
+        if len(self._devices_raw[remote]) > 0:
             return []
-#            return self._devices_raw[remote][:2]
         else:
             return self._devices_raw[remote]
 
@@ -680,8 +680,12 @@ class ServerThread(threading.Thread):
             LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" %
                       (callbackip, callbackport, interface_id))
             try:
+                import debugpy
+                debugpy.breakpoint()
                 # at least for home ip, init ccu is not working. Read list devices before "init proxy"
-                if interface_id == "homeassistant-HMIP":
+                # this fix is only applied for HmIP-RF (port 2010), as other interfaces not always implement the listDevice function
+                # and do not show this issue
+                if proxy._remoteport == 2010:
                     dev_list = proxy.listDevices(interface_id)
                     self._rpcfunctions.newDevices(interface_id=interface_id, dev_descriptions=dev_list, skip_systemcallback=True)
 
