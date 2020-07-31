@@ -683,7 +683,7 @@ class ServerThread(threading.Thread):
                 # at least for home ip, init ccu is not working. Read list devices before "init proxy"
                 # this fix is only applied for HmIP-RF (port 2010), as other interfaces not always implement the listDevice function
                 # and do not show this issue
-                if proxy._remoteport == 2010:
+                if proxy._remoteport == [2010, 32010, 42010]:
                     dev_list = proxy.listDevices(interface_id)
                     self._rpcfunctions.newDevices(interface_id=interface_id, dev_descriptions=dev_list, skip_systemcallback=True)
 
