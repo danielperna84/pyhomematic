@@ -680,8 +680,6 @@ class ServerThread(threading.Thread):
             LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" %
                       (callbackip, callbackport, interface_id))
             try:
-                import debugpy
-                debugpy.breakpoint()
                 # at least for home ip, init ccu is not working. Read list devices before "init proxy"
                 # this fix is only applied for HmIP-RF (port 2010), as other interfaces not always implement the listDevice function
                 # and do not show this issue
