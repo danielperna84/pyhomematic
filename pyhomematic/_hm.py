@@ -173,7 +173,7 @@ class RPCFunctions():
             # them in self._devices and self._devices_all
             self.createDeviceObjects(interface_id)
 
-    def createDeviceObjects(self, interface_id, skip_systemcallback=False):
+    def createDeviceObjects(self, interface_id):
         """Transform the raw device descriptions into instances of devicetypes.generic.HMDevice or availabe subclass."""
         global WORKING
         WORKING = True
@@ -220,7 +220,7 @@ class RPCFunctions():
         if self.devices_all[remote] and self.remotes[remote].get('resolvenames', False):
             self.addDeviceNames(remote)
         WORKING = False
-        if self.systemcallback and not skip_systemcallback:
+        if self.systemcallback:
             self.systemcallback('createDeviceObjects')
         return True
 
@@ -310,7 +310,7 @@ class RPCFunctions():
             self._paramsets[remote][d['ADDRESS']] = {}
         self.saveDevices(remote)
         self.saveParamsets(remote)
-        self.createDeviceObjects(interface_id, skip_systemcallback)
+        self.createDeviceObjects(interface_id)
         if self.systemcallback and not skip_systemcallback:
             self.systemcallback('newDevices', interface_id, dev_descriptions)
         return True
