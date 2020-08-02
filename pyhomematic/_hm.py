@@ -283,12 +283,10 @@ class RPCFunctions():
         if self.systemcallback:
             self.systemcallback('listDevices', interface_id)
 
-
-        # return empty list, as appearently the maximum lenght is limited to 8192 bytes  (see #318 for details)
-        if len(self._devices_raw[remote]) > 0:
+        # return empty list for HmIP, as currently the maximum lenght is limited to 8192 bytes  (see #318 for details)
+        if self.remotes.get(remote, {}).get('port') in [2010, 32010, 42010]:
             return []
-        else:
-            return self._devices_raw[remote]
+        return self._devices_raw[remote]
 
     def newDevices(self, interface_id, dev_descriptions, skip_systemcallback=False):
         """The CCU / Homegear informs us about newly added devices. We react on that and add those devices as well."""
