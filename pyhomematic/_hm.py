@@ -288,7 +288,7 @@ class RPCFunctions():
             return []
         return self._devices_raw[remote]
 
-    def newDevices(self, interface_id, dev_descriptions:
+    def newDevices(self, interface_id, dev_descriptions):
         """The CCU / Homegear informs us about newly added devices. We react on that and add those devices as well."""
         LOG.debug("RPCFunctions.newDevices: interface_id = %s, dev_descriptions = %s" % (
             interface_id, str(dev_descriptions)))
