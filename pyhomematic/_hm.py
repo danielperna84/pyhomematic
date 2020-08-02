@@ -288,7 +288,7 @@ class RPCFunctions():
             return []
         return self._devices_raw[remote]
 
-    def newDevices(self, interface_id, dev_descriptions, skip_systemcallback=False):
+    def newDevices(self, interface_id, dev_descriptions:
         """The CCU / Homegear informs us about newly added devices. We react on that and add those devices as well."""
         LOG.debug("RPCFunctions.newDevices: interface_id = %s, dev_descriptions = %s" % (
             interface_id, str(dev_descriptions)))
@@ -299,19 +299,18 @@ class RPCFunctions():
             self._devices_raw_dict[remote] = {}
         if remote not in self._paramsets:
             self._paramsets[remote] = {}
-        if self._devices_raw[remote] != []:
-            if self.systemcallback:
-                self.systemcallback('createDeviceObjects')
-                self.systemcallback('newDevices', interface_id, dev_descriptions)
-            return True
+        hmip = self.remotes.get(remote, {}).get('port') in [2010, 32010, 42010]
         for d in dev_descriptions:
+            if hmip:
+                if d in self._devices_raw[remote]:
+                    continue
             self._devices_raw[remote].append(d)
             self._devices_raw_dict[remote][d['ADDRESS']] = d
             self._paramsets[remote][d['ADDRESS']] = {}
         self.saveDevices(remote)
         self.saveParamsets(remote)
         self.createDeviceObjects(interface_id)
-        if self.systemcallback and not skip_systemcallback:
+        if self.systemcallback:
             self.systemcallback('newDevices', interface_id, dev_descriptions)
         return True
 
@@ -677,12 +676,11 @@ class ServerThread(threading.Thread):
             LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" %
                       (callbackip, callbackport, interface_id))
             try:
-                # at least for home ip, init ccu is not working. Read list devices before "init proxy"
-                # this fix is only applied for HmIP-RF (port 2010), as other interfaces not always implement the listDevice function
-                # and do not show this issue
+                # For HomeMatic IP, init is not working correctly. We fetch the device list and create
+                # the device objects before the init is performed.
                 if proxy._remoteport in [2010, 32010, 42010]:
                     dev_list = proxy.listDevices(interface_id)
-                    self._rpcfunctions.newDevices(interface_id=interface_id, dev_descriptions=dev_list, skip_systemcallback=True)
+                    self._rpcfunctions.newDevices(interface_id=interface_id, dev_descriptions=dev_list)
                 proxy.init("http://%s:%i" %
                            (callbackip, callbackport), interface_id)
                 LOG.info("Proxy for %s initialized", interface_id)
