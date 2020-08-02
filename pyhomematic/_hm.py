@@ -601,7 +601,6 @@ class ServerThread(threading.Thread):
         self.server.register_instance(
             self._rpcfunctions, allow_dotted_names=True)
 
-
     def run(self):
         LOG.info("Starting server at http://%s:%i" %
                  (self._local, self._localport))
@@ -684,16 +683,13 @@ class ServerThread(threading.Thread):
                 if proxy._remoteport in [2010, 32010, 42010]:
                     dev_list = proxy.listDevices(interface_id)
                     self._rpcfunctions.newDevices(interface_id=interface_id, dev_descriptions=dev_list, skip_systemcallback=True)
-
                 proxy.init("http://%s:%i" %
                            (callbackip, callbackport), interface_id)
                 LOG.info("Proxy for %s initialized", interface_id)
-
             except Exception as err:
                 LOG.debug("proxyInit: Exception: %s" % str(err))
                 LOG.warning("Failed to initialize proxy for %s", interface_id)
                 self.failed_inits.append(interface_id)
-
 
     def proxyDeInit(self):
         """De-Init from the proxies."""
