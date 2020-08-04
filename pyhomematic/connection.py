@@ -189,7 +189,7 @@ class HMConnection():
         if self._server is not None:
             return self._server.homegearCheckInit(remote)
 
-    def putParamset(self, remote, address, paramset, value):
+    def putParamset(self, remote, address, paramset, value, rx_mode=None):
         """Set paramsets manually"""
         if self._server is not None:
-            return self._server.putParamset(remote, address, paramset, value)
+            return self._server.putParamset(remote, address, paramset, value, rx_mode)
