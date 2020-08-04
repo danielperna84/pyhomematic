@@ -282,6 +282,10 @@ class RPCFunctions():
             self._devices_raw[remote] = []
         if self.systemcallback:
             self.systemcallback('listDevices', interface_id)
+
+        # return empty list for HmIP, as currently the maximum lenght is limited to 8192 bytes  (see #318 for details)
+        if self.remotes.get(remote, {}).get('port') in [2010, 32010, 42010]:
+            return []
         return self._devices_raw[remote]
 
     def newDevices(self, interface_id, dev_descriptions):
@@ -295,7 +299,11 @@ class RPCFunctions():
             self._devices_raw_dict[remote] = {}
         if remote not in self._paramsets:
             self._paramsets[remote] = {}
+        hmip = self.remotes.get(remote, {}).get('port') in [2010, 32010, 42010]
         for d in dev_descriptions:
+            if hmip:
+                if d in self._devices_raw[remote]:
+                    continue
             self._devices_raw[remote].append(d)
             self._devices_raw_dict[remote][d['ADDRESS']] = d
             self._paramsets[remote][d['ADDRESS']] = {}
@@ -522,7 +530,6 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         """
         Magic method dispatcher
         """
-
         return xmlrpc.client._Method(self.__request, *args, **kwargs)
 
 # Restrict to particular paths.
@@ -669,6 +676,11 @@ class ServerThread(threading.Thread):
             LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" %
                       (callbackip, callbackport, interface_id))
             try:
+                # For HomeMatic IP, init is not working correctly. We fetch the device list and create
+                # the device objects before the init is performed.
+                if proxy._remoteport in [2010, 32010, 42010]:
+                    dev_list = proxy.listDevices(interface_id)
+                    self._rpcfunctions.newDevices(interface_id=interface_id, dev_descriptions=dev_list)
                 proxy.init("http://%s:%i" %
                            (callbackip, callbackport), interface_id)
                 LOG.info("Proxy for %s initialized", interface_id)
