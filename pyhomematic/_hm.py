@@ -366,7 +366,10 @@ class RPCFunctions():
 
             headers = {"Content-Type": 'application/json',
                        "Content-Length": len(payload)}
-            apiendpoint = "http://%s:%s%s" % (host, jsonport, JSONRPC_URL)
+            if jsonport == 443:
+                apiendpoint = "https://%s:%s%s" % (host, jsonport, JSONRPC_URL)
+            else:
+                apiendpoint = "http://%s:%s%s" % (host, jsonport, JSONRPC_URL)
             LOG.debug("RPCFunctions.jsonRpcPost: API-Endpoint: %s" %
                       apiendpoint)
             req = urllib.request.Request(apiendpoint, payload, headers)
