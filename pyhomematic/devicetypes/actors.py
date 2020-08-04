@@ -57,6 +57,7 @@ class IPBlind(GenericBlind, HelperRssiPeer):
                                    "LEVEL_STATUS": self.ELEMENT,
                                    "SECTION": self.ELEMENT})
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
+        self.SENSORNODE.update({"LEVEL": [3]})
         self.WRITENODE.update({"LEVEL": self.ELEMENT})
 
 
