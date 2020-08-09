@@ -494,6 +494,8 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
     def ELEMENT(self):
         if "HmIP-BSM" in self.TYPE:
             return [4]
+        elif "HmIP-PCBS2" in self.TYPE:
+            return [4, 8]
         elif "HmIP-FSM" in self.TYPE or "HmIP-FSM16" in self.TYPE:
             return [2]
         elif "HmIP-MOD-OC8" in self.TYPE:
@@ -1007,6 +1009,7 @@ DEVICETYPES = {
     "HmIP-PS-PE": IPSwitch,
     "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
+    "HmIP-PCBS2": IPSwitch,
     "HmIP-PCBS-BAT": IPSwitch,
     "HmIP-PMFS": IPSwitch,
     "HmIP-MOD-OC8": IPSwitch,
