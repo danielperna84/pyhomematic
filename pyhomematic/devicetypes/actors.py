@@ -241,6 +241,13 @@ class Switch(GenericSwitch, HelperWorking, HelperRssiPeer):
             return [13, 14, 15, 16, 17, 18, 19]
         return [1]
 
+class IOSwitchWireless(GenericSwitch, HelperWorking, HelperEventRemote, HelperRssiPeer):
+    """
+    Switch turning attached device on or off. Can controll relais and buttons independently.
+    """
+    @property
+    def ELEMENT(self):
+        return [1, 2]
 
 class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote, HelperWired):
     """
@@ -993,6 +1000,7 @@ DEVICETYPES = {
     "HMW-IO-12-Sw14-DR": HMWIOSwitch,
     "HMW-IO-12-FM": IOSwitch,
     "HMW-LC-Sw2-DR": IOSwitch,
+    "HB-LC-Sw2PBU-FM": IOSwitchWireless,
     "HMW-LC-Bl1-DR": KeyBlind,
     "HMW-LC-Bl1-DR-2": KeyBlind,
     "HMW-LC-Dim1L-DR": KeyDimmer,
