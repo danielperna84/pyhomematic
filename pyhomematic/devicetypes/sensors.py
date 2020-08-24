@@ -951,6 +951,23 @@ class IPContact(SensorHmIP, HelperBinaryState, HelperEventRemote):
             return [1]
         return [1]
 
+class IPAlarmSensor(SensorHmIP, HelperSabotageIP):
+    """Alarm Sirene that emits its Acoustic and Optical Alarm Status"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({
+            "OPTICAL_ALARM_ACTIVE": [3],
+            "ACOUSTIC_ALARM_ACTIVE": [3]
+        })
+
+    def is_optical_alarm_active(self, channel=None):
+        return bool(self.getBinaryData("OPTICAL_ALARM_ACTIVE", channel))
+        
+    def is_acoustic_alarm_active(self, channel=None):
+        return bool(self.getBinaryData("ACOUSTIC_ALARM_ACTIVE", channel))
 
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
@@ -1051,4 +1068,8 @@ DEVICETYPES = {
     "HmIP-DSD-PCB": IPContact,
     "HB-UNI-Sen-TEMP-DS18B20": TemperatureSensor,
     "HB-UNI-Sen-WEA": HBUNISenWEA,
+	"HmIP-ASIR-B1": IPAlarmSensor,
+	"HmIP-ASIR-O": IPAlarmSensor,
+	"HmIP-ASIR": IPAlarmSensor,
+	"HmIP-ASIR-2": IPAlarmSensor,
 }
