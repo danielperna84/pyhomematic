@@ -755,7 +755,7 @@ class IPMultiIO(IPSwitch):
 
     @property
     def ELEMENT(self):
-        return [3, 7]
+        return [2, 3, 4, 6, 7, 8]
 
 
 class ColorEffectLight(Dimmer):
