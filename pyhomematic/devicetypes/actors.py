@@ -358,27 +358,6 @@ class IPWDimmer(GenericDimmer, HelperDeviceTemperature, HelperWired):
             return [2, 6, 10]
         return [1]
 
-
-class IPWMotionDection(HelperWired):
-    """
-    IP-Wired Motion Detection
-    """
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": self.ELEMENT,
-                                "PRESENCE_DETECTION_ACTIVE": self.ELEMENT,
-                                "CURRENT_ILLUMINATION_STATUS": self.ELEMENT,
-                                "ILLUMINATION_STATUS": self.ELEMENT})
-        self.SENSORNODE.update({"ILLUMINATION": self.ELEMENT,
-                                "CURRENT_ILLUMINATION": self.ELEMENT})
-
-    @property
-    def ELEMENT(self):
-        return [1]
-
-
 class IPWKeyBlindMulti(KeyBlind, HelperDeviceTemperature, HelperWired):
     """
     Multi-blind actor HmIPW-DRBL4
@@ -430,6 +409,42 @@ class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
         elif "HmIPW-DRI32" in self.TYPE:
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+        return [1]
+
+
+class IPWIODevice(HMEvent, GenericSwitch, HelperWired):
+    """
+    IP-Wired I/O component to support long / short press events and state report (e.g. if window contact or on/off switch)
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self._hmipw_keypress_event_channels = []
+        self._hmipw_binarysensor_channels = []
+        self._ic = [1]
+
+        # Set Input Channels depending on Device
+        if "HmIPW-FIO6" in self.TYPE:
+            self._ic = [1, 2, 3, 4, 5, 6]
+
+        # Get Operation Mode for Input Channels
+        for chan in self._ic:
+            try:
+                if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER").get("CHANNEL_OPERATION_MODE", None) == 1:
+                    self._hmipw_keypress_event_channels.append(chan)
+                else:
+                    self._hmipw_binarysensor_channels.append(chan)
+            except Exception as err:
+                LOG.error("IPWIODevice: Failure to determine input channel operations mode of HmIPW input device %s:%i %s", self._ADDRESS, chan, err)
+
+        self.ACTIONNODE.update({"PRESS_SHORT": self._hmipw_keypress_event_channels,
+                                "PRESS_LONG": self._hmipw_keypress_event_channels})
+        self.BINARYNODE.update({"STATE": self._hmipw_binarysensor_channels})
+
+    @property
+    def ELEMENT(self):
+        """ General output channel definition """
+        if "HmIPW-FIO6" in self.TYPE:
+            return [8, 12, 16, 20, 24, 28]
         return [1]
 
 
@@ -1009,8 +1024,8 @@ DEVICETYPES = {
     "HmIPW-DRS8": IPWSwitch,
     "HmIPW-DRI32": IPWInputDevice,
     "HmIPW-DRI16": IPWInputDevice,
+    "HmIPW-FIO6": IPWIODevice,
     "HmIPW-DRD3": IPWDimmer,
-    "HmIPW-SPI": IPWMotionDection,
     "HmIPW-DRBL4": IPWKeyBlindMulti,
     "HMIP-PS": IPSwitch,
     "HmIP-PS": IPSwitch,
