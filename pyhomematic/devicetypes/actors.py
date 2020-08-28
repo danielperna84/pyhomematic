@@ -1021,6 +1021,7 @@ DEVICETYPES = {
     "HmIP-PSM-IT": IPSwitchPowermeter,
     "HmIP-PSM-PE": IPSwitchPowermeter,
     "HmIP-PSM-UK": IPSwitchPowermeter,
+    "HmIP-FSI16": IPSwitch,
     "HmIP-FSM": IPSwitchPowermeter,
     "HmIP-FSM16": IPSwitchPowermeter,
     "HmIP-BSM": IPKeySwitchPowermeter,
