@@ -642,6 +642,7 @@ class ServerThread(threading.Thread):
                 LOG.warning("Failed connecting to proxy at http://%s:%i%s" %
                             (host['ip'], host['port'], host['path']))
                 LOG.debug("__init__: Exception: %s" % str(err))
+                # pylint: disable=raise-missing-from
                 raise Exception
             try:
                 host['type'] = BACKEND_UNKNOWN

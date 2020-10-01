@@ -998,7 +998,7 @@ class IPAlarmSensor(SensorHmIP, HelperSabotageIP):
 
     def is_optical_alarm_active(self, channel=None):
         return bool(self.getBinaryData("OPTICAL_ALARM_ACTIVE", channel))
-        
+
     def is_acoustic_alarm_active(self, channel=None):
         return bool(self.getBinaryData("ACOUSTIC_ALARM_ACTIVE", channel))
 
