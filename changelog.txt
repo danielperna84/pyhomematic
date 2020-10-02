@@ -1,3 +1,6 @@
+Version 0.1.70 (2020-10-03)
+- Remove toplevel tests (Issue #334) @onkelbeh
+
 Version 0.1.69 (2020-10-01)
 - Support for HmIP-PCBS2 + HmIP-FSI16 @leinich
 - Support for HB-LC-Sw2PBU-FM @oechslein
