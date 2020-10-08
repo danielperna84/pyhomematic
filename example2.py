@@ -6,7 +6,7 @@ from pyhomematic import HMConnection
 
 logging.basicConfig(level=logging.INFO)
 
-DEVICE1 = '001718A9A77FBC:1'  # e.g. KEQ7654321
+DEVICE1 = '001718A9A77FBC'  # e.g. KEQ7654321
 DEVICE2 = '001718A9A77FBC'  # e.g. LEQ1234567
 DEVICE3 = 'address_of_thermostat'
 
@@ -14,91 +14,72 @@ def systemcallback(src, *args):
     print("hier:", src)
     for arg in args:
         print(arg)
-    return {}
-
-
-#pyhomematic = HMConnection(local="192.168.178.35", localport=7080, remote="192.168.178.39", remoteport=2001, systemcallback=systemcallback) # Create server thread
-#pyhomematic.start() # Start server thread, connect to homegear, initialize to receive events
-
-
-#for room in ccu.rooms:
-#    print("%-30s %d devices" % (room.name, len(room.devices)))
-
 
 try:
     # Create a server that listens on 127.0.0.1:7080 and identifies itself as myserver.
     # Connect to Homegear at 127.0.0.1:2001
     # Automatically start everything. Without autostart, pyhomematic.start() can be called.
     # We add a systemcallback so we can see what else happens besides the regular events.
-    pyhomematic = HMConnection(
-                               interface_id="myserver",
-#                               autostart=True,
-                               local="192.168.178.35",
-                               localport=7080,
+    pyhomematic = HMConnection(interface_id="myserver",
+                               autostart=True,
+#                               local="192.168.178.35",
+#                               localport="9400",
                                systemcallback=systemcallback,
                                remotes={
+                                   "wired":{
+                                   "ip":"192.168.178.39",
+                                   "port": 2000,
+                                   "resolvenames": "json",
+                                   "username":"PmaticAdmin", 
+                                   "password": "EPIC-SECRET-PW"},
                                    "Funk":{
+                                   "ip":"192.168.178.39",
+                                   "port": 2001,
+                                   "resolvenames": "json",
+                                   "username":"PmaticAdmin", 
+                                   "password": "EPIC-SECRET-PW"},
+                                   "HmIP":{
                                    "ip":"192.168.178.39",
                                    "username":"PmaticAdmin", 
                                    "password": "EPIC-SECRET-PW",
                                    "resolvenames": "json",
-                                   "port": 2010}
-				   }
-                                   )
+                                   "port": 2010},
+                                   "CUxD":{
+                                   "ip":"192.168.178.39",
+                                   "resolvenames": "json",
+                                   "username":"PmaticAdmin", 
+                                   "password": "EPIC-SECRET-PW",
+                                   "port": 8701},
+                                   "groups":{
+                                   "ip":"192.168.178.39",
+                                   "resolvenames": "json",
+                                   "username":"PmaticAdmin", 
+                                   "password": "EPIC-SECRET-PW",
+                                   "path": "/groups",
+                                   "port": 9292}
+                                   }
+                                   ),
 except Exception:
     sys.exit(1)
 
-import pmatic
-
-ccu = pmatic.CCU(address="http://192.168.178.39", credentials=("PmaticAdmin", "EPIC-SECRET-PW"))
-test = ccu.api.interface_get_paramset(interface="HmIP-RF",
-                                         address="001718A9A77FBC:1", paramsetKey="MASTER")
-print(test)
-result = ccu.api.interface_init(interface="HmIP-RF",
-            url="http://192.168.178.35:9124", interfaceId="HmIP-RF")
-test = ccu.api.interface_get_paramset(interface="HmIP-RF",
-                                         address="001718A9A77FBC:1", paramsetKey="MASTER")
-print(test)
-
-test = pmatic.events.EventListener(ccu)
-test._register_with_ccu(interface = "HmIP-RF", interfaceId = "HmIP-RF")
-test = ccu.api.interface_get_paramset(interface="HmIP-RF",
-                                         address="001718A9A77FBC:1", paramsetKey="MASTER")
-print(test)
-
-pyhomematic.start()
-
+sleepcounter = 0
 
 def eventcallback(address, interface_id, key, value):
     print("CALLBACK: %s, %s, %s, %s" % (address, interface_id, key, value))
 
-sleepcounter = 0
 while not pyhomematic.devices and sleepcounter < 20:
     print("Waiting for devices")
     sleepcounter += 1
     time.sleep(1)
 print(pyhomematic.devices)
 
-
-
 print("start devices")
-test = ccu.api.interface_get_paramset(interface="HmIP-RF",
-                                         address="001718A9A77FBC:1", paramsetKey="MASTER")
-
-
-from xmlrpc.client import ServerProxy
-p2 = ServerProxy("http://192.168.178.39:2010")
-t = p2.getParamset("001718A9A77FBC:1", "MASTER")
-print ("after init proxie1", t)
-
-
-print("test:", test)
 print(pyhomematic.getAllSystemVariables("Funk"))
 print(pyhomematic.listBidcosInterfaces("Funk"))
-print(pyhomematic.devices['Funk'])
+print(pyhomematic.devices['ip'])
 
 # Get level of rollershutter from 0.0 to 1.0.
-print(pyhomematic.devices[DEVICE1])
+print(pyhomematic.devices[DEVICE1].get_level())
 
 # Set level of rollershutter to 50%.
 pyhomematic.devices[DEVICE1].set_level(0.5)
