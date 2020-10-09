@@ -453,6 +453,11 @@ class RPCFunctions():
                             if i.get('address') in self.devices[remote]:
                                 self.devices[remote][
                                     i['address']].NAME = i['name']
+                                for channel_device_response in i['channels']:
+                                    name = channel_device_response['name']
+                                    channel_device = self.devices_all[remote][channel_device_response['address']]
+                                    self.devices_all[remote][channel_device_response['address']].NAME = name
+
                         except Exception as err:
                             LOG.warning(
                                 "RPCFunctions.addDeviceNames: Exception: %s" % str(err))
