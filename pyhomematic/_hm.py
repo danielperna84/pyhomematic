@@ -455,7 +455,6 @@ class RPCFunctions():
                                     i['address']].NAME = i['name']
                                 for channel_device_response in i['channels']:
                                     name = channel_device_response['name']
-                                    channel_device = self.devices_all[remote][channel_device_response['address']]
                                     self.devices_all[remote][channel_device_response['address']].NAME = name
 
                         except Exception as err:
