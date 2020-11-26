@@ -282,6 +282,10 @@ class RPCFunctions():
             self._devices_raw[remote] = []
         if self.systemcallback:
             self.systemcallback('listDevices', interface_id)
+
+        # return empty list for HmIP, as currently the maximum lenght is limited to 8192 bytes  (see #318 for details)
+        if self.remotes.get(remote, {}).get('port') in [2010, 32010, 42010]:
+            return []
         return self._devices_raw[remote]
 
     def newDevices(self, interface_id, dev_descriptions):
@@ -295,7 +299,11 @@ class RPCFunctions():
             self._devices_raw_dict[remote] = {}
         if remote not in self._paramsets:
             self._paramsets[remote] = {}
+        hmip = self.remotes.get(remote, {}).get('port') in [2010, 32010, 42010]
         for d in dev_descriptions:
+            if hmip:
+                if d in self._devices_raw[remote]:
+                    continue
             self._devices_raw[remote].append(d)
             self._devices_raw_dict[remote][d['ADDRESS']] = d
             self._paramsets[remote][d['ADDRESS']] = {}
@@ -358,7 +366,10 @@ class RPCFunctions():
 
             headers = {"Content-Type": 'application/json',
                        "Content-Length": len(payload)}
-            apiendpoint = "http://%s:%s%s" % (host, jsonport, JSONRPC_URL)
+            if jsonport == 443:
+                apiendpoint = "https://%s:%s%s" % (host, jsonport, JSONRPC_URL)
+            else:
+                apiendpoint = "http://%s:%s%s" % (host, jsonport, JSONRPC_URL)
             LOG.debug("RPCFunctions.jsonRpcPost: API-Endpoint: %s" %
                       apiendpoint)
             req = urllib.request.Request(apiendpoint, payload, headers)
@@ -442,6 +453,10 @@ class RPCFunctions():
                             if i.get('address') in self.devices[remote]:
                                 self.devices[remote][
                                     i['address']].NAME = i['name']
+                                for channel_device_response in i['channels']:
+                                    name = channel_device_response['name']
+                                    self.devices_all[remote][channel_device_response['address']].NAME = name
+
                         except Exception as err:
                             LOG.warning(
                                 "RPCFunctions.addDeviceNames: Exception: %s" % str(err))
@@ -522,7 +537,6 @@ class LockingServerProxy(xmlrpc.client.ServerProxy):
         """
         Magic method dispatcher
         """
-
         return xmlrpc.client._Method(self.__request, *args, **kwargs)
 
 # Restrict to particular paths.
@@ -632,6 +646,7 @@ class ServerThread(threading.Thread):
                 LOG.warning("Failed connecting to proxy at http://%s:%i%s" %
                             (host['ip'], host['port'], host['path']))
                 LOG.debug("__init__: Exception: %s" % str(err))
+                # pylint: disable=raise-missing-from
                 raise Exception
             try:
                 host['type'] = BACKEND_UNKNOWN
@@ -669,6 +684,11 @@ class ServerThread(threading.Thread):
             LOG.debug("ServerThread.proxyInit: init('http://%s:%i', '%s')" %
                       (callbackip, callbackport, interface_id))
             try:
+                # For HomeMatic IP, init is not working correctly. We fetch the device list and create
+                # the device objects before the init is performed.
+                if proxy._remoteport in [2010, 32010, 42010]:
+                    dev_list = proxy.listDevices(interface_id)
+                    self._rpcfunctions.newDevices(interface_id=interface_id, dev_descriptions=dev_list)
                 proxy.init("http://%s:%i" %
                            (callbackip, callbackport), interface_id)
                 LOG.info("Proxy for %s initialized", interface_id)

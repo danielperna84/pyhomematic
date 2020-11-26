@@ -57,6 +57,7 @@ class IPBlind(GenericBlind, HelperRssiPeer):
                                    "LEVEL_STATUS": self.ELEMENT,
                                    "SECTION": self.ELEMENT})
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
+        self.SENSORNODE.update({"LEVEL": [3]})
         self.WRITENODE.update({"LEVEL": self.ELEMENT})
 
 
@@ -240,6 +241,13 @@ class Switch(GenericSwitch, HelperWorking, HelperRssiPeer):
             return [13, 14, 15, 16, 17, 18, 19]
         return [1]
 
+class IOSwitchWireless(GenericSwitch, HelperWorking, HelperEventRemote, HelperRssiPeer):
+    """
+    Switch turning attached device on or off. Can controll relais and buttons independently.
+    """
+    @property
+    def ELEMENT(self):
+        return [1, 2]
 
 class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote, HelperWired):
     """
@@ -350,27 +358,6 @@ class IPWDimmer(GenericDimmer, HelperDeviceTemperature, HelperWired):
             return [2, 6, 10]
         return [1]
 
-
-class IPWMotionDection(HelperWired):
-    """
-    IP-Wired Motion Detection
-    """
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
-        # init metadata
-        self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": self.ELEMENT,
-                                "PRESENCE_DETECTION_ACTIVE": self.ELEMENT,
-                                "CURRENT_ILLUMINATION_STATUS": self.ELEMENT,
-                                "ILLUMINATION_STATUS": self.ELEMENT})
-        self.SENSORNODE.update({"ILLUMINATION": self.ELEMENT,
-                                "CURRENT_ILLUMINATION": self.ELEMENT})
-
-    @property
-    def ELEMENT(self):
-        return [1]
-
-
 class IPWKeyBlindMulti(KeyBlind, HelperDeviceTemperature, HelperWired):
     """
     Multi-blind actor HmIPW-DRBL4
@@ -425,6 +412,42 @@ class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
         return [1]
 
 
+class IPWIODevice(HMEvent, GenericSwitch, HelperWired):
+    """
+    IP-Wired I/O component to support long / short press events and state report (e.g. if window contact or on/off switch)
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self._hmipw_keypress_event_channels = []
+        self._hmipw_binarysensor_channels = []
+        self._ic = [1]
+
+        # Set Input Channels depending on Device
+        if "HmIPW-FIO6" in self.TYPE:
+            self._ic = [1, 2, 3, 4, 5, 6]
+
+        # Get Operation Mode for Input Channels
+        for chan in self._ic:
+            try:
+                if self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER").get("CHANNEL_OPERATION_MODE", None) == 1:
+                    self._hmipw_keypress_event_channels.append(chan)
+                else:
+                    self._hmipw_binarysensor_channels.append(chan)
+            except Exception as err:
+                LOG.error("IPWIODevice: Failure to determine input channel operations mode of HmIPW input device %s:%i %s", self._ADDRESS, chan, err)
+
+        self.ACTIONNODE.update({"PRESS_SHORT": self._hmipw_keypress_event_channels,
+                                "PRESS_LONG": self._hmipw_keypress_event_channels})
+        self.BINARYNODE.update({"STATE": self._hmipw_binarysensor_channels})
+
+    @property
+    def ELEMENT(self):
+        """ General output channel definition """
+        if "HmIPW-FIO6" in self.TYPE:
+            return [8, 12, 16, 20, 24, 28]
+        return [1]
+
+
 class RFSiren(GenericSwitch, HelperWorking, HelperRssiPeer):
     """
     HM-Sec-Sir-WM Siren
@@ -453,7 +476,8 @@ class KeyMatic(HMActor, HelperActorState, HelperRssiPeer):
         # init metadata
         self.ACTIONNODE.update({"OPEN": self.ELEMENT})
         self.ATTRIBUTENODE.update({"STATE_UNCERTAIN": self.ELEMENT,
-                                   "ERROR": self.ELEMENT})
+                                   "ERROR": self.ELEMENT,
+                                   "LOWBAT": self.ELEMENT})
 
     def is_unlocked(self, channel=None):
         """ Returns True if KeyMatic is unlocked. """
@@ -493,6 +517,8 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
     def ELEMENT(self):
         if "HmIP-BSM" in self.TYPE:
             return [4]
+        elif "HmIP-PCBS2" in self.TYPE:
+            return [4, 8]
         elif "HmIP-FSM" in self.TYPE or "HmIP-FSM16" in self.TYPE:
             return [2]
         elif "HmIP-MOD-OC8" in self.TYPE:
@@ -752,7 +778,7 @@ class IPMultiIO(IPSwitch):
 
     @property
     def ELEMENT(self):
-        return [3, 7]
+        return [2, 3, 4, 6, 7, 8]
 
 
 class ColorEffectLight(Dimmer):
@@ -990,6 +1016,7 @@ DEVICETYPES = {
     "HMW-IO-12-Sw14-DR": HMWIOSwitch,
     "HMW-IO-12-FM": IOSwitch,
     "HMW-LC-Sw2-DR": IOSwitch,
+    "HB-LC-Sw2PBU-FM": IOSwitchWireless,
     "HMW-LC-Bl1-DR": KeyBlind,
     "HMW-LC-Bl1-DR-2": KeyBlind,
     "HMW-LC-Dim1L-DR": KeyDimmer,
@@ -997,8 +1024,8 @@ DEVICETYPES = {
     "HmIPW-DRS8": IPWSwitch,
     "HmIPW-DRI32": IPWInputDevice,
     "HmIPW-DRI16": IPWInputDevice,
+    "HmIPW-FIO6": IPWIODevice,
     "HmIPW-DRD3": IPWDimmer,
-    "HmIPW-SPI": IPWMotionDection,
     "HmIPW-DRBL4": IPWKeyBlindMulti,
     "HMIP-PS": IPSwitch,
     "HmIP-PS": IPSwitch,
@@ -1006,6 +1033,7 @@ DEVICETYPES = {
     "HmIP-PS-PE": IPSwitch,
     "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
+    "HmIP-PCBS2": IPSwitch,
     "HmIP-PCBS-BAT": IPSwitch,
     "HmIP-PMFS": IPSwitch,
     "HmIP-MOD-OC8": IPSwitch,
@@ -1017,6 +1045,7 @@ DEVICETYPES = {
     "HmIP-PSM-IT": IPSwitchPowermeter,
     "HmIP-PSM-PE": IPSwitchPowermeter,
     "HmIP-PSM-UK": IPSwitchPowermeter,
+    "HmIP-FSI16": IPSwitch,
     "HmIP-FSM": IPSwitchPowermeter,
     "HmIP-FSM16": IPSwitchPowermeter,
     "HmIP-BSM": IPKeySwitchPowermeter,
@@ -1038,4 +1067,5 @@ DEVICETYPES = {
     "HmIP-MIOB": IPMultiIO,
     "HM-DW-WM": Dimmer,
     "HM-LC-DW-WM": ColdWarmDimmer,
+    "HB-UNI-RGB-LED-CTRL": ColorEffectLight,
 }

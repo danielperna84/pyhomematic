@@ -53,6 +53,10 @@ class SensorHmIP(HMSensor, HelperRssiDevice, HelperLowBatIP, HelperOperatingVolt
          - voltage of the batteries (HelperOperatingVoltageIP)"""
 
 
+class SensorHmIPW(HMSensor, HelperWired):
+    """Homematic IP Wired sensors"""
+
+
 class SensorHmIPNoVoltage(HMSensor, HelperRssiDevice, HelperLowBatIP):
     """Some Homematic IP sensors have
          - strength of the signal received by the CCU (HelperRssiDevice).
@@ -461,6 +465,35 @@ class PresenceIP(SensorHmIP, HelperSabotageIP):
     @property
     def ELEMENT(self):
         return [0, 1]
+
+
+class PresenceIPW(SensorHmIPW):
+    """Presence detection with HmIPW-SPI.
+       This is a binary sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": self.ELEMENT,
+                                "PRESENCE_DETECTION_ACTIVE": self.ELEMENT,
+                                "CURRENT_ILLUMINATION_STATUS": self.ELEMENT,
+                                "ILLUMINATION_STATUS": self.ELEMENT})
+        self.SENSORNODE.update({"ILLUMINATION": self.ELEMENT,
+                                "CURRENT_ILLUMINATION": self.ELEMENT})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("PRESENCE_DETECTION_STATE", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark) to 163830 (bright) """
+        return float(self.getSensorData("ILLUMINATION", channel))
+
+    @property
+    def ELEMENT(self):
+        return [1]
 
 
 class TiltIP(SensorHmIP):
@@ -951,6 +984,23 @@ class IPContact(SensorHmIP, HelperBinaryState, HelperEventRemote):
             return [1]
         return [1]
 
+class IPAlarmSensor(SensorHmIP, HelperSabotageIP):
+    """Alarm Sirene that emits its Acoustic and Optical Alarm Status"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({
+            "OPTICAL_ALARM_ACTIVE": [3],
+            "ACOUSTIC_ALARM_ACTIVE": [3]
+        })
+
+    def is_optical_alarm_active(self, channel=None):
+        return bool(self.getBinaryData("OPTICAL_ALARM_ACTIVE", channel))
+
+    def is_acoustic_alarm_active(self, channel=None):
+        return bool(self.getBinaryData("ACOUSTIC_ALARM_ACTIVE", channel))
 
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
@@ -997,6 +1047,7 @@ DEVICETYPES = {
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
     "HmIP-SPI": PresenceIP,
+    "HmIPW-SPI": PresenceIPW,
     "HM-Sen-LI-O": LuxSensor,
     "HM-Sen-EP": ImpulseSensor,
     "HM-Sen-X": ImpulseSensor,
@@ -1051,4 +1102,8 @@ DEVICETYPES = {
     "HmIP-DSD-PCB": IPContact,
     "HB-UNI-Sen-TEMP-DS18B20": TemperatureSensor,
     "HB-UNI-Sen-WEA": HBUNISenWEA,
+	"HmIP-ASIR-B1": IPAlarmSensor,
+	"HmIP-ASIR-O": IPAlarmSensor,
+	"HmIP-ASIR": IPAlarmSensor,
+	"HmIP-ASIR-2": IPAlarmSensor,
 }

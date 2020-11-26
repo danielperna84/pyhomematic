@@ -1,3 +1,20 @@
+Version 0.1.70 (2020-10-03)
+- Remove toplevel tests (Issue #334) @onkelbeh
+
+Version 0.1.69 (2020-10-01)
+- Support for HmIP-PCBS2 + HmIP-FSI16 @leinich
+- Support for HB-LC-Sw2PBU-FM @oechslein
+- Add lowbat for KeyMatic @trilu2000
+- Support for HmIP-ASIR @stefangries
+- Improved HmIPW-FIO6 @p0l0
+
+Version 0.1.68 (2020-08-04)
+- Support rx_mode @rusitschka
+- HomeMatic IP stability @weissm
+- Add Sensor-Node for HmIP-Covers @danielperna84
+- Add support for HmIPW devices @p0l0
+- Add support for HB-UNI-RGB-LED-CTR @lukasriegel
+
 Version 0.1.67 (2020-05-14)
 - Refactoring @danielperna84
 - Add support for HmIP-SWDO-PL @rgriebl
