@@ -1037,6 +1037,7 @@ DEVICETYPES = {
     "HmIP-PCBS-BAT": IPSwitch,
     "HmIP-PMFS": IPSwitch,
     "HmIP-MOD-OC8": IPSwitch,
+    "HmIP-DRSI1": IPSwitch,
     "HmIP-DRSI4": IPSwitch,
     "HmIP-BSL": IPKeySwitchLevel,
     "HMIP-PSM": IPSwitchPowermeter,
