@@ -515,7 +515,7 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
 
     @property
     def ELEMENT(self):
-        if "HmIP-BSM" in self.TYPE or "HmIP-DRSI1" in self.TYPE:
+        if "HmIP-BSM" in self.TYPE:
             return [4]
         elif "HmIP-PCBS2" in self.TYPE:
             return [4, 8]
