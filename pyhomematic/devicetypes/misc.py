@@ -137,7 +137,7 @@ DEVICETYPES = {
     "HM-PB-4Dis-WM-2": Remote,
     "HMW-IO-4-FM": Remote,
     "HMIP-WRC2": RemoteBatteryIP,
-    "HMiP-WRC2": RemoteBatteryIP,
+    "HmIP-WRC2": RemoteBatteryIP,
     "HmIP-WRCC2": RemoteBatteryIP,
     "HmIP-BRC2": Remote,
     "HmIP-WRC6": RemoteBatteryIP,
