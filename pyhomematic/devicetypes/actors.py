@@ -105,6 +105,14 @@ class IPKeyBlindMulti(KeyBlind):
 
 
 class IPKeyBlindTilt(IPKeyBlind, HelperActorBlindTilt):
+    """
+    Blind switch that raises, lowers and adjusts the slat position of shutters or blinds.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"LEVEL_2": [3]})
 
     def close_slats(self, channel=None):
         """Move the shutter up all the way."""
