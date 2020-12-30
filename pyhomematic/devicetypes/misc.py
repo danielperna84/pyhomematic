@@ -2,7 +2,7 @@ import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.helper import HelperActionPress, \
     HelperEventRemote, HelperEventPress, HelperRssiPeer, HelperLowBatIP, \
-    HelperLowBat
+    HelperLowBat, HelperOperatingVoltageIP
 
 LOG = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
         return [1]
 
 
-class RemoteBatteryIP(Remote, HelperLowBatIP):
+class RemoteBatteryIP(Remote, HelperLowBatIP, HelperOperatingVoltageIP):
     """Battery operated HomeMaticIP remote device."""
 
 
