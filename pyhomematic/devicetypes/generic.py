@@ -62,7 +62,7 @@ class HMGeneric():
         self._VALUES[key] = value   # Cache the value
 
         for callback in self._eventcallbacks:
-            LOG.debug("HMGeneric.event: Using callback %s " % str(callback))
+            LOG.debug("HMGeneric.event: Using callback %s", str(callback))
             callback(self._ADDRESS, interface_id, key, value)
 
     def getParamsetDescription(self, paramset):
@@ -72,7 +72,7 @@ class HMGeneric():
         try:
             self._PARAMSET_DESCRIPTIONS[paramset] = self._proxy.getParamsetDescription(self._ADDRESS, paramset)
         except Exception as err:
-            LOG.error("HMGeneric.getParamsetDescription: Exception: " + str(err))
+            LOG.error("HMGeneric.getParamsetDescription: Exception: %s", err)
             return False
 
     def updateParamset(self, paramset):
@@ -104,7 +104,7 @@ class HMGeneric():
                 self.updateParamset(ps)
             return True
         except Exception as err:
-            LOG.error("HMGeneric.updateParamsets: Exception: " + str(err))
+            LOG.error("HMGeneric.updateParamsets: Exception: %s", err)
             return False
 
     def putParamset(self, paramset, data={}, rx_mode=None):
@@ -127,7 +127,7 @@ class HMGeneric():
             else:
                 return False
         except Exception as err:
-            LOG.error("HMGeneric.putParamset: Exception: " + str(err))
+            LOG.error("HMGeneric.putParamset: Exception: %s", err)
             return False
 
 
@@ -190,7 +190,7 @@ class HMChannel(HMGeneric):
         """
         Some devices allow to directly set values to perform a specific task.
         """
-        LOG.debug("HMGeneric.setValue: address = '%s', key = '%s' value = '%s'" % (self._ADDRESS, key, value))
+        LOG.debug("HMGeneric.setValue: address = '%s', key = '%s' value = '%s'", self._ADDRESS, key, value)
         try:
             self._proxy.setValue(self._ADDRESS, key, value)
             return True
@@ -203,14 +203,14 @@ class HMChannel(HMGeneric):
         """
         Some devices allow to directly get values for specific parameters.
         """
-        LOG.debug("HMGeneric.getValue: address = '%s', key = '%s'" % (self._ADDRESS, key))
+        LOG.debug("HMGeneric.getValue: address = '%s', key = '%s'", self._ADDRESS, key)
         try:
             returnvalue = self._proxy.getValue(self._ADDRESS, key)
             self._VALUES[key] = returnvalue
             return returnvalue
         except Exception as err:
-            LOG.warning("HMGeneric.getValue: %s on %s Exception: %s", key,
-                        self._ADDRESS, err)
+            LOG.info("HMGeneric.getValue: %s on %s Exception: %s", key,
+                     self._ADDRESS, err)
             return False
 
 

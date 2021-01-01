@@ -6,6 +6,7 @@ Verson 0.1.71 (2021-01-01)
 - Sensornode for HmIP blind actuators @rbloehm
 - Add HmIP-FALMOT-C12 (Issue #367) @danielperna84
 - Add HmIP-SRD (Issue #347) @danielperna84
+- Set loglevel for getValue to Info + cleanup @danielperna84
 
 Version 0.1.70 (2020-10-03)
 - Remove toplevel tests (Issue #334) @onkelbeh
