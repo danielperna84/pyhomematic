@@ -1002,6 +1002,22 @@ class IPAlarmSensor(SensorHmIP, HelperSabotageIP):
     def is_acoustic_alarm_active(self, channel=None):
         return bool(self.getBinaryData("ACOUSTIC_ALARM_ACTIVE", channel))
 
+class ValveBox(SensorHmIP):
+    """Valve Box HmIP-FALMOT-C12"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.SENSORNODE.update({"LEVEL": self.ELEMENT})
+
+    def get_level(self, channel=None):
+        """Return valve state from 0% to 99%"""
+        return float(self.getSensorData("LEVEL", channel))
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -1102,8 +1118,9 @@ DEVICETYPES = {
     "HmIP-DSD-PCB": IPContact,
     "HB-UNI-Sen-TEMP-DS18B20": TemperatureSensor,
     "HB-UNI-Sen-WEA": HBUNISenWEA,
-	"HmIP-ASIR-B1": IPAlarmSensor,
-	"HmIP-ASIR-O": IPAlarmSensor,
-	"HmIP-ASIR": IPAlarmSensor,
-	"HmIP-ASIR-2": IPAlarmSensor,
+    "HmIP-ASIR-B1": IPAlarmSensor,
+    "HmIP-ASIR-O": IPAlarmSensor,
+    "HmIP-ASIR": IPAlarmSensor,
+    "HmIP-ASIR-2": IPAlarmSensor,
+    "HmIP-FALMOT-C12": ValveBox,
 }
