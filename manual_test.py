@@ -4,7 +4,8 @@ import logging
 import click
 from pyhomematic import HMConnection
 from pyhomematic.devicetypes.actors import GenericSwitch
-from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, HelperValveState
+from pyhomematic.devicetypes.helper import HelperLowBat, HelperSabotage, HelperWorking, HelperBatteryState, \
+    HelperValveState, HelperInhibit
 from pyhomematic.devicetypes.sensors import WeatherSensor, AreaThermostat, ShutterContact, Smoke, Motion, Remote
 from pyhomematic.devicetypes.thermostats import HMThermostat, IPThermostat
 
@@ -159,6 +160,9 @@ def cli(local, localport, remote, remoteport, address, channel, state, toggle,
 
         if isinstance(device, HelperWorking):
             print(" / Working: %s" % str(device.is_working()))
+
+        if isinstance(device, HelperInhibit):
+            print(" / Inhibit: %s" % str(device.get_inhibit()))
 
         if isinstance(device, HelperValveState):
             print(" / Valve state: %i" % device.valve_state())

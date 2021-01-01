@@ -2,7 +2,7 @@ import logging
 from pyhomematic.devicetypes.generic import HMDevice
 from pyhomematic.devicetypes.helper import HelperActionPress, \
     HelperEventRemote, HelperEventPress, HelperRssiPeer, HelperLowBatIP, \
-    HelperLowBat
+    HelperLowBat, HelperOperatingVoltageIP
 
 LOG = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
 
     @property
     def ELEMENT(self):
-        if "RC-2" in self.TYPE or "PB-2" in self.TYPE or "WRC2" in self.TYPE or "BRC2" in self.TYPE:
+        if "RC-2" in self.TYPE or "PB-2" in self.TYPE or "WRC2" in self.TYPE or "BRC2" in self.TYPE or "WRCC2" in self.TYPE:
             return [1, 2]
         if "HM-Dis-WM55" in self.TYPE or "HM-Dis-EP-WM55" in self.TYPE:
             return [1, 2]
@@ -61,7 +61,7 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
         return [1]
 
 
-class RemoteBatteryIP(Remote, HelperLowBatIP):
+class RemoteBatteryIP(Remote, HelperLowBatIP, HelperOperatingVoltageIP):
     """Battery operated HomeMaticIP remote device."""
 
 
@@ -138,6 +138,7 @@ DEVICETYPES = {
     "HMW-IO-4-FM": Remote,
     "HMIP-WRC2": RemoteBatteryIP,
     "HmIP-WRC2": RemoteBatteryIP,
+    "HmIP-WRCC2": RemoteBatteryIP,
     "HmIP-BRC2": Remote,
     "HmIP-WRC6": RemoteBatteryIP,
     "HmIP-WRCD": RemoteBatteryIP,

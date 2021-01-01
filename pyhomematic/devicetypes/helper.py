@@ -168,6 +168,33 @@ class HelperActorLevel(HMDevice):
 
         self.writeNodeData("LEVEL", position, channel)
 
+
+class HelperInhibit(HMDevice):
+    """
+    Generic inhibit functions
+    Inhibit causes an actor to be in locked state, refusing to accept commands except from CCU or API
+    This is only supported for HomeMatic components NOT for HomeMatic IP.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"INHIBIT": self.ELEMENT})
+
+    def get_inhibit(self, channel=None):
+        """Return current inhibit status. Return value is 'on' or 'off'."""
+        return self.getWriteData("INHIBIT", channel)
+
+    def set_inhibit(self, inhibit, channel=None):
+        """Turn inhibit 'on' or 'off'."""
+        try:
+            inhibit = bool(inhibit)
+        except Exception as err:
+            LOG.debug("HelperInhibit.set_inhibit: Exception %s" % (err,))
+            return False
+        self.writeNodeData("INHIBIT", inhibit, channel)
+
+
 class HelperActorBlindTilt(HMDevice):
     """
     Generic shutter level functions
