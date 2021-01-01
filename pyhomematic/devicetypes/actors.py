@@ -5,7 +5,8 @@ from pyhomematic.devicetypes.sensors import HMSensor
 from pyhomematic.devicetypes.misc import HMEvent
 from pyhomematic.devicetypes.helper import (
     HelperWorking, HelperActorState, HelperActorLevel, HelperActorBlindTilt, HelperActionOnTime,
-    HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer, HelperRssiDevice, HelperDeviceTemperature)
+    HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer, HelperRssiDevice, HelperDeviceTemperature,
+    HelperInhibit)
 
 LOG = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ class GenericBlind(HMActor, HelperActorLevel):
         self.actionNodeData("STOP", True, channel)
 
 
-class Blind(GenericBlind, HelperWorking, HelperRssiPeer):
+class Blind(GenericBlind, HelperInhibit, HelperWorking, HelperRssiPeer):
     """
     Blind switch that raises and lowers roller shutters or window blinds.
     """
@@ -137,7 +138,7 @@ class GenericDimmer(HMActor, HelperActorLevel):
         self.set_level(0.0, channel)
 
 
-class Dimmer(GenericDimmer, HelperWorking):
+class Dimmer(GenericDimmer, HelperInhibit, HelperWorking):
     """
     Dimmer switch that controls level of light brightness.
     """
@@ -148,7 +149,7 @@ class Dimmer(GenericDimmer, HelperWorking):
         return [1]
 
 
-class KeyDimmer(GenericDimmer, HelperWorking, HelperActionPress):
+class KeyDimmer(GenericDimmer, HelperInhibit, HelperWorking, HelperActionPress):
     """
     Dimmer switch that controls level of light brightness.
     """
@@ -213,7 +214,7 @@ class GenericSwitch(HMActor, HelperActorState):
         self.set_state(False, channel)
 
 
-class Rain(GenericSwitch, HelperWorking):
+class Rain(GenericSwitch, HelperInhibit, HelperWorking):
     """Rain / Heat sensor with heating switch"""
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
@@ -229,7 +230,7 @@ class Rain(GenericSwitch, HelperWorking):
         return [2]
 
 
-class Switch(GenericSwitch, HelperWorking, HelperRssiPeer):
+class Switch(GenericSwitch, HelperInhibit, HelperWorking, HelperRssiPeer):
     """
     Switch turning plugged in device on or off.
     """
@@ -249,7 +250,7 @@ class Switch(GenericSwitch, HelperWorking, HelperRssiPeer):
             return [13, 14, 15, 16, 17, 18, 19]
         return [1]
 
-class IOSwitchWireless(GenericSwitch, HelperWorking, HelperEventRemote, HelperRssiPeer):
+class IOSwitchWireless(GenericSwitch, HelperInhibit, HelperWorking, HelperEventRemote, HelperRssiPeer):
     """
     Switch turning attached device on or off. Can controll relais and buttons independently.
     """
@@ -257,11 +258,11 @@ class IOSwitchWireless(GenericSwitch, HelperWorking, HelperEventRemote, HelperRs
     def ELEMENT(self):
         return [1, 2]
 
-class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote, HelperWired):
-    """
-    Switch turning attached device on or off.
-    """
 
+class IOSwitchNoInhibit(GenericSwitch, HelperWorking, HelperEventRemote, HelperWired):
+    """
+    Switch turning attached device on or off and not having a inhibit function.
+    """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         self._doc = []
         super().__init__(device_description, proxy, resolveparamsets)
@@ -272,10 +273,23 @@ class IOSwitch(GenericSwitch, HelperWorking, HelperEventRemote, HelperWired):
 
     @property
     def ELEMENT(self):
-        if "HMW-IO-12-Sw7-DR" in self.TYPE:
-            return [13, 14, 15, 16, 17, 18, 19]
         if "HMW-IO-12-FM" in self.TYPE:
             return self._doc
+        return [1]
+
+
+class IOSwitch(GenericSwitch, HelperInhibit, HelperWorking, HelperEventRemote, HelperWired):
+    """
+    Switch turning attached device on or off.
+    """
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+    @property
+    def ELEMENT(self):
+        if "HMW-IO-12-Sw7-DR" in self.TYPE:
+            return [13, 14, 15, 16, 17, 18, 19]
         if "HMW-LC-Sw2-DR" in self.TYPE:
             return [3, 4]
         return [1]
@@ -456,7 +470,7 @@ class IPWIODevice(HMEvent, GenericSwitch, HelperWired):
         return [1]
 
 
-class RFSiren(GenericSwitch, HelperWorking, HelperRssiPeer):
+class RFSiren(GenericSwitch, HelperInhibit, HelperWorking, HelperRssiPeer):
     """
     HM-Sec-Sir-WM Siren
     """
@@ -474,7 +488,7 @@ class RFSiren(GenericSwitch, HelperWorking, HelperRssiPeer):
         return [1, 2, 3]
 
 
-class KeyMatic(HMActor, HelperActorState, HelperRssiPeer):
+class KeyMatic(HMActor, HelperInhibit, HelperActorState, HelperRssiPeer):
     """
     Lock, Unlock or Open KeyMatic.
     """
@@ -1022,7 +1036,7 @@ DEVICETYPES = {
     "HM-ES-PMSwX": SwitchPowermeter,
     "HMW-IO-12-Sw7-DR": IOSwitch,
     "HMW-IO-12-Sw14-DR": HMWIOSwitch,
-    "HMW-IO-12-FM": IOSwitch,
+    "HMW-IO-12-FM": IOSwitchNoInhibit,
     "HMW-LC-Sw2-DR": IOSwitch,
     "HB-LC-Sw2PBU-FM": IOSwitchWireless,
     "HMW-LC-Bl1-DR": KeyBlind,
