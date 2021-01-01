@@ -1143,4 +1143,5 @@ DEVICETYPES = {
     "HmIP-ASIR": IPAlarmSensor,
     "HmIP-ASIR-2": IPAlarmSensor,
     "HmIP-FALMOT-C12": ValveBox,
+    "HmIP-SRD": IPRainSensor,
 }
