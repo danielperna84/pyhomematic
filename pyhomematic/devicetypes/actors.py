@@ -283,9 +283,6 @@ class IOSwitch(GenericSwitch, HelperInhibit, HelperWorking, HelperEventRemote, H
     Switch turning attached device on or off.
     """
 
-    def __init__(self, device_description, proxy, resolveparamsets=False):
-        super().__init__(device_description, proxy, resolveparamsets)
-
     @property
     def ELEMENT(self):
         if "HMW-IO-12-Sw7-DR" in self.TYPE:
