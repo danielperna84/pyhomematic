@@ -1,3 +1,10 @@
+Verson 0.1.71 (2021-01-01)
+- Improve naming of covers @weissm
+- Add support for HmIP-DRSI1 @lukasriegel
+- Add support for HmIP-WRCC2 @Remko76
+- Implement INHIBIT parameter @PH89
+- Sensornode for HmIP blind actuators @rbloehm
+
 Version 0.1.70 (2020-10-03)
 - Remove toplevel tests (Issue #334) @onkelbeh
 
