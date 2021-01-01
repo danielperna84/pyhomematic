@@ -795,6 +795,26 @@ class IPWeatherSensorBasic(SensorHmIP):
         return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
 
 
+class IPRainSensor(SensorHmIP):
+    """HomeMatic IP Rain sensor HmIP-SRD."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1]})
+        self.BINARYNODE.update({"RAINING": [1],
+                                "HEATER_STATE": [1]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0],
+                                   "OPERATING_VOLTAGE": [0]})
+
+    def get_temperature(self, channel=None):
+        return float(self.getSensorData("ACTUAL_TEMPERATURE", channel))
+
+    def is_raining(self, channel=None):
+        return bool(self.getBinaryData("RAINING", channel))
+
+
 class IPPassageSensor(SensorHmIP, HelperRssiPeer, HelperEventRemote):
     """HomeMatic IP Passage Sensor. #2 = right to left, #3 = left to right
        This is a binary sensor."""
