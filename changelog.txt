@@ -1,4 +1,9 @@
-Verson 0.1.71 (2021-01-01)
+Version 0.1.72 (2021-)
+- Disable TLS-check in JSON-RPC (Issue #372) @danielperna84
+- Improve some HmIP-remotes @SukramJ
+- Support Bosch ETRVs @niecore
+
+Version 0.1.71 (2021-01-01)
 - Improve naming of covers @weissm
 - Add support for HmIP-DRSI1 (Issue #353) @lukasriegel
 - Add support for HmIP-WRCC2 @Remko76
