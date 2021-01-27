@@ -1038,6 +1038,22 @@ class ValveBox(SensorHmIP):
     def ELEMENT(self):
         return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+class IPLanRouter(HMSensor):
+    """ HmIP Lan Router HmIP-HAP"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.SENSORNODE.update({"CARRIER_SENSE_LEVEL": [0],
+                                "DUTY_CYCLE_LEVEL": [0]})
+        self.BINARYNODE.update({"DUTY_CYCLE": [0]})
+
+    def get_duty_cycle_level(self, channel=None):
+        return float(self.getSensorData("DUTY_CYCLE_LEVEL", channel))
+
+    def get_carrier_sense_level(self, channel=None):
+        return float(self.getSensorData("CARRIER_SENSE_LEVEL", channel))
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -1144,4 +1160,5 @@ DEVICETYPES = {
     "HmIP-ASIR-2": IPAlarmSensor,
     "HmIP-FALMOT-C12": ValveBox,
     "HmIP-SRD": IPRainSensor,
+    "HmIP-HAP": IPLanRouter,
 }
