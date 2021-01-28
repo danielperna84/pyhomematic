@@ -69,6 +69,18 @@ class SensorHmIPNoVoltage(HMSensor, HelperRssiDevice, HelperLowBatIP):
          - but no voltage of batteries"""
 
 
+class SensorHmIPNoLowbat(HMSensor, HelperRssiDevice, HelperOperatingVoltageIP):
+    """Homematic IP sensors always have
+         - strength of the signal received by the CCU (HelperRssiDevice).
+           Be aware that HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - strength of the signal received by the device (HelperRssiPeer).
+           Be aware that standard HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - but no low battery status (HelperLowBatIP)
+         - voltage of the batteries (HelperOperatingVoltageIP)"""
+
+
 class SensorHmIPNoBattery(HMSensor, HelperRssiDevice):
     """Some Homematic IP sensors have
          - strength of the signal received by the CCU (HelperRssiDevice).
@@ -77,7 +89,7 @@ class SensorHmIPNoBattery(HMSensor, HelperRssiDevice):
          - strength of the signal received by the device (HelperRssiPeer).
            Be aware that standard HMIP devices have a reversed understanding of PEER
            and DEVICE compared to standard HM devices.
-         - low battery status (HelperLowBatIP)
+         - but no low battery status (HelperLowBatIP)
          - but no voltage of batteries"""
 
 
@@ -795,7 +807,7 @@ class IPWeatherSensorBasic(SensorHmIP):
         return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
 
 
-class IPRainSensor(SensorHmIP):
+class IPRainSensor(SensorHmIPNoLowbat):
     """HomeMatic IP Rain sensor HmIP-SRD."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
