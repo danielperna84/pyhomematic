@@ -1173,4 +1173,5 @@ DEVICETYPES = {
     "HmIP-FALMOT-C12": ValveBox,
     "HmIP-SRD": IPRainSensor,
     "HmIP-HAP": IPLanRouter,
+    "HB-WDS40-THP-O": WeatherStation,
 }
