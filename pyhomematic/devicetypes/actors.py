@@ -531,7 +531,12 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
     """
     Switch turning attached device on or off.
     """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
 
+        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
+                               "PRESS_LONG": [1, 2]})
+                               
     @property
     def ELEMENT(self):
         if "HmIP-BSM" in self.TYPE:
