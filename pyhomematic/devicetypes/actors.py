@@ -536,7 +536,7 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
 
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
                                "PRESS_LONG": [1, 2]})
-                               
+
     @property
     def ELEMENT(self):
         if "HmIP-BSM" in self.TYPE:
