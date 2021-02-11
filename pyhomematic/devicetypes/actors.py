@@ -534,8 +534,17 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
-        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
-                               "PRESS_LONG": [1, 2]})
+        channels = []
+        if "HMIP-PS" in self.TYPE.upper() or "HmIP-PCBS" in self.TYPE or "HmIP-DRSI1" in self.TYPE or "HmIP-FSI16" in self.TYPE:
+            channels = [1]
+        elif "HmIP-MOD-OC8" in self.TYPE:
+            channels = [1,2,3,4,5,6,7,8]
+        elif "HmIP-DRSI4" in self.TYPE:
+            channels = [1,2,3,4]
+
+        if channels:
+            self.EVENTNODE.update({"PRESS_SHORT": channels,
+                                   "PRESS_LONG": channels})
 
     @property
     def ELEMENT(self):
