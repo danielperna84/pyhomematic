@@ -185,7 +185,7 @@ class IPKeyDimmer(GenericDimmer, HelperActionPress):
 
         # init metadata
         self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
-                               "PRESS_LONG_RELEASE": [1, 2]})
+                               "PRESS_LONG": [1, 2]})
 
     @property
     def ELEMENT(self):
