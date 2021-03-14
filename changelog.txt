@@ -7,6 +7,7 @@ Version 0.1.72 (2021-)
 - Support HB-WDS40-THP-O @SuperMasterPhoenix
 - Remove low_bat for HmIP-SRD @SujramJ
 - Support HmIP-HAP @dfigus
+- Add low_bat for HmIP-PCBS-BAT @danielperna84
 
 Version 0.1.71 (2021-01-01)
 - Improve naming of covers @weissm

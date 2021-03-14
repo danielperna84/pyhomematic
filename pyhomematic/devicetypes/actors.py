@@ -6,7 +6,7 @@ from pyhomematic.devicetypes.misc import HMEvent
 from pyhomematic.devicetypes.helper import (
     HelperWorking, HelperActorState, HelperActorLevel, HelperActorBlindTilt, HelperActionOnTime,
     HelperActionPress, HelperEventRemote, HelperWired, HelperRssiPeer, HelperRssiDevice, HelperDeviceTemperature,
-    HelperInhibit)
+    HelperInhibit, HelperLowBatIP)
 
 LOG = logging.getLogger(__name__)
 
@@ -562,6 +562,15 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
             return [3]
 
 
+class IPSwitchBattery(GenericSwitch, HelperActionOnTime, HelperLowBatIP):
+    """
+    Battery powered switch turning attached device on or off.
+    """
+    @property
+    def ELEMENT(self):
+        return [3]
+
+
 class IPKeySwitch(IPSwitch, HMEvent, HelperActionPress):
     """
     Switch turning plugged in device on or off and measuring energy consumption.
@@ -1067,7 +1076,7 @@ DEVICETYPES = {
     "HmIP-PS-UK": IPSwitch,
     "HmIP-PCBS": IPSwitch,
     "HmIP-PCBS2": IPSwitch,
-    "HmIP-PCBS-BAT": IPSwitch,
+    "HmIP-PCBS-BAT": IPSwitchBattery,
     "HmIP-PMFS": IPSwitch,
     "HmIP-MOD-OC8": IPSwitch,
     "HmIP-DRSI1": IPSwitch,
