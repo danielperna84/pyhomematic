@@ -358,7 +358,7 @@ class RPCFunctions():
             self.systemcallback('readdedDevice', interface_id, addresses)
         return True
 
-    def jsonRpcPost(self, host, jsonport, method, params={}):
+    def jsonRpcPost(self, host, jsonport, method, params={}, verify=False):
         LOG.debug("RPCFunctions.jsonRpcPost: Method: %s" % method)
         try:
             payload = json.dumps(
@@ -366,14 +366,19 @@ class RPCFunctions():
 
             headers = {"Content-Type": 'application/json',
                        "Content-Length": len(payload)}
+            ctx = None
             if jsonport == 443:
                 apiendpoint = "https://%s:%s%s" % (host, jsonport, JSONRPC_URL)
+                if not verify:
+                    ctx = ssl.create_default_context()
+                    ctx.check_hostname = False
+                    ctx.verify_mode = ssl.CERT_NONE
             else:
                 apiendpoint = "http://%s:%s%s" % (host, jsonport, JSONRPC_URL)
             LOG.debug("RPCFunctions.jsonRpcPost: API-Endpoint: %s" %
                       apiendpoint)
             req = urllib.request.Request(apiendpoint, payload, headers)
-            resp = urllib.request.urlopen(req)
+            resp = urllib.request.urlopen(req, context=ctx)
             if resp.status == 200:
                 try:
                     return json.loads(resp.read().decode('utf-8'))

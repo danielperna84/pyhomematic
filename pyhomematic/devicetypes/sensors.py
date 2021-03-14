@@ -69,6 +69,18 @@ class SensorHmIPNoVoltage(HMSensor, HelperRssiDevice, HelperLowBatIP):
          - but no voltage of batteries"""
 
 
+class SensorHmIPNoLowbat(HMSensor, HelperRssiDevice, HelperOperatingVoltageIP):
+    """Homematic IP sensors always have
+         - strength of the signal received by the CCU (HelperRssiDevice).
+           Be aware that HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - strength of the signal received by the device (HelperRssiPeer).
+           Be aware that standard HMIP devices have a reversed understanding of PEER
+           and DEVICE compared to standard HM devices.
+         - but no low battery status (HelperLowBatIP)
+         - voltage of the batteries (HelperOperatingVoltageIP)"""
+
+
 class SensorHmIPNoBattery(HMSensor, HelperRssiDevice):
     """Some Homematic IP sensors have
          - strength of the signal received by the CCU (HelperRssiDevice).
@@ -77,7 +89,7 @@ class SensorHmIPNoBattery(HMSensor, HelperRssiDevice):
          - strength of the signal received by the device (HelperRssiPeer).
            Be aware that standard HMIP devices have a reversed understanding of PEER
            and DEVICE compared to standard HM devices.
-         - low battery status (HelperLowBatIP)
+         - but no low battery status (HelperLowBatIP)
          - but no voltage of batteries"""
 
 
@@ -795,7 +807,7 @@ class IPWeatherSensorBasic(SensorHmIP):
         return bool(self.getAttributeData("TEMPERATURE_OUT_OF_RANGE", channel))
 
 
-class IPRainSensor(SensorHmIP):
+class IPRainSensor(SensorHmIPNoLowbat):
     """HomeMatic IP Rain sensor HmIP-SRD."""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -1038,6 +1050,36 @@ class ValveBox(SensorHmIP):
     def ELEMENT(self):
         return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+class IPLanRouter(HMSensor):
+    """ HmIP Lan Router HmIP-HAP"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.SENSORNODE.update({"CARRIER_SENSE_LEVEL": [0],
+                                "DUTY_CYCLE_LEVEL": [0]})
+        self.BINARYNODE.update({"DUTY_CYCLE": [0]})
+
+    def get_duty_cycle_level(self, channel=None):
+        return float(self.getSensorData("DUTY_CYCLE_LEVEL", channel))
+
+    def get_carrier_sense_level(self, channel=None):
+        return float(self.getSensorData("CARRIER_SENSE_LEVEL", channel))
+
+class TempModuleSTE2(SensorHmIP):
+    """HmIP-STE2-PCB."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE ": self.ELEMENT,
+                                "ACTUAL_TEMPERATURE_STATUS ": self.ELEMENT})
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3]
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -1144,4 +1186,7 @@ DEVICETYPES = {
     "HmIP-ASIR-2": IPAlarmSensor,
     "HmIP-FALMOT-C12": ValveBox,
     "HmIP-SRD": IPRainSensor,
+    "HmIP-HAP": IPLanRouter,
+    "HB-WDS40-THP-O": WeatherStation,
+    "HmIP-STE2-PCB": TempModuleSTE2
 }
