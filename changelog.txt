@@ -1,4 +1,4 @@
-Version 0.1.72 (2021-)
+Version 0.1.72 (2021-03-14)
 - Disable TLS-check in JSON-RPC (Issue #372) @danielperna84
 - Improve some HmIP-remotes @SukramJ
 - Support Bosch ETRVs @niecore
