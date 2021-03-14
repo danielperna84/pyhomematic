@@ -1066,6 +1066,20 @@ class IPLanRouter(HMSensor):
     def get_carrier_sense_level(self, channel=None):
         return float(self.getSensorData("CARRIER_SENSE_LEVEL", channel))
 
+class TempModuleSTE2(SensorHmIP):
+    """HmIP-STE2-PCB."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE ": self.ELEMENT,
+                                "ACTUAL_TEMPERATURE_STATUS ": self.ELEMENT})
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3]
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -1174,4 +1188,5 @@ DEVICETYPES = {
     "HmIP-SRD": IPRainSensor,
     "HmIP-HAP": IPLanRouter,
     "HB-WDS40-THP-O": WeatherStation,
+    "HmIP-STE2-PCB": TempModuleSTE2
 }
