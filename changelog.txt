@@ -2,6 +2,11 @@ Version 0.1.72 (2021-)
 - Disable TLS-check in JSON-RPC (Issue #372) @danielperna84
 - Improve some HmIP-remotes @SukramJ
 - Support Bosch ETRVs @niecore
+- Support HmIP-eTRV-C-2 @klada
+- Fix press-events von HmIP devices @chiss158
+- Support HB-WDS40-THP-O @SuperMasterPhoenix
+- Remove low_bat for HmIP-SRD @SujramJ
+- Support HmIP-HAP @dfigus
 
 Version 0.1.71 (2021-01-01)
 - Improve naming of covers @weissm
