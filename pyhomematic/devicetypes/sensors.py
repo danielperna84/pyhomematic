@@ -1048,7 +1048,7 @@ class ValveBox(SensorHmIP):
 
     @property
     def ELEMENT(self):
-        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 class ValveBoxW(SensorHmIPW):
     """Valve Box HmIPW-FALMOT-C12"""
