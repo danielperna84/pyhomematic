@@ -1050,6 +1050,22 @@ class ValveBox(SensorHmIP):
     def ELEMENT(self):
         return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+class ValveBoxW(SensorHmIPW):
+    """Valve Box HmIPW-FALMOT-C12"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.SENSORNODE.update({"LEVEL": self.ELEMENT})
+
+    def get_level(self, channel=None):
+        """Return valve state from 0% to 99%"""
+        return float(self.getSensorData("LEVEL", channel))
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
 class IPLanRouter(HMSensor):
     """ HmIP Lan Router HmIP-HAP"""
 
@@ -1185,6 +1201,7 @@ DEVICETYPES = {
     "HmIP-ASIR": IPAlarmSensor,
     "HmIP-ASIR-2": IPAlarmSensor,
     "HmIP-FALMOT-C12": ValveBox,
+    "HmIPW-FALMOT-C12": ValveBoxW,
     "HmIP-SRD": IPRainSensor,
     "HmIP-HAP": IPLanRouter,
     "HB-WDS40-THP-O": WeatherStation,
