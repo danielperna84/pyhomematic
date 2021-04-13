@@ -945,6 +945,53 @@ class ColdWarmDimmer(Dimmer):
 
         return self.setValue(key="LEVEL", channel=self._temp_channel, value=color_temp)
 
+
+class IPMultiIOPCB(HMEvent, GenericSwitch, HelperRssiDevice, HelperRssiPeer):
+    """HmIP-MIO16-PCB"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+
+        # Input channels (analog inputs 0-12V)
+        self._aic = [1, 4, 7, 10]
+        # Input channels (digital low active inputs)
+        self._dic = [13, 14, 15, 16]
+        # Output channels
+        # CH18, CH22, CH26, CH30: relay outputs (24 V/0,5 A)
+        # CH34, CH38, CH42, CH46: open collector outputs (30 V/0,2 A)
+        self._doc = [18, 22, 26, 30, 34, 38, 42, 46]
+
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self._keypress_event_channels = []
+        self._binarysensor_channels = []
+        self._channel_operation_mode = 0
+
+        # Get Operation Mode for Input Channels
+        for chan in self._dic:
+            try:
+                self._channel_operation_mode = self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER").get("CHANNEL_OPERATION_MODE", None)
+
+                if self._channel_operation_mode == 1:
+                    self._keypress_event_channels.append(chan)
+                elif self._channel_operation_mode != 0:
+                    self._binarysensor_channels.append(chan)
+            except Exception as err:
+                LOG.error("IPMultiIOPCB: Failure to determine input channel operations mode of IPMultiIOPCB %s:%i %s", self._ADDRESS, chan, err)
+
+        self.ACTIONNODE.update({"PRESS_SHORT": self._keypress_event_channels,
+                                "PRESS_LONG": self._keypress_event_channels})
+        self.BINARYNODE.update({"STATE": self._binarysensor_channels})
+
+        self.SENSORNODE.update({"VOLTAGE": self._aic})
+
+    def get_voltage(self, channel=None):
+        """Return analog input in V"""
+        return float(self.getSensorData("VOLTAGE", channel))
+
+    @property
+    def ELEMENT(self):
+        return self._doc
+
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
     "HM-LC-Bl1-SM-2": Blind,
@@ -1111,4 +1158,5 @@ DEVICETYPES = {
     "HM-DW-WM": Dimmer,
     "HM-LC-DW-WM": ColdWarmDimmer,
     "HB-UNI-RGB-LED-CTRL": ColorEffectLight,
+    "HmIP-MIO16-PCB": IPMultiIOPCB,
 }
