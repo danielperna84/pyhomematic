@@ -377,12 +377,28 @@ class IPWDimmer(GenericDimmer, HelperDeviceTemperature, HelperWired):
             return [2, 6, 10]
         return [1]
 
-class IPWKeyBlindMulti(KeyBlind, HelperDeviceTemperature, HelperWired):
+class IPWKeyBlindMulti(KeyBlind, HelperActorBlindTilt,HelperDeviceTemperature, HelperWired):
     """
     Multi-blind actor HmIPW-DRBL4
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
+        self._shutter_channels = []
+        self._blind_channels = []
+
+        # Get Operation Mode for Input Channels
+        for chan in self.ELEMENT:
+            address_channel = "%s:%i" % (self._ADDRESS, chan -1)
+            try:
+                channel_paramset = self._proxy.getParamset(address_channel, "MASTER", 0)
+                channel_operation_mode = channel_paramset.get("CHANNEL_OPERATION_MODE") if "CHANNEL_OPERATION_MODE" in channel_paramset else 1
+                if channel_operation_mode == 0:
+                    self._blind_channels.append(chan)
+                    self.WRITENODE.pop("LEVEL_2", None)
+                else:
+                    self._shutter_channels.append(chan)
+            except Exception as err:
+                LOG.error("IPWKeyBlindMulti: Failure to determine channel mode of IPWKeyBlindMulti %s %s", address_channel, err)
 
         # init metadata
         self.ATTRIBUTENODE.update({"ACTIVITY_STATE": self.ELEMENT,
@@ -390,6 +406,18 @@ class IPWKeyBlindMulti(KeyBlind, HelperDeviceTemperature, HelperWired):
                                    "SECTION": self.ELEMENT})
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
         self.WRITENODE.update({"LEVEL": self.ELEMENT})
+
+        if len(self._shutter_channels) > 0:
+            self.WRITENODE.update({"LEVEL_2": self._shutter_channels})
+            self.SENSORNODE.update({"LEVEL_2": self._shutter_channels})
+
+    def close_slats(self, channel=None):
+        """Move the shutter up all the way."""
+        self.set_cover_tilt_position(0.0, channel)
+
+    def open_slats(self, channel=None):
+        """Move the shutter down all the way."""
+        self.set_cover_tilt_position(1.0, channel)
 
     @property
     def ELEMENT(self):
