@@ -946,7 +946,7 @@ class ColdWarmDimmer(Dimmer):
         return self.setValue(key="LEVEL", channel=self._temp_channel, value=color_temp)
 
 
-class IPMultiIOPCB(HMEvent, GenericSwitch, HelperRssiDevice, HelperRssiPeer):
+class IPMultiIOPCB(GenericSwitch, HelperRssiDevice, HelperRssiPeer):
     """HmIP-MIO16-PCB"""
 
     def __init__(self, device_description, proxy, resolveparamsets=False):
@@ -978,12 +978,10 @@ class IPMultiIOPCB(HMEvent, GenericSwitch, HelperRssiDevice, HelperRssiPeer):
             except Exception as err:
                 LOG.error("IPMultiIOPCB: Failure to determine input channel operations mode of IPMultiIOPCB %s:%i %s", self._ADDRESS, chan, err)
 
-        self.ACTIONNODE.update({"PRESS_SHORT": self._keypress_event_channels,
-                                "PRESS_LONG": self._keypress_event_channels})
         self.BINARYNODE.update({"STATE": self._binarysensor_channels})
-
         self.SENSORNODE.update({"VOLTAGE": self._aic})
-
+        # button events not successfully implemented yet (SHORT_PRESS, LOMG_PRESS)
+        
     def get_voltage(self, channel=None):
         """Return analog input in V"""
         return float(self.getSensorData("VOLTAGE", channel))
