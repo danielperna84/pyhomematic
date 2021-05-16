@@ -220,7 +220,9 @@ class PowermeterGas(SensorHm):
         self.SENSORNODE.update({"GAS_ENERGY_COUNTER": [1],
                                 "GAS_POWER": [1],
                                 "ENERGY_COUNTER": [1],
-                                "POWER": [1]})
+                                "POWER": [1],
+                                "IEC_ENERGY_COUNTER": [1,2],
+                                "IEC_POWER": [1,2]})
 
     def get_gas_counter(self, channel=None):
         """Return gas counter."""
@@ -237,6 +239,14 @@ class PowermeterGas(SensorHm):
     def get_power(self, channel=None):
         """Return power counter."""
         return float(self.getSensorData("POWER", channel))
+      
+    def get_iec_energy(self, channel=None):
+        """Return iec energy counter."""
+        return float(self.getSensorData("IEC_ENERGY_COUNTER", channel))
+
+    def get_iec_power(self, channel=None):
+        """Return iec power counter."""
+        return float(self.getSensorData("IEC_POWER", channel))
 
 
 class Smoke(SensorHm, HelperBinaryState):
