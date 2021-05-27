@@ -357,11 +357,14 @@ class HMDevice(HMGeneric):
                 nodeChannel = channel if channel is not None else nodeChannelList[0]
             elif len(nodeChannelList) == 1:
                 nodeChannel = nodeChannelList[0]
-            if nodeChannel is not None and nodeChannel in self.CHANNELS:
+            if nodeChannel in self.CHANNELS:
                 return self._hmchannels[nodeChannel].setValue(name, data)
-
-        LOG.error("HMDevice.setNodeData: %s not found with value %s on %i" %
-                  (name, data, nodeChannel))
+            else:
+                LOG.error("HMDevice.setNodeData: invalid channel %i for %s" %
+                          (nodeChannel, name))
+        else:
+            LOG.error("HMDevice.setNodeData: channel for %s not found" %
+                      (name,))
         return False
 
     def get_rssi(self, channel=0):
