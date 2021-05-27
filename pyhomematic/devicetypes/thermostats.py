@@ -210,28 +210,24 @@ class MAXWallThermostat(HMThermostat, HelperLowBat):
                                 "BOOST_MODE": [1]})
         self.ATTRIBUTENODE.update({"CONTROL_MODE": [1]})
 
-class IPThermostat(HMThermostat, HelperRssiDevice, HelperLowBatIP, HelperValveState):
+class IPThermostatBase(HMThermostat):
     """
-    HPIM-eTRV
-    ClimateControl-Radiator Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    Base Class for HMIP Thermostats
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1]})
-        self.WRITENODE.update({"SET_POINT_TEMPERATURE": [1],
-                               "WINDOW_STATE": [1]})
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
+                                "HUMIDITY": [1]})
+        self.WRITENODE.update({"SET_POINT_TEMPERATURE": [1]})
         self.ACTIONNODE.update({"AUTO_MODE": [1],
                                 "MANU_MODE": [1],
                                 "CONTROL_MODE": [1],
                                 "BOOST_MODE": [1]})
-        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "OPERATING_VOLTAGE": [0],
-                                   "SET_POINT_MODE": [1],
+        self.ATTRIBUTENODE.update({"SET_POINT_MODE": [1],
                                    "BOOST_MODE": [1],
-                                   "VALVE_STATE": [1],
-                                   "LEVEL": [1]})
+                                   "ACTIVE_PROFILE": [1]})
 
     def get_set_temperature(self):
         """ Returns the current target temperature. """
@@ -245,6 +241,45 @@ class IPThermostat(HMThermostat, HelperRssiDevice, HelperLowBatIP, HelperValveSt
             LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
             return False
         self.writeNodeData("SET_POINT_TEMPERATURE", target_temperature)
+
+    @property
+    def MODE(self):
+        """ Return mode. """
+        if self.getAttributeData("BOOST_MODE"):
+            return self.BOOST_MODE
+        else:
+            return self.getAttributeData("SET_POINT_MODE")
+
+    @MODE.setter
+    def MODE(self, setmode):
+        """ Set mode. """
+        if setmode == self.BOOST_MODE:
+            self.actionNodeData('BOOST_MODE', True)
+        elif setmode in [self.AUTO_MODE, self.MANU_MODE]:
+            if self.getAttributeData("BOOST_MODE"):
+                self.actionNodeData('BOOST_MODE', False)
+            self.actionNodeData('CONTROL_MODE', setmode)
+
+    def turnoff(self):
+        """ Turn off Thermostat. """
+        self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
+        self.actionNodeData('CONTROL_MODE', self.MANU_MODE)
+
+
+class IPThermostat(IPThermostatBase, HelperRssiDevice, HelperLowBatIP, HelperValveState):
+    """
+    HPIM-eTRV
+    ClimateControl-Radiator Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.WRITENODE.update({"WINDOW_STATE": [1]})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
+                                   "OPERATING_VOLTAGE": [0],
+                                   "VALVE_STATE": [1],
+                                   "LEVEL": [1]})
 
     def get_window_state(self):
         """ Returns the current window state. """
@@ -259,30 +294,7 @@ class IPThermostat(HMThermostat, HelperRssiDevice, HelperLowBatIP, HelperValveSt
             return False
         self.writeNodeData("WINDOW_STATE", target_state)
 
-    @property
-    def MODE(self):
-        """ Return mode. """
-        if self.getAttributeData("BOOST_MODE"):
-            return self.BOOST_MODE
-        else:
-            return self.getAttributeData("SET_POINT_MODE")
-
-    @MODE.setter
-    def MODE(self, setmode):
-        """ Set mode. """
-        if setmode == self.BOOST_MODE:
-            self.actionNodeData('BOOST_MODE', True)
-        elif setmode in [self.AUTO_MODE, self.MANU_MODE]:
-            if self.getAttributeData("BOOST_MODE"):
-                self.actionNodeData('BOOST_MODE', False)
-            self.actionNodeData('CONTROL_MODE', setmode)
-
-    def turnoff(self):
-        """ Turn off Thermostat. """
-        self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
-        self.actionNodeData('CONTROL_MODE', self.MANU_MODE)
-
-class IPThermostatWall230V(HMThermostat, IPAreaThermostatNoBattery, HelperRssiDevice):
+class IPThermostatWall230V(IPThermostatBase, IPAreaThermostatNoBattery, HelperRssiDevice):
     """
     HmIP-BWTH, HmIP-BWTH24
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -291,53 +303,9 @@ class IPThermostatWall230V(HMThermostat, IPAreaThermostatNoBattery, HelperRssiDe
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
-                                "HUMIDITY": [1]})
-        self.WRITENODE.update({"SET_POINT_TEMPERATURE": [1]})
-        self.ACTIONNODE.update({"AUTO_MODE": [1],
-                                "MANU_MODE": [1],
-                                "CONTROL_MODE": [1],
-                                "BOOST_MODE": [1]})
-        self.ATTRIBUTENODE.update({"SET_POINT_MODE": [1],
-                                   "BOOST_MODE": [1]})
+        self.SENSORNODE.update({"HUMIDITY": [1]})
 
-    def get_set_temperature(self):
-        """ Returns the current target temperature. """
-        return self.getWriteData("SET_POINT_TEMPERATURE")
-
-    def set_temperature(self, target_temperature):
-        """ Set the target temperature. """
-        try:
-            target_temperature = float(target_temperature)
-        except Exception as err:
-            LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
-            return False
-        self.writeNodeData("SET_POINT_TEMPERATURE", target_temperature)
-
-    @property
-    def MODE(self):
-        """ Return mode. """
-        if self.getAttributeData("BOOST_MODE"):
-            return self.BOOST_MODE
-        else:
-            return self.getAttributeData("SET_POINT_MODE")
-
-    @MODE.setter
-    def MODE(self, setmode):
-        """ Set mode. """
-        if setmode == self.BOOST_MODE:
-            self.actionNodeData('BOOST_MODE', True)
-        elif setmode in [self.AUTO_MODE, self.MANU_MODE]:
-            if self.getAttributeData("BOOST_MODE"):
-                self.actionNodeData('BOOST_MODE', False)
-            self.actionNodeData('CONTROL_MODE', setmode)
-
-    def turnoff(self):
-        """ Turn off Thermostat. """
-        self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
-        self.actionNodeData('CONTROL_MODE', self.MANU_MODE)
-
-class IPThermostatWall2(HMThermostat, IPAreaThermostat, HelperRssiDevice, HelperLowBatIP):
+class IPThermostatWall2(IPThermostatBase, IPAreaThermostat, HelperRssiDevice, HelperLowBatIP):
     """
     HmIP-WTH, HmIP-WTH-2, HmIP-STHD, HmIP-STH
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -346,56 +314,12 @@ class IPThermostatWall2(HMThermostat, IPAreaThermostat, HelperRssiDevice, Helper
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
-                                "HUMIDITY": [1]})
-        self.WRITENODE.update({"SET_POINT_TEMPERATURE": [1]})
-        self.ACTIONNODE.update({"AUTO_MODE": [1],
-                                "MANU_MODE": [1],
-                                "CONTROL_MODE": [1],
-                                "BOOST_MODE": [1]})
+        self.SENSORNODE.update({"HUMIDITY": [1]})
         self.ATTRIBUTENODE.update({"LOW_BAT": [0],
-                                   "OPERATING_VOLTAGE": [0],
-                                   "SET_POINT_MODE": [1],
-                                   "BOOST_MODE": [1]})
-
-    def get_set_temperature(self):
-        """ Returns the current target temperature. """
-        return self.getWriteData("SET_POINT_TEMPERATURE")
-
-    def set_temperature(self, target_temperature):
-        """ Set the target temperature. """
-        try:
-            target_temperature = float(target_temperature)
-        except Exception as err:
-            LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
-            return False
-        self.writeNodeData("SET_POINT_TEMPERATURE", target_temperature)
-
-    @property
-    def MODE(self):
-        """ Return mode. """
-        if self.getAttributeData("BOOST_MODE"):
-            return self.BOOST_MODE
-        else:
-            return self.getAttributeData("SET_POINT_MODE")
-
-    @MODE.setter
-    def MODE(self, setmode):
-        """ Set mode. """
-        if setmode == self.BOOST_MODE:
-            self.actionNodeData('BOOST_MODE', True)
-        elif setmode in [self.AUTO_MODE, self.MANU_MODE]:
-            if self.getAttributeData("BOOST_MODE"):
-                self.actionNodeData('BOOST_MODE', False)
-            self.actionNodeData('CONTROL_MODE', setmode)
-
-    def turnoff(self):
-        """ Turn off Thermostat. """
-        self.writeNodeData("SET_POINT_TEMPERATURE", self.OFF_VALUE)
-        self.actionNodeData('CONTROL_MODE', self.MANU_MODE)
+                                   "OPERATING_VOLTAGE": [0]})
 
 
-class IPWThermostatWall(HMThermostat, IPAreaThermostatNoBattery, HelperWired):
+class IPWThermostatWall(IPThermostatBase, IPAreaThermostatNoBattery, HelperWired):
     """
     HmIPW-STH
     ClimateControl-Wall Thermostat that measures temperature and allows to set a target temperature or use some automatic mode.
@@ -404,47 +328,10 @@ class IPWThermostatWall(HMThermostat, IPAreaThermostatNoBattery, HelperWired):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
-                                "HUMIDITY": [1]})
-        self.WRITENODE.update({"SET_POINT_TEMPERATURE": [1]})
-        self.ACTIONNODE.update({"CONTROL_MODE": [1],
-                                "BOOST_MODE": [1]})
-        self.ATTRIBUTENODE.update({"OPERATING_VOLTAGE": [0],
-                                   "SET_POINT_MODE": [1],
-                                   "BOOST_MODE": [1]})
-
-    def get_set_temperature(self):
-        """ Returns the current target temperature. """
-        return self.getWriteData("SET_POINT_TEMPERATURE")
-
-    def set_temperature(self, target_temperature):
-        """ Set the target temperature. """
-        try:
-            target_temperature = float(target_temperature)
-        except Exception as err:
-            LOG.debug("Thermostat.set_temperature: Exception %s" % (err,))
-            return False
-        self.writeNodeData("SET_POINT_TEMPERATURE", target_temperature)
-
-    @property
-    def MODE(self):
-        """ Return mode. """
-        return self.getAttributeData("SET_POINT_MODE")
-
-    @MODE.setter
-    def MODE(self, setmode):
-        """ Set mode. """
-        if setmode == self.BOOST_MODE:
-            self.actionNodeData('BOOST_MODE', True)
-        elif setmode in [self.AUTO_MODE, self.MANU_MODE]:
-            if self.getAttributeData("BOOST_MODE"):
-                self.actionNodeData('BOOST_MODE', False)
-        self.actionNodeData('CONTROL_MODE', setmode)
-
-    def turnoff(self):
-        """ Turn off Thermostat. """
-        self.writeNodeData('SET_POINT_TEMPERATURE', self.OFF_VALUE)
-        self.actionNodeData('CONTROL_MODE', self.MANU_MODE)
+        self.SENSORNODE.update({"HUMIDITY": [1]})
+        self.ACTIONNODE.pop("AUTO_MODE")
+        self.ACTIONNODE.pop("MANU_MODE")
+        self.ATTRIBUTENODE.update({"OPERATING_VOLTAGE": [0]})
 
 DEVICETYPES = {
     "HM-CC-VG-1": ThermostatGroup,
