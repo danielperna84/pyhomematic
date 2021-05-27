@@ -239,7 +239,7 @@ class PowermeterGas(SensorHm):
     def get_power(self, channel=None):
         """Return power counter."""
         return float(self.getSensorData("POWER", channel))
-      
+
     def get_iec_energy(self, channel=None):
         """Return iec energy counter."""
         return float(self.getSensorData("IEC_ENERGY_COUNTER", channel))
