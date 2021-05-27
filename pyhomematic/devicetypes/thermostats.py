@@ -23,8 +23,6 @@ class HMThermostat(HMDevice):
         self.LOWERING_MODE = 5
         self.OFF_VALUE = 4.5
 
-        self.mode = None
-
     def actual_temperature(self):
         """ Returns the current temperature. """
         return self.getSensorData("ACTUAL_TEMPERATURE")
@@ -75,32 +73,32 @@ class HMThermostat(HMDevice):
     @property
     def AUTOMODE(self):
         """ Return auto mode state. """
-        return self.mode == self.AUTO_MODE
+        return self.MODE == self.AUTO_MODE
 
     @property
     def MANUMODE(self):
         """ Return manual mode state. """
-        return self.mode == self.MANU_MODE
+        return self.MODE == self.MANU_MODE
 
     @property
     def PARTYMODE(self):
         """ Return party mode state. """
-        return self.mode == self.PARTY_MODE
+        return self.MODE == self.PARTY_MODE
 
     @property
     def BOOSTMODE(self):
         """ Return boost state. """
-        return self.mode == self.BOOST_MODE
+        return self.MODE == self.BOOST_MODE
 
     @property
     def COMFORTMODE(self):
         """ Return comfort state. """
-        return self.mode == self.COMFORT_MODE
+        return self.MODE == self.COMFORT_MODE
 
     @property
     def LOWERINGMODE(self):
         """ Return lowering state. """
-        return self.mode == self.LOWERING_MODE
+        return self.MODE == self.LOWERING_MODE
 
 
 class ThermostatGroup(HMThermostat):
