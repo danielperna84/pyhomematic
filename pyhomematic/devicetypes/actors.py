@@ -1009,7 +1009,7 @@ class IPMultiIOPCB(GenericSwitch, HelperRssiDevice, HelperRssiPeer):
         self.BINARYNODE.update({"STATE": self._binarysensor_channels})
         self.SENSORNODE.update({"VOLTAGE": self._aic})
         # button events not successfully implemented yet (SHORT_PRESS, LOMG_PRESS)
-        
+
     def get_voltage(self, channel=None):
         """Return analog input in V"""
         return float(self.getSensorData("VOLTAGE", channel))
