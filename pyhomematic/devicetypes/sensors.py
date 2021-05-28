@@ -1099,8 +1099,8 @@ class TempModuleSTE2(SensorHmIP):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE ": self.ELEMENT,
-                                "ACTUAL_TEMPERATURE_STATUS ": self.ELEMENT})
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": self.ELEMENT,
+                                "ACTUAL_TEMPERATURE_STATUS": self.ELEMENT})
 
     @property
     def ELEMENT(self):
