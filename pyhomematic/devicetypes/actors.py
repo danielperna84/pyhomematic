@@ -377,12 +377,28 @@ class IPWDimmer(GenericDimmer, HelperDeviceTemperature, HelperWired):
             return [2, 6, 10]
         return [1]
 
-class IPWKeyBlindMulti(KeyBlind, HelperDeviceTemperature, HelperWired):
+class IPWKeyBlindMulti(KeyBlind, HelperActorBlindTilt,HelperDeviceTemperature, HelperWired):
     """
     Multi-blind actor HmIPW-DRBL4
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
+        self._shutter_channels = []
+        self._blind_channels = []
+
+        # Get Operation Mode for Input Channels
+        for chan in self.ELEMENT:
+            address_channel = "%s:%i" % (self._ADDRESS, chan -1)
+            try:
+                channel_paramset = self._proxy.getParamset(address_channel, "MASTER", 0)
+                channel_operation_mode = channel_paramset.get("CHANNEL_OPERATION_MODE") if "CHANNEL_OPERATION_MODE" in channel_paramset else 1
+                if channel_operation_mode == 0:
+                    self._blind_channels.append(chan)
+                    self.WRITENODE.pop("LEVEL_2", None)
+                else:
+                    self._shutter_channels.append(chan)
+            except Exception as err:
+                LOG.error("IPWKeyBlindMulti: Failure to determine channel mode of IPWKeyBlindMulti %s %s", address_channel, err)
 
         # init metadata
         self.ATTRIBUTENODE.update({"ACTIVITY_STATE": self.ELEMENT,
@@ -390,6 +406,18 @@ class IPWKeyBlindMulti(KeyBlind, HelperDeviceTemperature, HelperWired):
                                    "SECTION": self.ELEMENT})
         self.ACTIONNODE.update({"STOP": self.ELEMENT})
         self.WRITENODE.update({"LEVEL": self.ELEMENT})
+
+        if len(self._shutter_channels) > 0:
+            self.WRITENODE.update({"LEVEL_2": self._shutter_channels})
+            self.SENSORNODE.update({"LEVEL_2": self._shutter_channels})
+
+    def close_slats(self, channel=None):
+        """Move the shutter up all the way."""
+        self.set_cover_tilt_position(0.0, channel)
+
+    def open_slats(self, channel=None):
+        """Move the shutter down all the way."""
+        self.set_cover_tilt_position(1.0, channel)
 
     @property
     def ELEMENT(self):
@@ -945,6 +973,51 @@ class ColdWarmDimmer(Dimmer):
 
         return self.setValue(key="LEVEL", channel=self._temp_channel, value=color_temp)
 
+
+class IPMultiIOPCB(GenericSwitch, HelperRssiDevice, HelperRssiPeer):
+    """HmIP-MIO16-PCB"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+
+        # Input channels (analog inputs 0-12V)
+        self._aic = [1, 4, 7, 10]
+        # Input channels (digital low active inputs)
+        self._dic = [13, 14, 15, 16]
+        # Output channels
+        # CH18, CH22, CH26, CH30: relay outputs (24 V/0,5 A)
+        # CH34, CH38, CH42, CH46: open collector outputs (30 V/0,2 A)
+        self._doc = [18, 22, 26, 30, 34, 38, 42, 46]
+
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self._keypress_event_channels = []
+        self._binarysensor_channels = []
+        self._channel_operation_mode = 0
+
+        # Get Operation Mode for Input Channels
+        for chan in self._dic:
+            try:
+                self._channel_operation_mode = self._proxy.getParamset("%s:%i" % (self._ADDRESS, chan), "MASTER").get("CHANNEL_OPERATION_MODE", None)
+
+                if self._channel_operation_mode == 1:
+                    self._keypress_event_channels.append(chan)
+                elif self._channel_operation_mode != 0:
+                    self._binarysensor_channels.append(chan)
+            except Exception as err:
+                LOG.error("IPMultiIOPCB: Failure to determine input channel operations mode of IPMultiIOPCB %s:%i %s", self._ADDRESS, chan, err)
+
+        self.BINARYNODE.update({"STATE": self._binarysensor_channels})
+        self.SENSORNODE.update({"VOLTAGE": self._aic})
+        # button events not successfully implemented yet (SHORT_PRESS, LOMG_PRESS)
+
+    def get_voltage(self, channel=None):
+        """Return analog input in V"""
+        return float(self.getSensorData("VOLTAGE", channel))
+
+    @property
+    def ELEMENT(self):
+        return self._doc
+
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
     "HM-LC-Bl1-SM-2": Blind,
@@ -1111,4 +1184,5 @@ DEVICETYPES = {
     "HM-DW-WM": Dimmer,
     "HM-LC-DW-WM": ColdWarmDimmer,
     "HB-UNI-RGB-LED-CTRL": ColorEffectLight,
+    "HmIP-MIO16-PCB": IPMultiIOPCB,
 }

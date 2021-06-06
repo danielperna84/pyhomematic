@@ -220,7 +220,9 @@ class PowermeterGas(SensorHm):
         self.SENSORNODE.update({"GAS_ENERGY_COUNTER": [1],
                                 "GAS_POWER": [1],
                                 "ENERGY_COUNTER": [1],
-                                "POWER": [1]})
+                                "POWER": [1],
+                                "IEC_ENERGY_COUNTER": [1,2],
+                                "IEC_POWER": [1,2]})
 
     def get_gas_counter(self, channel=None):
         """Return gas counter."""
@@ -237,6 +239,14 @@ class PowermeterGas(SensorHm):
     def get_power(self, channel=None):
         """Return power counter."""
         return float(self.getSensorData("POWER", channel))
+
+    def get_iec_energy(self, channel=None):
+        """Return iec energy counter."""
+        return float(self.getSensorData("IEC_ENERGY_COUNTER", channel))
+
+    def get_iec_power(self, channel=None):
+        """Return iec power counter."""
+        return float(self.getSensorData("IEC_POWER", channel))
 
 
 class Smoke(SensorHm, HelperBinaryState):
@@ -1048,7 +1058,23 @@ class ValveBox(SensorHmIP):
 
     @property
     def ELEMENT(self):
-        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+class ValveBoxW(SensorHmIPW):
+    """Valve Box HmIPW-FALMOT-C12"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.SENSORNODE.update({"LEVEL": self.ELEMENT})
+
+    def get_level(self, channel=None):
+        """Return valve state from 0% to 99%"""
+        return float(self.getSensorData("LEVEL", channel))
+
+    @property
+    def ELEMENT(self):
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 class IPLanRouter(HMSensor):
     """ HmIP Lan Router HmIP-HAP"""
@@ -1073,8 +1099,8 @@ class TempModuleSTE2(SensorHmIP):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"ACTUAL_TEMPERATURE ": self.ELEMENT,
-                                "ACTUAL_TEMPERATURE_STATUS ": self.ELEMENT})
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": self.ELEMENT,
+                                "ACTUAL_TEMPERATURE_STATUS": self.ELEMENT})
 
     @property
     def ELEMENT(self):
@@ -1185,6 +1211,7 @@ DEVICETYPES = {
     "HmIP-ASIR": IPAlarmSensor,
     "HmIP-ASIR-2": IPAlarmSensor,
     "HmIP-FALMOT-C12": ValveBox,
+    "HmIPW-FALMOT-C12": ValveBoxW,
     "HmIP-SRD": IPRainSensor,
     "HmIP-HAP": IPLanRouter,
     "HB-WDS40-THP-O": WeatherStation,

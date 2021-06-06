@@ -378,6 +378,7 @@ class RPCFunctions():
             LOG.debug("RPCFunctions.jsonRpcPost: API-Endpoint: %s" %
                       apiendpoint)
             req = urllib.request.Request(apiendpoint, payload, headers)
+            # pylint: disable=consider-using-with
             resp = urllib.request.urlopen(req, context=ctx)
             if resp.status == 200:
                 try:
@@ -435,7 +436,9 @@ class RPCFunctions():
                 interface = False
                 if response['error'] is None and response['result']:
                     for i in response['result']:
-                        if i['port'] in [self.remotes[remote]['port'], self.remotes[remote]['port'] + 30000]:
+                        if i['port'] in [self.remotes[remote]['port'],
+                                         self.remotes[remote]['port'] + 30000,
+                                         self.remotes[remote]['port'] + 40000]:
                             interface = i['name']
                             break
                 LOG.debug(
@@ -480,6 +483,7 @@ class RPCFunctions():
         elif self.remotes[remote]['resolvenames'] == 'xml':
             LOG.warning("Resolving names with the XML-API addon will be disabled in a future release. Please switch to json.")
             try:
+                # pylint: disable=consider-using-with
                 response = urllib.request.urlopen(
                     "http://%s%s" % (self.remotes[remote]['ip'], XML_API_URL), timeout=5)
                 device_list = response.read().decode("ISO-8859-1")
