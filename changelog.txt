@@ -1,4 +1,12 @@
-Version 0.1.73 (2021-)
+Version 0.1.73 (2021-06-06)
+- Add support for HmIPW-FALMOT-C12 @Knechtie
+- Fix HmIP-STHD and HmIP-STH @yschroeder
+- Add tilt-support for shutters @Knechtie
+- Add support vor HmIP-MIO16-PCB @Knechtie
+- Add HmIPW-STH @GagaPete
+- Fix HmIP-STE2-PCB @danielperna84
+- Add port-offset 40000 (Issue #393) @danielperna84
+- Minor thermostat improvement as provided by @neffs
 
 Version 0.1.72 (2021-03-14)
 - Disable TLS-check in JSON-RPC (Issue #372) @danielperna84
