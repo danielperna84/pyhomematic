@@ -445,8 +445,8 @@ class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
             except Exception as err:
                 LOG.error("IPWInputDevice: Failure to determine input channel operations mode of HmIPW input device %s: %s", address_channel, err)
 
-        self.ACTIONNODE.update({"PRESS_SHORT": self._hmipw_keypress_event_channels,
-                                "PRESS_LONG": self._hmipw_keypress_event_channels})
+        self.EVENTNODE.update({"PRESS_SHORT": self._hmipw_keypress_event_channels,
+                               "PRESS_LONG": self._hmipw_keypress_event_channels})
         self.BINARYNODE.update({"STATE": self._hmipw_binarysensor_channels})
 
     @property
