@@ -167,13 +167,28 @@ class KeyDimmer(GenericDimmer, HelperInhibit, HelperWorking, HelperActionPress):
 
 class IPDimmer(GenericDimmer):
     """
-    IP Dimmer switch that controls level of light brightness.
+    IP Dimmer switch and DRDI3 that controls level of light brightness.
     """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        channels = []
+        if "HmIP-DRDI3" in self.TYPE:
+            channels = [1,2,3]
+
+        if channels:
+            self.EVENTNODE.update({"PRESS_SHORT": channels,
+                                   "PRESS_LONG": channels})
+
     @property
     def ELEMENT(self):
         if "PDT" in self._TYPE:
             return [3]
-        return [2]
+        elif "HmIP-DRDI3" in self._TYPE:
+            return [5,9,13]
+        else:
+            return [2]
+
 
 
 class IPKeyDimmer(GenericDimmer, HelperActionPress):
@@ -1169,6 +1184,7 @@ DEVICETYPES = {
     "HmIP-BDT": IPKeyDimmer,
     "HmIP-FDT": IPDimmer,
     "HmIP-PDT": IPDimmer,
+    "HmIP-DRDI3": IPDimmer,
     "HmIP-PDT-UK": IPDimmer,
     "HM-Sec-Key": KeyMatic,
     "HM-Sec-Key-S": KeyMatic,
