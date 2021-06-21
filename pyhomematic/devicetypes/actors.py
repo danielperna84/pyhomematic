@@ -185,9 +185,9 @@ class IPKeyDimmer(GenericDimmer, HelperActionPress):
 
         channels = []
         if "HMIP-DRDI3" in self.TYPE.upper():
-            channels = [1,2,3]
-        elif "HMIP-BDT" in self.TYPE.upper():
-            channels = [1,2]
+            channels = [1, 2, 3]
+        else:
+            channels = [1, 2]
 
         # init metadata
         self.EVENTNODE.update({"PRESS_SHORT": channels,
@@ -196,8 +196,8 @@ class IPKeyDimmer(GenericDimmer, HelperActionPress):
     @property
     def ELEMENT(self):
         if "HMIP-DRDI3" in self.TYPE.upper():
-            return [5,9,13]
-        elif "HMIP-BDT" in self.TYPE.upper():
+            return [5, 9, 13]
+        else:
             return [4]
 
 
