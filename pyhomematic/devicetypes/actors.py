@@ -197,7 +197,7 @@ class IPKeyDimmer(GenericDimmer, HelperActionPress):
     def ELEMENT(self):
         if "HMIP-DRDI3" in self.TYPE.upper():
             return [5,9,13]
-        elif "HMIP-BDT" in self.TYPE.upper()
+        elif "HMIP-BDT" in self.TYPE.upper():
             return [4]
 
 
