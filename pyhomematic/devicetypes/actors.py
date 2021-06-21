@@ -183,13 +183,22 @@ class IPKeyDimmer(GenericDimmer, HelperActionPress):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
+        channels = []
+        if "HMIP-DRDI3" in self.TYPE.upper():
+            channels = [1, 2, 3]
+        else:
+            channels = [1, 2]
+
         # init metadata
-        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
-                               "PRESS_LONG": [1, 2]})
+        self.EVENTNODE.update({"PRESS_SHORT": channels,
+                               "PRESS_LONG": channels})
 
     @property
     def ELEMENT(self):
-        return [4]
+        if "HMIP-DRDI3" in self.TYPE.upper():
+            return [5, 9, 13]
+        else:
+            return [4]
 
 
 class GenericSwitch(HMActor, HelperActorState):
@@ -1167,6 +1176,7 @@ DEVICETYPES = {
     "HmIP-BSM": IPKeySwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
     "HmIP-BDT": IPKeyDimmer,
+    "HmIP-DRDI3": IPKeyDimmer,
     "HmIP-FDT": IPDimmer,
     "HmIP-PDT": IPDimmer,
     "HmIP-PDT-UK": IPDimmer,
