@@ -299,7 +299,8 @@ class IPThermostatWall230V(HMThermostat, IPAreaThermostatNoBattery, HelperRssiDe
                                 "CONTROL_MODE": [1],
                                 "BOOST_MODE": [1]})
         self.ATTRIBUTENODE.update({"SET_POINT_MODE": [1],
-                                   "BOOST_MODE": [1]})
+                                   "BOOST_MODE": [1],
+                                   "STATE": [8]})
 
     def get_set_temperature(self):
         """ Returns the current target temperature. """
