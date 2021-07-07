@@ -1164,6 +1164,7 @@ DEVICETYPES = {
     "HmIP-DRSI1": IPSwitch,
     "HmIP-DRSI4": IPSwitch,
     "HmIP-BSL": IPKeySwitchLevel,
+    "HmIP-USBSM": IPSwitchPowermeter,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM-CH": IPSwitchPowermeter,
