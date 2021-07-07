@@ -56,6 +56,8 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
             return [1, 2, 3, 4]
         if "HmIP-RC8" in self.TYPE:
             return [1, 2, 3, 4, 5, 6, 7, 8]
+        if "HmIP-MOD-RC8" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6, 7, 8]
         if "HmIP-WRCD" in self.TYPE:
             return [1, 2, 3]
         return [1]
@@ -150,6 +152,7 @@ DEVICETYPES = {
     "HM-SwI-X": RemotePress,
     "HMW-RCV-50": RemoteVirtual,
     "HmIP-RCV-50": RemoteVirtual,
+    "HmIP-MOD-RC8": RemoteBatteryIP,
     "HmIP-RC8": RemoteBatteryIP,
     "HmIP-DBB": RemoteBatteryIP,
 }
