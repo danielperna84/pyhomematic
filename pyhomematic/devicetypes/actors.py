@@ -839,12 +839,18 @@ class IPGarage(GenericSwitch, GenericBlind, HMSensor):
         return [2]
 
 
-class IPGarageSwitch(GenericSwitch, HMSensor):
+class IPGarageSwitch(GenericSwitch, HelperEventRemote, HMSensor):
     """
-    HmIP-WGC
+    HmIP-WGC Garage Actor
     """
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"LOW_BAT": [0],
+                                "OPERATING_VOLTAGE": [0],
+                                "RSSI_DEVICE": [0],
+                                "RSSI_PEER": [0]})
 
     @property
     def ELEMENT(self):
