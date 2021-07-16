@@ -847,10 +847,10 @@ class IPGarageSwitch(GenericSwitch, HelperEventRemote, HMSensor):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.SENSORNODE.update({"LOW_BAT": [0],
-                                "OPERATING_VOLTAGE": [0],
-                                "RSSI_DEVICE": [0],
-                                "RSSI_PEER": [0]})
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
+                                   "OPERATING_VOLTAGE": [0],
+                                   "RSSI_DEVICE": [0],
+                                   "RSSI_PEER": [0]})
 
     @property
     def ELEMENT(self):
