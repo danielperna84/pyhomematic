@@ -839,6 +839,24 @@ class IPGarage(GenericSwitch, GenericBlind, HMSensor):
         return [2]
 
 
+class IPGarageSwitch(GenericSwitch, HelperEventRemote, HMSensor):
+    """
+    HmIP-WGC Garage Actor
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
+                                   "OPERATING_VOLTAGE": [0],
+                                   "RSSI_DEVICE": [0],
+                                   "RSSI_PEER": [0]})
+
+    @property
+    def ELEMENT(self):
+        return [3]
+
+
 class IPMultiIO(IPSwitch):
     """
     HmIP-MIOB Multi IO Box
@@ -1190,6 +1208,7 @@ DEVICETYPES = {
     "HM-Sec-Sir-WM": RFSiren,
     "HmIP-MOD-HO": IPGarage,
     "HmIP-MOD-TM": IPGarage,
+    "HmIP-WGC": IPGarageSwitch,
     "HM-LC-RGBW-WM": ColorEffectLight,
     "HmIP-MIOB": IPMultiIO,
     "HM-DW-WM": Dimmer,
