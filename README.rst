@@ -5,6 +5,8 @@ pyhomematic
 
 Python 3 Interface to interact with Homematic devices.
 
+Important: This project will be deprecated in favor of https://github.com/danielperna84/hahomematic at some point in the future. A custom component to work with hahomematic can be found here: https://github.com/danielperna84/custom_homematic. It is however not usable yet. Feel free to contribute!
+
 This library provides easy (bi-directional) control of Homematic devices hooked up to a regular CCU or Homegear. The focus is to be able to receive events. If you are only interested in actively controlling devices, you can use the Python-built-in xmlrpc.client.ServerProxy (Python 3). See pyhomematic._server.ServerThread.connect on how to connect to a CCU / Homegear as a client.
 
 Included is a XML-RPC server to receive events emitted by devices. Multiple callback functions can be set for devices to handle events. You can choose to bequeath callbacks from devices to their channels or not. Channels can not bequeath to their parent devices. You can also pass a callback funtion when creating the server, which then will (additionally) receive all events emitted by any paired device.
