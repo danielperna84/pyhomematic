@@ -183,13 +183,22 @@ class IPKeyDimmer(GenericDimmer, HelperActionPress):
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
 
+        channels = []
+        if "HMIP-DRDI3" in self.TYPE.upper():
+            channels = [1, 2, 3]
+        else:
+            channels = [1, 2]
+
         # init metadata
-        self.EVENTNODE.update({"PRESS_SHORT": [1, 2],
-                               "PRESS_LONG": [1, 2]})
+        self.EVENTNODE.update({"PRESS_SHORT": channels,
+                               "PRESS_LONG": channels})
 
     @property
     def ELEMENT(self):
-        return [4]
+        if "HMIP-DRDI3" in self.TYPE.upper():
+            return [5, 9, 13]
+        else:
+            return [4]
 
 
 class GenericSwitch(HMActor, HelperActorState):
@@ -445,8 +454,8 @@ class IPWInputDevice(HMEvent, HelperDeviceTemperature, HelperWired):
             except Exception as err:
                 LOG.error("IPWInputDevice: Failure to determine input channel operations mode of HmIPW input device %s: %s", address_channel, err)
 
-        self.ACTIONNODE.update({"PRESS_SHORT": self._hmipw_keypress_event_channels,
-                                "PRESS_LONG": self._hmipw_keypress_event_channels})
+        self.EVENTNODE.update({"PRESS_SHORT": self._hmipw_keypress_event_channels,
+                               "PRESS_LONG": self._hmipw_keypress_event_channels})
         self.BINARYNODE.update({"STATE": self._hmipw_binarysensor_channels})
 
     @property
@@ -758,7 +767,7 @@ class IPSwitchPowermeter(IPSwitch, HMSensor, HelperRssiDevice):
         sensorIndex = None
         if "HmIP-FSM" in self.TYPE or "HmIP-FSM16" in self.TYPE:
             sensorIndex = 5
-        elif "HMIP-PSM" in self.TYPE or "HmIP-PSM" in self.TYPE or "HmIP-PSM-CH" in self.TYPE:
+        elif "HMIP-PSM" in self.TYPE or "HmIP-PSM" in self.TYPE or "HmIP-USBSM" in self.TYPE or "HmIP-PSM-CH" in self.TYPE:
             sensorIndex = 6
         elif "HmIP-BSM" in self.TYPE:
             sensorIndex = 7
@@ -828,6 +837,24 @@ class IPGarage(GenericSwitch, GenericBlind, HMSensor):
     @property
     def ELEMENT(self):
         return [2]
+
+
+class IPGarageSwitch(GenericSwitch, HelperEventRemote, HMSensor):
+    """
+    HmIP-WGC Garage Actor
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.ATTRIBUTENODE.update({"LOW_BAT": [0],
+                                   "OPERATING_VOLTAGE": [0],
+                                   "RSSI_DEVICE": [0],
+                                   "RSSI_PEER": [0]})
+
+    @property
+    def ELEMENT(self):
+        return [3]
 
 
 class IPMultiIO(IPSwitch):
@@ -1155,6 +1182,7 @@ DEVICETYPES = {
     "HmIP-DRSI1": IPSwitch,
     "HmIP-DRSI4": IPSwitch,
     "HmIP-BSL": IPKeySwitchLevel,
+    "HmIP-USBSM": IPSwitchPowermeter,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM-CH": IPSwitchPowermeter,
@@ -1167,6 +1195,7 @@ DEVICETYPES = {
     "HmIP-BSM": IPKeySwitchPowermeter,
     "HMIP-BDT": IPKeyDimmer,
     "HmIP-BDT": IPKeyDimmer,
+    "HmIP-DRDI3": IPKeyDimmer,
     "HmIP-FDT": IPDimmer,
     "HmIP-PDT": IPDimmer,
     "HmIP-PDT-UK": IPDimmer,
@@ -1179,6 +1208,7 @@ DEVICETYPES = {
     "HM-Sec-Sir-WM": RFSiren,
     "HmIP-MOD-HO": IPGarage,
     "HmIP-MOD-TM": IPGarage,
+    "HmIP-WGC": IPGarageSwitch,
     "HM-LC-RGBW-WM": ColorEffectLight,
     "HmIP-MIOB": IPMultiIO,
     "HM-DW-WM": Dimmer,
