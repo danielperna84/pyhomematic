@@ -195,6 +195,20 @@ class CO2Sensor(SensorHm, HelperSensorState):
         return self.get_state(channel) == 2
 
 
+class CO2SensorIP(SensorHmIPNoBattery):
+    """CO2 Sensor
+        partial support for HmIP-SCTH230
+        missing relay state and actions
+    """
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self.SENSORNODE.update({"CONCENTRATION": [1],
+                                "CONCENTRATION_STATUS": [1],
+                                "HUMIDITY": [4],
+                                "ACTUAL_TEMPERATURE": [4]
+                                })
+
 class WaterSensor(SensorHm, HelperSensorState):
     """Watter detect sensor."""
 
@@ -1215,5 +1229,6 @@ DEVICETYPES = {
     "HmIP-SRD": IPRainSensor,
     "HmIP-HAP": IPLanRouter,
     "HB-WDS40-THP-O": WeatherStation,
-    "HmIP-STE2-PCB": TempModuleSTE2
+    "HmIP-STE2-PCB": TempModuleSTE2,
+    "HmIP-SCTH230": CO2SensorIP
 }
