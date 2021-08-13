@@ -1,3 +1,12 @@
+Version 0.1.74 (2021-08-13)
+- HmIP-WGC @mwagner
+- HmIP-SCTH230 @macrojames
+- HmIP-DRDI3 @gbotti
+- HmIP-MOD-RC8 @maedball
+- HmIP-USBSM @maedball
+- HmIP-BWTH add switching state for heating valve @sVnsation
+- HmIPW-DRI32 + HmIPW-DRI16 fix button mode @GagaPete
+
 Version 0.1.73 (2021-06-06)
 - Add support for HmIPW-FALMOT-C12 @Knechtie
 - Fix HmIP-STHD and HmIP-STH @yschroeder
