@@ -450,6 +450,34 @@ class MotionIP(SensorHmIP):
         return [0, 1]
 
 
+class MotionIPContactSabotage(SensorHmIP, HelperSabotageIP):
+    """Motion detection indoor (rf ip)
+       This is a binary sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [1], "MOTION": [1]})
+        self.SENSORNODE.update({"ILLUMINATION": [1]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def is_motion_detection_active(self, channel=None):
+        return bool(self.getBinaryData("MOTION_DETECTION_ACTIVE", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark) to 163830 (bright) """
+        return float(self.getSensorData("ILLUMINATION", channel))
+
+    @property
+    def ELEMENT(self):
+        return [0, 1]      
+
+      
 class MotionIPV2(SensorHmIP):
     """Motion detection indoor 55 (rf ip)
        This is a binary sensor."""
@@ -1160,7 +1188,7 @@ DEVICETYPES = {
     "HM-Sec-MDIR": MotionV2,
     "263 162": MotionV2,
     "HM-Sec-MD": MotionV2,
-    "HmIP-SMI": MotionIP,
+    "HmIP-SMI": MotionIPContactSabotage,
     "HmIP-SMI55": IPRemoteMotionV2,
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
