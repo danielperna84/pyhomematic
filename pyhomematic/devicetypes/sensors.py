@@ -286,6 +286,21 @@ class SmokeV2(SensorHm, HelperBinaryState):
         """ Return True if smoke is detected """
         return self.get_state(channel)
 
+class SmokeV2Team(HMSensor, HelperBinaryState):
+    """This is a group of smoke sensors. In such a configuration only the
+       virtual team device will emit a smoke detected event."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.BINARYNODE.update({"STATE": [1]})
+
+        self.ATTRIBUTENODE.update({"SENDERADDRESS": [1],
+                                   "SENDERID": [1]})
+
+    def is_smoke(self, channel=None):
+        """ Return True if smoke is detected """
+        return self.get_state(channel)
 
 class IPSmoke(SensorHmIPNoVoltage):
     """HomeMatic IP Smoke sensor."""
@@ -1176,6 +1191,7 @@ DEVICETYPES = {
     "HM-Sec-SD-Generic": Smoke,
     "HM-Sec-SD-2": SmokeV2,
     "HM-Sec-SD-2-Generic": SmokeV2,
+    "HM-Sec-SD-2-Team": SmokeV2Team,
     "HmIP-SWSD": IPSmoke,
     "HM-Sen-MDIR-WM55": RemoteMotion,
     "HM-Sen-MDIR-SM": Motion,
