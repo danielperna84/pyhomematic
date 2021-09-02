@@ -572,7 +572,7 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
         super().__init__(device_description, proxy, resolveparamsets)
 
         channels = []
-        if "HMIP-PS" in self.TYPE.upper() or "HmIP-PCBS" in self.TYPE or "HmIP-DRSI1" in self.TYPE or "HmIP-FSI16" in self.TYPE:
+        if "HMIP-PS" in self.TYPE.upper() or "HmIP-PCBS" in self.TYPE or "HmIP-FSI16" in self.TYPE:
             channels = [1]
         elif "HmIP-MOD-OC8" in self.TYPE:
             channels = [1,2,3,4,5,6,7,8]
@@ -599,6 +599,26 @@ class IPSwitch(GenericSwitch, HelperActionOnTime):
             return [3]
 
 
+class IPSwitchRssiDevice(GenericSwitch, HelperActionOnTime, HelperRssiDevice):
+    """
+    Switch turning attached device on or off.
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        channels = []
+        if "HmIP-DRSI1" in self.TYPE:
+            channels = [1]
+
+        if channels:
+            self.EVENTNODE.update({"PRESS_SHORT": channels,
+                                   "PRESS_LONG": channels})
+
+    @property
+    def ELEMENT(self):
+        return [3]        
+
+        
 class IPSwitchBattery(GenericSwitch, HelperActionOnTime, HelperLowBatIP):
     """
     Battery powered switch turning attached device on or off.
@@ -1179,7 +1199,7 @@ DEVICETYPES = {
     "HmIP-PCBS-BAT": IPSwitchBattery,
     "HmIP-PMFS": IPSwitch,
     "HmIP-MOD-OC8": IPSwitch,
-    "HmIP-DRSI1": IPSwitch,
+    "HmIP-DRSI1": IPSwitchRssiDevice,
     "HmIP-DRSI4": IPSwitch,
     "HmIP-BSL": IPKeySwitchLevel,
     "HmIP-USBSM": IPSwitchPowermeter,
