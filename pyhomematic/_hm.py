@@ -629,7 +629,7 @@ class ServerThread(threading.Thread):
             try:
                 socket.gethostbyname(host['ip'])
             except Exception as err:
-                LOG.warning("Skipping proxy: %s" % str(err))
+                LOG.info("Skipping proxy: %s", str(err))
                 continue
             if 'path' not in host:
                 host['path'] = ''
@@ -682,7 +682,7 @@ class ServerThread(threading.Thread):
         # the receiver) to receive events. XML RPC server has to be running.
         for interface_id, proxy in self.proxies.items():
             if proxy._skipinit:
-                LOG.warning("Skipping init for %s", interface_id)
+                LOG.info("Skipping init for %s", interface_id)
                 continue
             if proxy._callbackip and proxy._callbackport:
                 callbackip = proxy._callbackip
