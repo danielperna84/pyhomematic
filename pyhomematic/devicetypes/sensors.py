@@ -286,6 +286,21 @@ class SmokeV2(SensorHm, HelperBinaryState):
         """ Return True if smoke is detected """
         return self.get_state(channel)
 
+class SmokeV2Team(HMSensor, HelperBinaryState):
+    """This is a group of smoke sensors. In such a configuration only the
+       virtual team device will emit a smoke detected event."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        self.BINARYNODE.update({"STATE": [1]})
+
+        self.ATTRIBUTENODE.update({"SENDERADDRESS": [1],
+                                   "SENDERID": [1]})
+
+    def is_smoke(self, channel=None):
+        """ Return True if smoke is detected """
+        return self.get_state(channel)
 
 class IPSmoke(SensorHmIPNoVoltage):
     """HomeMatic IP Smoke sensor."""
@@ -449,6 +464,34 @@ class MotionIP(SensorHmIP):
     def ELEMENT(self):
         return [0, 1]
 
+
+class MotionIPContactSabotage(SensorHmIP, HelperSabotageIP):
+    """Motion detection indoor (rf ip)
+       This is a binary sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [1], "MOTION": [1]})
+        self.SENSORNODE.update({"ILLUMINATION": [1]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def is_motion_detection_active(self, channel=None):
+        return bool(self.getBinaryData("MOTION_DETECTION_ACTIVE", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark) to 163830 (bright) """
+        return float(self.getSensorData("ILLUMINATION", channel))
+
+    @property
+    def ELEMENT(self):
+        return [0, 1]      
+      
 
 class MotionIPV2(SensorHmIP):
     """Motion detection indoor 55 (rf ip)
@@ -1148,6 +1191,7 @@ DEVICETYPES = {
     "HM-Sec-SD-Generic": Smoke,
     "HM-Sec-SD-2": SmokeV2,
     "HM-Sec-SD-2-Generic": SmokeV2,
+    "HM-Sec-SD-2-Team": SmokeV2Team,
     "HmIP-SWSD": IPSmoke,
     "HM-Sen-MDIR-WM55": RemoteMotion,
     "HM-Sen-MDIR-SM": Motion,
@@ -1160,7 +1204,7 @@ DEVICETYPES = {
     "HM-Sec-MDIR": MotionV2,
     "263 162": MotionV2,
     "HM-Sec-MD": MotionV2,
-    "HmIP-SMI": MotionIP,
+    "HmIP-SMI": MotionIPContactSabotage,
     "HmIP-SMI55": IPRemoteMotionV2,
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
