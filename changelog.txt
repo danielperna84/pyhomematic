@@ -1,3 +1,10 @@
+Version 0.1.75 (2021-10-03)
+- Reduce some log levels
+- Add RSSI for HmIP-DRSI1 (Issue #428) @emufan
+- Add support for HM-Sec-SD-2-Team @anyc
+- Add sabotage for HmIP-SMI @emufan
+- Add HmIP-DLD as sensor (#394) @danielperna84
+
 Version 0.1.74 (2021-08-13)
 - HmIP-WGC @mwagner
 - HmIP-SCTH230 @macrojames
