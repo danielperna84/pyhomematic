@@ -1163,6 +1163,15 @@ class TempModuleSTE2(SensorHmIP):
     def ELEMENT(self):
         return [1, 2, 3]
 
+class IPLockDLD(SensorHmIP):
+    """Lock state for HmIP-DLD."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.SENSORNODE.update({"LOCK_STATE": [1]})
+
 DEVICETYPES = {
     "HM-Sec-SC": ShutterContact,
     "HM-Sec-SC-2": ShutterContact,
@@ -1274,5 +1283,6 @@ DEVICETYPES = {
     "HmIP-HAP": IPLanRouter,
     "HB-WDS40-THP-O": WeatherStation,
     "HmIP-STE2-PCB": TempModuleSTE2,
-    "HmIP-SCTH230": CO2SensorIP
+    "HmIP-SCTH230": CO2SensorIP,
+    "HmIP-DLD": IPLockDLD,
 }
