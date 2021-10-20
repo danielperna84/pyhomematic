@@ -1,3 +1,7 @@
+Version 0.1.76 (2021-10-20)
+- Add HmIP-WHS2 @wutr
+- Add HmIP-eTRV-E @emufan
+
 Version 0.1.75 (2021-10-03)
 - Reduce some log levels
 - Add RSSI for HmIP-DRSI1 (Issue #428) @emufan

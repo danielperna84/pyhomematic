@@ -897,7 +897,6 @@ class IPMultiIO(IPSwitch):
     def ELEMENT(self):
         return [2, 3, 4, 6, 7, 8]
 
-
 class ColorEffectLight(Dimmer):
     """
     Color light with dimmer function and color effects.
@@ -1064,6 +1063,20 @@ class IPMultiIOPCB(GenericSwitch, HelperRssiDevice, HelperRssiPeer):
     @property
     def ELEMENT(self):
         return self._doc
+
+class IPWHS2(GenericSwitch, HelperActionOnTime, HelperRssiDevice):
+    """
+    HmIP-WHS2 Central Heating and Hot Water actuator
+    """
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # Channels 1 and 5 show the state of physical output 1 and 2 respectively.
+        self.BINARYNODE.update({"STATE": [1, 5]})
+
+    @property
+    def ELEMENT(self):
+        return [2, 6]
 
 DEVICETYPES = {
     "HM-LC-Bl1-SM": Blind,
@@ -1235,4 +1248,5 @@ DEVICETYPES = {
     "HM-LC-DW-WM": ColdWarmDimmer,
     "HB-UNI-RGB-LED-CTRL": ColorEffectLight,
     "HmIP-MIO16-PCB": IPMultiIOPCB,
+    "HmIP-WHS2": IPWHS2,
 }
