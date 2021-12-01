@@ -1230,6 +1230,7 @@ DEVICETYPES = {
     "HM-Sec-MD": MotionV2,
     "HmIP-SMI": MotionIPContactSabotage,
     "HmIP-SMI55": IPRemoteMotionV2,
+    "HmIP-SMI55-2": IPRemoteMotionV2,
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
     "HmIP-SPI": PresenceIP,
