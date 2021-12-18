@@ -1,5 +1,6 @@
 Version 0.1.78 ()
 - Add HmIP-WRCR @danielperna84
+- Add HmIP-SMI55-2 @hzpz
 
 Version 0.1.76 (2021-10-20)
 - Add HmIP-WHS2 @wutr
