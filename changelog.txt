@@ -1,4 +1,4 @@
-Version 0.1.78 ()
+Version 0.1.77 ()
 - Add HmIP-WRCR @danielperna84
 - Add HmIP-SMI55-2 @hzpz
 
