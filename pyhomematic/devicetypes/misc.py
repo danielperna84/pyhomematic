@@ -96,6 +96,7 @@ DEVICETYPES = {
     "HM-RC-4-2": RemoteBattery,
     "HM-RC-4-3": RemoteBattery,
     "HM-RC-4-3-D": RemoteBattery,
+    "HB-RC-12-EP-C": RemoteBattery,
     "HM-RC-8": Remote,
     "HM-RC-12": Remote,
     "HM-RC-12-B": Remote,
