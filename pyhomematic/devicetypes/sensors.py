@@ -209,6 +209,21 @@ class CO2SensorIP(SensorHmIPNoBattery):
                                 "ACTUAL_TEMPERATURE": [4]
                                 })
 
+class ParticulateMatterSensorIP(SensorHmIPNoBattery):
+    """Particulate matter sensor"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
+                                "HUMIDITY": [1],
+                                "MASS_CONCENTRATION_PM_1": [1],
+                                "MASS_CONCENTRATION_PM_2_5": [1],
+                                "MASS_CONCENTRATION_PM_10": [1],
+                                "MASS_CONCENTRATION_PM_1_24H_AVERAGE": [1],
+                                "MASS_CONCENTRATION_PM_2_5_24H_AVERAGE": [1],
+                                "MASS_CONCENTRATION_PM_10_24H_AVERAGE": [1]
+                                })
+
 class WaterSensor(SensorHm, HelperSensorState):
     """Watter detect sensor."""
 
@@ -1285,4 +1300,5 @@ DEVICETYPES = {
     "HmIP-STE2-PCB": TempModuleSTE2,
     "HmIP-SCTH230": CO2SensorIP,
     "HmIP-DLD": IPLockDLD,
+    "HmIP-SFD": ParticulateMatterSensorIP,
 }
