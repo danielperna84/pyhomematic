@@ -62,6 +62,14 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
             return [1, 2, 3]
         return [1]
 
+class RemoteWired(HMEvent, HelperEventRemote, HelperActionPress):
+    """Wired Remote handle buttons."""
+
+    @property
+    def ELEMENT(self):
+        if "WRC6" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6]
+
 
 class RemoteBatteryIP(Remote, HelperLowBatIP, HelperOperatingVoltageIP):
     """Battery operated HomeMaticIP remote device."""
@@ -144,6 +152,7 @@ DEVICETYPES = {
     "HmIP-WRCC2": RemoteBatteryIP,
     "HmIP-BRC2": Remote,
     "HmIP-WRC6": RemoteBatteryIP,
+    "HmIPW-WRC6": RemoteWired,
     "HmIP-WRCD": RemoteBatteryIP,
     "HmIP-WRCR": RemoteBatteryIP,
     "HmIP-KRCA": RemoteBatteryIP,
