@@ -544,8 +544,10 @@ class PresenceIP(SensorHmIP, HelperSabotageIP):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": [1]})
-        self.SENSORNODE.update({"ILLUMINATION": [1]})
+        self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": self.ELEMENT,
+                                "PRESENCE_DETECTION_ACTIVE": self.ELEMENT})
+        self.SENSORNODE.update({"ILLUMINATION": self.ELEMENT,
+                                "CURRENT_ILLUMINATION": self.ELEMENT})
         self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
@@ -558,7 +560,7 @@ class PresenceIP(SensorHmIP, HelperSabotageIP):
 
     @property
     def ELEMENT(self):
-        return [0, 1]
+        return [1]
 
 
 class PresenceIPW(SensorHmIPW):

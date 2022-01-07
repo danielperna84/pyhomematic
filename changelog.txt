@@ -3,6 +3,7 @@ Version 0.1.77 ()
 - Add HmIP-SMI55-2 @hzpz
 - Add HB-RC-12-EP-C @danielperna84
 - Add HmIP-SMO-2 (Issue #453) @danielperna84
+- Add Sensors for HmIP-SPI @danielperna84
 - Reduce loglevel for events
 
 Version 0.1.76 (2021-10-20)
