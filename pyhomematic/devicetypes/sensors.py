@@ -505,10 +505,38 @@ class MotionIPContactSabotage(SensorHmIP, HelperSabotageIP):
 
     @property
     def ELEMENT(self):
-        return [0, 1]      
-      
+        return [0, 1]
+
 
 class MotionIPV2(SensorHmIP):
+    """Motion detection indoor 55 (rf ip)
+       This is a binary sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [3], "MOTION": [3]})
+        self.SENSORNODE.update({"ILLUMINATION": [3]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def is_motion_detection_active(self, channel=None):
+        return bool(self.getBinaryData("MOTION_DETECTION_ACTIVE", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark) to 163830 (bright) """
+        return float(self.getSensorData("ILLUMINATION", channel))
+
+    @property
+    def ELEMENT(self):
+        return [0, 1, 2, 3]
+
+
+class MotionIPV2W(SensorHmIPW):
     """Motion detection indoor 55 (rf ip)
        This is a binary sensor."""
 
@@ -643,6 +671,16 @@ class IPRemoteMotionV2(Remote, MotionIPV2):
     # pylint: disable=useless-super-delegation
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
+
+
+class IPRemoteMotionV2W(Remote, MotionIPV2W):
+    """Wired motion detection with buttons (hm ip).
+       This is a binary sensor."""
+
+    # pylint: disable=useless-super-delegation
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
 
 class LuxSensor(SensorHm):
     """Sensor for messure LUX."""
@@ -1233,6 +1271,7 @@ DEVICETYPES = {
     "HmIP-SMI": MotionIPContactSabotage,
     "HmIP-SMI55": IPRemoteMotionV2,
     "HmIP-SMI55-2": IPRemoteMotionV2,
+    "HmIPW-SMI55": IPRemoteMotionV2W,
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
     "HmIP-SMO-2": MotionIP,
