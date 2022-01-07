@@ -1233,6 +1233,7 @@ DEVICETYPES = {
     "HmIP-SMI55-2": IPRemoteMotionV2,
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
+    "HmIP-SMO-2": MotionIP,
     "HmIP-SPI": PresenceIP,
     "HmIPW-SPI": PresenceIPW,
     "HM-Sen-LI-O": LuxSensor,
