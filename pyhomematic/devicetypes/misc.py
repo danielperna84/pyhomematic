@@ -58,9 +58,17 @@ class Remote(HMEvent, HelperEventRemote, HelperActionPress, HelperRssiPeer):
             return [1, 2, 3, 4, 5, 6, 7, 8]
         if "HmIP-MOD-RC8" in self.TYPE:
             return [1, 2, 3, 4, 5, 6, 7, 8]
-        if "HmIP-WRCD" in self.TYPE:
+        if "HmIP-WRCD" in self.TYPE or "HmIP-WRCR" in self.TYPE:
             return [1, 2, 3]
         return [1]
+
+class RemoteWired(HMEvent, HelperEventRemote, HelperActionPress):
+    """Wired Remote handle buttons."""
+
+    @property
+    def ELEMENT(self):
+        if "WRC6" in self.TYPE:
+            return [1, 2, 3, 4, 5, 6]
 
 
 class RemoteBatteryIP(Remote, HelperLowBatIP, HelperOperatingVoltageIP):
@@ -96,6 +104,7 @@ DEVICETYPES = {
     "HM-RC-4-2": RemoteBattery,
     "HM-RC-4-3": RemoteBattery,
     "HM-RC-4-3-D": RemoteBattery,
+    "HB-RC-12-EP-C": RemoteBattery,
     "HM-RC-8": Remote,
     "HM-RC-12": Remote,
     "HM-RC-12-B": Remote,
@@ -143,7 +152,9 @@ DEVICETYPES = {
     "HmIP-WRCC2": RemoteBatteryIP,
     "HmIP-BRC2": Remote,
     "HmIP-WRC6": RemoteBatteryIP,
+    "HmIPW-WRC6": RemoteWired,
     "HmIP-WRCD": RemoteBatteryIP,
+    "HmIP-WRCR": RemoteBatteryIP,
     "HmIP-KRCA": RemoteBatteryIP,
     "HmIP-KRC4": RemoteBatteryIP,
     "HM-SwI-3-FM": RemotePress,

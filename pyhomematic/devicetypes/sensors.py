@@ -209,6 +209,21 @@ class CO2SensorIP(SensorHmIPNoBattery):
                                 "ACTUAL_TEMPERATURE": [4]
                                 })
 
+class ParticulateMatterSensorIP(SensorHmIPNoBattery):
+    """Particulate matter sensor"""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+        self.SENSORNODE.update({"ACTUAL_TEMPERATURE": [1],
+                                "HUMIDITY": [1],
+                                "MASS_CONCENTRATION_PM_1": [1],
+                                "MASS_CONCENTRATION_PM_2_5": [1],
+                                "MASS_CONCENTRATION_PM_10": [1],
+                                "MASS_CONCENTRATION_PM_1_24H_AVERAGE": [1],
+                                "MASS_CONCENTRATION_PM_2_5_24H_AVERAGE": [1],
+                                "MASS_CONCENTRATION_PM_10_24H_AVERAGE": [1]
+                                })
+
 class WaterSensor(SensorHm, HelperSensorState):
     """Watter detect sensor."""
 
@@ -490,10 +505,38 @@ class MotionIPContactSabotage(SensorHmIP, HelperSabotageIP):
 
     @property
     def ELEMENT(self):
-        return [0, 1]      
-      
+        return [0, 1]
+
 
 class MotionIPV2(SensorHmIP):
+    """Motion detection indoor 55 (rf ip)
+       This is a binary sensor."""
+
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
+        # init metadata
+        self.BINARYNODE.update({"MOTION_DETECTION_ACTIVE": [3], "MOTION": [3]})
+        self.SENSORNODE.update({"ILLUMINATION": [3]})
+        self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
+
+    def is_motion(self, channel=None):
+        """ Return True if motion is detected """
+        return bool(self.getBinaryData("MOTION", channel))
+
+    def is_motion_detection_active(self, channel=None):
+        return bool(self.getBinaryData("MOTION_DETECTION_ACTIVE", channel))
+
+    def get_brightness(self, channel=None):
+        """ Return brightness from 0 (dark) to 163830 (bright) """
+        return float(self.getSensorData("ILLUMINATION", channel))
+
+    @property
+    def ELEMENT(self):
+        return [0, 1, 2, 3]
+
+
+class MotionIPV2W(SensorHmIPW):
     """Motion detection indoor 55 (rf ip)
        This is a binary sensor."""
 
@@ -529,8 +572,10 @@ class PresenceIP(SensorHmIP, HelperSabotageIP):
         super().__init__(device_description, proxy, resolveparamsets)
 
         # init metadata
-        self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": [1]})
-        self.SENSORNODE.update({"ILLUMINATION": [1]})
+        self.BINARYNODE.update({"PRESENCE_DETECTION_STATE": self.ELEMENT,
+                                "PRESENCE_DETECTION_ACTIVE": self.ELEMENT})
+        self.SENSORNODE.update({"ILLUMINATION": self.ELEMENT,
+                                "CURRENT_ILLUMINATION": self.ELEMENT})
         self.ATTRIBUTENODE.update({"ERROR_CODE": [0]})
 
     def is_motion(self, channel=None):
@@ -543,7 +588,7 @@ class PresenceIP(SensorHmIP, HelperSabotageIP):
 
     @property
     def ELEMENT(self):
-        return [0, 1]
+        return [1]
 
 
 class PresenceIPW(SensorHmIPW):
@@ -626,6 +671,16 @@ class IPRemoteMotionV2(Remote, MotionIPV2):
     # pylint: disable=useless-super-delegation
     def __init__(self, device_description, proxy, resolveparamsets=False):
         super().__init__(device_description, proxy, resolveparamsets)
+
+
+class IPRemoteMotionV2W(Remote, MotionIPV2W):
+    """Wired motion detection with buttons (hm ip).
+       This is a binary sensor."""
+
+    # pylint: disable=useless-super-delegation
+    def __init__(self, device_description, proxy, resolveparamsets=False):
+        super().__init__(device_description, proxy, resolveparamsets)
+
 
 class LuxSensor(SensorHm):
     """Sensor for messure LUX."""
@@ -1215,8 +1270,11 @@ DEVICETYPES = {
     "HM-Sec-MD": MotionV2,
     "HmIP-SMI": MotionIPContactSabotage,
     "HmIP-SMI55": IPRemoteMotionV2,
+    "HmIP-SMI55-2": IPRemoteMotionV2,
+    "HmIPW-SMI55": IPRemoteMotionV2W,
     "HmIP-SMO": MotionIP,
     "HmIP-SMO-A": MotionIP,
+    "HmIP-SMO-2": MotionIP,
     "HmIP-SPI": PresenceIP,
     "HmIPW-SPI": PresenceIPW,
     "HM-Sen-LI-O": LuxSensor,
@@ -1285,4 +1343,5 @@ DEVICETYPES = {
     "HmIP-STE2-PCB": TempModuleSTE2,
     "HmIP-SCTH230": CO2SensorIP,
     "HmIP-DLD": IPLockDLD,
+    "HmIP-SFD": ParticulateMatterSensorIP,
 }

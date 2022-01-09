@@ -55,7 +55,7 @@ class HMGeneric():
         """
         Handle the event received by server.
         """
-        LOG.info(
+        LOG.debug(
             "HMGeneric.event: address=%s, interface_id=%s, key=%s, value=%s"
             % (self._ADDRESS, interface_id, key, value))
 
