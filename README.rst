@@ -1,3 +1,20 @@
+Deprecation warning
+===================
+
+This project is being deprecated in favour of the new integration (https://github.com/danielperna84/custom_homematic) based on hahomematic (https://github.com/danielperna84/hahomematic).  
+
+If you are a user of the RaspberryMatic add-on, please follow these very detailed instructions to install the new integration as a custom component: https://github.com/jens-maus/RaspberryMatic/wiki/HomeAssistant-Integration  
+
+Less detailed instructions also suitable for other installation types: https://github.com/danielperna84/custom_homematic/wiki/Installation  
+
+Essentially the process is the same. When using a real CCU or RaspberryMatic Home Assistants auto-discovery may already detect your hub-device and you only have to provide credentials.
+
+If you encounter problems with the new integration, please report them in the hahomematic repository.  
+
+If you add a new device to your CCU and don't see the name you have set reflected in Home Assistant, please follow these instructions: https://github.com/danielperna84/hahomematic/wiki/Howto's
+
+Other interesting information can be found here: https://github.com/danielperna84/hahomematic/tree/devel/docs
+
 pyhomematic
 ===========
 .. image:: https://travis-ci.org/danielperna84/pyhomematic.svg?branch=master
