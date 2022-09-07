@@ -787,7 +787,7 @@ class IPSwitchPowermeter(IPSwitch, HMSensor, HelperRssiDevice):
         sensorIndex = None
         if "HmIP-FSM" in self.TYPE or "HmIP-FSM16" in self.TYPE:
             sensorIndex = 5
-        elif "HMIP-PSM" in self.TYPE or "HmIP-PSM" in self.TYPE or "HmIP-USBSM" in self.TYPE or "HmIP-PSM-CH" in self.TYPE:
+        elif "HMIP-PSM" in self.TYPE or "HmIP-PSM" in self.TYPE or "HmIP-PSM-2" in self.TYPE or "HmIP-USBSM" in self.TYPE or "HmIP-PSM-CH" in self.TYPE:
             sensorIndex = 6
         elif "HmIP-BSM" in self.TYPE:
             sensorIndex = 7
@@ -1218,6 +1218,7 @@ DEVICETYPES = {
     "HmIP-USBSM": IPSwitchPowermeter,
     "HMIP-PSM": IPSwitchPowermeter,
     "HmIP-PSM": IPSwitchPowermeter,
+    "HmIP-PSM-2": IPSwitchPowermeter,
     "HmIP-PSM-CH": IPSwitchPowermeter,
     "HmIP-PSM-IT": IPSwitchPowermeter,
     "HmIP-PSM-PE": IPSwitchPowermeter,
