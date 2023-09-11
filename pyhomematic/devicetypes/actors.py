@@ -1092,6 +1092,7 @@ DEVICETYPES = {
     "HM-LC-BlX": Blind,
     "HM-Sec-Win": Blind,
     "HmIP-BROLL": IPKeyBlind,
+    "HmIP-BROLL-2": IPKeyBlind,
     "HmIP-FROLL": IPKeyBlind,
     "HmIP-BBL": IPKeyBlindTilt,
     "HmIP-FBL": IPKeyBlindTilt,
