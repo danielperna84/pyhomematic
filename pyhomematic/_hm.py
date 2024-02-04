@@ -188,12 +188,12 @@ class RPCFunctions():
                         if dev['TYPE'] in devicetypes.SUPPORTED:
                             deviceObject = devicetypes.SUPPORTED[dev['TYPE']](
                                 dev, self._proxies[interface_id], self.resolveparamsets)
-                            LOG.debug("RPCFunctions.createDeviceObjects: created %s  as SUPPORTED device for %s" % (
+                            LOG.debug("RPCFunctions.createDeviceObjects: created %s as SUPPORTED device for %s" % (
                                 dev['ADDRESS'], dev['TYPE']))
                         else:
                             deviceObject = devicetypes.UNSUPPORTED(
                                 dev, self._proxies[interface_id], self.resolveparamsets)
-                            LOG.debug("RPCFunctions.createDeviceObjects: created %s  as UNSUPPORTED device for %s" % (
+                            LOG.warning("RPCFunctions.createDeviceObjects: Created %s as UNSUPPORTED device for %s. Please switch to https://github.com/danielperna84/custom_homematic to use this device in Home Assistant." % (
                                 dev['ADDRESS'], dev['TYPE']))
                         LOG.debug(
                             "RPCFunctions.createDeviceObjects: adding to self.devices_all")
