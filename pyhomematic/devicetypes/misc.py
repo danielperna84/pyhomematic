@@ -69,6 +69,8 @@ class RemoteWired(HMEvent, HelperEventRemote, HelperActionPress):
     def ELEMENT(self):
         if "WRC6" in self.TYPE:
             return [1, 2, 3, 4, 5, 6]
+        if "WRC2" in self.TYPE:
+            return [1, 2]
 
 
 class RemoteBatteryIP(Remote, HelperLowBatIP, HelperOperatingVoltageIP):
@@ -153,6 +155,7 @@ DEVICETYPES = {
     "HmIP-BRC2": Remote,
     "HmIP-WRC6": RemoteBatteryIP,
     "HmIPW-WRC6": RemoteWired,
+    "HmIPW-WRC2": RemoteWired,
     "HmIP-WRCD": RemoteBatteryIP,
     "HmIP-WRCR": RemoteBatteryIP,
     "HmIP-KRCA": RemoteBatteryIP,
