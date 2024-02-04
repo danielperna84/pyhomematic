@@ -1,3 +1,11 @@
+Version 0.1.78 (2024-02-04)
+- Add support for HmIP-SWDM-2 @ranasenR
+- Add support for HmIP-BROLL-2 @waldling
+- Add support for HmIPW-WRC2 @derco0n
+- Add support for Nurtic-Vibe @Nurtic-Vibe
+- Add support for HmIP-PSM-2 @l-mb
+- Add warning for missing device support
+
 Version 0.1.77 (2022-01-10)
 - Add HmIP-WRCR @danielperna84
 - Add HmIP-SMI55-2 @hzpz
